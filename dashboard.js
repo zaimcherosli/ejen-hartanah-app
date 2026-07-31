@@ -1,4 +1,4 @@
-// Dashboard.js - Agent Management Logic with Client-Side Auto Image Compression
+// Dashboard.js - Agent Management Logic with Auto Compression & Auto Storage Cleanup
 let currentUser = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -29,7 +29,6 @@ async function checkAuth() {
 // Helper: Compress Image client-side using HTML5 Canvas (Reduces 5MB to ~180KB)
 function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.75) {
   return new Promise((resolve) => {
-    // If file is already small (< 300KB), return directly
     if (file.size <= 300 * 1024) {
       resolve(file);
       return;
@@ -239,18 +238,42 @@ function setupFormHandler() {
   });
 }
 
-// Delete Listing
+// Delete Listing & its Physical Images from Storage
 async function deleteListing(id) {
-  if (!confirm('Adakah anda pasti mahu memadam listing ini?')) return;
+  if (!confirm('Adakah anda pasti mahu memadam listing ini berserta fail gambarnya?')) return;
 
-  const { error } = await supabaseClient
-    .from('listings')
-    .delete()
-    .eq('id', id);
+  try {
+    // 1. Get image URLs to delete physical files from storage
+    const { data: item } = await supabaseClient
+      .from('listings')
+      .select('images')
+      .eq('id', id)
+      .single();
 
-  if (error) {
-    alert('Gagal memadam: ' + error.message);
-  } else {
-    loadAgentListings();
+    if (item && item.images && item.images.length > 0) {
+      const paths = item.images.map(url => {
+        const parts = url.split('/storage/v1/object/public/listing-images/');
+        return parts.length > 1 ? parts[1] : null;
+      }).filter(Boolean);
+
+      if (paths.length > 0) {
+        console.log('Deleting storage files:', paths);
+        await supabaseClient.storage.from('listing-images').remove(paths);
+      }
+    }
+
+    // 2. Delete database row
+    const { error } = await supabaseClient
+      .from('listings')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      alert('Gagal memadam: ' + error.message);
+    } else {
+      loadAgentListings();
+    }
+  } catch (err) {
+    console.error('Delete error:', err);
   }
 }
