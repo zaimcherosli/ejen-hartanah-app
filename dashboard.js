@@ -1,4 +1,4 @@
-// Dashboard.js - Agent Management Logic
+// Dashboard.js - Agent Management Logic with Client-Side Auto Image Compression
 let currentUser = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -23,6 +23,61 @@ async function checkAuth() {
   document.getElementById('btnLogout').addEventListener('click', async () => {
     await supabaseClient.auth.signOut();
     window.location.href = 'login.html';
+  });
+}
+
+// Helper: Compress Image client-side using HTML5 Canvas (Reduces 5MB to ~180KB)
+function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.75) {
+  return new Promise((resolve) => {
+    // If file is already small (< 300KB), return directly
+    if (file.size <= 300 * 1024) {
+      resolve(file);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            resolve(file);
+            return;
+          }
+          const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", {
+            type: 'image/jpeg',
+            lastModified: Date.now()
+          });
+          console.log(`Compressed ${file.name}: ${Math.round(file.size/1024)}KB -> ${Math.round(compressedFile.size/1024)}KB`);
+          resolve(compressedFile);
+        }, 'image/jpeg', quality);
+      };
+      img.onerror = () => resolve(file);
+    };
+    reader.onerror = () => resolve(file);
   });
 }
 
@@ -52,20 +107,20 @@ async function loadAgentListings() {
       return `
         <tr>
           <td>
-            <img src="${thumb}" style="width: 55px; height: 45px; object-fit: cover; border-radius: 6px;" />
+            <img src="${thumb}" style="width: 50px; height: 40px; object-fit: cover; border-radius: 6px;" />
           </td>
           <td>
-            <strong style="color: var(--text-main); font-size: 0.95rem;">${item.title}</strong>
-            <div style="font-size: 0.8rem; color: var(--text-muted);">${item.location} • ${item.property_type}</div>
+            <strong style="color: var(--text-main); font-size: 0.9rem;">${item.title}</strong>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">${item.location} • ${item.property_type}</div>
           </td>
           <td style="color: var(--accent-amber); font-weight: 700;">${formattedPrice}</td>
           <td>
-            <span style="background: rgba(16,185,129,0.15); color: #10b981; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">
+            <span style="background: rgba(16,185,129,0.15); color: #10b981; padding: 0.2rem 0.45rem; border-radius: 4px; font-size: 0.72rem; font-weight: 600;">
               ${item.status}
             </span>
           </td>
           <td>
-            <button onclick="deleteListing('${item.id}')" style="background: rgba(244,63,94,0.15); color: #f43f5e; border: 1px solid #f43f5e; padding: 0.35rem 0.65rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
+            <button onclick="deleteListing('${item.id}')" style="background: rgba(244,63,94,0.15); color: #f43f5e; border: 1px solid #f43f5e; padding: 0.3rem 0.55rem; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
               🗑 Padam
             </button>
           </td>
@@ -112,22 +167,26 @@ function setupFormHandler() {
     const filesInput = document.getElementById('imagesInput');
     const files = filesInput.files;
 
-    showAlert('Muat naik gambar & menyimpan data...', false);
+    showAlert('Mengecilkan & memuat naik gambar ke Supabase Storage...', false);
 
     const imageUrls = [];
 
-    // Upload files to Supabase Storage Bucket 'listing-images'
+    // Upload files to Supabase Storage Bucket 'listing-images' with Auto Compression
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const fileExt = file.name.split('.').pop();
+        let rawFile = files[i];
+        
+        // Auto compress image client side
+        const fileToUpload = await compressImage(rawFile);
+
+        const fileExt = 'jpg';
         const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
         const filePath = `properties/${fileName}`;
 
         const { data: uploadData, error: uploadErr } = await supabaseClient
           .storage
           .from('listing-images')
-          .upload(filePath, file, { cacheControl: '3600', upsert: false });
+          .upload(filePath, fileToUpload, { cacheControl: '3600', upsert: false });
 
         if (uploadErr) {
           console.error('Image upload error:', uploadErr);
@@ -173,7 +232,7 @@ function setupFormHandler() {
       console.error('Insert error:', insertErr);
       showAlert(`Gagal menyimpan listing: ${insertErr.message}`, true);
     } else {
-      showAlert(' Listing berjaya ditambah!', false);
+      showAlert(' Listing & gambar berjaya disimpan!', false);
       form.reset();
       loadAgentListings();
     }
