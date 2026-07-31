@@ -1,0 +1,8 @@
+node_modules/
+package-lock.json
+*.log
+setup.js
+create_table.js
+run_sql_api.js
+seed_demo_data.js
+confirm_user.js

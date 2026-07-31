@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Dashboard Ejen - Pengurusan Listing Industrial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=2">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar nav-dashboard">
+    <a href="index.html" class="logo">
+      <span>Industrial</span>Prop <span class="logo-badge">Dashboard Ejen</span>
+    </a>
+    <div class="nav-links">
+      <span id="agentEmail" class="agent-email-text">Memuatkan email...</span>
+      <div style="display: flex; gap: 0.4rem; flex-shrink: 0;">
+        <a href="index.html" class="nav-btn nav-btn-outline" style="font-size: 0.75rem; padding: 0.35rem 0.6rem;">🌐 Web</a>
+        <button id="btnLogout" class="nav-btn" style="background: rgba(244,63,94,0.15); color: #f43f5e; border: 1px solid #f43f5e; font-size: 0.75rem; padding: 0.35rem 0.6rem;">Log Keluar</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container" style="padding-top: 1.25rem;">
+    <div class="dashboard-grid">
+
+      <!-- Form Column -->
+      <div class="form-card">
+        <div class="form-title">
+          ➕ Tambah Listing Baharu
+        </div>
+
+        <div id="formAlert" style="display: none; padding: 0.65rem; border-radius: 8px; font-size: 0.82rem; margin-bottom: 0.85rem;"></div>
+
+        <form id="addListingForm">
+          <div class="form-control">
+            <label for="title">Tajuk Listing *</label>
+            <input type="text" id="title" placeholder="cth: Kilang Semi-D 1.5 Tingkat Shah Alam" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-control">
+              <label for="category">Kategori *</label>
+              <select id="category" required>
+                <option value="Industrial">Industrial</option>
+                <option value="Commercial">Komersial</option>
+              </select>
+            </div>
+            <div class="form-control">
+              <label for="listing_type">Status Transaksi *</label>
+              <select id="listing_type" required>
+                <option value="For Sale">Untuk Dijual (For Sale)</option>
+                <option value="For Rent">Untuk Disewa (For Rent)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-control">
+              <label for="property_type">Jenis Hartanah *</label>
+              <select id="property_type" required>
+                <option value="Detached Factory">Kilang Sesebuah (Detached)</option>
+                <option value="Semi-D Factory">Kilang Berkembar (Semi-D)</option>
+                <option value="Warehouse">Gudang / Warehouse</option>
+                <option value="Industrial Land">Tanah Industri</option>
+                <option value="Shoplot">Kedai / Shoplot</option>
+                <option value="Office">Pejabat / Office</option>
+              </select>
+            </div>
+            <div class="form-control">
+              <label for="asking_price">Harga (RM) *</label>
+              <input type="number" id="asking_price" placeholder="4500000" required>
+            </div>
+          </div>
+
+          <!-- Industrial Specs Fields -->
+          <div style="background: rgba(15, 23, 42, 0.6); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 0.85rem;">
+            <div style="font-size: 0.72rem; font-weight: 700; color: var(--accent-amber); margin-bottom: 0.5rem; text-transform: uppercase;">⚡ Spesifikasi Industrial Khas</div>
+            
+            <div class="form-row">
+              <div class="form-control">
+                <label for="power_supply_amp">Power Supply</label>
+                <input type="text" id="power_supply_amp" placeholder="cth: 300 Amp">
+              </div>
+              <div class="form-control">
+                <label for="ceiling_height_ft">Ceiling Height</label>
+                <input type="text" id="ceiling_height_ft" placeholder="cth: 35 ft">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-control">
+                <label for="floor_loading_kn">Floor Loading</label>
+                <input type="text" id="floor_loading_kn" placeholder="cth: 20 kN/m²">
+              </div>
+              <div class="form-control">
+                <label for="zoning">Zon Industri</label>
+                <select id="zoning">
+                  <option value="Medium Industry">Medium Industry</option>
+                  <option value="Light Industry">Light Industry</option>
+                  <option value="Heavy Industry">Heavy Industry</option>
+                  <option value="Commercial">Commercial</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-control">
+              <label for="built_up_sqft">Built-up (sqft)</label>
+              <input type="number" id="built_up_sqft" placeholder="15000">
+            </div>
+            <div class="form-control">
+              <label for="land_area_sqft">Land Area (sqft)</label>
+              <input type="number" id="land_area_sqft" placeholder="22000">
+            </div>
+          </div>
+
+          <div class="form-control">
+            <label for="location">Lokasi *</label>
+            <input type="text" id="location" placeholder="cth: Seksyen 15, Shah Alam, Selangor" required>
+          </div>
+
+          <div class="form-control">
+            <label for="images">Muat Naik Gambar</label>
+            <input type="file" id="imagesInput" accept="image/*" multiple style="background: var(--bg-dark); padding: 0.45rem; font-size: 0.78rem;">
+          </div>
+
+          <div class="form-control">
+            <label for="agent_phone">No. WhatsApp Ejen *</label>
+            <input type="text" id="agent_phone" placeholder="60123456789" value="60123456789" required>
+          </div>
+
+          <div class="form-control">
+            <label for="description">Keterangan Lanjut</label>
+            <textarea id="description" placeholder="Spesifikasi lengkap..."></textarea>
+          </div>
+
+          <button type="submit" id="btnSubmitListing" class="nav-btn nav-btn-primary" style="width: 100%; padding: 0.7rem; font-size: 0.9rem; margin-top: 0.4rem;">
+            🚀 Simpan & Terbit Listing
+          </button>
+        </form>
+      </div>
+
+      <!-- Manage Column -->
+      <div style="width: 100%; overflow: hidden;">
+        <div class="form-title" style="display: flex; justify-content: space-between; align-items: center;">
+          <span>Senarai Listing Saya</span>
+          <button onclick="loadAgentListings()" class="nav-btn nav-btn-outline" style="font-size: 0.72rem; padding: 0.25rem 0.5rem;">↻ Refresh</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Gambar</th>
+                <th>Tajuk Listing</th>
+                <th>Harga</th>
+                <th>Status</th>
+                <th>Tindakan</th>
+              </tr>
+            </thead>
+            <tbody id="agentListingsTbody">
+              <tr>
+                <td colspan="5" style="text-align: center; color: var(--text-muted);">Memuatkan senarai listing...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>

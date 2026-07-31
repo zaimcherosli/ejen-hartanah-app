@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Log Masuk Ejen - IndustrialProp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <span>Industrial</span>Prop <span class="logo-badge">Portal Ejen</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn nav-btn-outline">← Kembali ke Laman Utama</a>
+    </div>
+  </nav>
+
+  <div style="min-height: 80vh; display: flex; justify-content: center; align-items: center; padding: 2rem;">
+    <div class="form-card" style="width: 100%; max-width: 420px; box-shadow: var(--shadow);">
+      <h2 style="font-size: 1.5rem; text-align: center; margin-bottom: 0.5rem;">Log Masuk Ejen</h2>
+      <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Masukkan email dan kata laluan untuk menguruskan listing anda.</p>
+
+      <div id="authAlert" style="display: none; padding: 0.75rem; border-radius: 8px; font-size: 0.85rem; margin-bottom: 1rem;"></div>
+
+      <form id="loginForm">
+        <div class="form-control">
+          <label for="loginEmail">Alamat Email</label>
+          <input type="email" id="loginEmail" placeholder="ejen@hartanah.com" required>
+        </div>
+
+        <div class="form-control">
+          <label for="loginPassword">Kata Laluan</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" id="btnLogin" class="nav-btn nav-btn-primary" style="width: 100%; padding: 0.75rem; font-size: 1rem; margin-top: 0.5rem;">
+          Log Masuk Portal
+        </button>
+      </form>
+
+      <div style="margin-top: 1.5rem; text-align: center; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--text-muted);">
+        Belum ada akaun? <a href="#" id="btnSignUp" style="color: var(--primary); text-decoration: none; font-weight: 600;">Daftar Akaun Ejen Baharu</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Check if already logged in
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session) {
+        window.location.href = 'dashboard.html';
+      }
+    });
+
+    const loginForm = document.getElementById('loginForm');
+    const authAlert = document.getElementById('authAlert');
+    const btnSignUp = document.getElementById('btnSignUp');
+
+    function showAlert(msg, isError = true) {
+      authAlert.style.display = 'block';
+      authAlert.style.background = isError ? 'rgba(244, 63, 94, 0.15)' : 'rgba(16, 185, 129, 0.15)';
+      authAlert.style.color = isError ? '#f43f5e' : '#10b981';
+      authAlert.style.border = `1px solid ${isError ? '#f43f5e' : '#10b981'}`;
+      authAlert.innerText = msg;
+    }
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      showAlert('Semakan akaun...', false);
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        showAlert(error.message, true);
+      } else {
+        showAlert('Log masuk berjaya! Membawa anda ke Dashboard...', false);
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 1000);
+      }
+    });
+
+    btnSignUp.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      if (!email || !password) {
+        showAlert('Sila isi Email dan Password dahulu untuk pendaftaran.', true);
+        return;
+      }
+
+      showAlert('Mendaftar akaun ejen baharu...', false);
+
+      const { data, error } = await supabaseClient.auth.signUp({
+        email,
+        password
+      });
+
+      if (error) {
+        showAlert(error.message, true);
+      } else {
+        showAlert('Pendaftaran berjaya! Anda kini boleh Log Masuk.', false);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Listing Hartanah Komersial & Industrial</title>
+  <meta name="description" content="Portal listing kilang, gudang, tanah industri, dan hartanah komersial terbaik di Malaysia.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <span>Industrial</span>Prop <span class="logo-badge">Komersial & Kilang</span>
+    </a>
+    <div class="nav-links">
+      <a href="login.html" class="nav-btn nav-btn-outline">Portal Login Ejen 🔑</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Cari Kilang, Gudang & Tanah Industri Spesifikasi Tinggi</h1>
+    <p>Portal listing khas untuk kilang, gudang, kedai pejabat, dan tapak industri bernilai tinggi dengan carian spesifikasi Power Amp, Ceiling Height & Floor Loading.</p>
+  </section>
+
+  <!-- Filter Section -->
+  <div class="filter-card">
+    <div class="filter-grid">
+      <div class="filter-group">
+        <label for="filterCategory">Kategori</label>
+        <select id="filterCategory">
+          <option value="">Semua Kategori</option>
+          <option value="Industrial">Industrial (Kilang/Gudang)</option>
+          <option value="Commercial">Komersial (Kedai/Pejabat)</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filterType">Jenis Hartanah</label>
+        <select id="filterType">
+          <option value="">Semua Jenis</option>
+          <option value="Detached Factory">Kilang Sesebuah (Detached)</option>
+          <option value="Semi-D Factory">Kilang Berkembar (Semi-D)</option>
+          <option value="Warehouse">Gudang / Warehouse</option>
+          <option value="Industrial Land">Tanah Industri</option>
+          <option value="Shoplot">Kedai / Shoplot</option>
+          <option value="Office">Pejabat / Office</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filterListingType">Status Jual/Sewa</label>
+        <select id="filterListingType">
+          <option value="">Semua Status</option>
+          <option value="For Sale">Untuk Dijual (For Sale)</option>
+          <option value="For Rent">Untuk Disewa (For Rent)</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filterZoning">Zon Industri</label>
+        <select id="filterZoning">
+          <option value="">Semua Zon</option>
+          <option value="Light Industry">Industri Ringan (Light)</option>
+          <option value="Medium Industry">Industri Sederhana (Medium)</option>
+          <option value="Heavy Industry">Industri Berat (Heavy)</option>
+          <option value="Commercial">Komersial</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="searchKeyword">Cari Lokasi / Tajuk</label>
+        <input type="text" id="searchKeyword" placeholder="cth: Shah Alam, Klang, Telok Gong...">
+      </div>
+    </div>
+  </div>
+
+  <!-- Listings Grid Section -->
+  <main class="container">
+    <div class="section-title">
+      <h2>Listing Terkini (<span id="totalCount">0</span>)</h2>
+    </div>
+
+    <div id="listingsContainer" class="listing-grid">
+      <div class="loading-spinner">Mengecas data listing dari Supabase...</div>
+    </div>
+  </main>
+
+  <!-- Modal Detail View -->
+  <div id="detailModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
