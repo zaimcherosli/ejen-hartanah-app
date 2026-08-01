@@ -8,15 +8,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=9">
+  <link rel="stylesheet" href="style.css?v=10">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-  <!-- Red Navigation Header -->
+  <!-- Red Navigation Header with Official CEM Logo -->
   <nav class="navbar">
-    <a href="index.html" class="logo">
-      CORPORATE ESTATE <span>malaysia</span>
+    <a href="index.html" class="logo-wrap">
+      <img src="logo.png" alt="Corporate Estate Malaysia Logo" class="logo-img">
+      <div class="logo-text">
+        CORPORATE ESTATE <span>MALAYSIA</span>
+      </div>
     </a>
     <div class="nav-links">
       <a href="index.html">HOME</a>
@@ -92,7 +95,11 @@
   </main>
 
   <!-- Footer -->
-  <footer style="background: #0f172a; color: #94a3b8; text-align: center; padding: 2rem 1rem; margin-top: auto; font-size: 0.85rem;">
+  <footer style="background: var(--cem-navy); color: #94a3b8; text-align: center; padding: 2.25rem 1rem; margin-top: auto; font-size: 0.85rem;">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+      <img src="logo.png" style="height: 32px; width: auto; background: white; padding: 2px 5px; border-radius: 4px;">
+      <strong style="color: white; font-size: 1rem;">CORPORATE ESTATE MALAYSIA</strong>
+    </div>
     <p>© 2026 Corporate Estate Malaysia. Leading Real Estate Industrial - Commercial - Land. All Rights Reserved.</p>
   </footer>
 
