@@ -1,4 +1,4 @@
-// App.js - Public Portal Logic with English Copywriting & Filter Functionality
+// App.js - Public Portal Logic with English Copywriting & Official WhatsApp Icon
 let allListings = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -57,7 +57,7 @@ function renderListings(listings) {
       : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80';
 
     const phone = item.agent_phone || '60123880356';
-    const waText = encodeURIComponent(`Hello, I am interested in your industrial property listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}\nPlease provide more details.`);
+    const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}\nPlease provide more details.`);
     const waUrl = `https://wa.me/${phone}?text=${waText}`;
 
     return `
@@ -93,7 +93,7 @@ function renderListings(listings) {
 
           <div class="card-actions">
             <a href="${waUrl}" target="_blank" class="btn-whatsapp">
-              💬 WhatsApp Agent
+              <img src="whatsapp-icon.png"> WhatsApp Agent
             </a>
             <button onclick="openModal('${item.id}')" class="btn-detail">View Details</button>
           </div>
@@ -159,7 +159,7 @@ function openModal(id) {
   const modalBody = document.getElementById('modalBody');
 
   const phone = item.agent_phone || '60123880356';
-  const waText = encodeURIComponent(`Hello, I am interested in your property listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}`);
+  const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your property listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}`);
   const waUrl = `https://wa.me/${phone}?text=${waText}`;
 
   let imagesHtml = '';
@@ -194,7 +194,7 @@ function openModal(id) {
 
     <div style="display: flex; gap: 1rem;">
       <a href="${waUrl}" target="_blank" class="btn-whatsapp" style="padding: 0.8rem 1.25rem;">
-        💬 Contact Agent on WhatsApp
+        <img src="whatsapp-icon.png"> Contact Agent on WhatsApp
       </a>
     </div>
   `;

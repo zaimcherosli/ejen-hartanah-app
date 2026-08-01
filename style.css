@@ -1,4 +1,4 @@
-/* Corporate Estate Malaysia - Official Brand Theme & Red Header */
+/* Corporate Estate Malaysia - Official Brand Theme & Mobile Responsive Styles */
 :root {
   --bg-main: #ffffff;
   --bg-card: #ffffff;
@@ -41,7 +41,7 @@ body {
 /* Red Navigation Header with Official CEM Logo Image */
 .navbar {
   background-color: var(--nav-red);
-  padding: 0.75rem 2rem;
+  padding: 0.75rem 1.75rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -54,12 +54,12 @@ body {
 .logo-wrap {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.6rem;
   text-decoration: none;
 }
 
 .logo-img {
-  height: 42px;
+  height: 40px;
   width: auto;
   background: #ffffff;
   padding: 3px 6px;
@@ -68,7 +68,7 @@ body {
 }
 
 .logo-text {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 900;
   color: #ffffff;
   text-transform: uppercase;
@@ -81,7 +81,7 @@ body {
 .logo-text span {
   font-weight: 500;
   opacity: 0.95;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   letter-spacing: 0.12em;
   color: #ffffff;
 }
@@ -120,6 +120,47 @@ body {
   color: var(--nav-red) !important;
 }
 
+/* Mobile Toggle & Drawer Controls */
+.mobile-nav-controls {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mobile-menu-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.mobile-menu-drawer {
+  display: none;
+  background: var(--cem-navy);
+  padding: 1rem 1.5rem;
+  border-bottom: 2px solid var(--cem-red);
+}
+
+.mobile-menu-drawer.active {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.mobile-menu-drawer a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 /* Hero Section with Warehouse Background Image */
 .hero {
   background: linear-gradient(rgba(248, 250, 252, 0.78), rgba(248, 250, 252, 0.94)),
@@ -149,7 +190,7 @@ body {
   font-weight: 500;
 }
 
-/* Mega Horizontal Filter Bar (1 Line Desktop Row - Reference) */
+/* Mega Horizontal Filter Bar */
 .filter-card {
   max-width: 1240px;
   margin: -1.75rem auto 2.5rem auto;
@@ -228,6 +269,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-bottom: 1.5rem;
+  padding: 0 1rem;
 }
 
 .marquee-wrapper {
@@ -380,6 +422,8 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .section-title h2 {
@@ -509,7 +553,7 @@ body {
   font-weight: 700;
 }
 
-/* Action Buttons */
+/* Action Buttons with Uploaded WhatsApp Icon */
 .card-actions {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -528,12 +572,19 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
+  gap: 0.4rem;
   transition: opacity 0.2s;
 }
 
 .btn-whatsapp:hover {
   opacity: 0.9;
+}
+
+.btn-whatsapp img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  vertical-align: middle;
 }
 
 .btn-detail {
@@ -549,6 +600,34 @@ body {
 
 .btn-detail:hover {
   background: #e2e8f0;
+}
+
+/* Floating Sticky Mobile WhatsApp Button */
+.floating-wa-btn {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  width: 58px;
+  height: 58px;
+  background-color: #25d366;
+  border-radius: 50%;
+  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: transform 0.2s;
+  text-decoration: none;
+}
+
+.floating-wa-btn:hover {
+  transform: scale(1.1);
+}
+
+.floating-wa-btn img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
 }
 
 /* Agent Directory Team Section */
@@ -653,7 +732,7 @@ body {
   border-radius: 8px;
 }
 
-/* Mobile Responsive Adjustments */
+/* Mobile Responsive Breakpoints (iPhone SE 375px & Mobile Screen Perfection) */
 @media (max-width: 900px) {
   .filter-grid-row {
     grid-template-columns: 1fr 1fr;
@@ -663,15 +742,25 @@ body {
   }
 }
 
-@media (max-width: 640px) {
-  .navbar {
-    padding: 0.75rem 1rem;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Hide Desktop Nav Links on Mobile */
   }
 
-  .nav-links {
-    gap: 0.6rem;
+  .mobile-nav-controls {
+    display: flex; /* Show Clean Mobile Controls */
+  }
+
+  .navbar {
+    padding: 0.65rem 1rem;
+  }
+
+  .logo-img {
+    height: 34px;
+  }
+
+  .logo-text {
+    font-size: 1.05rem;
   }
 
   .hero {
@@ -679,7 +768,11 @@ body {
   }
 
   .hero h1 {
-    font-size: 1.5rem;
+    font-size: 1.55rem;
+  }
+
+  .hero p {
+    font-size: 0.92rem;
   }
 
   .filter-card {
@@ -695,11 +788,30 @@ body {
     grid-column: span 1;
   }
 
+  .section-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .section-title h2 {
+    font-size: 1.25rem;
+  }
+
   .listing-grid {
     grid-template-columns: 1fr;
   }
 
   .card-actions {
     grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .stat-number {
+    font-size: 1.85rem;
   }
 }
