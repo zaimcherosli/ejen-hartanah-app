@@ -1,4 +1,4 @@
-// App.js - Public Portal Logic with Ultra-Clean Query URLs (?kilang-sesebuah-2-tingkat-modern-i-park)
+// App.js - Public Portal Logic with Extensionless Clean Slugs (/listings?title-slug)
 let allListings = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,10 +16,21 @@ function createSlug(title) {
     .replace(/^-+|-+$/g, '');
 }
 
-// Helper: Copy Ultra-Clean WhatsApp Share Link to Clipboard
+// Helper: Get Clean Base Path without .html
+function getCleanBasePath() {
+  let path = window.location.pathname;
+  if (path.endsWith('.html')) {
+    path = path.substring(0, path.length - 5);
+  }
+  if (!path || path === '/') path = '/listings';
+  return path;
+}
+
+// Helper: Copy Extensionless WhatsApp Share Link to Clipboard
 function copyShareLink(id, title) {
   const slug = createSlug(title);
-  const shareUrl = `${window.location.origin}/listings.html?${encodeURIComponent(slug)}`;
+  const basePath = getCleanBasePath();
+  const shareUrl = `${window.location.origin}${basePath}?${encodeURIComponent(slug)}`;
   
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(shareUrl).then(() => {
@@ -116,6 +127,8 @@ function renderListings(listings) {
     return;
   }
 
+  const basePath = getCleanBasePath();
+
   container.innerHTML = listings.map(item => {
     const formattedPrice = new Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR', maximumFractionDigits: 0 }).format(item.asking_price);
     const mainImg = (item.images && item.images.length > 0) 
@@ -123,7 +136,7 @@ function renderListings(listings) {
       : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80';
 
     const slug = createSlug(item.title);
-    const shareUrl = `${window.location.origin}/listings.html?${encodeURIComponent(slug)}`;
+    const shareUrl = `${window.location.origin}${basePath}?${encodeURIComponent(slug)}`;
 
     const phone = item.agent_phone || '60108118559';
     const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}\nPautan: ${shareUrl}`);
@@ -222,7 +235,7 @@ function setupFilterListeners() {
   if (keyword) keyword.addEventListener('input', applyFilters);
 }
 
-// Open Detail View Modal & Update Browser URL dynamically to Clean Query (?kilang-xxx)
+// Open Detail View Modal & Update Browser URL dynamically to Extensionless Clean URL (/listings?slug)
 function openModal(id, updateHistory = true) {
   const item = allListings.find(x => x.id === id);
   if (!item) return;
@@ -232,7 +245,8 @@ function openModal(id, updateHistory = true) {
 
   const phone = item.agent_phone || '60108118559';
   const slug = createSlug(item.title);
-  const shareUrl = `${window.location.origin}/listings.html?${encodeURIComponent(slug)}`;
+  const basePath = getCleanBasePath();
+  const shareUrl = `${window.location.origin}${basePath}?${encodeURIComponent(slug)}`;
   const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your property listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}\nPautan: ${shareUrl}`);
   const waUrl = `https://wa.me/${phone}?text=${waText}`;
 
@@ -280,9 +294,9 @@ function openModal(id, updateHistory = true) {
     `;
   }
 
-  // ⚡ Dynamically update URL in browser bar to Ultra-Clean Query (?kilang-xxx) without page reload
+  // ⚡ Dynamically update URL in browser bar to Extensionless Clean URL (/listings?kilang-xxx) without page reload
   if (updateHistory && history.pushState) {
-    const newUrl = `${window.location.protocol}//${window.location.host}/listings.html?${encodeURIComponent(slug)}`;
+    const newUrl = `${window.location.protocol}//${window.location.host}${basePath}?${encodeURIComponent(slug)}`;
     window.history.pushState({ path: newUrl }, '', newUrl);
   }
 
@@ -294,9 +308,10 @@ function closeModal() {
   const detailModal = document.getElementById('detailModal');
   if (detailModal) detailModal.classList.remove('active');
   
-  // ⚡ Reset URL back to clean listings portal URL
+  // ⚡ Reset URL back to extensionless clean listings portal URL (/listings)
   if (history.pushState) {
-    const cleanUrl = `${window.location.protocol}//${window.location.host}/listings.html`;
+    const basePath = getCleanBasePath();
+    const cleanUrl = `${window.location.protocol}//${window.location.host}${basePath}`;
     window.history.pushState({ path: cleanUrl }, '', cleanUrl);
   }
 }
