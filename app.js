@@ -1,4 +1,4 @@
-// App.js - Public Portal Logic with URL Deep-Linking & Copy WhatsApp Share Link
+// App.js - Public Portal Logic with Human-Friendly Title URL Slugs & ID Fallback
 let allListings = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -6,13 +6,24 @@ document.addEventListener('DOMContentLoaded', () => {
   setupFilterListeners();
 });
 
-// Helper: Copy WhatsApp Share Link to Clipboard
+// Helper: Convert Title to Clean Human-Friendly URL Slug
+function createSlug(title) {
+  if (!title) return '';
+  return title.toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+// Helper: Copy WhatsApp Share Link with Title Slug to Clipboard
 function copyShareLink(id, title) {
-  const shareUrl = `${window.location.origin}${window.location.pathname}?id=${id}`;
+  const slug = createSlug(title);
+  const shareUrl = `${window.location.origin}${window.location.pathname}?slug=${encodeURIComponent(slug)}`;
   
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(shareUrl).then(() => {
-      alert(`🔗 Pautan WhatsApp untuk listing "${title}" telah berjaya disalin!\n\n${shareUrl}\n\nAnda boleh paste terus di WhatsApp.`);
+      alert(`🔗 Pautan WhatsApp Tajuk untuk "${title}" telah berjaya disalin!\n\n${shareUrl}\n\nAnda boleh paste terus di WhatsApp.`);
     }).catch(err => {
       fallbackCopyText(shareUrl);
     });
@@ -54,7 +65,7 @@ async function fetchListings() {
     allListings = data || [];
     renderListings(allListings);
 
-    // ⚡ Auto-open listing modal if URL has ?id=xxx parameter
+    // ⚡ Auto-open listing modal if URL has ?slug=xxx or ?id=xxx parameter
     checkUrlQueryParams();
 
   } catch (err) {
@@ -63,12 +74,20 @@ async function fetchListings() {
   }
 }
 
-// Check URL Query Parameters for Auto-Opening Deep Links
+// Check URL Query Parameters for Auto-Opening Deep Links (Matches both Slug & ID)
 function checkUrlQueryParams() {
   const urlParams = new URLSearchParams(window.location.search);
+  const targetSlug = urlParams.get('slug');
   const targetId = urlParams.get('id');
-  if (targetId && allListings.length > 0) {
-    openModal(targetId);
+
+  if (allListings.length > 0) {
+    if (targetSlug) {
+      const match = allListings.find(x => createSlug(x.title) === targetSlug.toLowerCase());
+      if (match) openModal(match.id);
+    } else if (targetId) {
+      const match = allListings.find(x => x.id === targetId);
+      if (match) openModal(match.id);
+    }
   }
 }
 
@@ -94,8 +113,11 @@ function renderListings(listings) {
       ? item.images[0] 
       : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80';
 
+    const slug = createSlug(item.title);
+    const shareUrl = `${window.location.origin}/listings.html?slug=${encodeURIComponent(slug)}`;
+
     const phone = item.agent_phone || '60108118559';
-    const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}\nLink: ${window.location.origin}/listings.html?id=${item.id}`);
+    const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}\nPautan: ${shareUrl}`);
     const waUrl = `https://wa.me/${phone}?text=${waText}`;
 
     // Clean Title for JS string safety
@@ -136,7 +158,7 @@ function renderListings(listings) {
             <a href="${waUrl}" target="_blank" class="btn-whatsapp">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg> WhatsApp
             </a>
-            <button onclick="copyShareLink('${item.id}', '${safeTitle}')" class="btn-detail" title="Copy WhatsApp Link" style="padding: 0.65rem 0.65rem;">🔗 Share</button>
+            <button onclick="copyShareLink('${item.id}', '${safeTitle}')" class="btn-detail" title="Copy Title Link" style="padding: 0.65rem 0.65rem;">🔗 Share</button>
             <button onclick="openModal('${item.id}')" class="btn-detail">Details</button>
           </div>
         </div>
@@ -192,7 +214,7 @@ function setupFilterListeners() {
   if (keyword) keyword.addEventListener('input', applyFilters);
 }
 
-// Open Detail View Modal & Update Browser URL dynamically
+// Open Detail View Modal & Update Browser URL dynamically to Title Slug
 function openModal(id) {
   const item = allListings.find(x => x.id === id);
   if (!item) return;
@@ -201,7 +223,8 @@ function openModal(id) {
   const modalBody = document.getElementById('modalBody');
 
   const phone = item.agent_phone || '60108118559';
-  const shareUrl = `${window.location.origin}${window.location.pathname}?id=${item.id}`;
+  const slug = createSlug(item.title);
+  const shareUrl = `${window.location.origin}${window.location.pathname}?slug=${encodeURIComponent(slug)}`;
   const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your property listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}\nPautan: ${shareUrl}`);
   const waUrl = `https://wa.me/${phone}?text=${waText}`;
 
@@ -242,14 +265,14 @@ function openModal(id) {
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg> Contact Agent on WhatsApp
       </a>
       <button onclick="copyShareLink('${item.id}', '${safeTitle}')" class="btn-detail" style="padding: 0.8rem 1.25rem; font-weight: 800; background: var(--bg-subtle);">
-        🔗 Copy Share Link
+        🔗 Copy Title Share Link
       </button>
     </div>
   `;
 
-  // ⚡ Dynamically update URL in browser without page reload
+  // ⚡ Dynamically update URL in browser bar to Title Slug without page reload
   if (history.pushState) {
-    const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?id=${item.id}`;
+    const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?slug=${encodeURIComponent(slug)}`;
     window.history.pushState({ path: newUrl }, '', newUrl);
   }
 
