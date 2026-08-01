@@ -1,23 +1,22 @@
-/* Corporate Estate Malaysia - Official Brand Theme & Mobile Responsive Styles */
+/* Corporate Estate Malaysia - Official Brand Theme & Deep Corporate Navy Styles */
 :root {
   --bg-main: #ffffff;
   --bg-card: #ffffff;
   --bg-subtle: #f8fafc;
-  --cem-red: #d31e28; /* Official CEM Red Ribbon */
-  --cem-orange: #f37021; /* Official CEM Orange Ribbon */
-  --cem-navy: #002742; /* Official CEM Navy Blue */
-  --nav-red: #d31e28;
-  --nav-red-hover: #b0151e;
-  --primary: #d31e28;
+  --cem-navy: #002742; /* Official CEM Deep Corporate Navy Blue */
+  --cem-navy-hover: #00192d;
+  --cem-red: #d31e28; /* Official CEM Red Ribbon Accent */
+  --cem-red-hover: #b0151e;
+  --cem-orange: #f37021; /* Official CEM Orange Accent */
+  --nav-bg: #002742; /* Deep Corporate Navy Header */
+  --primary: #002742;
   --text-main: #002742;
   --text-muted: #475569;
   --text-light: #64748b;
   --border: #e2e8f0;
   --border-strong: #cbd5e1;
-  --accent-amber: #f37021;
-  --accent-emerald: #059669;
   --shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
-  --shadow-hover: 0 12px 25px -4px rgba(211, 30, 40, 0.18);
+  --shadow-hover: 0 12px 25px -4px rgba(0, 39, 66, 0.18);
   --radius: 8px;
 }
 
@@ -38,9 +37,9 @@ body {
   flex-direction: column;
 }
 
-/* Red Navigation Header with Transparent Official CEM Logo Image */
+/* Deep Corporate Navy Navigation Header */
 .navbar {
-  background-color: var(--nav-red);
+  background-color: var(--nav-bg);
   padding: 0.75rem 1.75rem;
   display: flex;
   justify-content: space-between;
@@ -48,7 +47,8 @@ body {
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 4px 12px rgba(211, 30, 40, 0.25);
+  box-shadow: 0 4px 15px rgba(0, 39, 66, 0.3);
+  border-bottom: 2px solid var(--cem-red);
 }
 
 .logo-wrap {
@@ -58,13 +58,13 @@ body {
   text-decoration: none;
 }
 
-/* 100% Transparent Background Logo */
+/* Transparent Background Logo */
 .logo-img {
-  height: 42px;
+  height: 44px;
   width: auto;
   background: transparent !important;
   padding: 0;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
 }
 
 .logo-text {
@@ -80,11 +80,11 @@ body {
 }
 
 .logo-text span {
-  font-weight: 500;
+  font-weight: 600;
   opacity: 0.95;
   font-size: 0.72rem;
   letter-spacing: 0.12em;
-  color: #ffffff;
+  color: var(--cem-orange); /* Highlighted CEM Orange Subtext */
 }
 
 .nav-links {
@@ -100,28 +100,28 @@ body {
   font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
-  transition: opacity 0.2s;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
   white-space: nowrap;
 }
 
 .nav-links a:hover {
-  opacity: 0.85;
+  color: var(--cem-orange);
 }
 
 .nav-btn-agent {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--cem-red);
   color: #ffffff !important;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  padding: 0.45rem 0.85rem;
+  border: none;
+  padding: 0.48rem 0.9rem;
   border-radius: 4px;
-  font-weight: 700;
+  font-weight: 800;
   white-space: nowrap;
+  transition: background 0.2s;
 }
 
 .nav-btn-agent:hover {
-  background: #ffffff !important;
-  color: var(--nav-red) !important;
+  background: var(--cem-red-hover) !important;
 }
 
 /* Mobile Toggle & Drawer Controls (High Z-Index Fixed Position) */
@@ -131,9 +131,9 @@ body {
 }
 
 .mobile-menu-btn {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 0.45rem 0.85rem;
   border-radius: 6px;
   font-size: 0.85rem;
@@ -145,13 +145,13 @@ body {
 .mobile-menu-drawer {
   display: none;
   position: fixed;
-  top: 58px;
+  top: 60px;
   left: 0;
   width: 100%;
-  background: var(--cem-navy);
+  background: #001c30;
   padding: 1.25rem 1.5rem;
   border-bottom: 4px solid var(--cem-red);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
   z-index: 9999;
 }
 
@@ -173,7 +173,7 @@ body {
 
 /* Hero Section with Warehouse Background Image */
 .hero {
-  background: linear-gradient(rgba(248, 250, 252, 0.78), rgba(248, 250, 252, 0.94)),
+  background: linear-gradient(rgba(248, 250, 252, 0.82), rgba(248, 250, 252, 0.95)),
               url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1920&q=80');
   background-size: cover;
   background-position: center;
@@ -235,12 +235,12 @@ body {
 }
 
 .filter-select:focus, .filter-input:focus {
-  border-color: var(--nav-red);
+  border-color: var(--cem-navy);
 }
 
 .btn-show-listings {
   height: 44px;
-  background: var(--nav-red);
+  background: var(--cem-red);
   color: #ffffff;
   border: none;
   border-radius: 4px;
@@ -258,7 +258,7 @@ body {
 }
 
 .btn-show-listings:hover {
-  background: var(--nav-red-hover);
+  background: var(--cem-red-hover);
 }
 
 /* ⚡ INFINITE AUTO-SCROLLING CORPORATE CLIENT LOGO CAROUSEL */
@@ -339,13 +339,15 @@ body {
   to { transform: translateX(-100%); }
 }
 
-/* Agency Stats Grid Section (Desktop Static, Non-Desktop Auto-Scroll LEFT TO RIGHT) */
+/* Agency Stats Section */
 .stats-section {
   background: var(--cem-navy);
   color: #ffffff;
   padding: 2.5rem 1.5rem;
   overflow: hidden;
   position: relative;
+  border-top: 3px solid var(--cem-orange);
+  border-bottom: 3px solid var(--cem-red);
 }
 
 .stats-grid {
@@ -424,12 +426,12 @@ body {
   border-radius: var(--radius);
   padding: 1.75rem;
   box-shadow: var(--shadow);
-  transition: transform 0.2s;
+  transition: transform 0.2s, border-color 0.2s;
 }
 
 .service-card:hover {
   transform: translateY(-3px);
-  border-color: var(--nav-red);
+  border-color: var(--cem-navy);
 }
 
 .service-icon {
@@ -493,7 +495,7 @@ body {
 
 .property-card:hover {
   transform: translateY(-3px);
-  border-color: var(--nav-red);
+  border-color: var(--cem-navy);
   box-shadow: var(--shadow-hover);
 }
 
@@ -514,7 +516,7 @@ body {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: rgba(0, 39, 66, 0.9);
+  background: var(--cem-navy);
   color: #ffffff;
   font-size: 0.72rem;
   font-weight: 700;
@@ -527,7 +529,7 @@ body {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: var(--nav-red);
+  background: var(--cem-red);
   color: #ffffff;
   font-size: 0.72rem;
   font-weight: 700;
@@ -545,7 +547,7 @@ body {
 .card-price {
   font-size: 1.35rem;
   font-weight: 900;
-  color: var(--nav-red);
+  color: var(--cem-red);
   margin-bottom: 0.35rem;
 }
 
@@ -713,7 +715,7 @@ body {
   height: 90px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid var(--nav-red);
+  border: 3px solid var(--cem-navy);
   margin-bottom: 0.85rem;
 }
 
@@ -727,7 +729,7 @@ body {
 .agent-zone {
   font-size: 0.78rem;
   font-weight: 800;
-  color: var(--nav-red);
+  color: var(--cem-red);
   text-transform: uppercase;
   margin-bottom: 0.5rem;
 }
@@ -807,7 +809,6 @@ body {
     display: flex;
   }
 
-  /* ⚡ ALL NON-DESKTOP SCREENS (Tablets, iPads, 853px, Mobile): Show Left-to-Right Auto-Scroll Marquee for Stats */
   .stats-grid {
     display: none !important;
   }
