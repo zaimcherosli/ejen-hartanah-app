@@ -1,4 +1,4 @@
-// App.js - Public Portal Logic
+// App.js - Public Portal Logic with State & Area Filtering
 let allListings = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -43,7 +43,7 @@ function renderListings(listings) {
     container.innerHTML = `
       <div class="empty-state">
         <h3>Tiada Listing Dijumpai</h3>
-        <p>Cuba tukar penapis carian anda atau daftar listing baharu di Portal Ejen.</p>
+        <p>Cuba tukar penapis carian anda atau lihat senarai kawasan lain.</p>
       </div>
     `;
     return;
@@ -102,9 +102,10 @@ function renderListings(listings) {
   }).join('');
 }
 
-// Setup Filters
+// Setup Filters for State, Area, Type, Transaction, Zoning & Keyword
 function setupFilterListeners() {
-  const cat = document.getElementById('filterCategory');
+  const state = document.getElementById('filterState');
+  const area = document.getElementById('filterArea');
   const type = document.getElementById('filterType');
   const listingType = document.getElementById('filterListingType');
   const zoning = document.getElementById('filterZoning');
@@ -113,11 +114,22 @@ function setupFilterListeners() {
   const applyFilters = () => {
     let filtered = [...allListings];
 
-    if (cat.value) filtered = filtered.filter(x => x.category === cat.value);
-    if (type.value) filtered = filtered.filter(x => x.property_type === type.value);
-    if (listingType.value) filtered = filtered.filter(x => x.listing_type === listingType.value);
-    if (zoning.value) filtered = filtered.filter(x => x.zoning === zoning.value);
-    if (keyword.value) {
+    if (state && state.value) {
+      filtered = filtered.filter(x => x.location && x.location.toLowerCase().includes(state.value.toLowerCase()));
+    }
+    if (area && area.value) {
+      filtered = filtered.filter(x => x.location && x.location.toLowerCase().includes(area.value.toLowerCase()));
+    }
+    if (type && type.value) {
+      filtered = filtered.filter(x => x.property_type === type.value);
+    }
+    if (listingType && listingType.value) {
+      filtered = filtered.filter(x => x.listing_type === listingType.value);
+    }
+    if (zoning && zoning.value) {
+      filtered = filtered.filter(x => x.zoning === zoning.value);
+    }
+    if (keyword && keyword.value) {
       const q = keyword.value.toLowerCase();
       filtered = filtered.filter(x => 
         (x.title && x.title.toLowerCase().includes(q)) || 
@@ -129,11 +141,12 @@ function setupFilterListeners() {
     renderListings(filtered);
   };
 
-  cat.addEventListener('change', applyFilters);
-  type.addEventListener('change', applyFilters);
-  listingType.addEventListener('change', applyFilters);
-  zoning.addEventListener('change', applyFilters);
-  keyword.addEventListener('input', applyFilters);
+  if (state) state.addEventListener('change', applyFilters);
+  if (area) area.addEventListener('change', applyFilters);
+  if (type) type.addEventListener('change', applyFilters);
+  if (listingType) listingType.addEventListener('change', applyFilters);
+  if (zoning) zoning.addEventListener('change', applyFilters);
+  if (keyword) keyword.addEventListener('input', applyFilters);
 }
 
 // Open Detail View Modal
@@ -164,7 +177,7 @@ function openModal(id) {
     ${imagesHtml}
 
     <div class="spec-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 1.5rem;">
-      <div class="spec-item"><span class="label">Kategori</span><span class="val">${item.category}</span></div>
+      <div class="spec-item"><span class="label">Kategori</span><span class="val">${item.category || 'Industrial'}</span></div>
       <div class="spec-item"><span class="label">Jenis Hartanah</span><span class="val">${item.property_type}</span></div>
       <div class="spec-item"><span class="label">Status</span><span class="val">${item.status}</span></div>
       <div class="spec-item"><span class="label">Power Supply</span><span class="val">${item.power_supply_amp || '-'}</span></div>
