@@ -339,7 +339,7 @@ body {
   to { transform: translateX(-100%); }
 }
 
-/* Agency Stats Grid Section (Desktop Static, Mobile Horizontal Auto-Scroll LEFT TO RIGHT) */
+/* Agency Stats Grid Section (Desktop Static, Non-Desktop Auto-Scroll LEFT TO RIGHT) */
 .stats-section {
   background: var(--cem-navy);
   color: #ffffff;
@@ -352,7 +352,7 @@ body {
   max-width: 1240px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
   text-align: center;
 }
@@ -385,7 +385,7 @@ body {
   white-space: nowrap;
 }
 
-/* ⚡ MOBILE HORIZONTAL AUTO-SCROLLING MARQUEE (LEFT TO RIGHT / KIRI KE KANAN) */
+/* ⚡ NON-DESKTOP HORIZONTAL AUTO-SCROLLING MARQUEE (LEFT TO RIGHT / KIRI KE KANAN) */
 .stats-mobile-marquee-wrapper {
   display: none;
   overflow: hidden;
@@ -396,9 +396,13 @@ body {
 .stats-mobile-marquee-content {
   display: flex;
   flex-shrink: 0;
-  gap: 2.5rem;
+  gap: 3rem;
   align-items: center;
   animation: scroll-stats-left-to-right 16s linear infinite;
+}
+
+.stats-mobile-marquee-wrapper:hover .stats-mobile-marquee-content {
+  animation-play-state: paused;
 }
 
 @keyframes scroll-stats-left-to-right {
@@ -802,6 +806,19 @@ body {
   .mobile-nav-controls {
     display: flex;
   }
+
+  /* ⚡ ALL NON-DESKTOP SCREENS (Tablets, iPads, 853px, Mobile): Show Left-to-Right Auto-Scroll Marquee for Stats */
+  .stats-grid {
+    display: none !important;
+  }
+
+  .stats-mobile-marquee-wrapper {
+    display: flex !important;
+  }
+
+  .stats-section {
+    padding: 1.75rem 0;
+  }
 }
 
 @media (max-width: 900px) {
@@ -849,19 +866,6 @@ body {
 
   .btn-show-listings {
     grid-column: span 1;
-  }
-
-  /* ⚡ Mobile Stats Section Horizontal Auto-Scrolling Marquee (LEFT TO RIGHT) */
-  .stats-grid {
-    display: none;
-  }
-
-  .stats-mobile-marquee-wrapper {
-    display: flex;
-  }
-
-  .stats-section {
-    padding: 1.5rem 0;
   }
 
   .lead-box-container {
