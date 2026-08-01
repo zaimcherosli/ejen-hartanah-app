@@ -38,7 +38,7 @@ body {
   flex-direction: column;
 }
 
-/* Red Navigation Header with Official CEM Logo Image */
+/* Red Navigation Header with Transparent Official CEM Logo Image */
 .navbar {
   background-color: var(--nav-red);
   padding: 0.75rem 1.75rem;
@@ -58,13 +58,13 @@ body {
   text-decoration: none;
 }
 
+/* 100% Transparent Background Logo */
 .logo-img {
-  height: 40px;
+  height: 42px;
   width: auto;
-  background: #ffffff;
-  padding: 3px 6px;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  background: transparent !important;
+  padding: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .logo-text {
@@ -333,11 +333,13 @@ body {
   to { transform: translateX(-100%); }
 }
 
-/* Agency Stats Grid Section */
+/* Agency Stats Grid Section (Desktop Static, Mobile Horizontal Auto-Scroll Right-to-Left) */
 .stats-section {
   background: var(--cem-navy);
   color: #ffffff;
-  padding: 3rem 1.5rem;
+  padding: 2.5rem 1.5rem;
+  overflow: hidden;
+  position: relative;
 }
 
 .stats-grid {
@@ -350,27 +352,52 @@ body {
 }
 
 .stat-card {
-  padding: 1rem;
+  padding: 0.75rem 1rem;
+  flex-shrink: 0;
 }
 
 .stat-number {
-  font-size: 2.5rem;
+  font-size: 2.4rem;
   font-weight: 900;
   color: var(--cem-orange);
   line-height: 1;
   margin-bottom: 0.35rem;
+  white-space: nowrap;
 }
 
 .stat-label {
   font-size: 0.9rem;
   font-weight: 700;
   color: #e2e8f0;
+  white-space: nowrap;
 }
 
 .stat-sub {
   font-size: 0.78rem;
   color: #94a3b8;
   margin-top: 0.2rem;
+  white-space: nowrap;
+}
+
+/* ⚡ MOBILE HORIZONTAL AUTO-SCROLLING MARQUEE (RIGHT TO LEFT) */
+.stats-mobile-marquee-wrapper {
+  display: none;
+  overflow: hidden;
+  user-select: none;
+  position: relative;
+}
+
+.stats-mobile-marquee-content {
+  display: flex;
+  flex-shrink: 0;
+  gap: 2.5rem;
+  align-items: center;
+  animation: scroll-stats-right-to-left 16s linear infinite;
+}
+
+@keyframes scroll-stats-right-to-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 /* Core Industrial Services Grid */
@@ -628,7 +655,7 @@ body {
   grid-column: span 2;
 }
 
-/* Floating Sticky Mobile WhatsApp Button (PURE TRANSPARENT CIRCLE) */
+/* Floating Sticky Mobile WhatsApp Button */
 .floating-wa-btn {
   position: fixed;
   bottom: 22px;
@@ -763,7 +790,7 @@ body {
 /* Perfect Breakpoints for ALL Devices (Tablets, iPads, Laptops & Mobile) */
 @media (max-width: 1100px) {
   .nav-links {
-    display: none; /* Switch to Clean Drawer on Tablets/Medium Screens */
+    display: none;
   }
 
   .mobile-nav-controls {
@@ -818,7 +845,19 @@ body {
     grid-column: span 1;
   }
 
-  /* ⚡ Lead Form Stack 1 Column on Mobile Screens */
+  /* ⚡ Mobile Stats Section Horizontal Auto-Scrolling Marquee (Right-to-Left) */
+  .stats-grid {
+    display: none; /* Hide static 2x2 grid on mobile */
+  }
+
+  .stats-mobile-marquee-wrapper {
+    display: flex; /* Show smooth horizontal marquee loop */
+  }
+
+  .stats-section {
+    padding: 1.5rem 0;
+  }
+
   .lead-box-container {
     padding: 1.25rem 1rem;
   }
@@ -847,14 +886,5 @@ body {
 
   .card-actions {
     grid-template-columns: 1fr;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .stat-number {
-    font-size: 1.85rem;
   }
 }

@@ -8,12 +8,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=13">
+  <link rel="stylesheet" href="style.css?v=14">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-  <!-- Red Navigation Header with Official CEM Logo -->
+  <!-- Red Navigation Header with Official CEM Transparent Logo -->
   <nav class="navbar">
     <a href="index.html" class="logo-wrap">
       <img src="logo.png" alt="Corporate Estate Malaysia Logo" class="logo-img">
@@ -167,8 +167,9 @@
     </div>
   </section>
 
-  <!-- Agency Key Performance Metrics Counter Banner -->
+  <!-- Agency Key Performance Metrics Counter Banner (Desktop Static / Mobile Auto-Scroll Right-to-Left) -->
   <section class="stats-section">
+    <!-- Desktop Static Grid View -->
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-number">RM 500M+</div>
@@ -189,6 +190,54 @@
         <div class="stat-number">100%</div>
         <div class="stat-label">Industrial Zone Specialists</div>
         <div class="stat-sub">Full Technical Spec & Licensing Advisory</div>
+      </div>
+    </div>
+
+    <!-- Mobile Horizontal Auto-Scrolling Ticker (Right to Left) -->
+    <div class="stats-mobile-marquee-wrapper">
+      <div class="stats-mobile-marquee-content">
+        <div class="stat-card">
+          <div class="stat-number">RM 500M+</div>
+          <div class="stat-label">Transaction Volume</div>
+          <div class="stat-sub">Gross Cumulative Value</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">500+</div>
+          <div class="stat-label">Industrial Properties</div>
+          <div class="stat-sub">Selangor, KL, Johor & Penang</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">150+</div>
+          <div class="stat-label">Corporate Clients & MNCs</div>
+          <div class="stat-sub">Local & Multinational</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Zone Specialists</div>
+          <div class="stat-sub">Licensing & Technical Advisory</div>
+        </div>
+
+        <!-- Duplicated Loop -->
+        <div class="stat-card">
+          <div class="stat-number">RM 500M+</div>
+          <div class="stat-label">Transaction Volume</div>
+          <div class="stat-sub">Gross Cumulative Value</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">500+</div>
+          <div class="stat-label">Industrial Properties</div>
+          <div class="stat-sub">Selangor, KL, Johor & Penang</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">150+</div>
+          <div class="stat-label">Corporate Clients & MNCs</div>
+          <div class="stat-sub">Local & Multinational</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Zone Specialists</div>
+          <div class="stat-sub">Licensing & Technical Advisory</div>
+        </div>
       </div>
     </div>
   </section>
@@ -323,7 +372,7 @@
   <!-- Footer -->
   <footer style="background: var(--cem-navy); color: #94a3b8; text-align: center; padding: 2.25rem 1rem; margin-top: auto; font-size: 0.85rem;">
     <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-      <img src="logo.png" style="height: 32px; width: auto; background: white; padding: 2px 5px; border-radius: 4px;">
+      <img src="logo.png" style="height: 32px; width: auto; background: transparent; padding: 0;">
       <strong style="color: white; font-size: 1rem;">CORPORATE ESTATE MALAYSIA</strong>
     </div>
     <p>© 2026 Corporate Estate Malaysia. Leading Real Estate Industrial - Commercial - Land. All Rights Reserved.</p>
