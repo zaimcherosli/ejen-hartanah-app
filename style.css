@@ -538,6 +538,14 @@ body {
   gap: 1.25rem;
 }
 
+/* Services Page 8-Cards Grid — 2 col on desktop, 1 col on mobile */
+.svc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
 /* Agent Dashboard Grid Container */
 .dashboard-grid-container {
   display: grid;
@@ -1159,7 +1167,8 @@ body {
   .about-grid-2col,
   .about-grid-3col,
   .about-pillars-grid,
-  .services-grid {
+  .services-grid,
+  .svc-grid {
     grid-template-columns: 1fr !important;
     gap: 1rem !important;
   }
