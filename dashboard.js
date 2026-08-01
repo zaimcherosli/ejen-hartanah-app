@@ -1,10 +1,12 @@
-// Dashboard.js - Agent Management Logic with Auto Compression & Responsive Mobile Cards
+// Dashboard.js - Agent Management Logic with Preview & Edit Listing Capability
 let currentUser = null;
+let currentListingsData = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
   await checkAuth();
   loadAgentListings();
   setupFormHandler();
+  setupEditFormHandler();
 });
 
 // Check Auth state
@@ -97,6 +99,8 @@ async function loadAgentListings() {
       return;
     }
 
+    currentListingsData = data || [];
+
     if (!data || data.length === 0) {
       const emptyMsg = `Belum ada listing. Sila tambah di borang di atas/sebelah.`;
       if (tbody) tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">${emptyMsg}</td></tr>`;
@@ -111,7 +115,7 @@ async function loadAgentListings() {
         const thumb = (item.images && item.images.length > 0) ? item.images[0] : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80';
 
         return `
-          <tr>
+          <tr onclick="openEditModal('${item.id}')" style="cursor: pointer;" title="Click to Preview & Edit">
             <td style="padding: 0.65rem 0.5rem;">
               <img src="${thumb}" style="width: 54px; height: 42px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border);" onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80'" />
             </td>
@@ -126,7 +130,7 @@ async function loadAgentListings() {
               </span>
             </td>
             <td style="padding: 0.65rem 0.5rem; text-align: center;">
-              <button onclick="deleteListing('${item.id}')" title="Delete Listing" style="background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; width: 34px; height: 34px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s;">
+              <button onclick="event.stopPropagation(); deleteListing('${item.id}')" title="Delete Listing" style="background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; width: 34px; height: 34px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s;">
                 🗑️
               </button>
             </td>
@@ -135,24 +139,27 @@ async function loadAgentListings() {
       }).join('');
     }
 
-    // 2. Render 100% Zero-Side-Scroll Mobile App Cards
+    // 2. Render Sleek Mobile App Cards (Top Right: Delete Icon | Bottom Right: Green Badge)
     if (mobileContainer) {
       mobileContainer.innerHTML = data.map(item => {
         const formattedPrice = new Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR', maximumFractionDigits: 0 }).format(item.asking_price);
         const thumb = (item.images && item.images.length > 0) ? item.images[0] : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80';
 
         return `
-          <div class="inv-card-item">
+          <div class="inv-card-item" onclick="openEditModal('${item.id}')" title="Click to Preview & Edit">
             <img src="${thumb}" class="inv-card-thumb" onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80'" />
+            
             <div class="inv-card-details">
               <div class="inv-card-title">${item.title}</div>
               <div class="inv-card-sub">📍 ${item.location} • ${item.property_type}</div>
-              <div class="inv-card-meta">
-                <span class="inv-card-price">${formattedPrice}</span>
-                <span class="inv-card-badge">${item.status}</span>
-              </div>
+              <div class="inv-card-price">${formattedPrice}</div>
             </div>
-            <button onclick="deleteListing('${item.id}')" class="inv-card-delete" title="Delete Listing">🗑️</button>
+
+            <!-- Right Column Stack: Trash Icon on Top, Green Badge on Bottom -->
+            <div class="inv-card-right-actions">
+              <button onclick="event.stopPropagation(); deleteListing('${item.id}')" class="inv-card-delete" title="Delete Listing">🗑️</button>
+              <span class="inv-card-badge">${item.status}</span>
+            </div>
           </div>
         `;
       }).join('');
@@ -163,7 +170,94 @@ async function loadAgentListings() {
   }
 }
 
-// Setup Form Submission & Image Upload to Storage
+// Open Edit & Preview Listing Modal
+function openEditModal(id) {
+  const item = currentListingsData.find(x => x.id === id);
+  if (!item) return;
+
+  document.getElementById('editId').value = item.id;
+  document.getElementById('editTitle').value = item.title || '';
+  document.getElementById('editPrice').value = item.asking_price || '';
+  document.getElementById('editStatus').value = item.status || 'Available';
+  document.getElementById('editListingType').value = item.listing_type || 'For Rent';
+  document.getElementById('editPropertyType').value = item.property_type || 'Detached Factory';
+  document.getElementById('editPower').value = item.power_supply_amp || '';
+  document.getElementById('editCeiling').value = item.ceiling_height_ft || '';
+  document.getElementById('editLocation').value = item.location || '';
+  document.getElementById('editDescription').value = item.description || '';
+
+  const imagesContainer = document.getElementById('editPreviewImages');
+  if (item.images && item.images.length > 0) {
+    imagesContainer.innerHTML = item.images.map(img => `<img src="${img}" style="height: 120px; border-radius: 6px; object-fit: cover; border: 1px solid var(--border);" />`).join('');
+  } else {
+    imagesContainer.innerHTML = '<span style="font-size: 0.8rem; color: var(--text-muted);">No uploaded property photos</span>';
+  }
+
+  document.getElementById('editModal').classList.add('active');
+}
+
+function closeEditModal() {
+  document.getElementById('editModal').classList.remove('active');
+}
+
+// Setup Edit Form Submission handler
+function setupEditFormHandler() {
+  const editForm = document.getElementById('editListingForm');
+  const alertBox = document.getElementById('editAlert');
+
+  if (!editForm) return;
+
+  editForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const id = document.getElementById('editId').value;
+    const title = document.getElementById('editTitle').value;
+    const asking_price = parseFloat(document.getElementById('editPrice').value);
+    const status = document.getElementById('editStatus').value;
+    const listing_type = document.getElementById('editListingType').value;
+    const property_type = document.getElementById('editPropertyType').value;
+    const power_supply_amp = document.getElementById('editPower').value;
+    const ceiling_height_ft = document.getElementById('editCeiling').value;
+    const location = document.getElementById('editLocation').value;
+    const description = document.getElementById('editDescription').value;
+
+    alertBox.style.display = 'block';
+    alertBox.style.background = '#fef3c7';
+    alertBox.style.color = '#b45309';
+    alertBox.innerText = 'Updating listing details in Supabase...';
+
+    const { error } = await supabaseClient
+      .from('listings')
+      .update({
+        title,
+        asking_price,
+        status,
+        listing_type,
+        property_type,
+        power_supply_amp,
+        ceiling_height_ft,
+        location,
+        description
+      })
+      .eq('id', id);
+
+    if (error) {
+      alertBox.style.background = '#fee2e2';
+      alertBox.style.color = '#dc2626';
+      alertBox.innerText = 'Failed to update: ' + error.message;
+    } else {
+      alertBox.style.background = '#d1fae5';
+      alertBox.style.color = '#047857';
+      alertBox.innerText = 'Listing updated successfully!';
+      setTimeout(() => {
+        closeEditModal();
+        loadAgentListings();
+      }, 600);
+    }
+  });
+}
+
+// Setup Add Form Handler
 function setupFormHandler() {
   const form = document.getElementById('addListingForm');
   const alertBox = document.getElementById('formAlert');
@@ -201,12 +295,9 @@ function setupFormHandler() {
 
     const imageUrls = [];
 
-    // Upload files to Supabase Storage Bucket 'listing-images' with Auto Compression
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
         let rawFile = files[i];
-        
-        // Auto compress image client side
         const fileToUpload = await compressImage(rawFile);
 
         const fileExt = 'jpg';
@@ -224,7 +315,6 @@ function setupFormHandler() {
           return;
         }
 
-        // Get Public URL
         const { data: publicUrlData } = supabaseClient
           .storage
           .from('listing-images')
@@ -236,7 +326,6 @@ function setupFormHandler() {
       }
     }
 
-    // Insert record to Supabase Database 'listings'
     const { data: insertedData, error: insertErr } = await supabaseClient
       .from('listings')
       .insert([{
@@ -274,7 +363,6 @@ async function deleteListing(id) {
   if (!confirm('Adakah anda pasti mahu memadam listing ini berserta fail gambarnya?')) return;
 
   try {
-    // 1. Get image URLs to delete physical files from storage
     const { data: item } = await supabaseClient
       .from('listings')
       .select('images')
@@ -293,7 +381,6 @@ async function deleteListing(id) {
       }
     }
 
-    // 2. Delete database row
     const { error } = await supabaseClient
       .from('listings')
       .delete()

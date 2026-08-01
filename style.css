@@ -900,36 +900,44 @@ body {
 
   .inv-card-item {
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
+    align-items: stretch;
+    gap: 0.65rem;
     background: #ffffff;
     border: 1px solid var(--border-strong);
-    padding: 0.75rem;
+    padding: 0.65rem;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
     width: 100%;
     position: relative;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .inv-card-item:hover {
+    background: #f8fafc;
   }
 
   .inv-card-thumb {
     width: 64px;
-    height: 58px;
+    height: 64px;
     object-fit: cover;
     border-radius: 6px;
     flex-shrink: 0;
     border: 1px solid var(--border);
+    align-self: center;
   }
 
   .inv-card-details {
     flex-grow: 1;
-    min-width: 0; /* Prevents text overflow flexbox wrap issues */
+    min-width: 0;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 0.15rem;
   }
 
   .inv-card-title {
-    font-size: 0.88rem;
+    font-size: 0.86rem;
     font-weight: 800;
     color: var(--text-main);
     white-space: nowrap;
@@ -939,48 +947,52 @@ body {
   }
 
   .inv-card-sub {
-    font-size: 0.74rem;
+    font-size: 0.73rem;
     color: var(--text-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .inv-card-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.15rem;
-  }
-
   .inv-card-price {
     font-size: 0.86rem;
     font-weight: 800;
     color: var(--cem-red);
+    margin-top: 0.15rem;
   }
 
-  .inv-card-badge {
-    background: rgba(16, 185, 129, 0.12);
-    color: #059669;
-    padding: 0.15rem 0.4rem;
-    border-radius: 4px;
-    font-size: 0.68rem;
-    font-weight: 700;
+  /* ⚡ Right Action Column: Trash Button on TOP Right, Green Badge on BOTTOM Right */
+  .inv-card-right-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-shrink: 0;
+    height: 100%;
   }
 
   .inv-card-delete {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     background: #fee2e2;
     color: #dc2626;
     border: 1px solid #fca5a5;
     border-radius: 6px;
-    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     cursor: pointer;
+  }
+
+  .inv-card-badge {
+    background: rgba(16, 185, 129, 0.15);
+    color: #059669;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    white-space: nowrap;
   }
 
   .navbar {
