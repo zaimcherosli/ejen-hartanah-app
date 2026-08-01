@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=23">
+  <link rel="stylesheet" href="style.css?v=25">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -133,9 +133,10 @@
             <input type="file" id="imagesInput" multiple accept="image/*" style="width: 100%; font-size: 0.8rem;">
           </div>
 
+          <!-- Extra Large Description Input Box -->
           <div style="margin-bottom: 1rem;">
-            <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">DESCRIPTION</label>
-            <textarea id="description" rows="3" placeholder="Enter full specifications and highlights..." style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;"></textarea>
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">DESCRIPTION (FULL DETAILS & SPECS)</label>
+            <textarea id="description" rows="7" placeholder="Enter full specifications, location highlights, power supply details, floor loading, and contact info..." style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; min-height: 160px; resize: vertical; line-height: 1.5;"></textarea>
           </div>
 
           <div id="formAlert" style="display: none; padding: 0.6rem; border-radius: 6px; font-size: 0.8rem; margin-bottom: 0.85rem; text-align: center;"></div>
@@ -179,7 +180,7 @@
 
   <!-- Edit & Preview Listing Modal View -->
   <div id="editModal" class="modal-overlay">
-    <div class="modal-content" style="max-width: 680px;">
+    <div class="modal-content" style="max-width: 720px;">
       <button class="modal-close" onclick="closeEditModal()">&times;</button>
       
       <div style="margin-bottom: 1.25rem;">
@@ -248,16 +249,17 @@
           <input type="text" id="editLocation" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
         </div>
 
-        <div style="margin-bottom: 1rem;">
-          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">DESCRIPTION</label>
-          <textarea id="editDescription" rows="3" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;"></textarea>
+        <!-- Extra Large Description Textarea for Edit Modal -->
+        <div style="margin-bottom: 1.25rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">DESCRIPTION (FULL DETAILS & SPECS)</label>
+          <textarea id="editDescription" rows="8" placeholder="Enter full property specifications..." style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; min-height: 180px; resize: vertical; line-height: 1.5;"></textarea>
         </div>
 
         <div id="editAlert" style="display: none; padding: 0.6rem; border-radius: 6px; font-size: 0.8rem; margin-bottom: 0.85rem; text-align: center;"></div>
 
         <div style="display: flex; gap: 0.75rem;">
-          <button type="submit" class="btn-show-listings" style="height: 44px; flex-grow: 1;">UPDATE LISTING</button>
-          <button type="button" onclick="closeEditModal()" style="height: 44px; background: #e2e8f0; color: var(--text-main); border: 1px solid var(--border-strong); border-radius: 4px; padding: 0 1rem; font-weight: 700; cursor: pointer;">CANCEL</button>
+          <button type="submit" class="btn-show-listings" style="height: 48px; flex-grow: 1;">UPDATE LISTING</button>
+          <button type="button" onclick="closeEditModal()" style="height: 48px; background: #e2e8f0; color: var(--text-main); border: 1px solid var(--border-strong); border-radius: 4px; padding: 0 1.25rem; font-weight: 700; cursor: pointer;">CANCEL</button>
         </div>
       </form>
     </div>
