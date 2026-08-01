@@ -1,4 +1,4 @@
-// App.js - Public Portal Logic with State & Area Filtering
+// App.js - Public Portal Logic with English Copywriting & Filter Functionality
 let allListings = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,7 +11,7 @@ async function fetchListings() {
   const container = document.getElementById('listingsContainer');
   try {
     if (!supabaseClient) {
-      container.innerHTML = '<div class="empty-state">Sila pastikan Supabase Config ditetapkan dengan betul.</div>';
+      container.innerHTML = '<div class="empty-state">Please ensure Supabase configuration is set up properly.</div>';
       return;
     }
 
@@ -22,7 +22,7 @@ async function fetchListings() {
 
     if (error) {
       console.error('Error fetching listings:', error);
-      container.innerHTML = `<div class="empty-state">Gagal memuatkan listing: ${error.message}</div>`;
+      container.innerHTML = `<div class="empty-state">Failed to load property listings: ${error.message}</div>`;
       return;
     }
 
@@ -30,20 +30,21 @@ async function fetchListings() {
     renderListings(allListings);
   } catch (err) {
     console.error('Unexpected error:', err);
-    container.innerHTML = '<div class="empty-state">Ralat tidak dijangka berlaku.</div>';
+    container.innerHTML = '<div class="empty-state">An unexpected error occurred.</div>';
   }
 }
 
 // Render property listing cards
 function renderListings(listings) {
   const container = document.getElementById('listingsContainer');
-  document.getElementById('totalCount').innerText = listings.length;
+  const totalCountEl = document.getElementById('totalCount');
+  if (totalCountEl) totalCountEl.innerText = listings.length;
 
   if (listings.length === 0) {
     container.innerHTML = `
       <div class="empty-state">
-        <h3>Tiada Listing Dijumpai</h3>
-        <p>Cuba tukar penapis carian anda atau lihat senarai kawasan lain.</p>
+        <h3>No Property Listings Found</h3>
+        <p>Try adjusting your search filters or browse other industrial areas.</p>
       </div>
     `;
     return;
@@ -55,8 +56,8 @@ function renderListings(listings) {
       ? item.images[0] 
       : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80';
 
-    const phone = item.agent_phone || '60123456789';
-    const waText = encodeURIComponent(`Helo, saya berminat dengan listing industrial anda:\n*${item.title}*\nHarga: ${formattedPrice}\nLokasi: ${item.location}\nSila kongsi maklumat lanjut.`);
+    const phone = item.agent_phone || '60123880356';
+    const waText = encodeURIComponent(`Hello, I am interested in your industrial property listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}\nPlease provide more details.`);
     const waUrl = `https://wa.me/${phone}?text=${waText}`;
 
     return `
@@ -85,16 +86,16 @@ function renderListings(listings) {
               <span class="val">${item.floor_loading_kn || '-'}</span>
             </div>
             <div class="spec-item">
-              <span class="label">Zon Industri</span>
+              <span class="label">Industrial Zone</span>
               <span class="val">${item.zoning || '-'}</span>
             </div>
           </div>
 
           <div class="card-actions">
             <a href="${waUrl}" target="_blank" class="btn-whatsapp">
-              💬 WhatsApp Ejen
+              💬 WhatsApp Agent
             </a>
-            <button onclick="openModal('${item.id}')" class="btn-detail">Lihat Spec</button>
+            <button onclick="openModal('${item.id}')" class="btn-detail">View Details</button>
           </div>
         </div>
       </div>
@@ -157,8 +158,8 @@ function openModal(id) {
   const formattedPrice = new Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR', maximumFractionDigits: 0 }).format(item.asking_price);
   const modalBody = document.getElementById('modalBody');
 
-  const phone = item.agent_phone || '60123456789';
-  const waText = encodeURIComponent(`Helo, saya berminat dengan listing industrial anda:\n*${item.title}*\nHarga: ${formattedPrice}\nLokasi: ${item.location}`);
+  const phone = item.agent_phone || '60123880356';
+  const waText = encodeURIComponent(`Hello, I am interested in your property listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}`);
   const waUrl = `https://wa.me/${phone}?text=${waText}`;
 
   let imagesHtml = '';
@@ -171,29 +172,29 @@ function openModal(id) {
   }
 
   modalBody.innerHTML = `
-    <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">${item.title}</h2>
-    <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent-amber); margin-bottom: 1rem;">${formattedPrice} (${item.listing_type})</div>
+    <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--text-main);">${item.title}</h2>
+    <div style="font-size: 1.5rem; font-weight: 800; color: var(--nav-red); margin-bottom: 1rem;">${formattedPrice} (${item.listing_type})</div>
     
     ${imagesHtml}
 
     <div class="spec-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 1.5rem;">
-      <div class="spec-item"><span class="label">Kategori</span><span class="val">${item.category || 'Industrial'}</span></div>
-      <div class="spec-item"><span class="label">Jenis Hartanah</span><span class="val">${item.property_type}</span></div>
+      <div class="spec-item"><span class="label">Category</span><span class="val">${item.category || 'Industrial'}</span></div>
+      <div class="spec-item"><span class="label">Property Type</span><span class="val">${item.property_type}</span></div>
       <div class="spec-item"><span class="label">Status</span><span class="val">${item.status}</span></div>
       <div class="spec-item"><span class="label">Power Supply</span><span class="val">${item.power_supply_amp || '-'}</span></div>
       <div class="spec-item"><span class="label">Ceiling Height</span><span class="val">${item.ceiling_height_ft || '-'}</span></div>
       <div class="spec-item"><span class="label">Floor Loading</span><span class="val">${item.floor_loading_kn || '-'}</span></div>
-      <div class="spec-item"><span class="label">Zon Industri</span><span class="val">${item.zoning || '-'}</span></div>
+      <div class="spec-item"><span class="label">Industrial Zone</span><span class="val">${item.zoning || '-'}</span></div>
       <div class="spec-item"><span class="label">Built-up Size</span><span class="val">${item.built_up_sqft ? item.built_up_sqft + ' sqft' : '-'}</span></div>
       <div class="spec-item"><span class="label">Land Area</span><span class="val">${item.land_area_sqft ? item.land_area_sqft + ' sqft' : '-'}</span></div>
     </div>
 
-    <h4 style="margin-bottom: 0.5rem; font-size: 1rem;">Keterangan & Spesifikasi Penuh:</h4>
-    <p style="color: var(--text-muted); font-size: 0.95rem; white-space: pre-line; margin-bottom: 1.5rem;">${item.description || 'Tiada keterangan tambahan.'}</p>
+    <h4 style="margin-bottom: 0.5rem; font-size: 1rem; color: var(--text-main);">Full Description & Specifications:</h4>
+    <p style="color: var(--text-muted); font-size: 0.95rem; white-space: pre-line; margin-bottom: 1.5rem;">${item.description || 'No additional description provided.'}</p>
 
     <div style="display: flex; gap: 1rem;">
-      <a href="${waUrl}" target="_blank" class="btn-whatsapp" style="padding: 0.8rem;">
-        💬 Hubungi Ejen di WhatsApp
+      <a href="${waUrl}" target="_blank" class="btn-whatsapp" style="padding: 0.8rem 1.25rem;">
+        💬 Contact Agent on WhatsApp
       </a>
     </div>
   `;
