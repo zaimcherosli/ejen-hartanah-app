@@ -1,0 +1,3 @@
+# Cloudflare Pages Single Page App (SPA) Rewrite Rule
+# Serves listings.html for all custom property title URLs (e.g. /kilang-sesebuah-2-tingkat-modern-i-park)
+/* /listings.html 200
