@@ -1,4 +1,4 @@
-/* Corporate Estate Malaysia - Official Brand Theme & Deep Corporate Navy Styles */
+/* Corporate Estate Malaysia - Official Brand Theme & Clean White Header Styles */
 :root {
   --bg-main: #ffffff;
   --bg-card: #ffffff;
@@ -8,7 +8,7 @@
   --cem-red: #d31e28; /* Official CEM Red Ribbon Accent */
   --cem-red-hover: #b0151e;
   --cem-orange: #f37021; /* Official CEM Orange Accent */
-  --nav-bg: #002742; /* Deep Corporate Navy Header */
+  --nav-bg: #ffffff; /* Crisp Pure White Header */
   --primary: #002742;
   --text-main: #002742;
   --text-muted: #475569;
@@ -16,7 +16,7 @@
   --border: #e2e8f0;
   --border-strong: #cbd5e1;
   --shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
-  --shadow-hover: 0 12px 25px -4px rgba(0, 39, 66, 0.18);
+  --shadow-hover: 0 12px 25px -4px rgba(211, 30, 40, 0.18);
   --radius: 8px;
 }
 
@@ -37,7 +37,7 @@ body {
   flex-direction: column;
 }
 
-/* Deep Corporate Navy Navigation Header */
+/* Crisp Pure White Navigation Header */
 .navbar {
   background-color: var(--nav-bg);
   padding: 0.75rem 1.75rem;
@@ -47,8 +47,8 @@ body {
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 4px 15px rgba(0, 39, 66, 0.3);
-  border-bottom: 2px solid var(--cem-red);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border-bottom: 3px solid var(--cem-red); /* High-Class Red Accent Line */
 }
 
 .logo-wrap {
@@ -58,19 +58,18 @@ body {
   text-decoration: none;
 }
 
-/* Transparent Background Logo */
+/* 100% Transparent Background Logo Image */
 .logo-img {
-  height: 44px;
+  height: 46px;
   width: auto;
   background: transparent !important;
   padding: 0;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
 }
 
 .logo-text {
   font-size: 1.2rem;
   font-weight: 900;
-  color: #ffffff;
+  color: var(--cem-navy);
   text-transform: uppercase;
   letter-spacing: -0.01em;
   line-height: 1.1;
@@ -80,25 +79,25 @@ body {
 }
 
 .logo-text span {
-  font-weight: 600;
+  font-weight: 700;
   opacity: 0.95;
   font-size: 0.72rem;
   letter-spacing: 0.12em;
-  color: var(--cem-orange); /* Highlighted CEM Orange Subtext */
+  color: var(--cem-red); /* CEM Red Subtext */
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 1.1rem;
+  gap: 1.25rem;
   white-space: nowrap;
 }
 
 .nav-links a {
-  color: #ffffff;
+  color: var(--cem-navy);
   text-decoration: none;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 0.82rem;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   transition: color 0.2s;
@@ -106,18 +105,19 @@ body {
 }
 
 .nav-links a:hover {
-  color: var(--cem-orange);
+  color: var(--cem-red);
 }
 
 .nav-btn-agent {
   background: var(--cem-red);
   color: #ffffff !important;
   border: none;
-  padding: 0.48rem 0.9rem;
+  padding: 0.5rem 1rem;
   border-radius: 4px;
   font-weight: 800;
   white-space: nowrap;
   transition: background 0.2s;
+  box-shadow: 0 4px 10px rgba(211, 30, 40, 0.25);
 }
 
 .nav-btn-agent:hover {
@@ -131,9 +131,9 @@ body {
 }
 
 .mobile-menu-btn {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--cem-navy);
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: none;
   padding: 0.45rem 0.85rem;
   border-radius: 6px;
   font-size: 0.85rem;
@@ -145,13 +145,13 @@ body {
 .mobile-menu-drawer {
   display: none;
   position: fixed;
-  top: 60px;
+  top: 62px;
   left: 0;
   width: 100%;
-  background: #001c30;
+  background: var(--cem-navy);
   padding: 1.25rem 1.5rem;
   border-bottom: 4px solid var(--cem-red);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
   z-index: 9999;
 }
 
@@ -235,7 +235,7 @@ body {
 }
 
 .filter-select:focus, .filter-input:focus {
-  border-color: var(--cem-navy);
+  border-color: var(--cem-red);
 }
 
 .btn-show-listings {
@@ -431,7 +431,7 @@ body {
 
 .service-card:hover {
   transform: translateY(-3px);
-  border-color: var(--cem-navy);
+  border-color: var(--cem-red);
 }
 
 .service-icon {
@@ -495,7 +495,7 @@ body {
 
 .property-card:hover {
   transform: translateY(-3px);
-  border-color: var(--cem-navy);
+  border-color: var(--cem-red);
   box-shadow: var(--shadow-hover);
 }
 
@@ -837,7 +837,7 @@ body {
   }
 
   .logo-img {
-    height: 34px;
+    height: 38px;
   }
 
   .logo-text {
