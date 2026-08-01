@@ -48,7 +48,7 @@ body {
   top: 0;
   z-index: 1000;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  border-bottom: 3px solid var(--cem-red); /* High-Class Red Accent Line */
+  border-bottom: 3px solid var(--cem-red);
 }
 
 .logo-wrap {
@@ -58,7 +58,6 @@ body {
   text-decoration: none;
 }
 
-/* 100% Transparent Background Logo Image */
 .logo-img {
   height: 46px;
   width: auto;
@@ -83,7 +82,19 @@ body {
   opacity: 0.95;
   font-size: 0.72rem;
   letter-spacing: 0.12em;
-  color: var(--cem-red); /* CEM Red Subtext */
+  color: var(--cem-red);
+}
+
+.agent-portal-badge {
+  background: var(--cem-navy);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
 .nav-links {
@@ -124,7 +135,7 @@ body {
   background: var(--cem-red-hover) !important;
 }
 
-/* Mobile Toggle & Drawer Controls (High Z-Index Fixed Position) */
+/* Mobile Toggle & Drawer Controls */
 .mobile-nav-controls {
   display: none;
   align-items: center;
@@ -475,6 +486,29 @@ body {
   color: var(--text-main);
 }
 
+/* Agent Dashboard Grid Container */
+.dashboard-grid-container {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 2rem;
+}
+
+.dash-card {
+  background: #ffffff;
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  max-width: 100%;
+}
+
+.form-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+
 /* Property Cards Grid */
 .listing-grid {
   display: grid;
@@ -820,6 +854,12 @@ body {
   .stats-section {
     padding: 1.75rem 0;
   }
+
+  /* Dashboard Grid Stack on Mobile & Tablets */
+  .dashboard-grid-container {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem;
+  }
 }
 
 @media (max-width: 900px) {
@@ -841,7 +881,11 @@ body {
   }
 
   .logo-text {
-    font-size: 1.02rem;
+    font-size: 0.98rem;
+  }
+
+  .agent-portal-badge {
+    display: none; /* Hide badge on 375px screens so logo doesn't overflow */
   }
 
   .hero {
@@ -867,6 +911,14 @@ body {
 
   .btn-show-listings {
     grid-column: span 1;
+  }
+
+  .dash-card {
+    padding: 1.1rem 0.85rem;
+  }
+
+  .form-2col {
+    grid-template-columns: 1fr !important;
   }
 
   .lead-box-container {

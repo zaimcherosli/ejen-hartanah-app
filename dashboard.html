@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=16">
+  <link rel="stylesheet" href="style.css?v=17">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -19,24 +19,25 @@
       <div class="logo-text">
         CORPORATE ESTATE <span>MALAYSIA</span>
       </div>
-      <span style="background: var(--cem-navy); color: #ffffff; font-size: 0.68rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 4px; margin-left: 0.5rem; letter-spacing: 0.05em;">AGENT PORTAL</span>
+      <span class="agent-portal-badge">AGENT PORTAL</span>
     </a>
     <div class="nav-links">
-      <span style="color: var(--text-main); font-size: 0.85rem; font-weight: 600;">Logged in: <strong id="agentEmail" style="color: var(--cem-red);">...</strong></span>
+      <span style="color: var(--text-main); font-size: 0.82rem; font-weight: 600;">Logged in: <strong id="agentEmail" style="color: var(--cem-red);">...</strong></span>
       <button id="btnLogout" class="nav-btn-agent" style="cursor: pointer;">LOGOUT</button>
     </div>
   </nav>
 
-  <main class="container" style="padding-top: 2rem;">
-    <div class="section-title">
+  <main class="container" style="padding-top: 1.5rem;">
+    <div class="section-title" style="margin-bottom: 1.25rem;">
       <h2>Agent Listing Management Dashboard</h2>
       <a href="index.html" target="_blank" style="color: var(--cem-red); font-weight: 800; font-size: 0.88rem; text-decoration: none;">🌐 Preview Live Main Site →</a>
     </div>
 
-    <div style="display: grid; grid-template-columns: 380px 1fr; gap: 2rem;">
+    <!-- Responsive Grid Stack -->
+    <div class="dashboard-grid-container">
 
       <!-- Add Listing Form Card -->
-      <div style="background: #ffffff; border: 1px solid var(--border-strong); border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow);">
+      <div class="dash-card">
         <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-red); margin-bottom: 1rem;">+ Add New Property Listing</h3>
         
         <form id="addListingForm">
@@ -45,7 +46,7 @@
             <input type="text" id="title" placeholder="e.g. 3-Storey Semi-D Factory in Bukit Jelutong" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.85rem;">
+          <div class="form-2col">
             <div>
               <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">CATEGORY</label>
               <select id="category" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
@@ -80,7 +81,7 @@
           </div>
 
           <!-- Specs -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.85rem;">
+          <div class="form-2col">
             <div>
               <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">POWER SUPPLY</label>
               <input type="text" id="power_supply_amp" placeholder="e.g. 300 Amp" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
@@ -91,7 +92,7 @@
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.85rem;">
+          <div class="form-2col">
             <div>
               <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">FLOOR LOADING</label>
               <input type="text" id="floor_loading_kn" placeholder="e.g. 25 kN/m²" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
@@ -106,7 +107,7 @@
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.85rem;">
+          <div class="form-2col">
             <div>
               <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">BUILT-UP (SQFT)</label>
               <input type="number" id="built_up_sqft" placeholder="15000" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
@@ -130,7 +131,7 @@
           <div style="margin-bottom: 0.85rem;">
             <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">PROPERTY IMAGES (AUTO-COMPRESSED)</label>
             <input type="file" id="imagesInput" multiple accept="image/*" style="width: 100%; font-size: 0.8rem;">
-            <span style="font-size: 0.7rem; color: var(--accent-emerald); font-weight: 700;">⚡ Auto-compresses photos to ~150KB client-side!</span>
+            <span style="font-size: 0.7rem; color: var(--accent-emerald); font-weight: 700; display: block; margin-top: 0.2rem;">⚡ Auto-compresses photos to ~150KB client-side!</span>
           </div>
 
           <div style="margin-bottom: 1rem;">
@@ -144,24 +145,26 @@
         </form>
       </div>
 
-      <!-- Listing Inventory Table -->
-      <div style="background: #ffffff; border: 1px solid var(--border-strong); border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow); overflow-x: auto;">
+      <!-- Listing Inventory Table Card -->
+      <div class="dash-card" style="overflow-x: auto;">
         <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem;">Active Inventory List</h3>
 
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
-          <thead>
-            <tr style="border-bottom: 2px solid var(--border-strong); text-align: left; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase;">
-              <th style="padding: 0.6rem;">Photo</th>
-              <th style="padding: 0.6rem;">Title & Location</th>
-              <th style="padding: 0.6rem;">Asking Price</th>
-              <th style="padding: 0.6rem;">Status</th>
-              <th style="padding: 0.6rem;">Action</th>
-            </tr>
-          </thead>
-          <tbody id="agentListingsTbody">
-            <tr><td colspan="5" style="text-align: center; padding: 1.5rem; color: var(--text-muted);">Loading active listings...</td></tr>
-          </tbody>
-        </table>
+        <div style="overflow-x: auto; width: 100%;">
+          <table style="width: 100%; min-width: 500px; border-collapse: collapse; font-size: 0.85rem;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border-strong); text-align: left; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase;">
+                <th style="padding: 0.6rem;">Photo</th>
+                <th style="padding: 0.6rem;">Title & Location</th>
+                <th style="padding: 0.6rem;">Asking Price</th>
+                <th style="padding: 0.6rem;">Status</th>
+                <th style="padding: 0.6rem;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="agentListingsTbody">
+              <tr><td colspan="5" style="text-align: center; padding: 1.5rem; color: var(--text-muted);">Loading active listings...</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
     </div>
