@@ -45,7 +45,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=26">
+  <link rel="stylesheet" href="style.css?v=27">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -59,12 +59,12 @@
       </div>
     </a>
 
-    <!-- Desktop Navigation Links (5 Main Platform Pages) -->
+    <!-- Desktop Navigation Links -->
     <div class="nav-links">
       <a href="index.html" style="color: var(--cem-red); border-bottom: 2px solid var(--cem-red);">HOME</a>
       <a href="listings.html">VIEW LISTINGS</a>
       <a href="about.html">ABOUT US</a>
-      <a href="#servicesSection">OUR SERVICES</a>
+      <a href="services.html">OUR SERVICES</a>
       <a href="#agentTeamSection">AGENTS DIRECTORY</a>
       <a href="login.html" class="nav-btn-agent">AGENT LOGIN</a>
     </div>
@@ -80,7 +80,7 @@
     <a href="index.html" onclick="toggleMobileMenu(event)">Home</a>
     <a href="listings.html">View Property Listings</a>
     <a href="about.html">About Us</a>
-    <a href="#servicesSection" onclick="toggleMobileMenu(event)">Our Services</a>
+    <a href="services.html">Our Services</a>
     <a href="#agentTeamSection" onclick="toggleMobileMenu(event)">Agents Directory</a>
     <a href="https://wa.me/60108118559" target="_blank" style="color: #25d366;">WhatsApp Us Directly</a>
     <a href="login.html">Agent Portal Login</a>
@@ -89,7 +89,7 @@
   <!-- Hero Section with Warehouse Backdrop -->
   <section class="hero">
     <h1>Corporate Estate Malaysia</h1>
-    <p style="font-size: 1.15rem; font-weight: 800; color: var(--cem-red); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem;">Leading Real Estate Industrial - Commercial - Land</p>
+    <p style="font-size: 1.15rem; font-weight: 800; color: var(--cem-red); text-text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem;">Leading Real Estate Industrial - Commercial - Land</p>
     <p>Malaysia's premier commercial & industrial real estate agency serving corporate clients across Selangor, Kuala Lumpur, Johor, Penang & Negeri Sembilan.</p>
   </section>
 
@@ -200,7 +200,7 @@
     </div>
   </section>
 
-  <!-- Agency Key Performance Metrics Counter Banner (Desktop Static / Mobile Auto-Scroll LEFT TO RIGHT) -->
+  <!-- Agency Key Performance Metrics Counter Banner -->
   <section class="stats-section">
     <!-- Desktop Static Grid View -->
     <div class="stats-grid">
@@ -275,62 +275,39 @@
     </div>
   </section>
 
-  <!-- Core Industrial & Commercial Services Section (8 High-Value Corporate Cards) -->
-  <section id="servicesSection" class="container">
+  <!-- 🌟 REPLACEMENT SECTION: WHY CHOOSE CORPORATE ESTATE MALAYSIA (THE CEM ADVANTAGE) -->
+  <section id="whyUsSection" class="container">
     <div class="section-title">
       <div>
-        <h2>Our Core Real Estate Services</h2>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">End-to-end corporate solutions for Industrial, Commercial, and Land acquisitions across Malaysia.</p>
+        <h2>Why Choose Corporate Estate Malaysia</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">Unrivalled expertise in Malaysian industrial and commercial real estate transactions.</p>
       </div>
+      <a href="services.html" class="btn-detail" style="text-decoration: none; border-color: var(--cem-navy); color: var(--cem-navy);">Explore All Services →</a>
     </div>
 
-    <div class="services-grid">
-      <div class="service-card">
-        <span class="service-icon">🏭</span>
-        <h3 class="service-title">Factory & Warehouse Sales / Leasing</h3>
-        <p class="service-desc">Comprehensive inventory of Detached, Semi-Detached, and Logistics Warehouses tailored to your power supply & ceiling height requirements.</p>
+    <div class="about-grid-2col" style="margin-top: 1.5rem;">
+      <div class="about-card" style="border-top: 4px solid var(--cem-red);">
+        <div style="font-size: 2.2rem; margin-bottom: 0.75rem;">📊</div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.5rem;">RM 500M+ Transaction Track Record</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">Proven expertise handling multi-million ringgit factory sales, logistics warehouse leases, and land acquisitions for local conglomerates and multinational corporations.</p>
       </div>
 
-      <div class="service-card">
-        <span class="service-icon">🚜</span>
-        <h3 class="service-title">Industrial Land Acquisition & JV</h3>
-        <p class="service-desc">Sourcing zoned industrial land plots (Light, Medium, Heavy Industry) backed by utility infrastructure & water supply analysis.</p>
+      <div class="about-card" style="border-top: 4px solid var(--cem-orange);">
+        <div style="font-size: 2.2rem; margin-bottom: 0.75rem;">⚙️</div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.5rem;">100% Technical Spec Verification</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">We conduct rigorous technical audits on TNB Power Supply (Amperage/Substation), Ceiling Heights, Floor Loading (kN/m²), and Gas Pipeline proximity before recommending sites.</p>
       </div>
 
-      <div class="service-card">
-        <span class="service-icon">🏗️</span>
-        <h3 class="service-title">Built-to-Suit (BTS) Development</h3>
-        <p class="service-desc">End-to-end design and construction of custom industrial facilities built precisely to multinational operational specifications.</p>
+      <div class="about-card" style="border-top: 4px solid var(--cem-navy);">
+        <div style="font-size: 2.2rem; margin-bottom: 0.75rem;">📜</div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.5rem;">DOE, MIDA & Authority Approval Assistance</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">Navigating government regulations seamlessly. We assist clients with Department of Environment (DOE) licensing, MIDA manufacturing incentives, and Bomba approvals.</p>
       </div>
 
-      <div class="service-card">
-        <span class="service-icon">📄</span>
-        <h3 class="service-title">DOE, MIDA & Local Authority Licensing</h3>
-        <p class="service-desc">Full consultancy for Department of Environment (DOE), MIDA, Fire Department (Bomba), and Local Council operating permits.</p>
-      </div>
-
-      <div class="service-card">
-        <span class="service-icon">📜</span>
-        <h3 class="service-title">Sale & Leaseback Advisory</h3>
-        <p class="service-desc">Unlocking corporate liquidity by monetizing existing industrial real estate assets through structured long-term sale and leaseback agreements.</p>
-      </div>
-
-      <div class="service-card">
-        <span class="service-icon">🏢</span>
-        <h3 class="service-title">Corporate Real Estate Valuation & Feasibility</h3>
-        <p class="service-desc">In-depth market valuation, ROI yield analysis, and location feasibility studies tailored for MNCs and institutional property investors.</p>
-      </div>
-
-      <div class="service-card">
-        <span class="service-icon">🏬</span>
-        <h3 class="service-title">Commercial Shoplots & Corporate HQ</h3>
-        <p class="service-desc">Prime commercial shoplot acquisitions, retail park placements, and corporate office headquarters across major commercial hubs.</p>
-      </div>
-
-      <div class="service-card">
-        <span class="service-icon">⚡</span>
-        <h3 class="service-title">Industrial Infrastructure Due Diligence</h3>
-        <p class="service-desc">Technical site audits assessing high-voltage TNB power substations, natural gas pipeline proximity, and heavy floor loading capacity.</p>
+      <div class="about-card" style="border-top: 4px solid var(--cem-red);">
+        <div style="font-size: 2.2rem; margin-bottom: 0.75rem;">🤝</div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.5rem;">Direct Senior Negotiator Network</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">No middleman overheads or generic listings. Work directly with licensed senior negotiators who specialize exclusively in Selangor, KL, Johor & Penang industrial corridors.</p>
       </div>
     </div>
   </section>
