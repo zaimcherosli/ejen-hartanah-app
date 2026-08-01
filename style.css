@@ -124,7 +124,7 @@ body {
   color: var(--nav-red) !important;
 }
 
-/* Mobile Toggle & Drawer Controls */
+/* Mobile Toggle & Drawer Controls (High Z-Index Fixed Position) */
 .mobile-nav-controls {
   display: none;
   align-items: center;
@@ -139,18 +139,24 @@ body {
   font-size: 0.85rem;
   font-weight: 800;
   cursor: pointer;
+  user-select: none;
 }
 
 .mobile-menu-drawer {
   display: none;
+  position: fixed;
+  top: 58px;
+  left: 0;
+  width: 100%;
   background: var(--cem-navy);
-  padding: 1rem 1.5rem;
-  border-bottom: 3px solid var(--cem-red);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  padding: 1.25rem 1.5rem;
+  border-bottom: 4px solid var(--cem-red);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
 }
 
 .mobile-menu-drawer.active {
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   gap: 0.85rem;
 }
@@ -158,11 +164,11 @@ body {
 .mobile-menu-drawer a {
   color: #ffffff;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 700;
   text-transform: uppercase;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 /* Hero Section with Warehouse Background Image */
@@ -333,7 +339,7 @@ body {
   to { transform: translateX(-100%); }
 }
 
-/* Agency Stats Grid Section (Desktop Static, Mobile Horizontal Auto-Scroll Right-to-Left) */
+/* Agency Stats Grid Section (Desktop Static, Mobile Horizontal Auto-Scroll LEFT TO RIGHT) */
 .stats-section {
   background: var(--cem-navy);
   color: #ffffff;
@@ -379,7 +385,7 @@ body {
   white-space: nowrap;
 }
 
-/* ⚡ MOBILE HORIZONTAL AUTO-SCROLLING MARQUEE (RIGHT TO LEFT) */
+/* ⚡ MOBILE HORIZONTAL AUTO-SCROLLING MARQUEE (LEFT TO RIGHT / KIRI KE KANAN) */
 .stats-mobile-marquee-wrapper {
   display: none;
   overflow: hidden;
@@ -392,12 +398,12 @@ body {
   flex-shrink: 0;
   gap: 2.5rem;
   align-items: center;
-  animation: scroll-stats-right-to-left 16s linear infinite;
+  animation: scroll-stats-left-to-right 16s linear infinite;
 }
 
-@keyframes scroll-stats-right-to-left {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+@keyframes scroll-stats-left-to-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
 }
 
 /* Core Industrial Services Grid */
@@ -845,13 +851,13 @@ body {
     grid-column: span 1;
   }
 
-  /* ⚡ Mobile Stats Section Horizontal Auto-Scrolling Marquee (Right-to-Left) */
+  /* ⚡ Mobile Stats Section Horizontal Auto-Scrolling Marquee (LEFT TO RIGHT) */
   .stats-grid {
-    display: none; /* Hide static 2x2 grid on mobile */
+    display: none;
   }
 
   .stats-mobile-marquee-wrapper {
-    display: flex; /* Show smooth horizontal marquee loop */
+    display: flex;
   }
 
   .stats-section {

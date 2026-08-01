@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=14">
+  <link rel="stylesheet" href="style.css?v=15">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -38,17 +38,17 @@
 
     <!-- Mobile Nav Toggle -->
     <div class="mobile-nav-controls">
-      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰ Menu</button>
+      <button type="button" class="mobile-menu-btn" onclick="toggleMobileMenu(event)">☰ Menu</button>
     </div>
   </nav>
 
   <!-- Mobile Collapsible Menu Drawer -->
   <div id="mobileDrawer" class="mobile-menu-drawer">
-    <a href="index.html" onclick="toggleMobileMenu()">Home</a>
+    <a href="index.html" onclick="toggleMobileMenu(event)">Home</a>
     <a href="listings.html">View Property Listings</a>
-    <a href="#servicesSection" onclick="toggleMobileMenu()">Our Services</a>
-    <a href="#clientsSection" onclick="toggleMobileMenu()">Corporate Clients</a>
-    <a href="#agentTeamSection" onclick="toggleMobileMenu()">Agents Directory</a>
+    <a href="#servicesSection" onclick="toggleMobileMenu(event)">Our Services</a>
+    <a href="#clientsSection" onclick="toggleMobileMenu(event)">Corporate Clients</a>
+    <a href="#agentTeamSection" onclick="toggleMobileMenu(event)">Agents Directory</a>
     <a href="https://wa.me/60123880356" target="_blank" style="color: #25d366;">WhatsApp Us Directly</a>
     <a href="login.html">Agent Portal Login</a>
   </div>
@@ -167,7 +167,7 @@
     </div>
   </section>
 
-  <!-- Agency Key Performance Metrics Counter Banner (Desktop Static / Mobile Auto-Scroll Right-to-Left) -->
+  <!-- Agency Key Performance Metrics Counter Banner (Desktop Static / Mobile Auto-Scroll LEFT TO RIGHT) -->
   <section class="stats-section">
     <!-- Desktop Static Grid View -->
     <div class="stats-grid">
@@ -193,7 +193,7 @@
       </div>
     </div>
 
-    <!-- Mobile Horizontal Auto-Scrolling Ticker (Right to Left) -->
+    <!-- Mobile Horizontal Auto-Scrolling Ticker (Left to Right) -->
     <div class="stats-mobile-marquee-wrapper">
       <div class="stats-mobile-marquee-content">
         <div class="stat-card">
@@ -389,8 +389,12 @@
   <script src="config.js"></script>
   <script src="app.js"></script>
   <script>
-    function toggleMobileMenu() {
-      document.getElementById('mobileDrawer').classList.toggle('active');
+    function toggleMobileMenu(e) {
+      if (e) e.stopPropagation();
+      const drawer = document.getElementById('mobileDrawer');
+      if (drawer) {
+        drawer.classList.toggle('active');
+      }
     }
 
     function handleLeadSubmit(e) {
