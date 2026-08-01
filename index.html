@@ -3,155 +3,135 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Portal Listing Hartanah Komersial & Industrial Malaysia</title>
-  <meta name="description" content="Portal listing kilang, gudang, tanah industri, dan hartanah komersial terbaik di Selangor, KL, Johor, Penang & Negeri Sembilan.">
+  <title>Industrial Malaysia: Warehouse & Factory for Rent & for Sale</title>
+  <meta name="description" content="Industrial Malaysia lists warehouse & factory for rent & for sale in Malaysia. Find industrial properties including industrial land for your operations.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=5">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-  <!-- Navbar -->
+  <!-- Red Navigation Header (Exact Reference Style: industrialmalaysia.com.my) -->
   <nav class="navbar">
     <a href="index.html" class="logo">
-      <span>Industrial</span>Prop <span class="logo-badge">Malaysia</span>
+      INDUSTRIAL <span>malaysia</span>
     </a>
     <div class="nav-links">
-      <a href="#agentTeamSection" class="nav-btn nav-btn-outline" style="font-size: 0.8rem;">👥 Pasukan Ejen</a>
-      <a href="login.html" class="nav-btn nav-btn-primary" style="font-size: 0.8rem;">Portal Ejen 🔑</a>
+      <a href="https://wa.me/60123880356" target="_blank">WHATSAPP US</a>
+      <a href="#listingsSection">VIEW LISTINGS</a>
+      <a href="#agentTeamSection">AGENTS DIRECTORY</a>
+      <a href="login.html" class="nav-btn-agent">AGENT LOGIN</a>
     </div>
   </nav>
 
-  <!-- Hero Section -->
+  <!-- Hero Section with Warehouse Backdrop -->
   <section class="hero">
-    <h1>Kilang, Gudang & Tanah Industri Untuk Disewa dan Dijual</h1>
-    <p>Cari hartanah industri komprehensif mengikut Negeri & Kawasan di Selangor, Kuala Lumpur, Johor, Penang, dan Negeri Sembilan.</p>
+    <h1>Warehouse, Factory, and Industrial Land for Rent and for Sale</h1>
+    <p>Find industrial real estate properties across Selangor, Kuala Lumpur, Johor, Penang & Negeri Sembilan.</p>
   </section>
 
-  <!-- Mega Filter Section (Rujukan IndustrialMalaysia) -->
+  <!-- Mega Filter Bar (1 Line Inline Desktop Layout) -->
   <div class="filter-card">
-    <div style="font-size: 0.8rem; font-weight: 700; color: var(--accent-amber); margin-bottom: 0.75rem; text-transform: uppercase;">🔍 Carian Spesifik Mengikut Lokasi & Jenis</div>
-    
-    <div class="filter-grid">
-      <div class="filter-group">
-        <label for="filterState">Negeri</label>
-        <select id="filterState">
-          <option value="">Semua Negeri</option>
-          <option value="Selangor">Selangor</option>
-          <option value="Kuala Lumpur">Kuala Lumpur</option>
-          <option value="Johor">Johor</option>
-          <option value="Penang">Penang</option>
-          <option value="Negeri Sembilan">Negeri Sembilan</option>
-        </select>
-      </div>
+    <div class="filter-grid-row">
+      <select id="filterState" class="filter-select">
+        <option value="">SELANGOR (All)</option>
+        <option value="Selangor">SELANGOR</option>
+        <option value="Kuala Lumpur">KUALA LUMPUR</option>
+        <option value="Johor">JOHOR</option>
+        <option value="Penang">PENANG</option>
+        <option value="Negeri Sembilan">NEGERI SEMBILAN</option>
+      </select>
 
-      <div class="filter-group">
-        <label for="filterArea">Kawasan (Area)</label>
-        <select id="filterArea">
-          <option value="">Semua Kawasan</option>
-          <option value="Shah Alam">Shah Alam</option>
-          <option value="Klang">Klang</option>
-          <option value="Subang Jaya">Subang Jaya</option>
-          <option value="Puchong">Puchong</option>
-          <option value="Petaling Jaya">Petaling Jaya</option>
-          <option value="Rawang">Rawang</option>
-          <option value="Banting">Banting</option>
-          <option value="Kepong">Kepong</option>
-          <option value="Batu Caves">Batu Caves</option>
-          <option value="Johor Bahru">Johor Bahru</option>
-          <option value="Bayan Lepas">Bayan Lepas</option>
-          <option value="Nilai">Nilai / Seremban</option>
-        </select>
-      </div>
+      <select id="filterListingType" class="filter-select">
+        <option value="">ANY STATUS (Rent / Sale)</option>
+        <option value="For Rent">RENT</option>
+        <option value="For Sale">SALE</option>
+      </select>
 
-      <div class="filter-group">
-        <label for="filterListingType">Sewa / Jual</label>
-        <select id="filterListingType">
-          <option value="">Semua Status</option>
-          <option value="For Sale">Untuk Dijual (Sale)</option>
-          <option value="For Rent">Untuk Disewa (Rent)</option>
-        </select>
-      </div>
+      <select id="filterType" class="filter-select">
+        <option value="">ANY TYPE</option>
+        <option value="Detached Factory">DETACHED FACTORY</option>
+        <option value="Semi-D Factory">SEMI-DETACHED FACTORY</option>
+        <option value="Warehouse">DETACHED WAREHOUSE</option>
+        <option value="Industrial Land">INDUSTRIAL LAND</option>
+        <option value="Shoplot">COMMERCIAL SHOPLOT</option>
+      </select>
 
-      <div class="filter-group">
-        <label for="filterType">Jenis Hartanah</label>
-        <select id="filterType">
-          <option value="">Semua Jenis</option>
-          <option value="Detached Factory">Kilang Sesebuah (Detached)</option>
-          <option value="Semi-D Factory">Kilang Berkembar (Semi-D)</option>
-          <option value="Warehouse">Gudang / Warehouse</option>
-          <option value="Industrial Land">Tanah Industri</option>
-          <option value="Shoplot">Kedai / Shoplot</option>
-        </select>
-      </div>
+      <select id="filterArea" class="filter-select">
+        <option value="">ANY AREA</option>
+        <option value="Shah Alam">SHAH ALAM</option>
+        <option value="Klang">KLANG</option>
+        <option value="Subang Jaya">SUBANG JAYA</option>
+        <option value="Puchong">PUCHONG</option>
+        <option value="Petaling Jaya">PETALING JAYA</option>
+        <option value="Rawang">RAWANG</option>
+        <option value="Banting">BANTING</option>
+        <option value="Kepong">KEPONG</option>
+        <option value="Batu Caves">BATU CAVES</option>
+        <option value="Johor Bahru">JOHOR BAHRU</option>
+        <option value="Bayan Lepas">BAYAN LEPAS</option>
+        <option value="Nilai">NILAI / SEREMBAN</option>
+      </select>
 
-      <div class="filter-group">
-        <label for="filterZoning">Zon Industri</label>
-        <select id="filterZoning">
-          <option value="">Semua Zon</option>
-          <option value="Light Industry">Industri Ringan (Light)</option>
-          <option value="Medium Industry">Industri Sederhana (Medium)</option>
-          <option value="Heavy Industry">Industri Berat (Heavy)</option>
-        </select>
-      </div>
-
-      <div class="filter-group">
-        <label for="searchKeyword">Kata Kunci Carian</label>
-        <input type="text" id="searchKeyword" placeholder="cth: Telok Gong, 1000 Amp...">
-      </div>
+      <button id="btnSearch" class="btn-show-listings">SHOW LISTINGS</button>
     </div>
   </div>
 
   <!-- Listings Grid Section -->
-  <main class="container">
+  <main id="listingsSection" class="container">
     <div class="section-title">
-      <h2>Listing Hartanah Terkini (<span id="totalCount">0</span>)</h2>
+      <h2>Industrial Properties Listings (<span id="totalCount">0</span>)</h2>
     </div>
 
     <div id="listingsContainer" class="listing-grid">
-      <div class="loading-spinner">Mengecas data listing dari Supabase...</div>
+      <div class="loading-spinner" style="text-align: center; color: var(--text-muted); padding: 2rem;">Fetching property listings...</div>
     </div>
   </main>
 
-  <!-- Agent Directory / Team Section (Rujukan IndustrialMalaysia) -->
+  <!-- Agent Directory Section (Reference: Experienced Industrial Real Estate Agents) -->
   <section id="agentTeamSection" class="container" style="padding-top: 1rem;">
-    <div class="section-title" style="border-top: 1px solid var(--border); padding-top: 2.5rem; margin-top: 1rem;">
+    <div class="section-title" style="border-top: 1px solid var(--border); padding-top: 2rem;">
       <div>
-        <h2>Pasukan Ejen Khas Mengikut Kawasan</h2>
-        <p style="font-size: 0.88rem; color: var(--text-muted);">Hubungi perunding hartanah industri mengikut zon kepakaran lokasi anda.</p>
+        <h2 style="color: var(--nav-red);">Experienced Industrial Real Estate Agents & Negotiators</h2>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">Contact our specialized industrial real estate negotiators to get started on your property transaction.</p>
       </div>
     </div>
 
-    <div class="listing-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+    <div class="listing-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); margin-top: 1rem;">
 
-      <div class="property-card" style="padding: 1.25rem; text-align: center; align-items: center;">
-        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=300&q=80" style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-amber); margin-bottom: 0.75rem;" />
-        <h3 style="font-size: 1.1rem; color: var(--text-main);">En. Huzaim Rosli</h3>
-        <div style="font-size: 0.78rem; color: var(--accent-amber); font-weight: 700; margin-bottom: 0.35rem;">SHAH ALAM & KLANG</div>
-        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Pakar Kilang Sesebuah & Gudang Logistik</div>
-        <a href="https://wa.me/60123456789?text=Helo%20En.%20Huzaim,%20saya%20berminat%20dengan%20listing%20Shah%20Alam/Klang." target="_blank" class="btn-whatsapp" style="width: 100%;">💬 WhatsApp (012-345 6789)</a>
+      <div class="agent-card">
+        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=300&q=80" class="agent-img" alt="Jason Gan">
+        <div class="agent-name">Jason Gan</div>
+        <div class="agent-zone">PUCHONG & KAJANG</div>
+        <div class="agent-desc">Real Estate Negotiator (E 2941)<br>Gather Properties Sdn Bhd</div>
+        <a href="https://wa.me/60122229636" target="_blank" class="btn-whatsapp" style="width: 100%;">💬 WhatsApp 012-222 9636</a>
       </div>
 
-      <div class="property-card" style="padding: 1.25rem; text-align: center; align-items: center;">
-        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80" style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); margin-bottom: 0.75rem;" />
-        <h3 style="font-size: 1.1rem; color: var(--text-main);">Pn. Sarah Tan</h3>
-        <div style="font-size: 0.78rem; color: var(--primary); font-weight: 700; margin-bottom: 0.35rem;">PUCHONG & SUBANG JAYA</div>
-        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Pakar Kilang Semi-D & Shoplot Komersial</div>
-        <a href="https://wa.me/60198765432?text=Helo%20Pn.%20Sarah,%20saya%20berminat%20dengan%20listing%20Puchong/Subang." target="_blank" class="btn-whatsapp" style="width: 100%;">💬 WhatsApp (019-876 5432)</a>
+      <div class="agent-card">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80" class="agent-img" alt="Pn. Sarah Tan">
+        <div class="agent-name">Sarah Tan</div>
+        <div class="agent-zone">SHAH ALAM & KLANG</div>
+        <div class="agent-desc">Industrial Property Specialist<br>Gather Properties Sdn Bhd</div>
+        <a href="https://wa.me/60198765432" target="_blank" class="btn-whatsapp" style="width: 100%;">💬 WhatsApp 019-876 5432</a>
       </div>
 
-      <div class="property-card" style="padding: 1.25rem; text-align: center; align-items: center;">
-        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=300&q=80" style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-emerald); margin-bottom: 0.75rem;" />
-        <h3 style="font-size: 1.1rem; color: var(--text-main);">En. Jason Gan</h3>
-        <div style="font-size: 0.78rem; color: var(--accent-emerald); font-weight: 700; margin-bottom: 0.35rem;">JOHOR & PENANG ZONES</div>
-        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Pakar Tanah Industri & Heavy Industry</div>
-        <a href="https://wa.me/601122334455?text=Helo%20En.%20Jason,%20saya%20berminat%20dengan%20listing%20Johor/Penang." target="_blank" class="btn-whatsapp" style="width: 100%;">💬 WhatsApp (011-2233 4455)</a>
+      <div class="agent-card">
+        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=300&q=80" class="agent-img" alt="En. Huzaim Rosli">
+        <div class="agent-name">Huzaim Rosli</div>
+        <div class="agent-zone">SUBANG & PETALING JAYA</div>
+        <div class="agent-desc">Senior Industrial Consultant<br>Gather Properties Sdn Bhd</div>
+        <a href="https://wa.me/60123456789" target="_blank" class="btn-whatsapp" style="width: 100%;">💬 WhatsApp 012-345 6789</a>
       </div>
 
     </div>
   </section>
+
+  <!-- Footer -->
+  <footer style="background: #0f172a; color: #94a3b8; text-align: center; padding: 2rem 1rem; margin-top: auto; font-size: 0.85rem;">
+    <p>© 2026 Industrial Malaysia. All Rights Reserved. Powered by Cloudflare Pages & Supabase.</p>
+  </footer>
 
   <!-- Modal Detail View -->
   <div id="detailModal" class="modal-overlay">
