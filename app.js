@@ -1,10 +1,35 @@
-// App.js - Public Portal Logic with Clean SVG WhatsApp Buttons
+// App.js - Public Portal Logic with URL Deep-Linking & Copy WhatsApp Share Link
 let allListings = [];
 
 document.addEventListener('DOMContentLoaded', () => {
   fetchListings();
   setupFilterListeners();
 });
+
+// Helper: Copy WhatsApp Share Link to Clipboard
+function copyShareLink(id, title) {
+  const shareUrl = `${window.location.origin}${window.location.pathname}?id=${id}`;
+  
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      alert(`🔗 Pautan WhatsApp untuk listing "${title}" telah berjaya disalin!\n\n${shareUrl}\n\nAnda boleh paste terus di WhatsApp.`);
+    }).catch(err => {
+      fallbackCopyText(shareUrl);
+    });
+  } else {
+    fallbackCopyText(shareUrl);
+  }
+}
+
+function fallbackCopyText(text) {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  document.body.appendChild(textArea);
+  textArea.select();
+  document.execCommand("copy");
+  document.body.removeChild(textArea);
+  alert(`🔗 Pautan listing telah disalin!\n\n${text}`);
+}
 
 // Fetch listings from Supabase
 async function fetchListings() {
@@ -28,9 +53,22 @@ async function fetchListings() {
 
     allListings = data || [];
     renderListings(allListings);
+
+    // ⚡ Auto-open listing modal if URL has ?id=xxx parameter
+    checkUrlQueryParams();
+
   } catch (err) {
     console.error('Unexpected error:', err);
     container.innerHTML = '<div class="empty-state">An unexpected error occurred.</div>';
+  }
+}
+
+// Check URL Query Parameters for Auto-Opening Deep Links
+function checkUrlQueryParams() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const targetId = urlParams.get('id');
+  if (targetId && allListings.length > 0) {
+    openModal(targetId);
   }
 }
 
@@ -57,19 +95,22 @@ function renderListings(listings) {
       : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80';
 
     const phone = item.agent_phone || '60108118559';
-    const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}\nPlease provide more details.`);
+    const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}\nLink: ${window.location.origin}/listings.html?id=${item.id}`);
     const waUrl = `https://wa.me/${phone}?text=${waText}`;
+
+    // Clean Title for JS string safety
+    const safeTitle = item.title.replace(/'/g, "\\'");
 
     return `
       <div class="property-card">
-        <div class="card-img-wrap">
+        <div class="card-img-wrap" onclick="openModal('${item.id}')" style="cursor: pointer;">
           <img src="${mainImg}" alt="${item.title}" class="card-img" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80'">
           <span class="badge-tag">${item.property_type} (${item.listing_type})</span>
           <span class="badge-status">${item.status}</span>
         </div>
         <div class="card-body">
           <div class="card-price">${formattedPrice}</div>
-          <h3 class="card-title">${item.title}</h3>
+          <h3 class="card-title" onclick="openModal('${item.id}')" style="cursor: pointer;">${item.title}</h3>
           <div class="card-location">📍 ${item.location}</div>
           
           <div class="spec-grid">
@@ -93,9 +134,10 @@ function renderListings(listings) {
 
           <div class="card-actions">
             <a href="${waUrl}" target="_blank" class="btn-whatsapp">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg> WhatsApp Agent
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg> WhatsApp
             </a>
-            <button onclick="openModal('${item.id}')" class="btn-detail">View Details</button>
+            <button onclick="copyShareLink('${item.id}', '${safeTitle}')" class="btn-detail" title="Copy WhatsApp Link" style="padding: 0.65rem 0.65rem;">🔗 Share</button>
+            <button onclick="openModal('${item.id}')" class="btn-detail">Details</button>
           </div>
         </div>
       </div>
@@ -150,7 +192,7 @@ function setupFilterListeners() {
   if (keyword) keyword.addEventListener('input', applyFilters);
 }
 
-// Open Detail View Modal
+// Open Detail View Modal & Update Browser URL dynamically
 function openModal(id) {
   const item = allListings.find(x => x.id === id);
   if (!item) return;
@@ -159,7 +201,8 @@ function openModal(id) {
   const modalBody = document.getElementById('modalBody');
 
   const phone = item.agent_phone || '60108118559';
-  const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your property listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}`);
+  const shareUrl = `${window.location.origin}${window.location.pathname}?id=${item.id}`;
+  const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your property listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}\nPautan: ${shareUrl}`);
   const waUrl = `https://wa.me/${phone}?text=${waText}`;
 
   let imagesHtml = '';
@@ -171,9 +214,11 @@ function openModal(id) {
     `;
   }
 
+  const safeTitle = item.title.replace(/'/g, "\\'");
+
   modalBody.innerHTML = `
-    <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--text-main);">${item.title}</h2>
-    <div style="font-size: 1.5rem; font-weight: 800; color: var(--nav-red); margin-bottom: 1rem;">${formattedPrice} (${item.listing_type})</div>
+    <h2 style="font-size: 1.4rem; margin-bottom: 0.35rem; color: var(--text-main); line-height: 1.25;">${item.title}</h2>
+    <div style="font-size: 1.35rem; font-weight: 900; color: var(--cem-red); margin-bottom: 1rem;">${formattedPrice} (${item.listing_type})</div>
     
     ${imagesHtml}
 
@@ -192,16 +237,31 @@ function openModal(id) {
     <h4 style="margin-bottom: 0.5rem; font-size: 1rem; color: var(--text-main);">Full Description & Specifications:</h4>
     <p style="color: var(--text-muted); font-size: 0.95rem; white-space: pre-line; margin-bottom: 1.5rem;">${item.description || 'No additional description provided.'}</p>
 
-    <div style="display: flex; gap: 1rem;">
+    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
       <a href="${waUrl}" target="_blank" class="btn-whatsapp" style="padding: 0.8rem 1.25rem;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg> Contact Agent on WhatsApp
       </a>
+      <button onclick="copyShareLink('${item.id}', '${safeTitle}')" class="btn-detail" style="padding: 0.8rem 1.25rem; font-weight: 800; background: var(--bg-subtle);">
+        🔗 Copy Share Link
+      </button>
     </div>
   `;
+
+  // ⚡ Dynamically update URL in browser without page reload
+  if (history.pushState) {
+    const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?id=${item.id}`;
+    window.history.pushState({ path: newUrl }, '', newUrl);
+  }
 
   document.getElementById('detailModal').classList.add('active');
 }
 
 function closeModal() {
   document.getElementById('detailModal').classList.remove('active');
+  
+  // ⚡ Reset URL back to listings.html clean URL
+  if (history.pushState) {
+    const cleanUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+    window.history.pushState({ path: cleanUrl }, '', cleanUrl);
+  }
 }
