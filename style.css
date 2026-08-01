@@ -1154,4 +1154,17 @@ body {
   .card-actions {
     grid-template-columns: 1fr;
   }
+
+  /* ⚡ Mobile Grid Stacking Fix (375px & iPhone/Android) */
+  .about-grid-2col,
+  .about-grid-3col,
+  .about-pillars-grid,
+  .services-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .neat-card {
+    padding: 1.25rem 1rem !important;
+  }
 }
