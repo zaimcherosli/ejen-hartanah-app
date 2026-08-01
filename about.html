@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=25">
+  <link rel="stylesheet" href="style.css?v=26">
 </head>
 <body>
 
@@ -49,81 +49,83 @@
   </div>
 
   <!-- Hero Section -->
-  <section class="hero" style="padding: 3.5rem 1.5rem 2.5rem 1.5rem;">
+  <section class="hero" style="padding: 3rem 1.25rem 2rem 1.25rem;">
     <h1>About Corporate Estate Malaysia</h1>
-    <p style="font-size: 1.15rem; font-weight: 800; color: var(--cem-red); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem;">Leading Real Estate Industrial - Commercial - Land</p>
-    <p>Malaysia's premier commercial & industrial real estate agency representing multinational corporations, industrial developers, and institutional investors.</p>
+    <p style="font-size: 1.1rem; font-weight: 800; color: var(--cem-red); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem;">Leading Real Estate Industrial - Commercial - Land</p>
+    <p style="max-width: 820px; margin: 0 auto;">Malaysia's premier commercial & industrial real estate agency representing multinational corporations, industrial developers, and institutional investors.</p>
   </section>
 
   <!-- Main Corporate Overview Section -->
   <main class="container">
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: center; margin-bottom: 3.5rem;" class="form-2col">
+    
+    <!-- 2-Col Responsive Grid (Desktop 2-Col / Tablet & Mobile Stack 1-Col) -->
+    <div class="about-grid-2col" style="margin-bottom: 3.5rem;">
       <div>
-        <span style="background: rgba(211, 30, 40, 0.1); color: var(--cem-red); font-size: 0.78rem; font-weight: 800; padding: 0.3rem 0.75rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em;">WHO WE ARE</span>
-        <h2 style="font-size: 1.85rem; font-weight: 900; color: var(--cem-navy); margin: 0.75rem 0 1rem 0; line-height: 1.25;">Unrivaled Expertise in Malaysian Industrial & Commercial Property</h2>
-        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem;">
+        <span style="background: rgba(211, 30, 40, 0.1); color: var(--cem-red); font-size: 0.78rem; font-weight: 800; padding: 0.3rem 0.75rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; margin-bottom: 0.5rem;">WHO WE ARE</span>
+        <h2 style="font-size: 1.75rem; font-weight: 900; color: var(--cem-navy); margin-bottom: 1rem; line-height: 1.25;">Unrivaled Expertise in Malaysian Industrial & Commercial Property</h2>
+        <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.7; margin-bottom: 1rem;">
           Established as a dominant force in the commercial and industrial real estate sector, <strong>Corporate Estate Malaysia (CEM)</strong> has facilitated over <strong>RM 500 Million+</strong> in cumulative transaction volume across key economic corridors in Selangor, Kuala Lumpur, Johor, Penang, and Negeri Sembilan.
         </p>
-        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+        <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.7;">
           We specialize in high-spec logistics warehouses, detached manufacturing facilities, zoned industrial land plots, and commercial retail headquarters. Our team combines deep technical due diligence (power supply amps, ceiling clearances, floor load capacity) with comprehensive regulatory advisory for Department of Environment (DOE), MIDA, and local council operating permits.
         </p>
       </div>
 
       <div>
-        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1000&q=80" alt="Corporate Industrial Logistics Facility" style="width: 100%; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-strong); height: 340px; object-fit: cover;">
+        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1000&q=80" alt="Corporate Industrial Logistics Facility" style="width: 100%; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--border-strong); height: 100%; min-height: 260px; max-height: 360px; object-fit: cover;">
       </div>
     </div>
 
-    <!-- Vision, Mission & Core Values Grid -->
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3.5rem;" class="form-2col">
-      <div style="background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 10px; padding: 1.75rem;">
+    <!-- Vision, Mission & Core Values 3-Col Grid (Tablet/Mobile Stack 1-Col) -->
+    <div class="about-grid-3col" style="margin-bottom: 3.5rem;">
+      <div style="background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;">
         <span style="font-size: 2.2rem; display: block; margin-bottom: 0.75rem;">🎯</span>
-        <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.5rem;">Our Mission</h3>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.5rem;">Our Mission</h3>
         <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">To provide seamless, technical, and high-yield real estate solutions for industrial manufacturers, logistics operators, and corporate investors across Malaysia.</p>
       </div>
 
-      <div style="background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 10px; padding: 1.75rem;">
+      <div style="background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;">
         <span style="font-size: 2.2rem; display: block; margin-bottom: 0.75rem;">🔭</span>
-        <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.5rem;">Our Vision</h3>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.5rem;">Our Vision</h3>
         <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">To be recognized as the premier, trusted B2B industrial & commercial real estate agency across Southeast Asia through technical excellence and client commitment.</p>
       </div>
 
-      <div style="background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 10px; padding: 1.75rem;">
+      <div style="background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;">
         <span style="font-size: 2.2rem; display: block; margin-bottom: 0.75rem;">⚖️</span>
-        <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.5rem;">Our Core Values</h3>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.5rem;">Our Core Values</h3>
         <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">Technical precision, uncompromising integrity, client confidentiality, and rapid transaction execution for all asset acquisitions.</p>
       </div>
     </div>
 
     <!-- Why Choose Corporate Estate Malaysia (5 Pillars of Excellence) -->
-    <div style="background: var(--cem-navy); color: white; border-radius: 14px; padding: 2.5rem 2rem; margin-bottom: 3.5rem;">
+    <div style="background: var(--cem-navy); color: white; border-radius: 14px; padding: 2.5rem 1.5rem; margin-bottom: 3.5rem;">
       <div style="text-align: center; max-width: 700px; margin: 0 auto 2rem auto;">
-        <span style="color: var(--cem-orange); font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em;">5 PILLARS OF EXCELLENCE</span>
-        <h2 style="font-size: 1.75rem; font-weight: 900; margin-top: 0.35rem;">Why Corporate Clients Partner With Us</h2>
+        <span style="color: var(--cem-orange); font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em;">5 PILLARS OF EXCELLENCE</span>
+        <h2 style="font-size: 1.65rem; font-weight: 900; margin-top: 0.35rem;">Why Corporate Clients Partner With Us</h2>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
+      <div class="about-pillars-grid">
         <div style="background: rgba(255, 255, 255, 0.06); padding: 1.25rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);">
-          <div style="font-size: 1.5rem; color: var(--cem-orange); font-weight: 900; margin-bottom: 0.25rem;">01</div>
-          <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 0.35rem;">Industrial Zoning Mastery</h4>
+          <div style="font-size: 1.4rem; color: var(--cem-orange); font-weight: 900; margin-bottom: 0.25rem;">01</div>
+          <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 0.35rem;">Industrial Zoning Mastery</h4>
           <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">Expert guidance across Light, Medium, and Heavy Industrial zones for chemical, food grade, & manufacturing setups.</p>
         </div>
 
         <div style="background: rgba(255, 255, 255, 0.06); padding: 1.25rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);">
-          <div style="font-size: 1.5rem; color: var(--cem-orange); font-weight: 900; margin-bottom: 0.25rem;">02</div>
-          <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 0.35rem;">Utility Infrastructure Assessment</h4>
+          <div style="font-size: 1.4rem; color: var(--cem-orange); font-weight: 900; margin-bottom: 0.25rem;">02</div>
+          <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 0.35rem;">Utility Infrastructure Assessment</h4>
           <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">Direct verification of TNB power substations (up to 1,000+ Amp), natural gas lines, & water flow rates.</p>
         </div>
 
         <div style="background: rgba(255, 255, 255, 0.06); padding: 1.25rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);">
-          <div style="font-size: 1.5rem; color: var(--cem-orange); font-weight: 900; margin-bottom: 0.25rem;">03</div>
-          <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 0.35rem;">Regulatory Compliance</h4>
+          <div style="font-size: 1.4rem; color: var(--cem-orange); font-weight: 900; margin-bottom: 0.25rem;">03</div>
+          <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 0.35rem;">Regulatory Compliance</h4>
           <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">End-to-end liaison with Department of Environment (DOE), MIDA, Fire Department (Bomba), and local councils.</p>
         </div>
 
         <div style="background: rgba(255, 255, 255, 0.06); padding: 1.25rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);">
-          <div style="font-size: 1.5rem; color: var(--cem-orange); font-weight: 900; margin-bottom: 0.25rem;">04</div>
-          <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 0.35rem;">Structured Sale & Leaseback</h4>
+          <div style="font-size: 1.4rem; color: var(--cem-orange); font-weight: 900; margin-bottom: 0.25rem;">04</div>
+          <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 0.35rem;">Structured Sale & Leaseback</h4>
           <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">Tailored financial structuring to help operating companies monetize real estate capital without disruption.</p>
         </div>
       </div>
@@ -131,42 +133,42 @@
 
     <!-- Corporate Headquarters & Contact Form Section -->
     <div class="lead-box-container">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;" class="form-2col">
+      <div class="about-grid-2col">
         <div>
           <span style="color: var(--cem-red); font-weight: 800; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em;">GET IN TOUCH</span>
           <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--cem-navy); margin: 0.35rem 0 1rem 0;">Corporate Headquarters & Contact Info</h2>
           
           <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.9rem; color: var(--text-muted);">
             <div>
-              <strong style="color: var(--text-main); display: block; font-size: 0.95rem;">📍 Shah Alam Headquarters:</strong>
+              <strong style="color: var(--text-main); display: block; font-size: 0.92rem;">📍 Shah Alam Headquarters:</strong>
               Corporate Estate Malaysia Office, Seksyen 15 Industrial Park, 40200 Shah Alam, Selangor.
             </div>
 
             <div>
-              <strong style="color: var(--text-main); display: block; font-size: 0.95rem;">📞 Direct Hotline / WhatsApp:</strong>
+              <strong style="color: var(--text-main); display: block; font-size: 0.92rem;">📞 Direct Hotline / WhatsApp:</strong>
               +60 10-811 8559 / +60 12-388 0356
             </div>
 
             <div>
-              <strong style="color: var(--text-main); display: block; font-size: 0.95rem;">✉️ Corporate Email:</strong>
+              <strong style="color: var(--text-main); display: block; font-size: 0.92rem;">✉️ Corporate Email:</strong>
               enquiry@corporateestate.com.my
             </div>
 
             <div>
-              <strong style="color: var(--text-main); display: block; font-size: 0.95rem;">🕒 Operating Hours:</strong>
+              <strong style="color: var(--text-main); display: block; font-size: 0.92rem;">🕒 Operating Hours:</strong>
               Monday – Friday: 9:00 AM – 6:00 PM (SGT/MYT)
             </div>
           </div>
         </div>
 
         <div>
-          <form onsubmit="handleAboutContactSubmit(event)" class="lead-form" style="grid-template-columns: 1fr;">
-            <input type="text" id="aboutName" placeholder="Full Name *" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
-            <input type="email" id="aboutEmail" placeholder="Corporate Email Address *" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
-            <input type="tel" id="aboutPhone" placeholder="Phone Number / WhatsApp *" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
-            <textarea id="aboutMessage" rows="3" placeholder="How can Corporate Estate Malaysia assist your industrial transaction?" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem; font-family: inherit;"></textarea>
+          <form onsubmit="handleAboutContactSubmit(event)" style="display: flex; flex-direction: column; gap: 0.85rem;">
+            <input type="text" id="aboutName" placeholder="Full Name *" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.88rem;">
+            <input type="email" id="aboutEmail" placeholder="Corporate Email Address *" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.88rem;">
+            <input type="tel" id="aboutPhone" placeholder="Phone Number / WhatsApp *" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.88rem;">
+            <textarea id="aboutMessage" rows="3" placeholder="How can Corporate Estate Malaysia assist your industrial transaction?" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.88rem; font-family: inherit; resize: vertical;"></textarea>
             
-            <button type="submit" class="btn-show-listings" style="height: 48px;">SEND ENQUIRY TO CEM</button>
+            <button type="submit" class="btn-show-listings" style="height: 48px; width: 100%;">SEND ENQUIRY TO CEM</button>
           </form>
         </div>
       </div>
