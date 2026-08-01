@@ -19,6 +19,30 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css?v=32">
+  <style>
+    /* Inline override — no cache dependency */
+    .svc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    @media (max-width: 768px) {
+      .svc-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+      }
+      .lead-box-container {
+        padding: 1.25rem 1rem !important;
+      }
+      .lead-form {
+        grid-template-columns: 1fr !important;
+      }
+      .lead-full-width {
+        grid-column: span 1 !important;
+      }
+    }
+  </style>
 </head>
 <body>
 
