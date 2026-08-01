@@ -1,0 +1,3 @@
+# Cloudflare Pages Clean Sub-Path Rewrite Rule for Real Estate Listings
+# Rewrites /listings/* to /listings.html cleanly without infinite loops
+/listings/* /listings.html 200
