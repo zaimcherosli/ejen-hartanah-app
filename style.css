@@ -500,6 +500,7 @@ body {
   padding: 1.5rem;
   box-shadow: var(--shadow);
   max-width: 100%;
+  overflow: hidden;
 }
 
 .form-2col {
@@ -507,6 +508,18 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
   margin-bottom: 0.85rem;
+}
+
+/* Desktop Inventory Table Container */
+.inventory-desktop-table-wrap {
+  display: block;
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* Mobile Inventory App Cards View Container (Hidden on Desktop) */
+.inventory-mobile-cards-container {
+  display: none;
 }
 
 /* Property Cards Grid */
@@ -871,7 +884,105 @@ body {
   }
 }
 
+/* ⚡ MOBILE APPS & IPHONE SE (375PX) BREAKPOINT OVERHAUL */
 @media (max-width: 640px) {
+  /* Hide Desktop Table and Show Sleek 100% Fit Mobile Cards (Zero Side-Scroll!) */
+  .inventory-desktop-table-wrap {
+    display: none !important;
+  }
+
+  .inventory-mobile-cards-container {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .inv-card-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #ffffff;
+    border: 1px solid var(--border-strong);
+    padding: 0.75rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    position: relative;
+  }
+
+  .inv-card-thumb {
+    width: 64px;
+    height: 58px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+  }
+
+  .inv-card-details {
+    flex-grow: 1;
+    min-width: 0; /* Prevents text overflow flexbox wrap issues */
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .inv-card-title {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.25;
+  }
+
+  .inv-card-sub {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .inv-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.15rem;
+  }
+
+  .inv-card-price {
+    font-size: 0.86rem;
+    font-weight: 800;
+    color: var(--cem-red);
+  }
+
+  .inv-card-badge {
+    background: rgba(16, 185, 129, 0.12);
+    color: #059669;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+
+  .inv-card-delete {
+    width: 36px;
+    height: 36px;
+    background: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
   .navbar {
     padding: 0.65rem 1rem;
   }
@@ -885,7 +996,7 @@ body {
   }
 
   .agent-portal-badge {
-    display: none; /* Hide badge on 375px screens so logo doesn't overflow */
+    display: none;
   }
 
   .hero {

@@ -1,4 +1,4 @@
-// Dashboard.js - Agent Management Logic with Auto Compression & Auto Storage Cleanup
+// Dashboard.js - Agent Management Logic with Auto Compression & Responsive Mobile Cards
 let currentUser = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -80,9 +80,11 @@ function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.75) 
   });
 }
 
-// Load Listing Table
+// Load Listing Inventory for both Desktop Table & Mobile App Cards
 async function loadAgentListings() {
   const tbody = document.getElementById('agentListingsTbody');
+  const mobileContainer = document.getElementById('agentListingsMobileCards');
+
   try {
     const { data, error } = await supabaseClient
       .from('listings')
@@ -90,42 +92,71 @@ async function loadAgentListings() {
       .order('created_at', { ascending: false });
 
     if (error) {
-      tbody.innerHTML = `<tr><td colspan="5" style="color: #f43f5e; text-align: center;">Error: ${error.message}</td></tr>`;
+      if (tbody) tbody.innerHTML = `<tr><td colspan="5" style="color: #f43f5e; text-align: center;">Error: ${error.message}</td></tr>`;
+      if (mobileContainer) mobileContainer.innerHTML = `<div style="color: #f43f5e; text-align: center; padding: 1rem;">Error: ${error.message}</div>`;
       return;
     }
 
     if (!data || data.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">Belum ada listing. Sila tambah di borang sebelah.</td></tr>`;
+      const emptyMsg = `Belum ada listing. Sila tambah di borang di atas/sebelah.`;
+      if (tbody) tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">${emptyMsg}</td></tr>`;
+      if (mobileContainer) mobileContainer.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 1.5rem;">${emptyMsg}</div>`;
       return;
     }
 
-    tbody.innerHTML = data.map(item => {
-      const formattedPrice = new Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR', maximumFractionDigits: 0 }).format(item.asking_price);
-      const thumb = (item.images && item.images.length > 0) ? item.images[0] : 'https://via.placeholder.com/80?text=No+Image';
+    // 1. Render Desktop Table Rows
+    if (tbody) {
+      tbody.innerHTML = data.map(item => {
+        const formattedPrice = new Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR', maximumFractionDigits: 0 }).format(item.asking_price);
+        const thumb = (item.images && item.images.length > 0) ? item.images[0] : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80';
 
-      return `
-        <tr>
-          <td style="padding: 0.65rem 0.5rem;">
-            <img src="${thumb}" style="width: 54px; height: 42px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border);" onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80'" />
-          </td>
-          <td style="padding: 0.65rem 0.5rem;">
-            <strong style="color: var(--text-main); font-size: 0.88rem; display: block; line-height: 1.25;">${item.title}</strong>
-            <span style="font-size: 0.76rem; color: var(--text-muted); display: block; margin-top: 0.15rem;">${item.location} • ${item.property_type}</span>
-          </td>
-          <td style="padding: 0.65rem 0.5rem; color: var(--cem-red); font-weight: 800; font-size: 0.88rem; white-space: nowrap;">${formattedPrice}</td>
-          <td style="padding: 0.65rem 0.5rem;">
-            <span style="background: rgba(16,185,129,0.12); color: #059669; padding: 0.25rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700; white-space: nowrap;">
-              ${item.status}
-            </span>
-          </td>
-          <td style="padding: 0.65rem 0.5rem; text-align: center;">
-            <button onclick="deleteListing('${item.id}')" title="Delete Listing" style="background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; width: 32px; height: 32px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s;" onmouseover="this.style.background='#fca5a5'" onmouseout="this.style.background='#fee2e2'">
-              🗑️
-            </button>
-          </td>
-        </tr>
-      `;
-    }).join('');
+        return `
+          <tr>
+            <td style="padding: 0.65rem 0.5rem;">
+              <img src="${thumb}" style="width: 54px; height: 42px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border);" onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80'" />
+            </td>
+            <td style="padding: 0.65rem 0.5rem;">
+              <strong style="color: var(--text-main); font-size: 0.88rem; display: block; line-height: 1.25;">${item.title}</strong>
+              <span style="font-size: 0.76rem; color: var(--text-muted); display: block; margin-top: 0.15rem;">${item.location} • ${item.property_type}</span>
+            </td>
+            <td style="padding: 0.65rem 0.5rem; color: var(--cem-red); font-weight: 800; font-size: 0.88rem; white-space: nowrap;">${formattedPrice}</td>
+            <td style="padding: 0.65rem 0.5rem;">
+              <span style="background: rgba(16,185,129,0.12); color: #059669; padding: 0.25rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700; white-space: nowrap;">
+                ${item.status}
+              </span>
+            </td>
+            <td style="padding: 0.65rem 0.5rem; text-align: center;">
+              <button onclick="deleteListing('${item.id}')" title="Delete Listing" style="background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; width: 34px; height: 34px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s;">
+                🗑️
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // 2. Render 100% Zero-Side-Scroll Mobile App Cards
+    if (mobileContainer) {
+      mobileContainer.innerHTML = data.map(item => {
+        const formattedPrice = new Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR', maximumFractionDigits: 0 }).format(item.asking_price);
+        const thumb = (item.images && item.images.length > 0) ? item.images[0] : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80';
+
+        return `
+          <div class="inv-card-item">
+            <img src="${thumb}" class="inv-card-thumb" onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80'" />
+            <div class="inv-card-details">
+              <div class="inv-card-title">${item.title}</div>
+              <div class="inv-card-sub">📍 ${item.location} • ${item.property_type}</div>
+              <div class="inv-card-meta">
+                <span class="inv-card-price">${formattedPrice}</span>
+                <span class="inv-card-badge">${item.status}</span>
+              </div>
+            </div>
+            <button onclick="deleteListing('${item.id}')" class="inv-card-delete" title="Delete Listing">🗑️</button>
+          </div>
+        `;
+      }).join('');
+    }
 
   } catch (err) {
     console.error('Load listings error:', err);
