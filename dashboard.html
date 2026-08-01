@@ -7,18 +7,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=9">
+  <link rel="stylesheet" href="style.css?v=16">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-  <!-- Red Navigation Header -->
+  <!-- Clean White Navigation Header with Official CEM Logo -->
   <nav class="navbar">
-    <a href="index.html" class="logo">
-      CORPORATE ESTATE <span>malaysia</span> <span class="logo-badge">AGENT PORTAL</span>
+    <a href="index.html" class="logo-wrap">
+      <img src="logo.png" alt="Corporate Estate Malaysia Logo" class="logo-img">
+      <div class="logo-text">
+        CORPORATE ESTATE <span>MALAYSIA</span>
+      </div>
+      <span style="background: var(--cem-navy); color: #ffffff; font-size: 0.68rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 4px; margin-left: 0.5rem; letter-spacing: 0.05em;">AGENT PORTAL</span>
     </a>
     <div class="nav-links">
-      <span style="color: white; font-size: 0.82rem;">Logged in: <strong id="agentEmail">...</strong></span>
+      <span style="color: var(--text-main); font-size: 0.85rem; font-weight: 600;">Logged in: <strong id="agentEmail" style="color: var(--cem-red);">...</strong></span>
       <button id="btnLogout" class="nav-btn-agent" style="cursor: pointer;">LOGOUT</button>
     </div>
   </nav>
@@ -26,14 +30,14 @@
   <main class="container" style="padding-top: 2rem;">
     <div class="section-title">
       <h2>Agent Listing Management Dashboard</h2>
-      <a href="index.html" target="_blank" style="color: var(--nav-red); font-weight: 700; font-size: 0.88rem; text-decoration: none;">🌐 Preview Live Main Site →</a>
+      <a href="index.html" target="_blank" style="color: var(--cem-red); font-weight: 800; font-size: 0.88rem; text-decoration: none;">🌐 Preview Live Main Site →</a>
     </div>
 
     <div style="display: grid; grid-template-columns: 380px 1fr; gap: 2rem;">
 
       <!-- Add Listing Form Card -->
       <div style="background: #ffffff; border: 1px solid var(--border-strong); border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow);">
-        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--nav-red); margin-bottom: 1rem;">+ Add New Property Listing</h3>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-red); margin-bottom: 1rem;">+ Add New Property Listing</h3>
         
         <form id="addListingForm">
           <div style="margin-bottom: 0.85rem;">

@@ -7,11 +7,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=9">
+  <link rel="stylesheet" href="style.css?v=16">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     body {
-      background: #0f172a;
+      background: #f8fafc;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -24,7 +24,8 @@
       padding: 2.5rem;
       max-width: 420px;
       width: 100%;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 20px 40px rgba(0, 39, 66, 0.12);
+      border: 1px solid var(--border-strong);
     }
   </style>
 </head>
@@ -32,11 +33,11 @@
 
   <div class="login-card">
     <div style="text-align: center; margin-bottom: 1.5rem;">
-      <a href="index.html" class="logo" style="justify-content: center; color: var(--nav-red); font-size: 1.3rem;">
-        CORPORATE ESTATE <span style="color: #0f172a;">malaysia</span>
+      <a href="index.html" class="logo-wrap" style="justify-content: center; margin-bottom: 0.5rem;">
+        <img src="logo.png" alt="Corporate Estate Malaysia Logo" style="height: 52px; width: auto;">
       </a>
-      <p style="font-size: 0.78rem; font-weight: 800; color: var(--nav-red); text-transform: uppercase; margin-top: 0.25rem;">Leading Real Estate Industrial - Commercial - Land</p>
-      <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-top: 1rem;">Agent Portal Login</h2>
+      <p style="font-size: 0.78rem; font-weight: 800; color: var(--cem-red); text-transform: uppercase; margin-top: 0.5rem;">Leading Real Estate Industrial - Commercial - Land</p>
+      <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--cem-navy); margin-top: 1rem;">Agent Portal Login</h2>
     </div>
 
     <form id="loginForm">
@@ -56,7 +57,7 @@
     </form>
 
     <div style="text-align: center; margin-top: 1.5rem;">
-      <a href="index.html" style="font-size: 0.82rem; color: var(--text-muted); text-decoration: none;">← Back to Main Homepage</a>
+      <a href="index.html" style="font-size: 0.82rem; color: var(--text-muted); text-decoration: none; font-weight: 600;">← Back to Main Homepage</a>
     </div>
   </div>
 
