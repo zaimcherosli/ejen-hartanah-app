@@ -7,86 +7,61 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=16">
+  <link rel="stylesheet" href="style.css?v=25">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    body {
-      background: #f8fafc;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 1rem;
-    }
-    .login-card {
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 2.5rem;
-      max-width: 420px;
-      width: 100%;
-      box-shadow: 0 20px 40px rgba(0, 39, 66, 0.12);
-      border: 1px solid var(--border-strong);
-    }
-  </style>
 </head>
 <body>
 
-  <div class="login-card">
-    <div style="text-align: center; margin-bottom: 1.5rem;">
-      <a href="index.html" class="logo-wrap" style="justify-content: center; margin-bottom: 0.5rem;">
-        <img src="logo.png" alt="Corporate Estate Malaysia Logo" style="height: 52px; width: auto;">
-      </a>
-      <p style="font-size: 0.78rem; font-weight: 800; color: var(--cem-red); text-transform: uppercase; margin-top: 0.5rem;">Leading Real Estate Industrial - Commercial - Land</p>
-      <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--cem-navy); margin-top: 1rem;">Agent Portal Login</h2>
-    </div>
-
-    <form id="loginForm">
-      <div style="margin-bottom: 1rem;">
-        <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">EMAIL ADDRESS</label>
-        <input type="email" id="email" placeholder="huzaimrosli@gmail.com" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
+  <!-- Clean White Navigation Header with Official CEM Logo -->
+  <nav class="navbar">
+    <a href="index.html" class="logo-wrap">
+      <img src="logo.png" alt="Corporate Estate Malaysia Logo" class="logo-img">
+      <div class="logo-text">
+        CORPORATE ESTATE <span>MALAYSIA</span>
       </div>
-
-      <div style="margin-bottom: 1.5rem;">
-        <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">PASSWORD</label>
-        <input type="password" id="password" placeholder="••••••••" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
-      </div>
-
-      <div id="loginAlert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.85rem; margin-bottom: 1rem; text-align: center;"></div>
-
-      <button type="submit" class="btn-show-listings" style="height: 48px; width: 100%;">LOGIN TO DASHBOARD</button>
-    </form>
-
-    <div style="text-align: center; margin-top: 1.5rem;">
-      <a href="index.html" style="font-size: 0.82rem; color: var(--text-muted); text-decoration: none; font-weight: 600;">← Back to Main Homepage</a>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">HOME</a>
+      <a href="listings.html">VIEW LISTINGS</a>
+      <a href="about.html">ABOUT US</a>
+      <a href="index.html#servicesSection">OUR SERVICES</a>
+      <a href="login.html" class="nav-btn-agent" style="color: white !important;">AGENT LOGIN</a>
     </div>
-  </div>
+  </nav>
+
+  <main class="container" style="display: flex; align-items: center; justify-content: center; min-height: 80vh;">
+    <div class="dash-card" style="max-width: 420px; width: 100%; padding: 2.25rem 1.75rem; text-align: center;">
+      
+      <!-- Official Clean Transparent CEM Logo -->
+      <img src="logo.png" alt="Corporate Estate Malaysia" style="height: 62px; width: auto; margin-bottom: 0.75rem; background: transparent; padding: 0;">
+      
+      <h2 style="font-size: 1.35rem; font-weight: 900; color: var(--cem-navy); margin-bottom: 0.25rem;">AGENT PORTAL LOGIN</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Corporate Estate Malaysia Internal Listing Management System</p>
+
+      <form id="loginForm">
+        <div style="margin-bottom: 1rem; text-align: left;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">AGENT EMAIL</label>
+          <input type="email" id="email" placeholder="e.g. agent@corporateestate.com.my" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
+        </div>
+
+        <div style="margin-bottom: 1.25rem; text-align: left;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">PASSWORD</label>
+          <input type="password" id="password" placeholder="••••••••" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
+        </div>
+
+        <div id="loginAlert" style="display: none; padding: 0.6rem; border-radius: 6px; font-size: 0.8rem; margin-bottom: 1rem;"></div>
+
+        <button type="submit" class="btn-show-listings" style="height: 48px; width: 100%; font-size: 0.92rem;">SECURE AGENT LOGIN</button>
+      </form>
+
+      <div style="margin-top: 1.5rem; font-size: 0.78rem; color: var(--text-light);">
+        Forgotten credentials or need agent access? <br>
+        Contact IT Admin at <a href="mailto:admin@corporateestate.com.my" style="color: var(--cem-red); font-weight: 700;">admin@corporateestate.com.my</a>
+      </div>
+    </div>
+  </main>
 
   <script src="config.js"></script>
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const alertBox = document.getElementById('loginAlert');
-
-      alertBox.style.display = 'block';
-      alertBox.style.background = '#fef3c7';
-      alertBox.style.color = '#b45309';
-      alertBox.innerText = 'Authenticating with Supabase...';
-
-      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-
-      if (error) {
-        alertBox.style.background = '#fee2e2';
-        alertBox.style.color = '#dc2626';
-        alertBox.innerText = 'Login Failed: ' + error.message;
-      } else {
-        alertBox.style.background = '#d1fae5';
-        alertBox.style.color = '#047857';
-        alertBox.innerText = 'Login successful! Redirecting...';
-        setTimeout(() => window.location.href = 'dashboard.html', 800);
-      }
-    });
-  </script>
+  <script src="login.js"></script>
 </body>
 </html>
