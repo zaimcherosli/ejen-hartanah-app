@@ -1,0 +1,7 @@
+# Robots.txt for Corporate Estate Malaysia
+User-agent: *
+Allow: /
+Disallow: /dashboard.html
+Disallow: /login.html
+
+Sitemap: https://ejen-hartanah-app.pages.dev/sitemap.xml
