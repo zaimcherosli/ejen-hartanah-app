@@ -1,4 +1,4 @@
-// App.js - Public Portal Logic with Direct Clean Path URLs (/kilang-sesebuah-2-tingkat-modern-i-park)
+// App.js - Public Portal Logic with Ultra-Clean Query URLs (?kilang-sesebuah-2-tingkat-modern-i-park)
 let allListings = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,14 +16,14 @@ function createSlug(title) {
     .replace(/^-+|-+$/g, '');
 }
 
-// Helper: Copy Direct WhatsApp Share Link to Clipboard
+// Helper: Copy Ultra-Clean WhatsApp Share Link to Clipboard
 function copyShareLink(id, title) {
   const slug = createSlug(title);
-  const shareUrl = `${window.location.origin}/${encodeURIComponent(slug)}`;
+  const shareUrl = `${window.location.origin}/listings.html?${encodeURIComponent(slug)}`;
   
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(shareUrl).then(() => {
-      alert(`🔗 Pautan Langsung WhatsApp untuk "${title}" telah berjaya disalin!\n\n${shareUrl}\n\nAnda boleh paste terus di WhatsApp.`);
+      alert(`🔗 Pautan WhatsApp ringkas untuk "${title}" telah berjaya disalin!\n\n${shareUrl}\n\nAnda boleh paste terus di WhatsApp.`);
     }).catch(err => {
       fallbackCopyText(shareUrl);
     });
@@ -65,7 +65,7 @@ async function fetchListings() {
     allListings = data || [];
     renderListings(allListings);
 
-    // ⚡ Auto-open listing modal if URL has direct path (/kilang-xxx) or query params
+    // ⚡ Auto-open listing modal if URL has query parameter (?kilang-xxx or ?slug=xxx or ?id=xxx)
     checkUrlQueryParams();
 
   } catch (err) {
@@ -74,24 +74,15 @@ async function fetchListings() {
   }
 }
 
-// Check URL Query Parameters & Direct Path Slugs for Auto-Opening Deep Links
+// Check URL Query Parameters for Auto-Opening Deep Links
 function checkUrlQueryParams() {
   if (allListings.length === 0) return;
 
-  // 1. Check direct path (e.g. /kilang-sesebuah-2-tingkat-modern-i-park)
-  const rawPath = window.location.pathname.replace(/^\/+|\/+$/g, '');
-  if (rawPath && !['listings', 'listings.html', 'index.html', 'about.html', 'login.html', 'dashboard.html'].includes(rawPath.toLowerCase())) {
-    const matchByPath = allListings.find(x => createSlug(x.title) === decodeURIComponent(rawPath.toLowerCase()));
-    if (matchByPath) {
-      openModal(matchByPath.id, false);
-      return;
-    }
-  }
-
-  // 2. Check query string parameters (e.g. ?kilang-xxx or ?slug=xxx or ?id=xxx)
   const urlParams = new URLSearchParams(window.location.search);
   const targetSlug = urlParams.get('slug');
   const targetId = urlParams.get('id');
+
+  // Extract raw query string without '?'
   const rawSearch = window.location.search.substring(1).replace(/^slug=|^id=/, '');
 
   if (targetSlug) {
@@ -101,7 +92,8 @@ function checkUrlQueryParams() {
     const match = allListings.find(x => x.id === targetId);
     if (match) openModal(match.id, false);
   } else if (rawSearch) {
-    const match = allListings.find(x => createSlug(x.title) === decodeURIComponent(rawSearch.toLowerCase()) || x.id === rawSearch);
+    const cleanSearch = decodeURIComponent(rawSearch.toLowerCase());
+    const match = allListings.find(x => createSlug(x.title) === cleanSearch || x.id === cleanSearch);
     if (match) openModal(match.id, false);
   }
 }
@@ -131,7 +123,7 @@ function renderListings(listings) {
       : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80';
 
     const slug = createSlug(item.title);
-    const shareUrl = `${window.location.origin}/${encodeURIComponent(slug)}`;
+    const shareUrl = `${window.location.origin}/listings.html?${encodeURIComponent(slug)}`;
 
     const phone = item.agent_phone || '60108118559';
     const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}\nPautan: ${shareUrl}`);
@@ -230,7 +222,7 @@ function setupFilterListeners() {
   if (keyword) keyword.addEventListener('input', applyFilters);
 }
 
-// Open Detail View Modal & Update Browser URL dynamically to Direct Path (/kilang-xxx)
+// Open Detail View Modal & Update Browser URL dynamically to Clean Query (?kilang-xxx)
 function openModal(id, updateHistory = true) {
   const item = allListings.find(x => x.id === id);
   if (!item) return;
@@ -240,7 +232,7 @@ function openModal(id, updateHistory = true) {
 
   const phone = item.agent_phone || '60108118559';
   const slug = createSlug(item.title);
-  const shareUrl = `${window.location.origin}/${encodeURIComponent(slug)}`;
+  const shareUrl = `${window.location.origin}/listings.html?${encodeURIComponent(slug)}`;
   const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your property listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}\nPautan: ${shareUrl}`);
   const waUrl = `https://wa.me/${phone}?text=${waText}`;
 
@@ -288,9 +280,9 @@ function openModal(id, updateHistory = true) {
     `;
   }
 
-  // ⚡ Dynamically update URL in browser bar to Direct Clean Path (/kilang-xxx) without page reload
+  // ⚡ Dynamically update URL in browser bar to Ultra-Clean Query (?kilang-xxx) without page reload
   if (updateHistory && history.pushState) {
-    const newUrl = `${window.location.protocol}//${window.location.host}/${encodeURIComponent(slug)}`;
+    const newUrl = `${window.location.protocol}//${window.location.host}/listings.html?${encodeURIComponent(slug)}`;
     window.history.pushState({ path: newUrl }, '', newUrl);
   }
 
