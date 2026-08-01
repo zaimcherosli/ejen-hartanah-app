@@ -56,7 +56,7 @@ function renderListings(listings) {
       ? item.images[0] 
       : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80';
 
-    const phone = item.agent_phone || '60123880356';
+    const phone = item.agent_phone || '60108118559';
     const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}\nPlease provide more details.`);
     const waUrl = `https://wa.me/${phone}?text=${waText}`;
 
@@ -158,7 +158,7 @@ function openModal(id) {
   const formattedPrice = new Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR', maximumFractionDigits: 0 }).format(item.asking_price);
   const modalBody = document.getElementById('modalBody');
 
-  const phone = item.agent_phone || '60123880356';
+  const phone = item.agent_phone || '60108118559';
   const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your property listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}`);
   const waUrl = `https://wa.me/${phone}?text=${waText}`;
 
