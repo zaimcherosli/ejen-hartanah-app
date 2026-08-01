@@ -463,6 +463,38 @@ body {
   color: var(--text-muted);
 }
 
+/* Ultra-Neat Corporate Advantage & Service Cards */
+.neat-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.neat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 39, 66, 0.08);
+  border-color: var(--cem-navy);
+}
+
+.icon-box-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  color: var(--cem-navy);
+  flex-shrink: 0;
+}
+
 /* Container */
 .container {
   max-width: 1240px;
