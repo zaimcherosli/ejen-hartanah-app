@@ -95,7 +95,7 @@ async function loadAgentListings() {
     }
 
     if (!data || data.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Belum ada listing. Sila tambah di borang sebelah.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">Belum ada listing. Sila tambah di borang sebelah.</td></tr>`;
       return;
     }
 
@@ -105,22 +105,22 @@ async function loadAgentListings() {
 
       return `
         <tr>
-          <td>
-            <img src="${thumb}" style="width: 50px; height: 40px; object-fit: cover; border-radius: 6px;" />
+          <td style="padding: 0.65rem 0.5rem;">
+            <img src="${thumb}" style="width: 54px; height: 42px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border);" onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80'" />
           </td>
-          <td>
-            <strong style="color: var(--text-main); font-size: 0.9rem;">${item.title}</strong>
-            <div style="font-size: 0.78rem; color: var(--text-muted);">${item.location} • ${item.property_type}</div>
+          <td style="padding: 0.65rem 0.5rem;">
+            <strong style="color: var(--text-main); font-size: 0.88rem; display: block; line-height: 1.25;">${item.title}</strong>
+            <span style="font-size: 0.76rem; color: var(--text-muted); display: block; margin-top: 0.15rem;">${item.location} • ${item.property_type}</span>
           </td>
-          <td style="color: var(--accent-amber); font-weight: 700;">${formattedPrice}</td>
-          <td>
-            <span style="background: rgba(16,185,129,0.15); color: #10b981; padding: 0.2rem 0.45rem; border-radius: 4px; font-size: 0.72rem; font-weight: 600;">
+          <td style="padding: 0.65rem 0.5rem; color: var(--cem-red); font-weight: 800; font-size: 0.88rem; white-space: nowrap;">${formattedPrice}</td>
+          <td style="padding: 0.65rem 0.5rem;">
+            <span style="background: rgba(16,185,129,0.12); color: #059669; padding: 0.25rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700; white-space: nowrap;">
               ${item.status}
             </span>
           </td>
-          <td>
-            <button onclick="deleteListing('${item.id}')" style="background: rgba(244,63,94,0.15); color: #f43f5e; border: 1px solid #f43f5e; padding: 0.3rem 0.55rem; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
-              🗑 Padam
+          <td style="padding: 0.65rem 0.5rem; text-align: center;">
+            <button onclick="deleteListing('${item.id}')" title="Delete Listing" style="background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; width: 32px; height: 32px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s;" onmouseover="this.style.background='#fca5a5'" onmouseout="this.style.background='#fee2e2'">
+              🗑️
             </button>
           </td>
         </tr>
