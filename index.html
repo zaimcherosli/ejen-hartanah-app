@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=12">
+  <link rel="stylesheet" href="style.css?v=13">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -36,7 +36,7 @@
       <a href="login.html" class="nav-btn-agent">AGENT LOGIN</a>
     </div>
 
-    <!-- Mobile Nav Toggle (Clean Button Only) -->
+    <!-- Mobile Nav Toggle -->
     <div class="mobile-nav-controls">
       <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰ Menu</button>
     </div>
@@ -287,11 +287,11 @@
 
   <!-- Lead Generation Form (Sell / Rent Property Form) -->
   <section class="container" style="padding-top: 0;">
-    <div style="background: var(--bg-subtle); border: 1px solid var(--border-strong); border-radius: 12px; padding: 2.25rem; box-shadow: var(--shadow);">
+    <div class="lead-box-container">
       <h2 style="font-size: 1.4rem; color: var(--nav-red); margin-bottom: 0.5rem; text-align: center;">Looking to Sell or Lease Your Industrial / Commercial Property?</h2>
       <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; max-width: 650px; margin: 0 auto 1.5rem auto;">Get a complimentary market valuation and direct exposure to our database of active corporate buyers and multinational tenants.</p>
 
-      <form onsubmit="handleLeadSubmit(event)" style="max-width: 700px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+      <form onsubmit="handleLeadSubmit(event)" class="lead-form">
         <input type="text" id="leadName" placeholder="Full Name *" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
         <input type="tel" id="leadPhone" placeholder="Phone Number / WhatsApp *" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
         <select id="leadPropType" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem; background: white;">
@@ -308,9 +308,9 @@
           <option value="Lease (Rent)">Lease (Rent)</option>
           <option value="Get Market Valuation">Get Market Valuation</option>
         </select>
-        <input type="text" id="leadLocation" placeholder="Property Location (e.g. Shah Alam, Klang, Puchong)" style="grid-column: span 2; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
+        <input type="text" id="leadLocation" class="lead-full-width" placeholder="Property Location (e.g. Shah Alam, Klang, Puchong)" style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
         
-        <button type="submit" class="btn-show-listings" style="grid-column: span 2; height: 48px;">SUBMIT FOR FREE CONSULTATION</button>
+        <button type="submit" class="btn-show-listings lead-full-width" style="height: 48px;">SUBMIT FOR FREE CONSULTATION</button>
       </form>
     </div>
   </section>

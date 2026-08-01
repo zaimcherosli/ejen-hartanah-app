@@ -578,6 +578,7 @@ body {
   justify-content: center;
   gap: 0.4rem;
   transition: opacity 0.2s;
+  border: none;
 }
 
 .btn-whatsapp:hover {
@@ -585,9 +586,10 @@ body {
 }
 
 .btn-whatsapp svg {
-  width: 19px;
-  height: 19px;
+  width: 18px;
+  height: 18px;
   fill: #ffffff;
+  flex-shrink: 0;
 }
 
 .btn-detail {
@@ -605,7 +607,28 @@ body {
   background: #e2e8f0;
 }
 
-/* Floating Sticky Mobile WhatsApp Button (PURE TRANSPARENT CIRCLE, NO WHITE BOX) */
+/* Lead Generation Form Layout */
+.lead-box-container {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 2.25rem;
+  box-shadow: var(--shadow);
+}
+
+.lead-form {
+  max-width: 700px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.lead-full-width {
+  grid-column: span 2;
+}
+
+/* Floating Sticky Mobile WhatsApp Button (PURE TRANSPARENT CIRCLE) */
 .floating-wa-btn {
   position: fixed;
   bottom: 22px;
@@ -621,6 +644,7 @@ body {
   z-index: 9999;
   transition: transform 0.2s;
   text-decoration: none;
+  border: none;
 }
 
 .floating-wa-btn:hover {
@@ -631,6 +655,7 @@ body {
   width: 32px;
   height: 32px;
   fill: #ffffff;
+  flex-shrink: 0;
 }
 
 /* Agent Directory Team Section */
@@ -738,7 +763,7 @@ body {
 /* Perfect Breakpoints for ALL Devices (Tablets, iPads, Laptops & Mobile) */
 @media (max-width: 1100px) {
   .nav-links {
-    display: none; /* Switch to Clean Drawer on Tablets/Medium Screens to prevent wrapping */
+    display: none; /* Switch to Clean Drawer on Tablets/Medium Screens */
   }
 
   .mobile-nav-controls {
@@ -791,6 +816,19 @@ body {
 
   .btn-show-listings {
     grid-column: span 1;
+  }
+
+  /* ⚡ Lead Form Stack 1 Column on Mobile Screens */
+  .lead-box-container {
+    padding: 1.25rem 1rem;
+  }
+
+  .lead-form {
+    grid-template-columns: 1fr !important;
+  }
+
+  .lead-full-width {
+    grid-column: span 1 !important;
   }
 
   .section-title {
