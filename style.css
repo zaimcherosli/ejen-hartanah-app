@@ -111,37 +111,37 @@ body {
 
 /* Hero Section with Warehouse Background Image */
 .hero {
-  background: linear-gradient(rgba(248, 250, 252, 0.75), rgba(248, 250, 252, 0.92)),
+  background: linear-gradient(rgba(248, 250, 252, 0.78), rgba(248, 250, 252, 0.94)),
               url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1920&q=80');
   background-size: cover;
   background-position: center;
-  padding: 3.5rem 1.5rem 2rem 1.5rem;
+  padding: 4rem 1.5rem 2.5rem 1.5rem;
   text-align: center;
   border-bottom: 1px solid var(--border);
 }
 
 .hero h1 {
-  font-size: 2.1rem;
+  font-size: 2.25rem;
   font-weight: 900;
   color: var(--text-main);
-  max-width: 900px;
+  max-width: 920px;
   margin: 0 auto 0.75rem auto;
   line-height: 1.25;
   letter-spacing: -0.02em;
 }
 
 .hero p {
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: var(--text-muted);
-  max-width: 750px;
-  margin: 0 auto;
+  max-width: 800px;
+  margin: 0 auto 1.5rem auto;
   font-weight: 500;
 }
 
 /* Mega Horizontal Filter Bar (1 Line Desktop Row - Reference) */
 .filter-card {
   max-width: 1240px;
-  margin: -1.75rem auto 2rem auto;
+  margin: -1.75rem auto 2.5rem auto;
   background: #ffffff;
   border: 1px solid var(--border-strong);
   border-radius: 8px;
@@ -189,17 +189,178 @@ body {
   cursor: pointer;
   width: 100%;
   transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
 .btn-show-listings:hover {
   background: var(--nav-red-hover);
 }
 
-/* Layout Container */
+/* ⚡ INFINITE AUTO-SCROLLING CORPORATE CLIENT LOGO CAROUSEL */
+.client-logo-section {
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 2.5rem 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.client-logo-title {
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 1.5rem;
+}
+
+.marquee-wrapper {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  position: relative;
+}
+
+.marquee-content {
+  display: flex;
+  flex-shrink: 0;
+  gap: 3.5rem;
+  align-items: center;
+  justify-content: space-around;
+  min-width: 100%;
+  animation: scroll-marquee 22s linear infinite;
+}
+
+.marquee-wrapper:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+.logo-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  padding: 0.5rem 1.25rem;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.logo-item img {
+  max-height: 40px;
+  max-width: 140px;
+  object-fit: contain;
+  filter: grayscale(20%);
+  transition: filter 0.2s;
+}
+
+.logo-item:hover img {
+  filter: grayscale(0%);
+}
+
+.logo-text {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+@keyframes scroll-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+/* Agency Stats Grid Section */
+.stats-section {
+  background: #0f172a;
+  color: #ffffff;
+  padding: 3rem 1.5rem;
+}
+
+.stats-grid {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  text-align: center;
+}
+
+.stat-card {
+  padding: 1rem;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--nav-red);
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+.stat-sub {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin-top: 0.2rem;
+}
+
+/* Core Industrial Services Grid */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.service-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s;
+}
+
+.service-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--nav-red);
+}
+
+.service-icon {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.service-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+.service-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+/* Container */
 .container {
   max-width: 1240px;
   margin: 0 auto;
-  padding: 0 1.5rem 3rem 1.5rem;
+  padding: 3rem 1.5rem;
   width: 100%;
 }
 
@@ -211,7 +372,7 @@ body {
 }
 
 .section-title h2 {
-  font-size: 1.4rem;
+  font-size: 1.45rem;
   font-weight: 800;
   color: var(--text-main);
 }

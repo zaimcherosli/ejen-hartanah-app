@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Industrial Malaysia: Warehouse & Factory for Rent & for Sale</title>
-  <meta name="description" content="Industrial Malaysia lists warehouse & factory for rent & for sale in Malaysia. Find industrial properties including industrial land for your operations.">
+  <title>Industrial Malaysia | Premier Industrial & Commercial Real Estate Agency</title>
+  <meta name="description" content="Malaysia's premier commercial and industrial real estate agency specializing in warehouse, factory, and industrial land for rent and sale.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=7">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -19,9 +19,12 @@
       INDUSTRIAL <span>malaysia</span>
     </a>
     <div class="nav-links">
-      <a href="https://wa.me/60123880356" target="_blank">WHATSAPP US</a>
-      <a href="#listingsSection">VIEW LISTINGS</a>
+      <a href="index.html" style="opacity: 1; border-bottom: 2px solid white;">HOME</a>
+      <a href="listings.html">VIEW LISTINGS</a>
+      <a href="#servicesSection">OUR SERVICES</a>
+      <a href="#clientsSection">CORPORATE CLIENTS</a>
       <a href="#agentTeamSection">AGENTS DIRECTORY</a>
+      <a href="https://wa.me/60123880356" target="_blank">WHATSAPP US</a>
       <a href="login.html" class="nav-btn-agent">AGENT LOGIN</a>
     </div>
   </nav>
@@ -29,13 +32,13 @@
   <!-- Hero Section with Warehouse Backdrop -->
   <section class="hero">
     <h1>Warehouse, Factory, and Industrial Land for Rent and for Sale</h1>
-    <p>Find industrial real estate properties across Selangor, Kuala Lumpur, Johor, Penang & Negeri Sembilan.</p>
+    <p>Malaysia's premier commercial & industrial real estate agency serving corporate clients across Selangor, KL, Johor, Penang & Negeri Sembilan.</p>
   </section>
 
-  <!-- Mega Filter Bar (1 Line Inline Desktop Layout) -->
+  <!-- Quick Filter Redirect Bar -->
   <div class="filter-card">
-    <div class="filter-grid-row">
-      <select id="filterState" class="filter-select">
+    <form action="listings.html" method="GET" class="filter-grid-row">
+      <select name="state" class="filter-select">
         <option value="">SELANGOR (All)</option>
         <option value="Selangor">SELANGOR</option>
         <option value="Kuala Lumpur">KUALA LUMPUR</option>
@@ -44,22 +47,21 @@
         <option value="Negeri Sembilan">NEGERI SEMBILAN</option>
       </select>
 
-      <select id="filterListingType" class="filter-select">
+      <select name="listingType" class="filter-select">
         <option value="">ANY STATUS (Rent / Sale)</option>
         <option value="For Rent">RENT</option>
         <option value="For Sale">SALE</option>
       </select>
 
-      <select id="filterType" class="filter-select">
+      <select name="type" class="filter-select">
         <option value="">ANY TYPE</option>
         <option value="Detached Factory">DETACHED FACTORY</option>
         <option value="Semi-D Factory">SEMI-DETACHED FACTORY</option>
         <option value="Warehouse">DETACHED WAREHOUSE</option>
         <option value="Industrial Land">INDUSTRIAL LAND</option>
-        <option value="Shoplot">COMMERCIAL SHOPLOT</option>
       </select>
 
-      <select id="filterArea" class="filter-select">
+      <select name="area" class="filter-select">
         <option value="">ANY AREA</option>
         <option value="Shah Alam">SHAH ALAM</option>
         <option value="Klang">KLANG</option>
@@ -67,32 +69,155 @@
         <option value="Puchong">PUCHONG</option>
         <option value="Petaling Jaya">PETALING JAYA</option>
         <option value="Rawang">RAWANG</option>
-        <option value="Banting">BANTING</option>
-        <option value="Kepong">KEPONG</option>
-        <option value="Batu Caves">BATU CAVES</option>
-        <option value="Johor Bahru">JOHOR BAHRU</option>
-        <option value="Bayan Lepas">BAYAN LEPAS</option>
-        <option value="Nilai">NILAI / SEREMBAN</option>
       </select>
 
-      <button id="btnSearch" class="btn-show-listings">SHOW LISTINGS</button>
-    </div>
+      <a href="listings.html" class="btn-show-listings">SHOW LISTINGS</a>
+    </form>
   </div>
 
-  <!-- Listings Grid Section -->
-  <main id="listingsSection" class="container">
+  <!-- ⚡ INFINITE AUTO-SCROLLING CORPORATE CLIENT LOGO CAROUSEL -->
+  <section id="clientsSection" class="client-logo-section">
+    <div class="client-logo-title">Here are several of the many prospects & corporate clients we have served in Malaysia</div>
+    
+    <div class="marquee-wrapper">
+      <div class="marquee-content">
+
+        <div class="logo-item">
+          <span class="logo-text" style="color: #d97706;">⚡ TENAGA NASIONAL (TNB)</span>
+        </div>
+        <div class="logo-item">
+          <span class="logo-text" style="color: #c3002f;">💊 PHARMANIAGA</span>
+        </div>
+        <div class="logo-item">
+          <span class="logo-text" style="color: #dc2626; font-style: italic;">📦 DHL eCommerce</span>
+        </div>
+        <div class="logo-item">
+          <span class="logo-text" style="color: #2563eb;">🚢 WESTPORTS MALAYSIA</span>
+        </div>
+        <div class="logo-item">
+          <span class="logo-text" style="color: #7c3aed;">🏢 NESTLÉ LOGISTICS</span>
+        </div>
+        <div class="logo-item">
+          <span class="logo-text" style="color: #059669;">🌐 CONNELL BROS</span>
+        </div>
+        <div class="logo-item">
+          <span class="logo-text" style="color: #ea580c;">📮 POS MALAYSIA</span>
+        </div>
+        <div class="logo-item">
+          <span class="logo-text" style="color: #0284c7;">🏭 WEIFANG EAST STEEL</span>
+        </div>
+
+      </div>
+
+      <!-- Duplicate Content for Continuous Seamless Scroll Loop -->
+      <div class="marquee-content" aria-hidden="true">
+
+        <div class="logo-item">
+          <span class="logo-text" style="color: #d97706;">⚡ TENAGA NASIONAL (TNB)</span>
+        </div>
+        <div class="logo-item">
+          <span class="logo-text" style="color: #c3002f;">💊 PHARMANIAGA</span>
+        </div>
+        <div class="logo-item">
+          <span class="logo-text" style="color: #dc2626; font-style: italic;">📦 DHL eCommerce</span>
+        </div>
+        <div class="logo-item">
+          <span class="logo-text" style="color: #2563eb;">🚢 WESTPORTS MALAYSIA</span>
+        </div>
+        <div class="logo-item">
+          <span class="logo-text" style="color: #7c3aed;">🏢 NESTLÉ LOGISTICS</span>
+        </div>
+        <div class="logo-item">
+          <span class="logo-text" style="color: #059669;">🌐 CONNELL BROS</span>
+        </div>
+        <div class="logo-item">
+          <span class="logo-text" style="color: #ea580c;">📮 POS MALAYSIA</span>
+        </div>
+        <div class="logo-item">
+          <span class="logo-text" style="color: #0284c7;">🏭 WEIFANG EAST STEEL</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Agency Key Performance Metrics Counter Banner -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">RM 500M+</div>
+        <div class="stat-label">Nilai Transaksi Hartanah</div>
+        <div class="stat-sub">Jualan & Sewaan Terkumpul</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Kilang & Gudang Diselia</div>
+        <div class="stat-sub">Selangor, KL, Johor & Penang</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">150+</div>
+        <div class="stat-label">Klien Korporat & MNC</div>
+        <div class="stat-sub">Tempatan & Antarabangsa</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Pakar Zon Industrial</div>
+        <div class="stat-sub">Khidmat Nasihat Spesifikasi Penuh</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Industrial Services Section -->
+  <section id="servicesSection" class="container">
     <div class="section-title">
-      <h2>Industrial Properties Listings (<span id="totalCount">0</span>)</h2>
+      <div>
+        <h2>Perkhidmatan Utama Hartanah Industri</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Solusi menyeluruh dari pemilihan tapak sehingga lesen kebenaran pihak berkuasa.</p>
+      </div>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon">🏭</span>
+        <h3 class="service-title">Jual & Sewa Kilang / Gudang</h3>
+        <p class="service-desc">Menyediakan senarai kilang Sesebuah (Detached), Semi-D, dan Gudang Logistik mengikut keperluan Power Amp & Height spesifik syarikat anda.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">🚜</span>
+        <h3 class="service-title">Pembelian Tanah Industri & JV</h3>
+        <p class="service-desc">Carian plot tanah industri terzon (Light, Medium, Heavy Industry) berserta analisis utiliti elektrik & bekalan air tinggi.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">🏗️</span>
+        <h3 class="service-title">Built-to-Suit (BTS) Development</h3>
+        <p class="service-desc">Perkhidmatan mereka bentuk dan membina kilang kustom khas mengikut spesifikasi operasi syarikat multinasional.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">📄</span>
+        <h3 class="service-title">Khidmat Nasihat Kelulusan PBT & DOE</h3>
+        <p class="service-desc">Bimbingan penuh pendaftaran kelulusan Jabatan Alam Sekitar (DOE), MIDA, Bomba, dan Lesen Pihak Berkuasa Tempatan.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Listings Section -->
+  <main class="container" style="padding-top: 0;">
+    <div class="section-title">
+      <h2>Featured Industrial Listings Highlight</h2>
+      <a href="listings.html" style="color: var(--nav-red); font-weight: 800; text-decoration: none; font-size: 0.9rem;">Lihat Semua Listing (100+) →</a>
     </div>
 
     <div id="listingsContainer" class="listing-grid">
-      <div class="loading-spinner" style="text-align: center; color: var(--text-muted); padding: 2rem;">Fetching property listings...</div>
+      <div class="loading-spinner" style="text-align: center; color: var(--text-muted); padding: 2rem;">Fetching featured listings...</div>
     </div>
   </main>
 
-  <!-- Agent Directory Section (Reference: Experienced Industrial Real Estate Agents) -->
-  <section id="agentTeamSection" class="container" style="padding-top: 1rem;">
-    <div class="section-title" style="border-top: 1px solid var(--border); padding-top: 2rem;">
+  <!-- Agent Directory Section -->
+  <section id="agentTeamSection" class="container" style="padding-top: 0;">
+    <div class="section-title" style="border-top: 1px solid var(--border); padding-top: 2.5rem;">
       <div>
         <h2 style="color: var(--nav-red);">Experienced Industrial Real Estate Agents & Negotiators</h2>
         <p style="font-size: 0.9rem; color: var(--text-muted);">Contact our specialized industrial real estate negotiators to get started on your property transaction.</p>
@@ -128,6 +253,35 @@
     </div>
   </section>
 
+  <!-- Lead Generation Form (Sell / Rent Property Form) -->
+  <section class="container" style="padding-top: 0;">
+    <div style="background: var(--bg-subtle); border: 1px solid var(--border-strong); border-radius: 12px; padding: 2.25rem; box-shadow: var(--shadow);">
+      <h2 style="font-size: 1.4rem; color: var(--nav-red); margin-bottom: 0.5rem; text-align: center;">Mahu Menjual atau Menyewakan Hartanah Industri Anda?</h2>
+      <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; max-width: 650px; margin: 0 auto 1.5rem auto;">Dapatkan perkhidmatan penilaian nilaian pasaran percuma dan capaian terus kepada pembeli korporat & pangkalan data penyewa kilang kami.</p>
+
+      <form onsubmit="handleLeadSubmit(event)" style="max-width: 700px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <input type="text" id="leadName" placeholder="Nama Penuh Anda *" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
+        <input type="tel" id="leadPhone" placeholder="Nombor Telefon / WhatsApp *" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
+        <select id="leadPropType" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem; background: white;">
+          <option value="">Jenis Hartanah Industri *</option>
+          <option value="Kilang Sesebuah (Detached)">Kilang Sesebuah (Detached)</option>
+          <option value="Kilang Semi-D">Kilang Semi-D</option>
+          <option value="Gudang / Warehouse">Gudang / Warehouse</option>
+          <option value="Tanah Industri">Tanah Industri</option>
+        </select>
+        <select id="leadAction" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem; background: white;">
+          <option value="">Hasrat Anda *</option>
+          <option value="Mahu Jual (Sale)">Mahu Jual (Sale)</option>
+          <option value="Mahu Sewa (Rent)">Mahu Sewa (Rent)</option>
+          <option value="Dapatkan Penilaian Pasaran">Dapatkan Penilaian Pasaran</option>
+        </select>
+        <input type="text" id="leadLocation" placeholder="Lokasi Kilang / Tanah (cth: Shah Alam, Klang)" style="grid-column: span 2; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
+        
+        <button type="submit" class="btn-show-listings" style="grid-column: span 2; height: 48px;">HANTAR PERMOHONAN / KONSULTASI PERCUMA</button>
+      </form>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer style="background: #0f172a; color: #94a3b8; text-align: center; padding: 2rem 1rem; margin-top: auto; font-size: 0.85rem;">
     <p>© 2026 Industrial Malaysia. All Rights Reserved. Powered by Cloudflare Pages & Supabase.</p>
@@ -143,5 +297,18 @@
 
   <script src="config.js"></script>
   <script src="app.js"></script>
+  <script>
+    function handleLeadSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('leadName').value;
+      const phone = document.getElementById('leadPhone').value;
+      const type = document.getElementById('leadPropType').value;
+      const action = document.getElementById('leadAction').value;
+      const loc = document.getElementById('leadLocation').value;
+
+      const waMsg = encodeURIComponent(`Helo Industrial Malaysia,\nSaya berhasrat untuk ${action} hartanah berikut:\n*Nama*: ${name}\n*Telefon*: ${phone}\n*Jenis*: ${type}\n*Lokasi*: ${loc}\nSila hubungi saya.`);
+      window.open(`https://wa.me/60123880356?text=${waMsg}`, '_blank');
+    }
+  </script>
 </body>
 </html>

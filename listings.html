@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Industrial Property Listings | Industrial Malaysia</title>
+  <meta name="description" content="Search comprehensive warehouse & factory listings for rent and sale in Selangor, KL, Johor, Penang & Negeri Sembilan.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=6">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Red Navigation Header -->
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      INDUSTRIAL <span>malaysia</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">HOME</a>
+      <a href="listings.html" style="opacity: 1; border-bottom: 2px solid white;">VIEW LISTINGS</a>
+      <a href="index.html#agentTeamSection">AGENTS DIRECTORY</a>
+      <a href="https://wa.me/60123880356" target="_blank">WHATSAPP US</a>
+      <a href="login.html" class="nav-btn-agent">AGENT LOGIN</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" style="padding: 2.5rem 1.5rem 1.5rem 1.5rem;">
+    <h1>All Industrial & Commercial Property Listings</h1>
+    <p>Search warehouses, factories, and industrial land for rent and sale across Malaysia.</p>
+  </section>
+
+  <!-- Mega Filter Bar -->
+  <div class="filter-card">
+    <div class="filter-grid-row">
+      <select id="filterState" class="filter-select">
+        <option value="">SELANGOR (All)</option>
+        <option value="Selangor">SELANGOR</option>
+        <option value="Kuala Lumpur">KUALA LUMPUR</option>
+        <option value="Johor">JOHOR</option>
+        <option value="Penang">PENANG</option>
+        <option value="Negeri Sembilan">NEGERI SEMBILAN</option>
+      </select>
+
+      <select id="filterListingType" class="filter-select">
+        <option value="">ANY STATUS (Rent / Sale)</option>
+        <option value="For Rent">RENT</option>
+        <option value="For Sale">SALE</option>
+      </select>
+
+      <select id="filterType" class="filter-select">
+        <option value="">ANY TYPE</option>
+        <option value="Detached Factory">DETACHED FACTORY</option>
+        <option value="Semi-D Factory">SEMI-DETACHED FACTORY</option>
+        <option value="Warehouse">DETACHED WAREHOUSE</option>
+        <option value="Industrial Land">INDUSTRIAL LAND</option>
+        <option value="Shoplot">COMMERCIAL SHOPLOT</option>
+      </select>
+
+      <select id="filterArea" class="filter-select">
+        <option value="">ANY AREA</option>
+        <option value="Shah Alam">SHAH ALAM</option>
+        <option value="Klang">KLANG</option>
+        <option value="Subang Jaya">SUBANG JAYA</option>
+        <option value="Puchong">PUCHONG</option>
+        <option value="Petaling Jaya">PETALING JAYA</option>
+        <option value="Rawang">RAWANG</option>
+        <option value="Banting">BANTING</option>
+        <option value="Kepong">KEPONG</option>
+        <option value="Batu Caves">BATU CAVES</option>
+        <option value="Johor Bahru">JOHOR BAHRU</option>
+        <option value="Bayan Lepas">BAYAN LEPAS</option>
+        <option value="Nilai">NILAI / SEREMBAN</option>
+      </select>
+
+      <button id="btnSearch" class="btn-show-listings">SHOW LISTINGS</button>
+    </div>
+  </div>
+
+  <!-- Listings Grid Section -->
+  <main id="listingsSection" class="container">
+    <div class="section-title">
+      <h2>Found Property Listings (<span id="totalCount">0</span>)</h2>
+    </div>
+
+    <div id="listingsContainer" class="listing-grid">
+      <div class="loading-spinner" style="text-align: center; color: var(--text-muted); padding: 2rem;">Fetching property listings...</div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #0f172a; color: #94a3b8; text-align: center; padding: 2rem 1rem; margin-top: auto; font-size: 0.85rem;">
+    <p>© 2026 Industrial Malaysia. All Rights Reserved. Powered by Cloudflare Pages & Supabase.</p>
+  </footer>
+
+  <!-- Modal Detail View -->
+  <div id="detailModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
