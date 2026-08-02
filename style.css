@@ -827,11 +827,13 @@ body {
 }
 
 .agent-img {
-  width: 90px;
-  height: 90px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   object-fit: cover;
+  object-position: top center;
   border: 3px solid var(--cem-navy);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   margin-bottom: 0.85rem;
 }
 

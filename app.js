@@ -139,7 +139,7 @@ function renderListings(listings) {
     const slug = createSlug(item.title);
     const shareUrl = `${window.location.origin}/listings/${encodeURIComponent(slug)}`;
 
-    const phone = item.agent_phone || '60108118559';
+    const phone = item.agent_phone || '60173569452';
     const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}\nPautan: ${shareUrl}`);
     const waUrl = `https://wa.me/${phone}?text=${waText}`;
 
@@ -244,7 +244,7 @@ function openModal(id, updateHistory = true) {
   const formattedPrice = new Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR', maximumFractionDigits: 0 }).format(item.asking_price);
   const modalBody = document.getElementById('modalBody');
 
-  const phone = item.agent_phone || '60108118559';
+  const phone = item.agent_phone || '60173569452';
   const slug = createSlug(item.title);
   const shareUrl = `${window.location.origin}/listings/${encodeURIComponent(slug)}`;
   const waText = encodeURIComponent(`Hello Corporate Estate Malaysia, I am interested in your property listing:\n*${item.title}*\nAsking Price: ${formattedPrice}\nLocation: ${item.location}\nPautan: ${shareUrl}`);
