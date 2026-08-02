@@ -318,24 +318,30 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 60px;
-  padding: 0.5rem 1.25rem;
+  height: 64px;
+  padding: 0.6rem 1.25rem;
   background: #ffffff;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.logo-item img {
-  max-height: 40px;
-  max-width: 140px;
+.logo-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.logo-item img, .client-logo-img {
+  max-height: 42px;
+  max-width: 135px;
   object-fit: contain;
-  filter: grayscale(20%);
-  transition: filter 0.2s;
+  filter: contrast(102%);
+  transition: transform 0.2s;
 }
 
-.logo-item:hover img {
-  filter: grayscale(0%);
+.logo-item:hover img, .logo-item:hover .client-logo-img {
+  transform: scale(1.04);
 }
 
 .logo-text {
