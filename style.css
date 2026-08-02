@@ -298,16 +298,18 @@ body {
   overflow: hidden;
   user-select: none;
   position: relative;
+  gap: 3.5rem;
 }
 
 .marquee-content {
   display: flex;
   flex-shrink: 0;
   gap: 3.5rem;
+  padding-right: 3.5rem;
   align-items: center;
   justify-content: space-around;
   min-width: 100%;
-  animation: scroll-marquee 22s linear infinite;
+  animation: scroll-marquee 28s linear infinite;
 }
 
 .marquee-wrapper:hover .marquee-content {
@@ -319,6 +321,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 64px;
+  min-width: 150px;
   padding: 0.6rem 1.25rem;
   background: #ffffff;
   border: 1px solid var(--border);
