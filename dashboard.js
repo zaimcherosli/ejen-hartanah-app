@@ -42,20 +42,30 @@ async function checkAuth() {
   });
 }
 
-// Helper: Compress Image client-side using HTML5 Canvas (Reduces 5MB to ~180KB)
-function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.75) {
+// Preload Watermark Stamp Image
+let watermarkImgObj = null;
+function getWatermarkImg() {
   return new Promise((resolve) => {
-    if (file.size <= 300 * 1024) {
-      resolve(file);
-      return;
-    }
+    if (watermarkImgObj) return resolve(watermarkImgObj);
+    const wm = new Image();
+    wm.src = 'watermark.png';
+    wm.onload = () => {
+      watermarkImgObj = wm;
+      resolve(wm);
+    };
+    wm.onerror = () => resolve(null);
+  });
+}
 
+// Helper: Watermark & Compress Image client-side using HTML5 Canvas
+function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.8) {
+  return new Promise((resolve) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (event) => {
       const img = new Image();
       img.src = event.target.result;
-      img.onload = () => {
+      img.onload = async () => {
         const canvas = document.createElement('canvas');
         let width = img.width;
         let height = img.height;
@@ -77,6 +87,23 @@ function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.75) 
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
 
+        // 🌟 Apply Circular Watermark Stamp (JAZ INTERNATIONAL M SDN BHD) at Bottom-Right Corner (~45% opacity)
+        try {
+          const wm = await getWatermarkImg();
+          if (wm) {
+            const wmSize = Math.round(Math.min(width, height) * 0.35); // 35% size
+            const margin = Math.round(Math.min(width, height) * 0.035); // 3.5% margin
+            const x = width - wmSize - margin;
+            const y = height - wmSize - margin;
+
+            ctx.globalAlpha = 0.45; // 45% Opacity matching requested sample intensity
+            ctx.drawImage(wm, x, y, wmSize, wmSize);
+            ctx.globalAlpha = 1.0;
+          }
+        } catch (wmErr) {
+          console.warn('Watermark overlay error:', wmErr);
+        }
+
         canvas.toBlob((blob) => {
           if (!blob) {
             resolve(file);
@@ -86,7 +113,7 @@ function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.75) 
             type: 'image/jpeg',
             lastModified: Date.now()
           });
-          console.log(`Compressed ${file.name}: ${Math.round(file.size/1024)}KB -> ${Math.round(compressedFile.size/1024)}KB`);
+          console.log(`Watermarked & Compressed ${file.name}: ${Math.round(file.size/1024)}KB -> ${Math.round(compressedFile.size/1024)}KB`);
           resolve(compressedFile);
         }, 'image/jpeg', quality);
       };
