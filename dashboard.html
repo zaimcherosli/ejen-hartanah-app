@@ -81,15 +81,27 @@
             </div>
           </div>
 
-          <div style="margin-bottom: 0.85rem;">
-            <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">PROPERTY TYPE *</label>
-            <select id="property_type" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
-              <option value="Detached Factory">Detached Factory</option>
-              <option value="Semi-D Factory">Semi-D Factory</option>
-              <option value="Warehouse">Warehouse / Logistics</option>
-              <option value="Industrial Land">Industrial Land</option>
-              <option value="Shoplot">Commercial Shoplot</option>
-            </select>
+          <div class="form-2col">
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">PROPERTY TYPE *</label>
+              <select id="property_type" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+                <option value="Detached Factory">Detached Factory</option>
+                <option value="Semi-D Factory">Semi-D Factory</option>
+                <option value="Warehouse">Warehouse / Logistics</option>
+                <option value="Industrial Land">Industrial Land</option>
+                <option value="Shoplot">Commercial Shoplot</option>
+                <option value="Commercial Building">Commercial Building</option>
+                <option value="Hotel &amp; Resort">Hotel &amp; Resort</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 700; color: var(--cem-navy); display: block; margin-bottom: 0.25rem;">LAND TENURE *</label>
+              <select id="tenure" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+                <option value="Freehold">Freehold</option>
+                <option value="Leasehold">Leasehold</option>
+                <option value="Leasehold Extension">Leasehold Extension</option>
+              </select>
+            </div>
           </div>
 
           <div style="margin-bottom: 0.85rem;">
@@ -120,6 +132,7 @@
                 <option value="Medium Industry">Medium Industry</option>
                 <option value="Light Industry">Light Industry</option>
                 <option value="Heavy Industry">Heavy Industry</option>
+                <option value="Commercial">Commercial</option>
               </select>
             </div>
           </div>
@@ -257,8 +270,24 @@
               <option value="Warehouse">Warehouse / Logistics</option>
               <option value="Industrial Land">Industrial Land</option>
               <option value="Shoplot">Commercial Shoplot</option>
+              <option value="Commercial Building">Commercial Building</option>
+              <option value="Hotel &amp; Resort">Hotel &amp; Resort</option>
             </select>
           </div>
+        <div class="form-2col">
+          <div>
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--cem-navy); display: block; margin-bottom: 0.25rem;">LAND TENURE *</label>
+            <select id="editTenure" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+              <option value="Freehold">Freehold</option>
+              <option value="Leasehold">Leasehold</option>
+              <option value="Leasehold Extension">Leasehold Extension</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">POWER SUPPLY</label>
+            <input type="text" id="editPower" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+          </div>
+        </div>
         </div>
 
         <div class="form-2col">

@@ -145,6 +145,19 @@ function renderListings(listings) {
 
     const safeTitle = item.title.replace(/'/g, "\\'");
 
+    // Extract Tenure & Zoning
+    const rawZoning = item.zoning || '';
+    let tenureVal = 'Freehold';
+    let zoneVal = rawZoning;
+    if (rawZoning.includes('|')) {
+      const parts = rawZoning.split('|');
+      tenureVal = parts[0].trim();
+      zoneVal = parts[1].trim();
+    } else if (['Freehold', 'Leasehold', 'Leasehold Extension'].includes(rawZoning)) {
+      tenureVal = rawZoning;
+      zoneVal = '-';
+    }
+
     return `
       <div class="property-card">
         <div class="card-img-wrap" onclick="openModal('${item.id}')" style="cursor: pointer;">
@@ -155,9 +168,13 @@ function renderListings(listings) {
         <div class="card-body">
           <div class="card-price">${formattedPrice}</div>
           <h3 class="card-title" onclick="openModal('${item.id}')" style="cursor: pointer;">${item.title}</h3>
-          <div class="card-location">📍 ${item.location}</div>
+          <div class="card-location">📍 ${item.location} • <strong style="color: var(--cem-navy);">${tenureVal}</strong></div>
           
           <div class="spec-grid">
+            <div class="spec-item">
+              <span class="label">Land Tenure</span>
+              <span class="val" style="color: var(--cem-navy); font-weight: 800;">${tenureVal}</span>
+            </div>
             <div class="spec-item">
               <span class="label">Power Supply</span>
               <span class="val">${item.power_supply_amp || '-'}</span>
@@ -167,12 +184,8 @@ function renderListings(listings) {
               <span class="val">${item.ceiling_height_ft || '-'}</span>
             </div>
             <div class="spec-item">
-              <span class="label">Floor Loading</span>
-              <span class="val">${item.floor_loading_kn || '-'}</span>
-            </div>
-            <div class="spec-item">
-              <span class="label">Industrial Zone</span>
-              <span class="val">${item.zoning || '-'}</span>
+              <span class="label">Zone / Details</span>
+              <span class="val">${zoneVal || '-'}</span>
             </div>
           </div>
 
@@ -189,12 +202,13 @@ function renderListings(listings) {
   }).join('');
 }
 
-// Setup Filters for State, Area, Type, Transaction, Zoning & Keyword
+// Setup Filters for State, Area, Type, Transaction, Tenure & Keyword
 function setupFilterListeners() {
   const state = document.getElementById('filterState');
   const area = document.getElementById('filterArea');
   const type = document.getElementById('filterType');
   const listingType = document.getElementById('filterListingType');
+  const tenure = document.getElementById('filterTenure');
   const zoning = document.getElementById('filterZoning');
   const keyword = document.getElementById('searchKeyword');
 
@@ -213,8 +227,11 @@ function setupFilterListeners() {
     if (listingType && listingType.value) {
       filtered = filtered.filter(x => x.listing_type === listingType.value);
     }
+    if (tenure && tenure.value) {
+      filtered = filtered.filter(x => x.zoning && x.zoning.toLowerCase().includes(tenure.value.toLowerCase()));
+    }
     if (zoning && zoning.value) {
-      filtered = filtered.filter(x => x.zoning === zoning.value);
+      filtered = filtered.filter(x => x.zoning && x.zoning.toLowerCase().includes(zoning.value.toLowerCase()));
     }
     if (keyword && keyword.value) {
       const q = keyword.value.toLowerCase();
@@ -232,6 +249,7 @@ function setupFilterListeners() {
   if (area) area.addEventListener('change', applyFilters);
   if (type) type.addEventListener('change', applyFilters);
   if (listingType) listingType.addEventListener('change', applyFilters);
+  if (tenure) tenure.addEventListener('change', applyFilters);
   if (zoning) zoning.addEventListener('change', applyFilters);
   if (keyword) keyword.addEventListener('input', applyFilters);
 }
@@ -261,6 +279,18 @@ function openModal(id, updateHistory = true) {
 
   const safeTitle = item.title.replace(/'/g, "\\'");
 
+  const rawZoning = item.zoning || '';
+  let tenureVal = 'Freehold';
+  let zoneVal = rawZoning;
+  if (rawZoning.includes('|')) {
+    const parts = rawZoning.split('|');
+    tenureVal = parts[0].trim();
+    zoneVal = parts[1].trim();
+  } else if (['Freehold', 'Leasehold', 'Leasehold Extension'].includes(rawZoning)) {
+    tenureVal = rawZoning;
+    zoneVal = '-';
+  }
+
   if (modalBody) {
     modalBody.innerHTML = `
       <h2 style="font-size: 1.4rem; margin-bottom: 0.35rem; color: var(--text-main); line-height: 1.25;">${item.title}</h2>
@@ -271,11 +301,11 @@ function openModal(id, updateHistory = true) {
       <div class="spec-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 1.5rem;">
         <div class="spec-item"><span class="label">Category</span><span class="val">${item.category || 'Industrial'}</span></div>
         <div class="spec-item"><span class="label">Property Type</span><span class="val">${item.property_type}</span></div>
-        <div class="spec-item"><span class="label">Status</span><span class="val">${item.status}</span></div>
+        <div class="spec-item"><span class="label">Land Tenure</span><span class="val" style="color: var(--cem-navy); font-weight: 800;">${tenureVal}</span></div>
         <div class="spec-item"><span class="label">Power Supply</span><span class="val">${item.power_supply_amp || '-'}</span></div>
         <div class="spec-item"><span class="label">Ceiling Height</span><span class="val">${item.ceiling_height_ft || '-'}</span></div>
         <div class="spec-item"><span class="label">Floor Loading</span><span class="val">${item.floor_loading_kn || '-'}</span></div>
-        <div class="spec-item"><span class="label">Industrial Zone</span><span class="val">${item.zoning || '-'}</span></div>
+        <div class="spec-item"><span class="label">Zone / Details</span><span class="val">${zoneVal || '-'}</span></div>
         <div class="spec-item"><span class="label">Built-up Size</span><span class="val">${item.built_up_sqft ? item.built_up_sqft + ' sqft' : '-'}</span></div>
         <div class="spec-item"><span class="label">Land Area</span><span class="val">${item.land_area_sqft ? item.land_area_sqft + ' sqft' : '-'}</span></div>
       </div>

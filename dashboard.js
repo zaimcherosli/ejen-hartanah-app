@@ -203,6 +203,17 @@ function openEditModal(id) {
   document.getElementById('editStatus').value = item.status || 'Available';
   document.getElementById('editListingType').value = item.listing_type || 'For Rent';
   document.getElementById('editPropertyType').value = item.property_type || 'Detached Factory';
+
+  const rawZoning = item.zoning || '';
+  let tenureVal = 'Freehold';
+  if (rawZoning.includes('Freehold')) tenureVal = 'Freehold';
+  else if (rawZoning.includes('Leasehold Extension')) tenureVal = 'Leasehold Extension';
+  else if (rawZoning.includes('Leasehold')) tenureVal = 'Leasehold';
+
+  if (document.getElementById('editTenure')) {
+    document.getElementById('editTenure').value = tenureVal;
+  }
+
   document.getElementById('editPower').value = item.power_supply_amp || '';
   document.getElementById('editCeiling').value = item.ceiling_height_ft || '';
   document.getElementById('editLocation').value = item.location || '';
@@ -256,6 +267,7 @@ function setupEditFormHandler() {
     const status = document.getElementById('editStatus').value;
     const listing_type = document.getElementById('editListingType').value;
     const property_type = document.getElementById('editPropertyType').value;
+    const tenure = document.getElementById('editTenure') ? document.getElementById('editTenure').value : 'Freehold';
     const power_supply_amp = document.getElementById('editPower').value;
     const ceiling_height_ft = document.getElementById('editCeiling').value;
     const location = document.getElementById('editLocation').value;
@@ -312,6 +324,7 @@ function setupEditFormHandler() {
         status,
         listing_type,
         property_type,
+        zoning: tenure,
         power_supply_amp,
         ceiling_height_ft,
         location,
@@ -356,11 +369,13 @@ function setupFormHandler() {
     const category = document.getElementById('category').value;
     const listing_type = document.getElementById('listing_type').value;
     const property_type = document.getElementById('property_type').value;
+    const tenure = document.getElementById('tenure') ? document.getElementById('tenure').value : 'Freehold';
     const asking_price = parseFloat(document.getElementById('asking_price').value);
     const power_supply_amp = document.getElementById('power_supply_amp').value;
     const ceiling_height_ft = document.getElementById('ceiling_height_ft').value;
     const floor_loading_kn = document.getElementById('floor_loading_kn').value;
     const zoning = document.getElementById('zoning').value;
+    const fullZoning = `${tenure} | ${zoning}`;
     const built_up_sqft = parseFloat(document.getElementById('built_up_sqft').value) || null;
     const land_area_sqft = parseFloat(document.getElementById('land_area_sqft').value) || null;
     const location = document.getElementById('location').value;
@@ -416,7 +431,7 @@ function setupFormHandler() {
         power_supply_amp,
         ceiling_height_ft,
         floor_loading_kn,
-        zoning,
+        zoning: fullZoning,
         built_up_sqft,
         land_area_sqft,
         location,
