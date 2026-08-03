@@ -107,7 +107,13 @@ function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.8) {
             ctx.closePath();
             ctx.clip();
 
-            ctx.globalAlpha = 0.45; // 45% Opacity matching requested sample intensity
+            // High-contrast drop shadow behind stamp lines
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.65)';
+            ctx.shadowBlur = 4;
+            ctx.shadowOffsetX = 2;
+            ctx.shadowOffsetY = 2;
+
+            ctx.globalAlpha = 0.75; // 75% High Visibility Opacity
             ctx.drawImage(wm, x, y, wmSize, wmSize);
             ctx.restore();
           }
