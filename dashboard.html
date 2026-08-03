@@ -190,7 +190,18 @@
         <h2 id="editModalHeading" style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); margin-top: 0.5rem; line-height: 1.25;">Edit Property Listing</h2>
       </div>
 
-      <div id="editPreviewImages" style="display: flex; gap: 0.5rem; overflow-x: auto; margin-bottom: 1.25rem; padding-bottom: 0.5rem;"></div>
+      <!-- Existing Photos Gallery with Delete Buttons -->
+      <div style="margin-bottom: 0.75rem;">
+        <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">CURRENT PROPERTY PHOTOS (Click ✕ to remove photo)</label>
+        <div id="editPreviewImages" style="display: flex; gap: 0.75rem; overflow-x: auto; margin-bottom: 0.5rem; padding: 0.5rem; border: 1px solid var(--border); border-radius: 6px; background: #f8fafc; min-height: 75px; align-items: center;"></div>
+      </div>
+
+      <!-- Add New Photos Input -->
+      <div style="margin-bottom: 1.25rem; background: #f1f5f9; padding: 0.75rem; border-radius: 6px; border: 1px dashed var(--border-strong);">
+        <label style="font-size: 0.75rem; font-weight: 700; color: var(--cem-navy); display: block; margin-bottom: 0.35rem;">➕ ADD NEW PROPERTY PHOTOS (Optional)</label>
+        <input type="file" id="editNewImagesInput" multiple accept="image/*" style="width: 100%; font-size: 0.8rem; background: white; padding: 0.4rem; border-radius: 4px; border: 1px solid var(--border);">
+        <span style="font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Select 1 or more new photos from your device to add to this listing.</span>
+      </div>
 
       <form id="editListingForm">
         <input type="hidden" id="editId">

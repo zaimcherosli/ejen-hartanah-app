@@ -170,10 +170,18 @@ async function loadAgentListings() {
   }
 }
 
+// State for editing images
+let currentEditImages = [];
+
 // Open Edit & Preview Listing Modal
 function openEditModal(id) {
   const item = currentListingsData.find(x => x.id === id);
   if (!item) return;
+
+  currentEditImages = item.images ? [...item.images] : [];
+  
+  const newFileInput = document.getElementById('editNewImagesInput');
+  if (newFileInput) newFileInput.value = '';
 
   document.getElementById('editId').value = item.id;
   document.getElementById('editTitle').value = item.title || '';
@@ -186,14 +194,32 @@ function openEditModal(id) {
   document.getElementById('editLocation').value = item.location || '';
   document.getElementById('editDescription').value = item.description || '';
 
-  const imagesContainer = document.getElementById('editPreviewImages');
-  if (item.images && item.images.length > 0) {
-    imagesContainer.innerHTML = item.images.map(img => `<img src="${img}" style="height: 120px; border-radius: 6px; object-fit: cover; border: 1px solid var(--border);" />`).join('');
-  } else {
-    imagesContainer.innerHTML = '<span style="font-size: 0.8rem; color: var(--text-muted);">No uploaded property photos</span>';
-  }
+  renderEditImagesPreview();
 
   document.getElementById('editModal').classList.add('active');
+}
+
+function renderEditImagesPreview() {
+  const imagesContainer = document.getElementById('editPreviewImages');
+  if (!imagesContainer) return;
+
+  if (currentEditImages && currentEditImages.length > 0) {
+    imagesContainer.innerHTML = currentEditImages.map((img, idx) => `
+      <div style="position: relative; display: inline-block; flex-shrink: 0;">
+        <img src="${img}" style="height: 110px; width: 130px; border-radius: 6px; object-fit: cover; border: 1px solid var(--border);" />
+        <button type="button" onclick="removeEditImage(${idx})" title="Remove photo" style="position: absolute; top: 4px; right: 4px; background: #ef4444; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.3); transition: transform 0.15s;">✕</button>
+      </div>
+    `).join('');
+  } else {
+    imagesContainer.innerHTML = '<span style="font-size: 0.82rem; color: var(--text-muted); font-style: italic; padding: 0.5rem 0;">No existing property photos. Upload new photos below.</span>';
+  }
+}
+
+function removeEditImage(idx) {
+  if (idx >= 0 && idx < currentEditImages.length) {
+    currentEditImages.splice(idx, 1);
+    renderEditImagesPreview();
+  }
 }
 
 function closeEditModal() {
@@ -221,10 +247,48 @@ function setupEditFormHandler() {
     const location = document.getElementById('editLocation').value;
     const description = document.getElementById('editDescription').value;
 
+    const newFilesInput = document.getElementById('editNewImagesInput');
+    const newFiles = newFilesInput ? newFilesInput.files : null;
+
     alertBox.style.display = 'block';
     alertBox.style.background = '#fef3c7';
     alertBox.style.color = '#b45309';
-    alertBox.innerText = 'Updating listing details in Supabase...';
+    alertBox.innerText = 'Updating listing & processing photos...';
+
+    let finalImages = [...currentEditImages];
+
+    if (newFiles && newFiles.length > 0) {
+      alertBox.innerText = 'Compressing & uploading new photos to Supabase...';
+      for (let i = 0; i < newFiles.length; i++) {
+        let rawFile = newFiles[i];
+        const fileToUpload = await compressImage(rawFile);
+        const fileExt = 'jpg';
+        const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+        const filePath = `properties/${fileName}`;
+
+        const { data: uploadData, error: uploadErr } = await supabaseClient
+          .storage
+          .from('listing-images')
+          .upload(filePath, fileToUpload, { cacheControl: '3600', upsert: false });
+
+        if (uploadErr) {
+          console.error('Image upload error:', uploadErr);
+          alertBox.style.background = '#fee2e2';
+          alertBox.style.color = '#dc2626';
+          alertBox.innerText = `Ralat muat naik gambar: ${uploadErr.message}`;
+          return;
+        }
+
+        const { data: publicUrlData } = supabaseClient
+          .storage
+          .from('listing-images')
+          .getPublicUrl(filePath);
+
+        if (publicUrlData && publicUrlData.publicUrl) {
+          finalImages.push(publicUrlData.publicUrl);
+        }
+      }
+    }
 
     const { error } = await supabaseClient
       .from('listings')
@@ -237,7 +301,8 @@ function setupEditFormHandler() {
         power_supply_amp,
         ceiling_height_ft,
         location,
-        description
+        description,
+        images: finalImages
       })
       .eq('id', id);
 
