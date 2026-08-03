@@ -42,13 +42,14 @@ async function checkAuth() {
   });
 }
 
-// Preload Watermark Stamp Image
+// Preload Watermark Stamp Image with cache-busting
 let watermarkImgObj = null;
 function getWatermarkImg() {
   return new Promise((resolve) => {
     if (watermarkImgObj) return resolve(watermarkImgObj);
     const wm = new Image();
-    wm.src = 'watermark.png';
+    wm.crossOrigin = 'anonymous';
+    wm.src = 'watermark.png?v=' + Date.now();
     wm.onload = () => {
       watermarkImgObj = wm;
       resolve(wm);
@@ -91,14 +92,24 @@ function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.8) {
         try {
           const wm = await getWatermarkImg();
           if (wm) {
-            const wmSize = Math.round(Math.min(width, height) * 0.35); // 35% size
-            const margin = Math.round(Math.min(width, height) * 0.035); // 3.5% margin
+            const wmSize = Math.round(Math.min(width, height) * 0.38); // 38% size
+            const margin = Math.round(Math.min(width, height) * 0.04); // 4% margin
             const x = width - wmSize - margin;
             const y = height - wmSize - margin;
+            const cx = x + wmSize / 2;
+            const cy = y + wmSize / 2;
+            const radius = wmSize / 2;
+
+            ctx.save();
+            // 🌟 FORCE PERFECT CIRCLE CLIPPING (Strictly no square/box edges allowed!)
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.clip();
 
             ctx.globalAlpha = 0.45; // 45% Opacity matching requested sample intensity
             ctx.drawImage(wm, x, y, wmSize, wmSize);
-            ctx.globalAlpha = 1.0;
+            ctx.restore();
           }
         } catch (wmErr) {
           console.warn('Watermark overlay error:', wmErr);
