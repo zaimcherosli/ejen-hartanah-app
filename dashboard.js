@@ -22,6 +22,20 @@ async function checkAuth() {
   currentUser = session.user;
   document.getElementById('agentEmail').innerText = currentUser.email;
 
+  // Check if user is SuperAdmin
+  const meta = currentUser.user_metadata || {};
+  const isSuperAdmin = meta.role === 'superadmin' || 
+                      meta.status === 'Approved' ||
+                      ['multiple.revenue@gmail.com', 'huzaimrosli@gmail.com', 'biztreat2017@gmail.com'].includes(currentUser.email);
+
+  if (isSuperAdmin) {
+    const adminSection = document.getElementById('superadminApprovalSection');
+    if (adminSection) {
+      adminSection.style.display = 'block';
+      loadAgentApprovals();
+    }
+  }
+
   document.getElementById('btnLogout').addEventListener('click', async () => {
     await supabaseClient.auth.signOut();
     window.location.href = 'login.html';
@@ -458,5 +472,135 @@ async function deleteListing(id) {
     }
   } catch (err) {
     console.error('Delete error:', err);
+  }
+}
+
+// SuperAdmin Agent Approval Management Functions
+async function loadAgentApprovals() {
+  const container = document.getElementById('agentApprovalsContainer');
+  if (!container) return;
+
+  container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">⏳ Memuat senarai pendaftaran ejen dari Supabase...</span>';
+
+  try {
+    const { data: { users }, error } = await supabaseClient.auth.admin.listUsers();
+    if (error) {
+      container.innerHTML = `<span style="color: #dc2626; font-size: 0.85rem;">Ralat memuat senarai ejen: ${error.message}</span>`;
+      return;
+    }
+
+    if (!users || users.length === 0) {
+      container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">Tiada pendaftaran ejen dijumpai.</span>';
+      return;
+    }
+
+    const html = `
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; background: white; border-radius: 6px; overflow: hidden; border: 1px solid var(--border);">
+          <thead>
+            <tr style="background: #f8fafc; text-align: left; color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;">
+              <th style="padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border);">NAMA EJEN</th>
+              <th style="padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border);">NO. WHATSAPP</th>
+              <th style="padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border);">REN NO</th>
+              <th style="padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border);">EMEL</th>
+              <th style="padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border);">STATUS</th>
+              <th style="padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border); text-align: center;">TINDAKAN APPROVAL</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${users.map(u => {
+              const meta = u.user_metadata || {};
+              const name = meta.full_name || 'Ejen Registered';
+              const wa = meta.whatsapp_number || '-';
+              const ren = meta.ren_number || '-';
+              const status = meta.status || 'Approved';
+
+              let badgeBg = '#d1fae5'; let badgeColor = '#047857';
+              if (status === 'Pending') { badgeBg = '#fef3c7'; badgeColor = '#b45309'; }
+              if (status === 'Rejected') { badgeBg = '#fee2e2'; badgeColor = '#dc2626'; }
+
+              const cleanWa = wa.replace(/[^0-9]/g, '');
+
+              return `
+                <tr style="border-bottom: 1px solid var(--border);">
+                  <td style="padding: 0.75rem 0.85rem; font-weight: 700; color: var(--cem-navy);">${name}</td>
+                  <td style="padding: 0.75rem 0.85rem; font-weight: 600;">
+                    <a href="https://wa.me/${cleanWa.startsWith('60') ? cleanWa : '60' + cleanWa}" target="_blank" style="color: #25d366; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
+                      💬 ${wa}
+                    </a>
+                  </td>
+                  <td style="padding: 0.75rem 0.85rem; color: var(--text-muted); font-weight: 600;">${ren}</td>
+                  <td style="padding: 0.75rem 0.85rem;">${u.email}</td>
+                  <td style="padding: 0.75rem 0.85rem;">
+                    <span style="padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 800; font-size: 0.75rem; background: ${badgeBg}; color: ${badgeColor}; display: inline-block;">${status}</span>
+                  </td>
+                  <td style="padding: 0.75rem 0.85rem; text-align: center;">
+                    ${status === 'Pending' ? `
+                      <button onclick="approveAgent('${u.id}', '${u.email}')" style="padding: 0.4rem 0.8rem; background: #10b981; color: white; border: none; border-radius: 4px; font-weight: 700; font-size: 0.78rem; cursor: pointer; margin-right: 0.35rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">✅ Approve</button>
+                      <button onclick="rejectAgent('${u.id}', '${u.email}')" style="padding: 0.4rem 0.8rem; background: #ef4444; color: white; border: none; border-radius: 4px; font-weight: 700; font-size: 0.78rem; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">❌ Reject</button>
+                    ` : `
+                      <span style="color: var(--text-light); font-size: 0.78rem; font-weight: 600;">Active / ${status}</span>
+                    `}
+                  </td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+
+    container.innerHTML = html;
+  } catch (err) {
+    console.error('loadAgentApprovals error:', err);
+    container.innerHTML = `<span style="color: #dc2626; font-size: 0.85rem;">Ralat: ${err.message}</span>`;
+  }
+}
+
+async function approveAgent(userId, email) {
+  if (!confirm(`Adakah anda pasti mahu LULUSKAN akaun ejen (${email})?`)) return;
+
+  try {
+    const { data: { user }, error: getErr } = await supabaseClient.auth.admin.getUserById(userId);
+    if (getErr || !user) return alert('Ralat mendapatkan data ejen: ' + (getErr ? getErr.message : 'User not found'));
+
+    const meta = user.user_metadata || {};
+    const { error } = await supabaseClient.auth.admin.updateUserById(userId, {
+      user_metadata: { ...meta, status: 'Approved' }
+    });
+
+    if (error) {
+      alert('Gagal meluluskan: ' + error.message);
+    } else {
+      alert(`🎉 Akaun ejen (${email}) TELAH DILULUSKAN! Ejen kini boleh log masuk ke Dashboard.`);
+      loadAgentApprovals();
+    }
+  } catch (err) {
+    console.error('approveAgent error:', err);
+    alert('Ralat: ' + err.message);
+  }
+}
+
+async function rejectAgent(userId, email) {
+  if (!confirm(`Adakah anda pasti mahu TOLAK pendaftaran akaun ejen (${email})?`)) return;
+
+  try {
+    const { data: { user }, error: getErr } = await supabaseClient.auth.admin.getUserById(userId);
+    if (getErr || !user) return alert('Ralat mendapatkan data ejen');
+
+    const meta = user.user_metadata || {};
+    const { error } = await supabaseClient.auth.admin.updateUserById(userId, {
+      user_metadata: { ...meta, status: 'Rejected' }
+    });
+
+    if (error) {
+      alert('Gagal menolak: ' + error.message);
+    } else {
+      alert(`Permohonan ejen (${email}) TELAH DITOLAK.`);
+      loadAgentApprovals();
+    }
+  } catch (err) {
+    console.error('rejectAgent error:', err);
+    alert('Ralat: ' + err.message);
   }
 }

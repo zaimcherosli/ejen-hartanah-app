@@ -35,6 +35,21 @@
       <a href="index.html" target="_blank" style="color: var(--cem-red); font-weight: 800; font-size: 0.88rem; text-decoration: none;">🌐 Preview Live Main Site →</a>
     </div>
 
+    <!-- SuperAdmin Agent Approvals Card (Shown for SuperAdmin) -->
+    <div id="superadminApprovalSection" class="dash-card" style="display: none; margin-bottom: 1.75rem; border-top: 4px solid var(--cem-navy);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-navy); margin: 0;">👑 SuperAdmin Agent Registrations &amp; Approvals</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">Semak &amp; luluskan permohonan akaun ejen baharu di portal ini.</p>
+        </div>
+        <button onclick="loadAgentApprovals()" style="padding: 0.4rem 0.85rem; background: #f1f5f9; border: 1px solid var(--border-strong); border-radius: 4px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">🔄 Refresh Senarai</button>
+      </div>
+
+      <div id="agentApprovalsContainer">
+        <!-- Rendered dynamically by dashboard.js -->
+      </div>
+    </div>
+
     <!-- Responsive Grid Stack -->
     <div class="dashboard-grid-container">
 

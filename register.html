@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Agent Registration | Corporate Estate Malaysia</title>
+  <link rel="icon" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=33">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Clean White Navigation Header with Official CEM Logo -->
+  <nav class="navbar">
+    <a href="index.html" class="logo-wrap">
+      <img src="logo.png" alt="Corporate Estate Malaysia Logo" class="logo-img">
+      <div class="logo-text">
+        CORPORATE ESTATE <span>MALAYSIA</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">HOME</a>
+      <a href="listings.html">VIEW LISTINGS</a>
+      <a href="about.html">ABOUT US</a>
+      <a href="services.html">OUR SERVICES</a>
+      <a href="login.html" class="nav-btn-agent" style="color: white !important;">AGENT PORTAL</a>
+    </div>
+  </nav>
+
+  <main class="container" style="display: flex; align-items: center; justify-content: center; min-height: 85vh; padding: 2rem 1rem;">
+    <div class="dash-card" style="max-width: 480px; width: 100%; padding: 2.25rem 1.75rem;">
+      
+      <div style="text-align: center; margin-bottom: 1.25rem;">
+        <img src="logo.png" alt="Corporate Estate Malaysia" style="height: 58px; width: auto; background: transparent; padding: 0;">
+        <h2 style="font-size: 1.35rem; font-weight: 900; color: var(--cem-navy); margin-top: 0.5rem; margin-bottom: 0.25rem;">PENDAFTARAN EJEN BAHARU</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Daftar akaun ejen Corporate Estate Malaysia untuk kelulusan SuperAdmin</p>
+      </div>
+
+      <form id="registerForm">
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">NAMA PENUH *</label>
+          <input type="text" id="fullName" placeholder="e.g. Ahmad Firdaus Bin Razak" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
+        </div>
+
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">NO. WHATSAPP *</label>
+          <input type="tel" id="whatsappNumber" placeholder="e.g. 0173569452" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
+        </div>
+
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">REN NO (NO. PENDAFTARAN EJEN) *</label>
+          <input type="text" id="renNumber" placeholder="e.g. REN 45892 / PEA 2104" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
+        </div>
+
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">EMEL EJEN *</label>
+          <input type="email" id="email" placeholder="e.g. agent@corporateestate.com.my" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">KATA LALUAN (MIN 6 ABJAD/NOMBOR) *</label>
+          <input type="password" id="password" minlength="6" placeholder="••••••••" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
+        </div>
+
+        <div id="registerAlert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.85rem; margin-bottom: 1rem; line-height: 1.4;"></div>
+
+        <button type="submit" id="btnSubmitRegister" class="btn-show-listings" style="height: 48px; width: 100%; font-size: 0.92rem;">HANTAR PENDAFTARAN EJEN</button>
+      </form>
+
+      <div style="margin-top: 1.5rem; text-align: center; font-size: 0.82rem; color: var(--text-muted);">
+        Sudah mendaftar akaun ejen? <a href="login.html" style="color: var(--cem-navy); font-weight: 700;">Log Masuk Di Sini</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="register.js"></script>
+</body>
+</html>

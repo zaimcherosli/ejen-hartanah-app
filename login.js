@@ -1,4 +1,4 @@
-// Login.js - Supabase Authentication Handler for Agent Portal
+// login.js - Supabase Authentication Handler for Agent Portal with SuperAdmin Approval Enforcement
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('loginForm');
   const alertBox = document.getElementById('loginAlert');
@@ -6,10 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function showAlert(msg, isError = true) {
     if (!alertBox) return;
     alertBox.style.display = 'block';
-    alertBox.style.background = isError ? 'rgba(244, 63, 94, 0.15)' : 'rgba(16, 185, 129, 0.15)';
+    alertBox.style.background = isError ? '#fee2e2' : '#d1fae5';
     alertBox.style.color = isError ? '#dc2626' : '#047857';
     alertBox.style.border = `1px solid ${isError ? '#fca5a5' : '#6ee7b7'}`;
-    alertBox.innerText = msg;
+    alertBox.innerHTML = msg;
   }
 
   if (loginForm) {
@@ -24,10 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      showAlert('Semakan log masuk ejen ke Supabase...', false);
+      showAlert('⏳ Semakan log masuk ejen ke Supabase...', false);
 
       try {
-        // 1. Try Signing In
+        // Sign In with Supabase Auth
         const { data, error } = await supabaseClient.auth.signInWithPassword({
           email: email,
           password: password,
@@ -35,34 +35,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (error) {
           console.warn('Sign-in error:', error.message);
-
-          // 2. If invalid credentials or user not registered yet, attempt sign-up for agent setup
           if (error.message.includes('Invalid login credentials')) {
-            showAlert('Mencipta akaun ejen baharu di Supabase...', false);
-            
-            const { data: signUpData, error: signUpErr } = await supabaseClient.auth.signUp({
-              email: email,
-              password: password,
-            });
+            showAlert('Ralat Log Masuk: Kata laluan atau emel tidak tepat. Belum ada akaun? <a href="register.html" style="font-weight:bold; color:#dc2626;">Daftar Di Sini</a>.', true);
+          } else {
+            showAlert('Gagal Log Masuk: ' + error.message, true);
+          }
+          return;
+        }
 
-            if (!signUpErr && signUpData && signUpData.user) {
-              showAlert('Akaun ejen berjaya didaftar & dilog masuk! Mengalih ke Dashboard...', false);
-              setTimeout(() => {
-                window.location.href = 'dashboard.html';
-              }, 800);
-              return;
-            } else if (signUpErr) {
-              showAlert('Ralat Log Masuk: Kata laluan tidak tepat atau akaun belum didaftar.', true);
-              return;
-            }
+        if (data && data.user) {
+          const metadata = data.user.user_metadata || {};
+          const status = metadata.status || 'Approved'; // Default existing users to Approved
+
+          if (status === 'Pending') {
+            // Sign out immediately if not approved yet
+            await supabaseClient.auth.signOut();
+            showAlert(`
+              ⚠️ <strong>Akaun Belum Diluluskan!</strong><br>
+              Akaun ejen anda (<strong>${email}</strong>) masih dalam proses semakan <strong>Pending Approval</strong>.<br>
+              Sila maklumkan kepada <strong>SuperAdmin</strong> untuk kelulusan akaun anda.
+            `, true);
+            return;
           }
 
-          showAlert('Gagal Log Masuk: ' + error.message, true);
-        } else if (data && data.session) {
-          showAlert('Log masuk berjaya! Mengalih ke Dashboard...', false);
+          if (status === 'Rejected') {
+            await supabaseClient.auth.signOut();
+            showAlert(`
+              ❌ <strong>Pendaftaran Tidak Diluluskan</strong><br>
+              Permohonan akaun ejen bagi emel ini tidak diluluskan. Sila hubungi IT Admin.
+            `, true);
+            return;
+          }
+
+          // Approved / Active User -> Proceed to Dashboard
+          showAlert('✅ Log masuk berjaya! Mengalih ke Dashboard...', false);
           setTimeout(() => {
             window.location.href = 'dashboard.html';
-          }, 800);
+          }, 600);
         }
       } catch (err) {
         console.error('Login system error:', err);
