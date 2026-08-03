@@ -268,23 +268,28 @@
       <h2 style="font-size: 1.4rem; color: var(--cem-navy); margin-bottom: 0.5rem; text-align: center;">Enquire About Our Corporate Services</h2>
       <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; max-width: 650px; margin: 0 auto 1.5rem auto;">Speak with our industrial & commercial real estate specialists to discuss your specific requirements.</p>
 
-      <form onsubmit="handleServiceEnquiry(event)" class="lead-form">
-        <input type="text" id="svcName" placeholder="Full Name / Company *" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
-        <input type="tel" id="svcPhone" placeholder="Phone Number / WhatsApp *" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
-        <select id="svcType" class="lead-full-width" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem; background: white;">
+      <form action="https://formsubmit.co/biztreat2017@gmail.com" method="POST" onsubmit="handleServiceEnquiry(event)" class="lead-form">
+        <!-- FormSubmit Configuration -->
+        <input type="hidden" name="_subject" value="🌐 New Corporate Services Enquiry - Website Lead">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+
+        <input type="text" id="svcName" name="Full_Name_Company" placeholder="Full Name / Company *" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
+        <input type="tel" id="svcPhone" name="Phone_WhatsApp" placeholder="Phone Number / WhatsApp *" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem;">
+        <select id="svcType" name="Service_Required" class="lead-full-width" required style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem; background: white;">
           <option value="">Select Service Required *</option>
-          <option value="Factory & Warehouse Sales / Leasing">Factory & Warehouse Sales / Leasing</option>
-          <option value="Industrial Land Acquisition & JV">Industrial Land Acquisition & JV</option>
+          <option value="Factory &amp; Warehouse Sales / Leasing">Factory &amp; Warehouse Sales / Leasing</option>
+          <option value="Industrial Land Acquisition &amp; JV">Industrial Land Acquisition &amp; JV</option>
           <option value="Built-to-Suit (BTS) Development">Built-to-Suit (BTS) Development</option>
-          <option value="DOE, MIDA & Local Authority Licensing">DOE, MIDA & Local Authority Licensing</option>
-          <option value="Sale & Leaseback Advisory">Sale & Leaseback Advisory</option>
-          <option value="Corporate Valuation & Feasibility">Corporate Valuation & Feasibility</option>
-          <option value="Commercial Shoplots & Corporate HQ">Commercial Shoplots & Corporate HQ</option>
+          <option value="DOE, MIDA &amp; Local Authority Licensing">DOE, MIDA &amp; Local Authority Licensing</option>
+          <option value="Sale &amp; Leaseback Advisory">Sale &amp; Leaseback Advisory</option>
+          <option value="Corporate Valuation &amp; Feasibility">Corporate Valuation &amp; Feasibility</option>
+          <option value="Commercial Shoplots &amp; Corporate HQ">Commercial Shoplots &amp; Corporate HQ</option>
           <option value="Infrastructure Due Diligence">Infrastructure Due Diligence</option>
         </select>
-        <textarea id="svcDetails" class="lead-full-width" rows="4" placeholder="Briefly describe your property size, location, or technical requirements..." style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem; font-family: inherit;"></textarea>
+        <textarea id="svcDetails" name="Property_Details_Requirements" class="lead-full-width" rows="4" placeholder="Briefly describe your property size, location, or technical requirements..." style="padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem; font-family: inherit;"></textarea>
         
-        <button type="submit" class="btn-show-listings lead-full-width" style="height: 48px;">SUBMIT ENQUIRY VIA WHATSAPP</button>
+        <button type="submit" class="btn-show-listings lead-full-width" style="height: 48px; font-size: 0.95rem; font-weight: 800; background: var(--cem-red);">✉️ SUBMIT ENQUIRY VIA EMAIL</button>
       </form>
     </div>
   </section>
@@ -311,14 +316,27 @@
     }
 
     function handleServiceEnquiry(e) {
-      e.preventDefault();
-      const name = document.getElementById('svcName').value;
-      const phone = document.getElementById('svcPhone').value;
+      // FormSubmit automatically posts data to biztreat2017@gmail.com
+      const name = document.getElementById('svcName').value.trim();
+      const phone = document.getElementById('svcPhone').value.trim();
       const service = document.getElementById('svcType').value;
-      const details = document.getElementById('svcDetails').value;
+      const details = document.getElementById('svcDetails').value.trim();
 
-      const waMsg = encodeURIComponent(`Hello Corporate Estate Malaysia,\nI have a service enquiry regarding *${service}*:\n*Name/Company*: ${name}\n*Phone*: ${phone}\n*Details*: ${details}\nPlease get back to me.`);
-      window.open(`https://wa.me/60173569452?text=${waMsg}`, '_blank');
+      // Open mailto fallback as well
+      const subject = encodeURIComponent(`[Website Enquiry] ${service} - ${name}`);
+      const body = encodeURIComponent(
+        `Hello Corporate Estate Malaysia,\n\n` +
+        `I would like to submit an enquiry regarding ${service}:\n\n` +
+        `• Name / Company: ${name}\n` +
+        `• Phone / WhatsApp: ${phone}\n` +
+        `• Service Required: ${service}\n` +
+        `• Details / Requirements:\n${details || 'N/A'}\n\n` +
+        `Thank you.`
+      );
+
+      setTimeout(() => {
+        window.location.href = `mailto:biztreat2017@gmail.com?subject=${subject}&body=${body}`;
+      }, 500);
     }
   </script>
 </body>
