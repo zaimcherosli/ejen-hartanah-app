@@ -22,10 +22,8 @@ async function checkAuth() {
   currentUser = session.user;
   document.getElementById('agentEmail').innerText = currentUser.email;
 
-  // Check if user is SuperAdmin
-  const meta = currentUser.user_metadata || {};
-  const isSuperAdmin = meta.role === 'superadmin' || 
-                      ['multiple.revenue@gmail.com', 'huzaimrosli@gmail.com', 'biztreat2017@gmail.com', 'zaimrosli.tvpc@gmail.com'].includes((currentUser.email || '').toLowerCase());
+  // Check if user is SuperAdmin (Strictly huzaimrosli@gmail.com and biztreat2017@gmail.com)
+  const isSuperAdmin = ['huzaimrosli@gmail.com', 'biztreat2017@gmail.com'].includes((currentUser.email || '').toLowerCase());
 
   if (isSuperAdmin) {
     const adminSection = document.getElementById('superadminApprovalSection');
