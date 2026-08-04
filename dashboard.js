@@ -23,6 +23,9 @@ async function checkAuth() {
   const agentEmailEl = document.getElementById('agentEmail');
   if (agentEmailEl) agentEmailEl.innerText = currentUser.email;
 
+  const mobileAgentEmailEl = document.getElementById('mobileAgentEmail');
+  if (mobileAgentEmailEl) mobileAgentEmailEl.innerText = currentUser.email;
+
   // Check if user is SuperAdmin (Strictly huzaimrosli@gmail.com and biztreat2017@gmail.com)
   const isSuperAdmin = ['huzaimrosli@gmail.com', 'biztreat2017@gmail.com'].includes((currentUser.email || '').toLowerCase());
 
@@ -30,6 +33,10 @@ async function checkAuth() {
   const portalNavDashboardBtn = document.getElementById('portalNavDashboardBtn');
   if (portalNavDashboardBtn && !isSuperAdmin) {
     portalNavDashboardBtn.style.display = 'none';
+  }
+  const mobilePortalDashboardBtn = document.getElementById('mobilePortalDashboardBtn');
+  if (mobilePortalDashboardBtn && !isSuperAdmin) {
+    mobilePortalDashboardBtn.style.display = 'none';
   }
 
   if (isSuperAdmin) {
