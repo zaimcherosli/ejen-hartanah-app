@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=41">
+  <link rel="stylesheet" href="style.css?v=49">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     @media (max-width: 640px) {
@@ -59,7 +59,7 @@
     <div style="padding: 0.65rem 0.85rem; background: #f1f5f9; border-radius: 6px; font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
       Logged in: <strong id="mobileAgentEmail" style="color: var(--cem-red);">...</strong>
     </div>
-    <a href="/dashboard" style="background: var(--cem-navy); color: white !important;">👥 Kelulusan Ejen &amp; Audit Log</a>
+    <a href="/dashboard" style="background: var(--cem-navy); color: white !important;">👥 Agent Approvals &amp; Audit Log</a>
     <a href="/agent-listing-management" style="color: var(--cem-navy);">🏠 Listing Management</a>
     <a href="index.html" target="_blank" style="color: var(--cem-navy);">🌐 Preview Live Main Site</a>
     <a href="javascript:void(0)" onclick="handlePortalLogout()" style="color: var(--cem-red); background: #fee2e2; border-color: #fca5a5;">🚪 Logout Portal</a>
@@ -70,7 +70,7 @@
     <div class="container" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 0.75rem; padding-bottom: 0.75rem;">
       <div style="display: flex; gap: 0.5rem;">
         <a href="/dashboard" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; background: var(--cem-navy); color: white; border: 1px solid var(--cem-navy);">
-          👥 Kelulusan Ejen &amp; Audit Log
+          👥 Agent Approvals &amp; Audit Log
         </a>
         <a href="/agent-listing-management" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border);">
           🏠 Listing Management
@@ -82,8 +82,8 @@
 
   <main class="container" style="padding-top: 1.25rem; padding-bottom: 3.5rem;">
     <div style="margin-bottom: 1.25rem;">
-      <h2 style="font-size: 1.25rem; font-weight: 900; color: var(--cem-navy); line-height: 1.3; margin-bottom: 0.3rem;">Kelulusan Ejen &amp; Audit Log</h2>
-      <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">Semak &amp; luluskan pendaftaran ejen, pantau audit log aktiviti secara real-time.</p>
+      <h2 style="font-size: 1.25rem; font-weight: 900; color: var(--cem-navy); line-height: 1.3; margin-bottom: 0.3rem;">Agent Approvals &amp; Audit Log</h2>
+      <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">Review &amp; approve agent registrations, track real-time activity audit logs.</p>
     </div>
 
     <!-- SuperAdmin Executive Tabbed Control Panel (Shown ONLY for SuperAdmin) -->
@@ -93,12 +93,12 @@
       <div style="border-bottom: 2px solid var(--border); padding-bottom: 0.75rem; margin-bottom: 1rem;">
         <div class="admin-tab-group" style="display: flex; align-items: center; background: #f1f5f9; padding: 0.25rem; border-radius: 8px; gap: 0.25rem; width: 100%;">
           <button id="adminTabApprovalsBtn" type="button" onclick="switchAdminTab('approvals')" style="flex: 1; padding: 0.45rem 0.4rem; background: var(--cem-navy); color: white; border: none; border-radius: 6px; font-weight: 800; font-size: 0.76rem; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.15s;">
-            👥 Kelulusan Ejen
+            👥 Agent Approvals
           </button>
           <button id="adminTabLogsBtn" type="button" onclick="switchAdminTab('logs')" style="flex: 1; padding: 0.45rem 0.4rem; background: transparent; color: var(--text-main); border: none; border-radius: 6px; font-weight: 800; font-size: 0.76rem; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.15s;">
             📜 Audit Log
           </button>
-          <button type="button" onclick="refreshCurrentAdminTab()" title="Kemaskini Data / Refresh" style="padding: 0.45rem 0.6rem; background: white; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" aria-label="Refresh">
+          <button type="button" onclick="refreshCurrentAdminTab()" title="Refresh Data" style="padding: 0.45rem 0.6rem; background: white; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" aria-label="Refresh">
             🔄
           </button>
         </div>
@@ -106,7 +106,7 @@
 
       <!-- Tab Content 1: Agent Approvals -->
       <div id="adminTabApprovalsContent">
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.85rem;">Semak, luluskan, atau padamkan akaun pendaftaran ejen di portal ini.</p>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.85rem;">Review, approve, or remove registered agent accounts on this portal.</p>
         <div id="agentApprovalsContainer">
           <!-- Rendered dynamically by dashboard.js -->
         </div>
@@ -114,7 +114,7 @@
 
       <!-- Tab Content 2: Activity Logs -->
       <div id="adminTabLogsContent" style="display: none;">
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.85rem;">Jejak pergerakan &amp; aktiviti penambahan, kemaskini, dan pemadaman ejen secara real-time.</p>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.85rem;">Track real-time activity for added, updated, and deleted agent listings and approvals.</p>
         <div id="activityLogsContainer">
           <!-- Rendered dynamically by dashboard.js with max-height internal scroll -->
         </div>

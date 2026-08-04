@@ -134,7 +134,7 @@ async function loadAgentListings() {
     currentListingsData = data || [];
 
     if (!data || data.length === 0) {
-      const emptyMsg = `Belum ada listing. Sila tambah di borang di atas/sebelah.`;
+      const emptyMsg = `No listings found yet. Please add your first listing using the form above.`;
       if (tbody) tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 1.5rem;">${emptyMsg}</td></tr>`;
       if (mobileContainer) mobileContainer.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 1.5rem;">${emptyMsg}</div>`;
       return;
@@ -518,7 +518,7 @@ async function loadAgentApprovals() {
   const container = document.getElementById('agentApprovalsContainer');
   if (!container) return;
 
-  container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">⏳ Memuat senarai pendaftaran ejen dari Supabase...</span>';
+  container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">⏳ Loading registered agents list...</span>';
 
   try {
     const { data: profiles, error } = await supabaseClient
@@ -528,12 +528,12 @@ async function loadAgentApprovals() {
 
     if (error) {
       console.warn('agent_profiles query warning:', error.message);
-      container.innerHTML = `<span style="color: #dc2626; font-size: 0.85rem;">Ralat memuat senarai ejen: ${error.message}. Sila pastikan jadual 'agent_profiles' wujud di Supabase SQL Editor.</span>`;
+      container.innerHTML = `<span style="color: #dc2626; font-size: 0.85rem;">Error loading agents list: ${error.message}.</span>`;
       return;
     }
 
     if (!profiles || profiles.length === 0) {
-      container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">Tiada pendaftaran ejen baharu dijumpai.</span>';
+      container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">No new agent registrations found.</span>';
       return;
     }
 
@@ -542,17 +542,17 @@ async function loadAgentApprovals() {
         <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left; min-width: 680px;">
           <thead>
             <tr style="background: #f8fafc; color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border);">
-              <th style="padding: 0.85rem 1rem; white-space: nowrap;">NAMA EJEN</th>
-              <th style="padding: 0.85rem 1rem; white-space: nowrap;">NO. WHATSAPP</th>
-              <th style="padding: 0.85rem 1rem; white-space: nowrap;">REN NO</th>
-              <th style="padding: 0.85rem 1rem;">EMEL</th>
+              <th style="padding: 0.85rem 1rem; white-space: nowrap;">AGENT NAME</th>
+              <th style="padding: 0.85rem 1rem; white-space: nowrap;">WHATSAPP NO.</th>
+              <th style="padding: 0.85rem 1rem; white-space: nowrap;">REN NO.</th>
+              <th style="padding: 0.85rem 1rem;">EMAIL</th>
               <th style="padding: 0.85rem 1rem; white-space: nowrap;">STATUS</th>
-              <th style="padding: 0.85rem 1rem; text-align: center; white-space: nowrap;">TINDAKAN APPROVAL</th>
+              <th style="padding: 0.85rem 1rem; text-align: center; white-space: nowrap;">APPROVAL ACTION</th>
             </tr>
           </thead>
           <tbody>
             ${profiles.map(u => {
-              const name = u.full_name || 'Ejen Registered';
+              const name = u.full_name || 'Registered Agent';
               const wa = u.whatsapp_number || '-';
               const ren = u.ren_number || '-';
               const status = u.status || 'Pending';
@@ -588,7 +588,7 @@ async function loadAgentApprovals() {
                       ` : `
                         <span style="color: var(--text-muted); font-size: 0.78rem; font-weight: 600; background: #f8fafc; padding: 0.3rem 0.6rem; border-radius: 4px; border: 1px solid #e2e8f0;">Active / ${status}</span>
                       `}
-                      <button type="button" onclick="deleteAgentProfile('${u.id}', '${u.email}')" title="Memadam profil ejen dari sistem" style="padding: 0.45rem 0.6rem; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;" aria-label="Padam">🗑️</button>
+                      <button type="button" onclick="deleteAgentProfile('${u.id}', '${u.email}')" title="Delete agent profile from system" style="padding: 0.45rem 0.6rem; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;" aria-label="Delete">🗑️</button>
                     </div>
                   </td>
                 </tr>
@@ -602,7 +602,7 @@ async function loadAgentApprovals() {
     const mobileHtml = `
       <div class="mobile-only-cards">
         ${profiles.map(u => {
-          const name = u.full_name || 'Ejen Registered';
+          const name = u.full_name || 'Registered Agent';
           const wa = u.whatsapp_number || '-';
           const ren = u.ren_number || '-';
           const status = u.status || 'Pending';
@@ -655,12 +655,12 @@ async function loadAgentApprovals() {
     container.innerHTML = desktopHtml + mobileHtml;
   } catch (err) {
     console.error('loadAgentApprovals error:', err);
-    container.innerHTML = `<span style="color: #dc2626; font-size: 0.85rem;">Ralat: ${err.message}</span>`;
+    container.innerHTML = `<span style="color: #dc2626; font-size: 0.85rem;">Error: ${err.message}</span>`;
   }
 }
 
 async function approveAgent(userId, email) {
-  if (!confirm(`Adakah anda pasti mahu LULUSKAN akaun ejen (${email})?`)) return;
+  if (!confirm(`Are you sure you want to APPROVE agent account (${email})?`)) return;
 
   try {
     const { error } = await supabaseClient
@@ -669,21 +669,21 @@ async function approveAgent(userId, email) {
       .eq('id', userId);
 
     if (error) {
-      alert('Gagal meluluskan: ' + error.message);
+      alert('Failed to approve: ' + error.message);
     } else {
-      alert(`🎉 Akaun ejen (${email}) TELAH DILULUSKAN! Ejen kini boleh log masuk ke Dashboard.`);
-      await logActivity('APPROVE_AGENT', `Meluluskan pendaftaran akaun ejen (${email})`, userId);
+      alert(`🎉 Agent account (${email}) HAS BEEN APPROVED! The agent can now log in to the portal.`);
+      await logActivity('APPROVE_AGENT', `Approved agent account registration (${email})`, userId);
       loadAgentApprovals();
       loadActivityLogs();
     }
   } catch (err) {
     console.error('approveAgent error:', err);
-    alert('Ralat: ' + err.message);
+    alert('Error: ' + err.message);
   }
 }
 
 async function rejectAgent(userId, email) {
-  if (!confirm(`Adakah anda pasti mahu TOLAK pendaftaran akaun ejen (${email})?`)) return;
+  if (!confirm(`Are you sure you want to REJECT agent account registration (${email})?`)) return;
 
   try {
     const { error } = await supabaseClient
@@ -692,21 +692,21 @@ async function rejectAgent(userId, email) {
       .eq('id', userId);
 
     if (error) {
-      alert('Gagal menolak: ' + error.message);
+      alert('Failed to reject: ' + error.message);
     } else {
-      alert(`Permohonan ejen (${email}) TELAH DITOLAK.`);
-      await logActivity('REJECT_AGENT', `Menolak pendaftaran akaun ejen (${email})`, userId);
+      alert(`Agent application (${email}) HAS BEEN REJECTED.`);
+      await logActivity('REJECT_AGENT', `Rejected agent account registration (${email})`, userId);
       loadAgentApprovals();
       loadActivityLogs();
     }
   } catch (err) {
     console.error('rejectAgent error:', err);
-    alert('Ralat: ' + err.message);
+    alert('Error: ' + err.message);
   }
 }
 
 async function deleteAgentProfile(userId, email) {
-  if (!confirm(`Adakah anda pasti mahu MEMADAM PROFIL EJEN (${email}) daripada sistem?`)) return;
+  if (!confirm(`Are you sure you want to DELETE AGENT PROFILE (${email}) from the system?`)) return;
 
   try {
     const { data, error } = await supabaseClient
@@ -716,16 +716,16 @@ async function deleteAgentProfile(userId, email) {
       .select();
 
     if (error) {
-      alert('Gagal memadam profil ejen: ' + error.message);
+      alert('Failed to delete agent profile: ' + error.message);
     } else {
-      alert(`Profil ejen (${email}) TELAH DIPADAM daripada sistem.`);
-      await logActivity('DELETE_AGENT', `Memadam pendaftaran akaun ejen (${email})`, userId);
+      alert(`Agent profile (${email}) HAS BEEN DELETED from the system.`);
+      await logActivity('DELETE_AGENT', `Deleted agent account registration (${email})`, userId);
       loadAgentApprovals();
       loadActivityLogs();
     }
   } catch (err) {
     console.error('deleteAgentProfile error:', err);
-    alert('Ralat: ' + err.message);
+    alert('Error: ' + err.message);
   }
 }
 
@@ -803,7 +803,7 @@ async function loadActivityLogs() {
   const container = document.getElementById('activityLogsContainer');
   if (!container) return;
 
-  container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">⏳ Memuatkan log aktiviti...</span>';
+  container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">⏳ Loading activity logs...</span>';
 
   try {
     const { data: logs, error } = await supabaseClient
@@ -814,12 +814,12 @@ async function loadActivityLogs() {
 
     if (error) {
       console.warn('activity_logs query error:', error.message);
-      container.innerHTML = `<span style="color: var(--text-muted); font-size: 0.82rem;">Belum ada log aktiviti direkodkan setakat ini. Sila pastikan jadual 'activity_logs' telah dicipta di Supabase SQL Editor.</span>`;
+      container.innerHTML = `<span style="color: var(--text-muted); font-size: 0.82rem;">No activity logs recorded yet. Please ensure 'activity_logs' table exists in Supabase.</span>`;
       return;
     }
 
     if (!logs || logs.length === 0) {
-      container.innerHTML = '<span style="font-size: 0.82rem; color: var(--text-muted);">Tiada log aktiviti direkodkan setakat ini.</span>';
+      container.innerHTML = '<span style="font-size: 0.82rem; color: var(--text-muted);">No activity logs recorded yet.</span>';
       return;
     }
 
@@ -828,10 +828,10 @@ async function loadActivityLogs() {
         <table style="width: 100%; border-collapse: collapse; font-size: 0.83rem; text-align: left; min-width: 620px;">
           <thead style="position: sticky; top: 0; z-index: 10;">
             <tr style="background: #f8fafc; color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border);">
-              <th style="padding: 0.8rem 0.9rem; white-space: nowrap; background: #f8fafc;">MASA &amp; TARIKH</th>
-              <th style="padding: 0.8rem 0.9rem; white-space: nowrap; background: #f8fafc;">EJEN / PENGENDALI</th>
-              <th style="padding: 0.8rem 0.9rem; white-space: nowrap; background: #f8fafc;">JENIS TINDAKAN</th>
-              <th style="padding: 0.8rem 0.9rem; background: #f8fafc;">BUTIRAN AKTIVITI</th>
+              <th style="padding: 0.8rem 0.9rem; white-space: nowrap; background: #f8fafc;">DATE &amp; TIME</th>
+              <th style="padding: 0.8rem 0.9rem; white-space: nowrap; background: #f8fafc;">AGENT / USER</th>
+              <th style="padding: 0.8rem 0.9rem; white-space: nowrap; background: #f8fafc;">ACTION TYPE</th>
+              <th style="padding: 0.8rem 0.9rem; background: #f8fafc;">ACTIVITY DETAILS</th>
             </tr>
           </thead>
           <tbody>
