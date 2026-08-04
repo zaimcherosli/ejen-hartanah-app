@@ -1,4 +1,5 @@
 # Cloudflare Pages Clean Sub-Path Rewrite Rule for Real Estate Listings & Agents
 /listings/* /listings.html 200
 /agents/wanazemi /agent-wanazemi.html 200
-/agent-listing-management /dashboard.html 200
+/agent-listing-management /agent-listing-management.html 200
+/dashboard /dashboard.html 200

@@ -49,14 +49,29 @@
     </div>
   </nav>
 
-  <main class="container" style="padding-top: 1.5rem;">
+  <!-- Agent Portal Sub-Navigation Menu Bar -->
+  <div style="background: #ffffff; border-bottom: 2px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+    <div class="container" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-top: 0.75rem; padding-bottom: 0.75rem;">
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <a href="/dashboard" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; background: var(--cem-navy); color: white; border: 1px solid var(--cem-navy);">
+          👥 Kelulusan Ejen &amp; Audit Log
+        </a>
+        <a href="/agent-listing-management" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border);">
+          🏠 Listing Management
+        </a>
+      </div>
+      <a href="index.html" target="_blank" style="color: var(--cem-red); font-weight: 800; font-size: 0.85rem; text-decoration: none;">🌐 Preview Live Main Site →</a>
+    </div>
+  </div>
+
+  <main class="container" style="padding-top: 1.5rem; padding-bottom: 3.5rem;">
     <div class="section-title" style="margin-bottom: 1.25rem;">
-      <h2>Agent Listing Management Dashboard</h2>
-      <a href="index.html" target="_blank" style="color: var(--cem-red); font-weight: 800; font-size: 0.88rem; text-decoration: none;">🌐 Preview Live Main Site →</a>
+      <h2 style="font-size: 1.6rem; font-weight: 900; color: var(--cem-navy);">SuperAdmin Agent Approval &amp; Audit Log Dashboard</h2>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.25rem;">Review &amp; approve agent registrations, track real-time audit logs, and manage agent access levels.</p>
     </div>
 
     <!-- SuperAdmin Executive Tabbed Control Panel (Shown ONLY for SuperAdmin) -->
-    <div id="superadminMainCard" class="dash-card" style="display: none; margin-bottom: 1.75rem; border-top: 4px solid var(--cem-navy); padding: 1.25rem;">
+    <div id="superadminMainCard" class="dash-card" style="display: block; margin-bottom: 1.75rem; border-top: 4px solid var(--cem-navy); padding: 1.25rem;">
       
       <!-- Executive Segmented Pill Control for Tabs -->
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 0.85rem; margin-bottom: 1rem; gap: 0.5rem; flex-wrap: wrap;">
@@ -92,14 +107,32 @@
 
     </div>
 
-    <!-- Responsive Grid Stack -->
-    <div class="dashboard-grid-container">
+    <!-- Quick Navigation Banner to Listing Management -->
+    <div class="dash-card" style="background: #ffffff; border: 1px solid var(--border); border-top: 4px solid var(--cem-red); padding: 1.5rem; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
+      <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.4rem;">🏠 Looking to Manage Property Listings &amp; Inventory?</h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.15rem; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+        Add new property listings, edit active inventory details, upload watermarked photos, or delete completed deals in the dedicated Listing Management section.
+      </p>
+      <a href="/agent-listing-management" style="display: inline-block; padding: 0.75rem 1.6rem; background: var(--cem-red); color: white; font-weight: 800; font-size: 0.92rem; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 14px rgba(220,38,38,0.3); transition: transform 0.15s;">
+        Go To Listing Management Dashboard →
+      </a>
+    </div>
 
-      <!-- Add Listing Form Card -->
-      <div class="dash-card">
-        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-red); margin-bottom: 1rem;">+ Add New Property Listing</h3>
-        
-        <form id="addListingForm">
+  </main>
+
+  <!-- Pure White Footer -->
+  <footer style="background: #ffffff; color: var(--text-muted); text-align: center; padding: 2.25rem 1rem; margin-top: auto; font-size: 0.85rem; border-top: 1px solid var(--border);">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+      <img src="logo.png" style="height: 36px; width: auto; background: transparent; padding: 0;">
+      <strong style="color: var(--cem-navy); font-size: 1rem;">CORPORATE ESTATE MALAYSIA</strong>
+    </div>
+    <p>© 2026 Corporate Estate Malaysia. Leading Real Estate Industrial - Commercial - Land. All Rights Reserved.</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>
           <div style="margin-bottom: 0.85rem;">
             <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">LISTING TITLE *</label>
             <input type="text" id="title" placeholder="e.g. 3-Storey Semi-D Factory in Bukit Jelutong" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">

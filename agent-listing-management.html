@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Agent Listing Management | Corporate Estate Malaysia</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=25">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body style="background: #f8fafc; min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Clean White Navigation Header with Official CEM Logo -->
+  <nav class="navbar">
+    <a href="index.html" class="logo-wrap">
+      <img src="logo.png" alt="Corporate Estate Malaysia Logo" class="logo-img">
+      <div class="logo-text">
+        CORPORATE ESTATE <span>MALAYSIA</span>
+      </div>
+      <span class="agent-portal-badge">AGENT PORTAL</span>
+    </a>
+    <div class="nav-links">
+      <span style="color: var(--text-main); font-size: 0.82rem; font-weight: 600;">Logged in: <strong id="agentEmail" style="color: var(--cem-red);">...</strong></span>
+      <button id="btnLogout" class="nav-btn-agent" style="cursor: pointer;">LOGOUT</button>
+    </div>
+  </nav>
+
+  <!-- Agent Portal Sub-Navigation Menu Bar -->
+  <div style="background: #ffffff; border-bottom: 2px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+    <div class="container" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-top: 0.75rem; padding-bottom: 0.75rem;">
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <a href="/dashboard" id="portalNavDashboardBtn" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border);">
+          👥 Kelulusan Ejen &amp; Audit Log
+        </a>
+        <a href="/agent-listing-management" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; background: var(--cem-navy); color: white; border: 1px solid var(--cem-navy);">
+          🏠 Listing Management
+        </a>
+      </div>
+      <a href="index.html" target="_blank" style="color: var(--cem-red); font-weight: 800; font-size: 0.85rem; text-decoration: none;">🌐 Preview Live Main Site →</a>
+    </div>
+  </div>
+
+  <main class="container" style="padding-top: 1.5rem; padding-bottom: 3.5rem;">
+    <div class="section-title" style="margin-bottom: 1.25rem;">
+      <h2 style="font-size: 1.6rem; font-weight: 900; color: var(--cem-navy);">Agent Listing &amp; Inventory Management</h2>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.25rem;">Add new property listings, update active inventory, or remove completed property assets.</p>
+    </div>
+
+    <!-- Responsive Grid Stack -->
+    <div class="dashboard-grid-container">
+
+      <!-- Add Listing Form Card -->
+      <div class="dash-card">
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-red); margin-bottom: 1rem;">+ Add New Property Listing</h3>
+        
+        <form id="addListingForm">
+          <div style="margin-bottom: 0.85rem;">
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">LISTING TITLE *</label>
+            <input type="text" id="title" placeholder="e.g. 3-Storey Semi-D Factory in Bukit Jelutong" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+          </div>
+
+          <div class="form-2col">
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">CATEGORY</label>
+              <select id="category" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+                <option value="Industrial">Industrial</option>
+                <option value="Commercial">Commercial</option>
+                <option value="Land">Land</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">STATUS *</label>
+              <select id="listing_type" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+                <option value="For Rent">For Rent</option>
+                <option value="For Sale">For Sale</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-2col">
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">PROPERTY TYPE *</label>
+              <select id="property_type" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+                <option value="Detached Factory">Detached Factory</option>
+                <option value="Semi-D Factory">Semi-D Factory</option>
+                <option value="Warehouse">Warehouse / Logistics</option>
+                <option value="Industrial Land">Industrial Land</option>
+                <option value="Shoplot">Commercial Shoplot</option>
+                <option value="Commercial Building">Commercial Building</option>
+                <option value="Hotel &amp; Resort">Hotel &amp; Resort</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 0.75rem; font-weight: 700; color: var(--cem-navy); display: block; margin-bottom: 0.25rem;">LAND TENURE *</label>
+              <select id="tenure" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+                <option value="Freehold">Freehold</option>
+                <option value="Leasehold">Leasehold</option>
+                <option value="Leasehold Extension">Leasehold Extension</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 0.85rem;">
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ASKING PRICE (RM) *</label>
+            <input type="number" id="asking_price" placeholder="e.g. 4500000" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+          </div>
+
+          <!-- Specs -->
+          <div class="form-2col">
+            <div>
+              <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">POWER SUPPLY</label>
+              <input type="text" id="power_supply_amp" placeholder="e.g. 300 Amp" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+            </div>
+            <div>
+              <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">CEILING HEIGHT</label>
+              <input type="text" id="ceiling_height_ft" placeholder="e.g. 30 ft" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+            </div>
+          </div>
+
+          <div class="form-2col">
+            <div>
+              <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">FLOOR LOADING</label>
+              <input type="text" id="floor_loading_kn" placeholder="e.g. 25 kN/m²" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+            </div>
+            <div>
+              <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ZONING</label>
+              <select id="zoning" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+                <option value="Medium Industry">Medium Industry</option>
+                <option value="Light Industry">Light Industry</option>
+                <option value="Heavy Industry">Heavy Industry</option>
+                <option value="Commercial">Commercial</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-2col">
+            <div>
+              <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">BUILT-UP (SQFT)</label>
+              <input type="number" id="built_up_sqft" placeholder="15000" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+            </div>
+            <div>
+              <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">LAND AREA (SQFT)</label>
+              <input type="number" id="land_area_sqft" placeholder="20000" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+            </div>
+          </div>
+
+          <div style="margin-bottom: 0.85rem;">
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">LOCATION / AREA *</label>
+            <input type="text" id="location" placeholder="e.g. Shah Alam, Selangor" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+          </div>
+
+          <div style="margin-bottom: 0.85rem;">
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">AGENT WHATSAPP NUMBER *</label>
+            <input type="text" id="agent_phone" placeholder="60173569452" value="60173569452" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+          </div>
+
+          <!-- Image Upload with Auto Watermark -->
+          <div style="margin-bottom: 1.25rem;">
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--cem-navy); display: block; margin-bottom: 0.25rem;">
+              PROPERTY IMAGES (AUTO-WATERMARKED WITH CORPORATE ESTATE MALAYSIA)
+            </label>
+            <input type="file" id="listingImages" multiple accept="image/*" style="width: 100%; font-size: 0.8rem; padding: 0.4rem; border: 1px dashed var(--border-strong); border-radius: 6px; background: #f8fafc;">
+            <small style="color: var(--text-muted); font-size: 0.7rem; display: block; margin-top: 0.25rem;">
+              Upload images up to 5MB. Watermark is automatically stamped onto all images before publishing.
+            </small>
+          </div>
+
+          <button type="submit" id="btnSubmitListing" class="btn-show-listings" style="width: 100%; height: 46px; font-size: 0.9rem;">PUBLISH NEW LISTING</button>
+        </form>
+      </div>
+
+      <!-- Active Inventory List Card -->
+      <div class="dash-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-navy); margin: 0;">Active Inventory List</h3>
+          <button onclick="loadAgentListings()" style="padding: 0.35rem 0.75rem; background: #f1f5f9; border: 1px solid var(--border); border-radius: 6px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">🔄 Refresh</button>
+        </div>
+
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
+          💡 Click on any listing card to preview details, edit specifications, or delete completed listings.
+        </p>
+
+        <!-- Inventory List Container -->
+        <div id="inventoryContainer">
+          <!-- Rendered dynamically by dashboard.js -->
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- EDIT LISTING MODAL -->
+  <div id="editModal" class="modal-overlay" onclick="if(event.target===this) closeEditModal()">
+    <div class="modal-content" style="max-width: 650px;">
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+      <h3 style="font-size: 1.2rem; font-weight: 900; color: var(--cem-navy); margin-bottom: 1rem; border-bottom: 2px solid var(--cem-red); padding-bottom: 0.5rem;">Edit Property Listing</h3>
+      
+      <form id="editListingForm">
+        <input type="hidden" id="edit_id">
+        
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">LISTING TITLE *</label>
+          <input type="text" id="edit_title" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+        </div>
+
+        <div class="form-2col">
+          <div>
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">CATEGORY</label>
+            <select id="edit_category" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+              <option value="Industrial">Industrial</option>
+              <option value="Commercial">Commercial</option>
+              <option value="Land">Land</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">STATUS *</label>
+            <select id="edit_listing_type" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+              <option value="For Rent">For Rent</option>
+              <option value="For Sale">For Sale</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-2col">
+          <div>
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">PROPERTY TYPE *</label>
+            <select id="edit_property_type" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+              <option value="Detached Factory">Detached Factory</option>
+              <option value="Semi-D Factory">Semi-D Factory</option>
+              <option value="Warehouse">Warehouse / Logistics</option>
+              <option value="Industrial Land">Industrial Land</option>
+              <option value="Shoplot">Commercial Shoplot</option>
+              <option value="Commercial Building">Commercial Building</option>
+              <option value="Hotel &amp; Resort">Hotel &amp; Resort</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--cem-navy); display: block; margin-bottom: 0.25rem;">LAND TENURE *</label>
+            <select id="edit_tenure" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+              <option value="Freehold">Freehold</option>
+              <option value="Leasehold">Leasehold</option>
+              <option value="Leasehold Extension">Leasehold Extension</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ASKING PRICE (RM) *</label>
+          <input type="number" id="edit_asking_price" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+        </div>
+
+        <div class="form-2col">
+          <div>
+            <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">POWER SUPPLY</label>
+            <input type="text" id="edit_power_supply_amp" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+          </div>
+          <div>
+            <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">CEILING HEIGHT</label>
+            <input type="text" id="edit_ceiling_height_ft" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+          </div>
+        </div>
+
+        <div class="form-2col">
+          <div>
+            <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">FLOOR LOADING</label>
+            <input type="text" id="edit_floor_loading_kn" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+          </div>
+          <div>
+            <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ZONING</label>
+            <select id="edit_zoning" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+              <option value="Medium Industry">Medium Industry</option>
+              <option value="Light Industry">Light Industry</option>
+              <option value="Heavy Industry">Heavy Industry</option>
+              <option value="Commercial">Commercial</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-2col">
+          <div>
+            <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">BUILT-UP (SQFT)</label>
+            <input type="number" id="edit_built_up_sqft" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+          </div>
+          <div>
+            <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">LAND AREA (SQFT)</label>
+            <input type="number" id="edit_land_area_sqft" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">LOCATION / AREA *</label>
+          <input type="text" id="edit_location" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+        </div>
+
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">AGENT WHATSAPP NUMBER *</label>
+          <input type="text" id="edit_agent_phone" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; margin-top: 1.25rem;">
+          <button type="submit" id="btnUpdateListing" class="btn-show-listings" style="flex: 1; height: 44px; font-size: 0.88rem;">SAVE &amp; UPDATE LISTING</button>
+          <button type="button" onclick="closeEditModal()" style="padding: 0 1.25rem; background: #e2e8f0; color: var(--text-main); border: none; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer;">CANCEL</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>

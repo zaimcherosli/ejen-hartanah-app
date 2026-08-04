@@ -4,9 +4,9 @@ let currentListingsData = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
   await checkAuth();
-  loadAgentListings();
-  setupFormHandler();
-  setupEditFormHandler();
+  if (document.getElementById('inventoryContainer')) loadAgentListings();
+  if (document.getElementById('addListingForm')) setupFormHandler();
+  if (document.getElementById('editListingForm')) setupEditFormHandler();
 });
 
 // Check Auth state
@@ -20,10 +20,17 @@ async function checkAuth() {
   }
 
   currentUser = session.user;
-  document.getElementById('agentEmail').innerText = currentUser.email;
+  const agentEmailEl = document.getElementById('agentEmail');
+  if (agentEmailEl) agentEmailEl.innerText = currentUser.email;
 
   // Check if user is SuperAdmin (Strictly huzaimrosli@gmail.com and biztreat2017@gmail.com)
   const isSuperAdmin = ['huzaimrosli@gmail.com', 'biztreat2017@gmail.com'].includes((currentUser.email || '').toLowerCase());
+
+  // Show/Hide SuperAdmin Dashboard Navigation tab
+  const portalNavDashboardBtn = document.getElementById('portalNavDashboardBtn');
+  if (portalNavDashboardBtn && !isSuperAdmin) {
+    portalNavDashboardBtn.style.display = 'none';
+  }
 
   if (isSuperAdmin) {
     const mainAdminCard = document.getElementById('superadminMainCard');
@@ -34,10 +41,13 @@ async function checkAuth() {
     }
   }
 
-  document.getElementById('btnLogout').addEventListener('click', async () => {
-    await supabaseClient.auth.signOut();
-    window.location.href = 'login.html';
-  });
+  const btnLogout = document.getElementById('btnLogout');
+  if (btnLogout) {
+    btnLogout.addEventListener('click', async () => {
+      await supabaseClient.auth.signOut();
+      window.location.href = 'login.html';
+    });
+  }
 }
 
 // Helper: Watermark & Compress Image client-side using HTML5 Canvas
