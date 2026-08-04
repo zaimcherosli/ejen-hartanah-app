@@ -26,14 +26,10 @@ async function checkAuth() {
   const isSuperAdmin = ['huzaimrosli@gmail.com', 'biztreat2017@gmail.com'].includes((currentUser.email || '').toLowerCase());
 
   if (isSuperAdmin) {
-    const adminSection = document.getElementById('superadminApprovalSection');
-    if (adminSection) {
-      adminSection.style.display = 'block';
+    const mainAdminCard = document.getElementById('superadminMainCard');
+    if (mainAdminCard) {
+      mainAdminCard.style.display = 'block';
       loadAgentApprovals();
-    }
-    const logsSection = document.getElementById('superadminLogsSection');
-    if (logsSection) {
-      logsSection.style.display = 'block';
       loadActivityLogs();
     }
   }
@@ -679,6 +675,50 @@ async function logActivity(actionType, details, targetId = null) {
   }
 }
 
+// SuperAdmin Executive Tab Switcher
+function switchAdminTab(tab) {
+  const approvalsBtn = document.getElementById('adminTabApprovalsBtn');
+  const logsBtn = document.getElementById('adminTabLogsBtn');
+  const approvalsContent = document.getElementById('adminTabApprovalsContent');
+  const logsContent = document.getElementById('adminTabLogsContent');
+  const refreshApprovals = document.getElementById('btnRefreshApprovals');
+  const refreshLogs = document.getElementById('btnRefreshLogs');
+
+  if (!approvalsBtn || !logsBtn || !approvalsContent || !logsContent) return;
+
+  if (tab === 'approvals') {
+    approvalsBtn.style.background = 'var(--cem-navy)';
+    approvalsBtn.style.color = 'white';
+    approvalsBtn.style.border = 'none';
+
+    logsBtn.style.background = '#f1f5f9';
+    logsBtn.style.color = 'var(--text-main)';
+    logsBtn.style.border = '1px solid var(--border-strong)';
+
+    approvalsContent.style.display = 'block';
+    logsContent.style.display = 'none';
+
+    if (refreshApprovals) refreshApprovals.style.display = 'inline-block';
+    if (refreshLogs) refreshLogs.style.display = 'none';
+  } else {
+    logsBtn.style.background = 'var(--cem-navy)';
+    logsBtn.style.color = 'white';
+    logsBtn.style.border = 'none';
+
+    approvalsBtn.style.background = '#f1f5f9';
+    approvalsBtn.style.color = 'var(--text-main)';
+    approvalsBtn.style.border = '1px solid var(--border-strong)';
+
+    logsContent.style.display = 'block';
+    approvalsContent.style.display = 'none';
+
+    if (refreshLogs) refreshLogs.style.display = 'inline-block';
+    if (refreshApprovals) refreshApprovals.style.display = 'none';
+
+    loadActivityLogs();
+  }
+}
+
 // SuperAdmin Activity Audit Logs Function
 async function loadActivityLogs() {
   const container = document.getElementById('activityLogsContainer');
@@ -691,7 +731,7 @@ async function loadActivityLogs() {
       .from('activity_logs')
       .select('*')
       .order('created_at', { ascending: false })
-      .limit(30);
+      .limit(50);
 
     if (error) {
       console.warn('activity_logs query error:', error.message);
@@ -705,14 +745,14 @@ async function loadActivityLogs() {
     }
 
     const html = `
-      <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid var(--border); background: white;">
+      <div style="overflow-x: auto; max-height: 340px; overflow-y: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid var(--border); background: white; box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);">
         <table style="width: 100%; border-collapse: collapse; font-size: 0.83rem; text-align: left; min-width: 620px;">
-          <thead>
+          <thead style="position: sticky; top: 0; z-index: 10;">
             <tr style="background: #f8fafc; color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border);">
-              <th style="padding: 0.8rem 0.9rem; white-space: nowrap;">MASA &amp; TARIKH</th>
-              <th style="padding: 0.8rem 0.9rem; white-space: nowrap;">EJEN / PENGENDALI</th>
-              <th style="padding: 0.8rem 0.9rem; white-space: nowrap;">JENIS TINDAKAN</th>
-              <th style="padding: 0.8rem 0.9rem;">BUTIRAN AKTIVITI</th>
+              <th style="padding: 0.8rem 0.9rem; white-space: nowrap; background: #f8fafc;">MASA &amp; TARIKH</th>
+              <th style="padding: 0.8rem 0.9rem; white-space: nowrap; background: #f8fafc;">EJEN / PENGENDALI</th>
+              <th style="padding: 0.8rem 0.9rem; white-space: nowrap; background: #f8fafc;">JENIS TINDAKAN</th>
+              <th style="padding: 0.8rem 0.9rem; background: #f8fafc;">BUTIRAN AKTIVITI</th>
             </tr>
           </thead>
           <tbody>
@@ -726,8 +766,9 @@ async function loadActivityLogs() {
               if (log.action_type === 'ADD_LISTING') { actColor = '#16a34a'; actBg = '#f0fdf4'; }
               if (log.action_type === 'EDIT_LISTING') { actColor = '#d97706'; actBg = '#fffbeb'; }
               if (log.action_type === 'DELETE_LISTING') { actColor = '#dc2626'; actBg = '#fef2f2'; }
+              if (log.action_type === 'DELETE_AGENT') { actColor = '#991b1b'; actBg = '#fee2e2'; }
               if (log.action_type === 'APPROVE_AGENT') { actColor = '#059669'; actBg = '#ecfdf5'; }
-              if (log.action_type === 'REJECT_AGENT') { actColor = '#991b1b'; actBg = '#fef2f2'; }
+              if (log.action_type === 'REJECT_AGENT') { actColor = '#dc2626'; actBg = '#fef2f2'; }
 
               return `
                 <tr style="border-bottom: 1px solid #f1f5f9;">

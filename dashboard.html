@@ -35,34 +35,41 @@
       <a href="index.html" target="_blank" style="color: var(--cem-red); font-weight: 800; font-size: 0.88rem; text-decoration: none;">🌐 Preview Live Main Site →</a>
     </div>
 
-    <!-- SuperAdmin Agent Approvals Card (Shown for SuperAdmin) -->
-    <div id="superadminApprovalSection" class="dash-card" style="display: none; margin-bottom: 1.75rem; border-top: 4px solid var(--cem-navy);">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
-        <div>
-          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-navy); margin: 0;">👑 SuperAdmin Agent Registrations &amp; Approvals</h3>
-          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">Semak &amp; luluskan permohonan akaun ejen baharu di portal ini.</p>
+    <!-- SuperAdmin Executive Tabbed Control Panel (Shown ONLY for SuperAdmin) -->
+    <div id="superadminMainCard" class="dash-card" style="display: none; margin-bottom: 1.75rem; border-top: 4px solid var(--cem-navy); padding: 1.25rem;">
+      
+      <!-- Executive Tab Navigation Header -->
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button id="adminTabApprovalsBtn" type="button" onclick="switchAdminTab('approvals')" style="padding: 0.55rem 1.1rem; background: var(--cem-navy); color: white; border: none; border-radius: 6px; font-weight: 800; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: background 0.15s;">
+            👥 Kelulusan &amp; Pengurusan Ejen
+          </button>
+          <button id="adminTabLogsBtn" type="button" onclick="switchAdminTab('logs')" style="padding: 0.55rem 1.1rem; background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border-strong); border-radius: 6px; font-weight: 800; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: background 0.15s;">
+            📜 System Audit &amp; Activity Logs
+          </button>
         </div>
-        <button onclick="loadAgentApprovals()" style="padding: 0.4rem 0.85rem; background: #f1f5f9; border: 1px solid var(--border-strong); border-radius: 4px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">🔄 Refresh Senarai</button>
-      </div>
-
-      <div id="agentApprovalsContainer">
-        <!-- Rendered dynamically by dashboard.js -->
-      </div>
-    </div>
-
-    <!-- SuperAdmin Activity Audit Logs Panel (Shown for SuperAdmin) -->
-    <div id="superadminLogsSection" class="dash-card" style="display: none; margin-bottom: 1.75rem; border-top: 4px solid var(--cem-red);">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
-        <div>
-          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-navy); margin: 0;">📜 System Audit &amp; Activity Logs</h3>
-          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">Jejak pergerakan &amp; aktiviti penambahan/kemaskini/pemadaman ejen secara real-time.</p>
+        <div id="adminTabActions">
+          <button id="btnRefreshApprovals" type="button" onclick="loadAgentApprovals()" style="padding: 0.45rem 0.85rem; background: #f8fafc; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">🔄 Refresh Senarai</button>
+          <button id="btnRefreshLogs" type="button" onclick="loadActivityLogs()" style="display: none; padding: 0.45rem 0.85rem; background: #f8fafc; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">🔄 Refresh Log</button>
         </div>
-        <button onclick="loadActivityLogs()" style="padding: 0.4rem 0.85rem; background: #f1f5f9; border: 1px solid var(--border-strong); border-radius: 4px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">🔄 Refresh Log</button>
       </div>
 
-      <div id="activityLogsContainer">
-        <!-- Rendered dynamically by dashboard.js -->
+      <!-- Tab Content 1: Agent Approvals -->
+      <div id="adminTabApprovalsContent">
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.85rem;">Semak, luluskan, atau padamkan akaun pendaftaran ejen di portal ini.</p>
+        <div id="agentApprovalsContainer">
+          <!-- Rendered dynamically by dashboard.js -->
+        </div>
       </div>
+
+      <!-- Tab Content 2: Activity Logs -->
+      <div id="adminTabLogsContent" style="display: none;">
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.85rem;">Jejak pergerakan &amp; aktiviti penambahan, kemaskini, dan pemadaman ejen secara real-time.</p>
+        <div id="activityLogsContainer">
+          <!-- Rendered dynamically by dashboard.js with max-height internal scroll -->
+        </div>
+      </div>
+
     </div>
 
     <!-- Responsive Grid Stack -->
