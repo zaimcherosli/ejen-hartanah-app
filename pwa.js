@@ -1,4 +1,4 @@
-// PWA & Notification Handler for Corporate Estate Malaysia
+// PWA & Notification Handler for Corporate Estate Malaysia (Public Site & Agent Portal)
 (function() {
   let deferredPrompt = null;
 
@@ -22,10 +22,18 @@
     showPwaInstallBanner();
   });
 
-  // 3. Create & Show Sleek Floating PWA Install Banner
+  // 3. Create & Show Context-Aware Floating PWA Install Banner
   function showPwaInstallBanner() {
     if (document.getElementById('pwaInstallBanner')) return;
     if (localStorage.getItem('cem_pwa_dismissed') === 'true') return;
+
+    const isPortal = window.location.pathname.includes('/dashboard') || 
+                     window.location.pathname.includes('/agent-listing-management') || 
+                     window.location.pathname.includes('/login') || 
+                     window.location.pathname.includes('/register');
+
+    const appTitle = isPortal ? 'Install Portal Ejen CEM' : 'Install CEM App';
+    const appSubtitle = isPortal ? 'Akses terus Portal Ejen, Listing &amp; Notifikasi' : 'Pasang ke Skrin Utama untuk Akses Pantas &amp; Notifikasi';
 
     const banner = document.createElement('div');
     banner.id = 'pwaInstallBanner';
@@ -60,8 +68,8 @@
       <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1; min-width: 0;">
         <img src="/logo.png" alt="CEM Logo" style="width: 42px; height: 42px; border-radius: 8px; object-fit: contain; background: white; padding: 2px; flex-shrink: 0;">
         <div style="min-width: 0;">
-          <div style="font-weight: 800; font-size: 0.88rem; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Install CEM App</div>
-          <div style="font-size: 0.75rem; color: #94a3b8; line-height: 1.2;">Pasang ke Skrin Utama untuk Akses Pantas &amp; Notifikasi</div>
+          <div style="font-weight: 800; font-size: 0.88rem; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${appTitle}</div>
+          <div style="font-size: 0.75rem; color: #94a3b8; line-height: 1.2;">${appSubtitle}</div>
         </div>
       </div>
       <div style="display: flex; align-items: center; gap: 0.4rem; flex-shrink: 0;">

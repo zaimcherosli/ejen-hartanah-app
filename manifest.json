@@ -1,7 +1,7 @@
 {
   "name": "Corporate Estate Malaysia",
-  "short_name": "CEM Real Estate",
-  "description": "Leading Real Estate Agency specializing in Industrial Factories, Warehouses, Commercial Shoplots, and Land Acquisitions.",
+  "short_name": "CEM Portal",
+  "description": "Corporate Estate Malaysia - Public Property Portal & Agent Management System",
   "start_url": "/",
   "id": "/",
   "display": "standalone",
@@ -20,6 +20,29 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Portal Ejen - Kelulusan & Logs",
+      "short_name": "Portal Dashboard",
+      "description": "Akses Papan Pemuka Kelulusan Ejen & Audit Log",
+      "url": "/dashboard",
+      "icons": [{ "src": "/logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Portal Ejen - Listing Management",
+      "short_name": "Listing Manager",
+      "description": "Urus & Tambah Inventory Listing Hartanah",
+      "url": "/agent-listing-management",
+      "icons": [{ "src": "/logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Public Property Listings",
+      "short_name": "View Listings",
+      "description": "Lihat Senarai Hartanah Awam",
+      "url": "/listings",
+      "icons": [{ "src": "/logo.png", "sizes": "192x192" }]
     }
   ]
 }
