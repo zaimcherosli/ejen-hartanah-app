@@ -520,8 +520,8 @@ async function loadAgentApprovals() {
       return;
     }
 
-    const html = `
-      <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid var(--border); background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    const desktopHtml = `
+      <div class="desktop-only-table" style="overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid var(--border); background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
         <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left; min-width: 680px;">
           <thead>
             <tr style="background: #f8fafc; color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border);">
@@ -582,7 +582,57 @@ async function loadAgentApprovals() {
       </div>
     `;
 
-    container.innerHTML = html;
+    const mobileHtml = `
+      <div class="mobile-only-cards">
+        ${profiles.map(u => {
+          const name = u.full_name || 'Ejen Registered';
+          const wa = u.whatsapp_number || '-';
+          const ren = u.ren_number || '-';
+          const status = u.status || 'Pending';
+
+          let badgeBg = '#d1fae5'; let badgeColor = '#047857'; let badgeBorder = '#a7f3d0';
+          if (status === 'Pending') { badgeBg = '#fef3c7'; badgeColor = '#b45309'; badgeBorder = '#fde68a'; }
+          if (status === 'Rejected') { badgeBg = '#fee2e2'; badgeColor = '#dc2626'; badgeBorder = '#fca5a5'; }
+
+          const cleanWa = wa.replace(/[^0-9]/g, '');
+
+          return `
+            <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.65rem;">
+                <div>
+                  <div style="font-weight: 800; color: var(--cem-navy); font-size: 0.95rem; line-height: 1.2;">${name}</div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600; margin-top: 0.15rem;">${u.email}</div>
+                </div>
+                <span style="padding: 0.25rem 0.65rem; border-radius: 20px; font-weight: 800; font-size: 0.72rem; background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder}; white-space: nowrap; margin-left: 0.5rem;">
+                  ${status === 'Pending' ? '⏳' : status === 'Approved' ? '✅' : '❌'} ${status}
+                </span>
+              </div>
+
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.85rem; align-items: center;">
+                <a href="https://wa.me/${cleanWa.startsWith('60') ? cleanWa : '60' + cleanWa}" target="_blank" style="color: #16a34a; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; background: #f0fdf4; padding: 0.35rem 0.65rem; border-radius: 6px; border: 1px solid #bbf7d0; font-size: 0.78rem; font-weight: 700;">
+                  💬 ${wa}
+                </a>
+                <span style="background: #f1f5f9; padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">
+                  ${ren}
+                </span>
+              </div>
+
+              <div style="display: flex; gap: 0.4rem; padding-top: 0.75rem; border-top: 1px solid #f1f5f9; justify-content: flex-end; align-items: center;">
+                ${status === 'Pending' ? `
+                  <button type="button" onclick="approveAgent('${u.id}', '${u.email}')" style="flex: 1; padding: 0.55rem; background: #10b981; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; text-align: center;">✅ Approve</button>
+                  <button type="button" onclick="rejectAgent('${u.id}', '${u.email}')" style="flex: 1; padding: 0.55rem; background: #ef4444; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; text-align: center;">❌ Reject</button>
+                ` : `
+                  <span style="color: var(--text-muted); font-size: 0.75rem; font-weight: 600; flex: 1;">Active / ${status}</span>
+                `}
+                <button type="button" onclick="deleteAgentProfile('${u.id}', '${u.email}')" title="Memadam profil ejen" style="padding: 0.55rem 0.85rem; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer;">🗑️</button>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+
+    container.innerHTML = desktopHtml + mobileHtml;
   } catch (err) {
     console.error('loadAgentApprovals error:', err);
     container.innerHTML = `<span style="color: #dc2626; font-size: 0.85rem;">Ralat: ${err.message}</span>`;
@@ -744,8 +794,8 @@ async function loadActivityLogs() {
       return;
     }
 
-    const html = `
-      <div style="overflow-x: auto; max-height: 340px; overflow-y: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid var(--border); background: white; box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);">
+    const desktopLogsHtml = `
+      <div class="desktop-only-table" style="overflow-x: auto; max-height: 340px; overflow-y: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid var(--border); background: white; box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);">
         <table style="width: 100%; border-collapse: collapse; font-size: 0.83rem; text-align: left; min-width: 620px;">
           <thead style="position: sticky; top: 0; z-index: 10;">
             <tr style="background: #f8fafc; color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border);">
@@ -786,7 +836,39 @@ async function loadActivityLogs() {
       </div>
     `;
 
-    container.innerHTML = html;
+    const mobileLogsHtml = `
+      <div class="mobile-only-cards" style="max-height: 360px; overflow-y: auto; padding-right: 0.2rem;">
+        ${logs.map(log => {
+          const dt = new Date(log.created_at).toLocaleString('ms-MY', {
+            day: '2-digit', month: 'short', year: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+          });
+
+          let actColor = '#2563eb'; let actBg = '#eff6ff';
+          if (log.action_type === 'ADD_LISTING') { actColor = '#16a34a'; actBg = '#f0fdf4'; }
+          if (log.action_type === 'EDIT_LISTING') { actColor = '#d97706'; actBg = '#fffbeb'; }
+          if (log.action_type === 'DELETE_LISTING') { actColor = '#dc2626'; actBg = '#fef2f2'; }
+          if (log.action_type === 'DELETE_AGENT') { actColor = '#991b1b'; actBg = '#fee2e2'; }
+          if (log.action_type === 'APPROVE_AGENT') { actColor = '#059669'; actBg = '#ecfdf5'; }
+          if (log.action_type === 'REJECT_AGENT') { actColor = '#dc2626'; actBg = '#fef2f2'; }
+
+          return `
+            <div style="background: white; border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                <span style="padding: 0.2rem 0.55rem; border-radius: 4px; font-weight: 800; font-size: 0.7rem; background: ${actBg}; color: ${actColor};">
+                  ${log.action_type}
+                </span>
+                <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">${dt}</span>
+              </div>
+              <div style="font-weight: 700; color: var(--cem-navy); font-size: 0.82rem; margin-bottom: 0.25rem;">${log.user_email}</div>
+              <div style="font-size: 0.8rem; color: var(--text-main); line-height: 1.35;">${log.details}</div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+
+    container.innerHTML = desktopLogsHtml + mobileLogsHtml;
   } catch (err) {
     console.error('loadActivityLogs error:', err);
   }
