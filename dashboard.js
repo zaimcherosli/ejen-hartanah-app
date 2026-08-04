@@ -745,6 +745,15 @@ async function logActivity(actionType, details, targetId = null) {
   }
 }
 
+function refreshCurrentAdminTab() {
+  const approvalsContent = document.getElementById('adminTabApprovalsContent');
+  if (approvalsContent && approvalsContent.style.display !== 'none') {
+    loadAgentApprovals();
+  } else {
+    loadActivityLogs();
+  }
+}
+
 // SuperAdmin Executive Tab Switcher
 function switchAdminTab(tab) {
   const approvalsBtn = document.getElementById('adminTabApprovalsBtn');
@@ -761,9 +770,9 @@ function switchAdminTab(tab) {
     approvalsBtn.style.color = 'white';
     approvalsBtn.style.border = 'none';
 
-    logsBtn.style.background = '#f1f5f9';
+    logsBtn.style.background = 'transparent';
     logsBtn.style.color = 'var(--text-main)';
-    logsBtn.style.border = '1px solid var(--border-strong)';
+    logsBtn.style.border = 'none';
 
     approvalsContent.style.display = 'block';
     logsContent.style.display = 'none';
@@ -775,9 +784,9 @@ function switchAdminTab(tab) {
     logsBtn.style.color = 'white';
     logsBtn.style.border = 'none';
 
-    approvalsBtn.style.background = '#f1f5f9';
+    approvalsBtn.style.background = 'transparent';
     approvalsBtn.style.color = 'var(--text-main)';
-    approvalsBtn.style.border = '1px solid var(--border-strong)';
+    approvalsBtn.style.border = 'none';
 
     logsContent.style.display = 'block';
     approvalsContent.style.display = 'none';
