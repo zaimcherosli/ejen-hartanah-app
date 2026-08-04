@@ -570,14 +570,15 @@ async function loadAgentApprovals() {
                     </span>
                   </td>
                   <td style="padding: 0.85rem 1rem; text-align: center; white-space: nowrap;">
-                    ${status === 'Pending' ? `
-                      <div style="display: inline-flex; gap: 0.4rem;">
+                    <div style="display: inline-flex; gap: 0.35rem; align-items: center;">
+                      ${status === 'Pending' ? `
                         <button type="button" onclick="approveAgent('${u.id}', '${u.email}')" style="padding: 0.45rem 0.85rem; background: #10b981; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; box-shadow: 0 1px 3px rgba(16,185,129,0.3); display: inline-flex; align-items: center; gap: 0.25rem;">✅ Approve</button>
                         <button type="button" onclick="rejectAgent('${u.id}', '${u.email}')" style="padding: 0.45rem 0.85rem; background: #ef4444; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; box-shadow: 0 1px 3px rgba(239,68,68,0.3); display: inline-flex; align-items: center; gap: 0.25rem;">❌ Reject</button>
-                      </div>
-                    ` : `
-                      <span style="color: var(--text-muted); font-size: 0.78rem; font-weight: 600; background: #f8fafc; padding: 0.3rem 0.6rem; border-radius: 4px; border: 1px solid #e2e8f0;">Active / ${status}</span>
-                    `}
+                      ` : `
+                        <span style="color: var(--text-muted); font-size: 0.78rem; font-weight: 600; background: #f8fafc; padding: 0.3rem 0.6rem; border-radius: 4px; border: 1px solid #e2e8f0;">Active / ${status}</span>
+                      `}
+                      <button type="button" onclick="deleteAgentProfile('${u.id}', '${u.email}')" title="Memadam profil ejen dari sistem" style="padding: 0.45rem 0.65rem; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.2rem;">🗑️ Padam</button>
+                    </div>
                   </td>
                 </tr>
               `;
@@ -636,6 +637,29 @@ async function rejectAgent(userId, email) {
     }
   } catch (err) {
     console.error('rejectAgent error:', err);
+    alert('Ralat: ' + err.message);
+  }
+}
+
+async function deleteAgentProfile(userId, email) {
+  if (!confirm(`Adakah anda pasti mahu MEMADAM PROFIL EJEN (${email}) daripada sistem?`)) return;
+
+  try {
+    const { error } = await supabaseClient
+      .from('agent_profiles')
+      .delete()
+      .eq('id', userId);
+
+    if (error) {
+      alert('Gagal memadam profil ejen: ' + error.message);
+    } else {
+      alert(`Profil ejen (${email}) TELAH DIPADAM daripada sistem.`);
+      await logActivity('DELETE_AGENT', `Memadam pendaftaran akaun ejen (${email})`, userId);
+      loadAgentApprovals();
+      loadActivityLogs();
+    }
+  } catch (err) {
+    console.error('deleteAgentProfile error:', err);
     alert('Ralat: ' + err.message);
   }
 }

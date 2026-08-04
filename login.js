@@ -96,3 +96,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// Helper: Handle Forgot Password Reset
+async function handleForgotPassword() {
+  const emailInput = document.getElementById('email');
+  const email = emailInput ? emailInput.value.trim() : '';
+
+  const targetEmail = prompt('Sila masukkan emel anda untuk penetapan semula kata laluan (Password Reset):', email);
+  if (!targetEmail) return;
+
+  try {
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(targetEmail, {
+      redirectTo: window.location.origin + '/login.html'
+    });
+
+    if (error) {
+      alert('Gagal menghantar emel reset kata laluan: ' + error.message);
+    } else {
+      alert(`🎉 Pautan penetapan semula kata laluan telah dihantar ke emel (${targetEmail}). Sila semak inbox atau folder Spam anda.`);
+    }
+  } catch (err) {
+    alert('Ralat: ' + err.message);
+  }
+}
