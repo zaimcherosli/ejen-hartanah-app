@@ -42,22 +42,6 @@ async function checkAuth() {
   });
 }
 
-// Preload Watermark Stamp Image with cache-busting
-let watermarkImgObj = null;
-function getWatermarkImg() {
-  return new Promise((resolve) => {
-    if (watermarkImgObj) return resolve(watermarkImgObj);
-    const wm = new Image();
-    wm.crossOrigin = 'anonymous';
-    wm.src = 'watermark.png?v=' + Date.now();
-    wm.onload = () => {
-      watermarkImgObj = wm;
-      resolve(wm);
-    };
-    wm.onerror = () => resolve(null);
-  });
-}
-
 // Helper: Watermark & Compress Image client-side using HTML5 Canvas
 function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.8) {
   return new Promise((resolve) => {
@@ -67,6 +51,7 @@ function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.8) {
       const img = new Image();
       img.src = event.target.result;
       img.onload = async () => {
+        // 1. Create Canvas & Calculate Resized Dimensions
         const canvas = document.createElement('canvas');
         let width = img.width;
         let height = img.height;
@@ -85,42 +70,17 @@ function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.8) {
 
         canvas.width = width;
         canvas.height = height;
+
+        // 2. Draw Original Image
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
 
-        // 🌟 Apply Circular Watermark Stamp (JAZ INTERNATIONAL M SDN BHD) at Bottom-Right Corner (~45% opacity)
-        try {
-          const wm = await getWatermarkImg();
-          if (wm) {
-            const wmSize = Math.round(Math.min(width, height) * 0.38); // 38% size
-            const margin = Math.round(Math.min(width, height) * 0.04); // 4% margin
-            const x = width - wmSize - margin;
-            const y = height - wmSize - margin;
-            const cx = x + wmSize / 2;
-            const cy = y + wmSize / 2;
-            const radius = wmSize / 2;
-
-            ctx.save();
-            // 🌟 FORCE PERFECT CIRCLE CLIPPING (Strictly no square/box edges allowed!)
-            ctx.beginPath();
-            ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-            ctx.closePath();
-            ctx.clip();
-
-            // High-contrast drop shadow behind stamp lines
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.65)';
-            ctx.shadowBlur = 4;
-            ctx.shadowOffsetX = 2;
-            ctx.shadowOffsetY = 2;
-
-            ctx.globalAlpha = 0.75; // 75% High Visibility Opacity
-            ctx.drawImage(wm, x, y, wmSize, wmSize);
-            ctx.restore();
-          }
-        } catch (wmErr) {
-          console.warn('Watermark overlay error:', wmErr);
+        // 3. Delegate Watermarking to dedicated reusable module
+        if (typeof applyWatermark === 'function') {
+          await applyWatermark(canvas);
         }
 
+        // 4. Convert to Compressed JPEG Blob
         canvas.toBlob((blob) => {
           if (!blob) {
             resolve(file);
@@ -130,7 +90,6 @@ function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.8) {
             type: 'image/jpeg',
             lastModified: Date.now()
           });
-          console.log(`Watermarked & Compressed ${file.name}: ${Math.round(file.size/1024)}KB -> ${Math.round(compressedFile.size/1024)}KB`);
           resolve(compressedFile);
         }, 'image/jpeg', quality);
       };
