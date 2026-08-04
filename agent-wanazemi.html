@@ -214,7 +214,10 @@
   <script>
     function toggleMobileMenu(e) {
       if (e) e.stopPropagation();
-      document.getElementById('mobileDrawer').classList.toggle('open');
+      const drawer = document.getElementById('mobileDrawer');
+      if (drawer) {
+        drawer.classList.toggle('active');
+      }
     }
 
     function handleOwnerSubmission(e) {
