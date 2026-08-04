@@ -518,16 +518,16 @@ async function loadAgentApprovals() {
     }
 
     const html = `
-      <div style="overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; background: white; border-radius: 6px; overflow: hidden; border: 1px solid var(--border);">
+      <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid var(--border); background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left; min-width: 680px;">
           <thead>
-            <tr style="background: #f8fafc; text-align: left; color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;">
-              <th style="padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border);">NAMA EJEN</th>
-              <th style="padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border);">NO. WHATSAPP</th>
-              <th style="padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border);">REN NO</th>
-              <th style="padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border);">EMEL</th>
-              <th style="padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border);">STATUS</th>
-              <th style="padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border); text-align: center;">TINDAKAN APPROVAL</th>
+            <tr style="background: #f8fafc; color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border);">
+              <th style="padding: 0.85rem 1rem; white-space: nowrap;">NAMA EJEN</th>
+              <th style="padding: 0.85rem 1rem; white-space: nowrap;">NO. WHATSAPP</th>
+              <th style="padding: 0.85rem 1rem; white-space: nowrap;">REN NO</th>
+              <th style="padding: 0.85rem 1rem;">EMEL</th>
+              <th style="padding: 0.85rem 1rem; white-space: nowrap;">STATUS</th>
+              <th style="padding: 0.85rem 1rem; text-align: center; white-space: nowrap;">TINDAKAN APPROVAL</th>
             </tr>
           </thead>
           <tbody>
@@ -537,31 +537,37 @@ async function loadAgentApprovals() {
               const ren = u.ren_number || '-';
               const status = u.status || 'Pending';
 
-              let badgeBg = '#d1fae5'; let badgeColor = '#047857';
-              if (status === 'Pending') { badgeBg = '#fef3c7'; badgeColor = '#b45309'; }
-              if (status === 'Rejected') { badgeBg = '#fee2e2'; badgeColor = '#dc2626'; }
+              let badgeBg = '#d1fae5'; let badgeColor = '#047857'; let badgeBorder = '#a7f3d0';
+              if (status === 'Pending') { badgeBg = '#fef3c7'; badgeColor = '#b45309'; badgeBorder = '#fde68a'; }
+              if (status === 'Rejected') { badgeBg = '#fee2e2'; badgeColor = '#dc2626'; badgeBorder = '#fca5a5'; }
 
               const cleanWa = wa.replace(/[^0-9]/g, '');
 
               return `
-                <tr style="border-bottom: 1px solid var(--border);">
-                  <td style="padding: 0.75rem 0.85rem; font-weight: 700; color: var(--cem-navy);">${name}</td>
-                  <td style="padding: 0.75rem 0.85rem; font-weight: 600;">
-                    <a href="https://wa.me/${cleanWa.startsWith('60') ? cleanWa : '60' + cleanWa}" target="_blank" style="color: #25d366; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                  <td style="padding: 0.85rem 1rem; font-weight: 700; color: var(--cem-navy); min-width: 160px;">${name}</td>
+                  <td style="padding: 0.85rem 1rem; font-weight: 600; white-space: nowrap;">
+                    <a href="https://wa.me/${cleanWa.startsWith('60') ? cleanWa : '60' + cleanWa}" target="_blank" style="color: #16a34a; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; background: #f0fdf4; padding: 0.3rem 0.65rem; border-radius: 6px; border: 1px solid #bbf7d0; font-size: 0.82rem;">
                       💬 ${wa}
                     </a>
                   </td>
-                  <td style="padding: 0.75rem 0.85rem; color: var(--text-muted); font-weight: 600;">${ren}</td>
-                  <td style="padding: 0.75rem 0.85rem;">${u.email}</td>
-                  <td style="padding: 0.75rem 0.85rem;">
-                    <span style="padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 800; font-size: 0.75rem; background: ${badgeBg}; color: ${badgeColor}; display: inline-block;">${status}</span>
+                  <td style="padding: 0.85rem 1rem; color: var(--text-muted); font-weight: 600; white-space: nowrap;">
+                    <span style="background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.78rem;">${ren}</span>
                   </td>
-                  <td style="padding: 0.75rem 0.85rem; text-align: center;">
+                  <td style="padding: 0.85rem 1rem; color: var(--text-main); font-weight: 500;">${u.email}</td>
+                  <td style="padding: 0.85rem 1rem; white-space: nowrap;">
+                    <span style="padding: 0.3rem 0.7rem; border-radius: 20px; font-weight: 800; font-size: 0.75rem; background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder}; display: inline-flex; align-items: center; gap: 0.25rem;">
+                      ${status === 'Pending' ? '⏳' : status === 'Approved' ? '✅' : '❌'} ${status}
+                    </span>
+                  </td>
+                  <td style="padding: 0.85rem 1rem; text-align: center; white-space: nowrap;">
                     ${status === 'Pending' ? `
-                      <button onclick="approveAgent('${u.id}', '${u.email}')" style="padding: 0.4rem 0.8rem; background: #10b981; color: white; border: none; border-radius: 4px; font-weight: 700; font-size: 0.78rem; cursor: pointer; margin-right: 0.35rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">✅ Approve</button>
-                      <button onclick="rejectAgent('${u.id}', '${u.email}')" style="padding: 0.4rem 0.8rem; background: #ef4444; color: white; border: none; border-radius: 4px; font-weight: 700; font-size: 0.78rem; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">❌ Reject</button>
+                      <div style="display: inline-flex; gap: 0.4rem;">
+                        <button type="button" onclick="approveAgent('${u.id}', '${u.email}')" style="padding: 0.45rem 0.85rem; background: #10b981; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; box-shadow: 0 1px 3px rgba(16,185,129,0.3); display: inline-flex; align-items: center; gap: 0.25rem;">✅ Approve</button>
+                        <button type="button" onclick="rejectAgent('${u.id}', '${u.email}')" style="padding: 0.45rem 0.85rem; background: #ef4444; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; box-shadow: 0 1px 3px rgba(239,68,68,0.3); display: inline-flex; align-items: center; gap: 0.25rem;">❌ Reject</button>
+                      </div>
                     ` : `
-                      <span style="color: var(--text-light); font-size: 0.78rem; font-weight: 600;">Active / ${status}</span>
+                      <span style="color: var(--text-muted); font-size: 0.78rem; font-weight: 600; background: #f8fafc; padding: 0.3rem 0.6rem; border-radius: 4px; border: 1px solid #e2e8f0;">Active / ${status}</span>
                     `}
                   </td>
                 </tr>
