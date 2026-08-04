@@ -174,20 +174,14 @@
           </div>
         </div>
 
-        <div class="form-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-          <div>
-            <label style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--cem-navy); margin-bottom: 0.35rem;">Property Location &amp; Area *</label>
-            <input type="text" id="propertyLocation" required placeholder="e.g. Shah Alam / Klang / Telok Gong" style="width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 0.9rem;">
-          </div>
-          <div>
-            <label style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--cem-navy); margin-bottom: 0.35rem;">Target Asking Price / Rental *</label>
-            <input type="text" id="propertyPrice" required placeholder="e.g. RM 5.5 Million or RM 25,000/month" style="width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 0.9rem;">
-          </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--cem-navy); margin-bottom: 0.35rem;">Property Location &amp; Area *</label>
+          <input type="text" id="propertyLocation" required placeholder="e.g. Shah Alam / Klang / Telok Gong" style="width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 0.9rem;">
         </div>
 
         <div style="margin-bottom: 1.25rem;">
-          <label style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--cem-navy); margin-bottom: 0.35rem;">Additional Property Specifications (Land Area, Built-up, Power Supply Amp, Ceiling Height, etc.)</label>
-          <textarea id="propertyDetails" rows="4" placeholder="Land area, built-up sqft, electrical supply (amp), ceiling height, floor loading capacity..." style="width: 100%; padding: 0.75rem 0.85rem; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 0.9rem; line-height: 1.5;"></textarea>
+          <label style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--cem-navy); margin-bottom: 0.35rem;">Notes / Remarks</label>
+          <textarea id="propertyDetails" rows="4" placeholder="Add any additional notes, remarks, property specs or questions here..." style="width: 100%; padding: 0.75rem 0.85rem; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 0.9rem; line-height: 1.5;"></textarea>
         </div>
 
         <button type="submit" id="btnSubmitOwner" style="width: 100%; padding: 0.9rem 1.5rem; background: var(--cem-navy); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: background 0.15s; box-shadow: 0 4px 12px rgba(10,25,47,0.25);">
@@ -228,8 +222,7 @@
       const email = document.getElementById('ownerEmail').value || 'N/A';
       const type = document.getElementById('propertyType').value;
       const location = document.getElementById('propertyLocation').value;
-      const price = document.getElementById('propertyPrice').value;
-      const details = document.getElementById('propertyDetails').value || 'No additional details provided';
+      const details = document.getElementById('propertyDetails').value || 'No additional notes provided';
 
       const subject = `New Property Listing Registration (Owner): ${type} @ ${location}`;
       const bodyText = 
@@ -240,9 +233,8 @@ Phone Number / WhatsApp: ${phone}
 Email: ${email}
 Property Type: ${type}
 Property Location: ${location}
-Asking Price / Target Rental: ${price}
 
-ADDITIONAL SPECIFICATIONS:
+NOTES / REMARKS:
 ${details}
 --------------------------------------------------
 Recipient: WanAzemi & Corporate Estate Malaysia SuperAdmin`;
@@ -252,7 +244,7 @@ Recipient: WanAzemi & Corporate Estate Malaysia SuperAdmin`;
       
       // 2. Prepare WhatsApp message to WanAzemi (017-356 9452)
       const cleanPhone = '60173569452';
-      const waMessage = `*NEW PROPERTY LISTING REGISTRATION (OWNERS ARE WELCOME TO LIST)*\n\n👤 *Owner:* ${name}\n📱 *Tel:* ${phone}\n✉️ *Email:* ${email}\n🏢 *Property Type:* ${type}\n📍 *Location:* ${location}\n💰 *Price/Rental:* ${price}\n\n📝 *Specifications:* ${details}`;
+      const waMessage = `*NEW PROPERTY LISTING REGISTRATION (OWNERS ARE WELCOME TO LIST)*\n\n👤 *Owner:* ${name}\n📱 *Tel:* ${phone}\n✉️ *Email:* ${email}\n🏢 *Property Type:* ${type}\n📍 *Location:* ${location}\n\n📝 *Notes/Remarks:* ${details}`;
       const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waMessage)}`;
 
       // Execute mailto notification
