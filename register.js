@@ -62,6 +62,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (data && data.user) {
+          // Insert into agent_profiles table for SuperAdmin approval list
+          try {
+            await supabaseClient.from('agent_profiles').upsert([{
+              id: data.user.id,
+              full_name: fullName,
+              whatsapp_number: whatsapp,
+              ren_number: renNumber,
+              email: email,
+              status: 'Pending',
+              registered_at: new Date().toISOString()
+            }], { onConflict: 'email' });
+          } catch (profileErr) {
+            console.warn('Profile table insert warning:', profileErr);
+          }
+
           showAlert(`
             🎉 <strong>Pendaftaran Berjaya Dihantar!</strong><br>
             Akaun ejen anda (<strong>${email}</strong>) kini berstatus <strong>Pending Approval</strong>.<br>

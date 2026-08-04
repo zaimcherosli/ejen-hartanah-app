@@ -44,11 +44,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (data && data.user) {
-          const metadata = data.user.user_metadata || {};
-          const status = metadata.status || 'Approved'; // Default existing users to Approved
+          let status = 'Approved';
+
+          // SuperAdmin (zaimrosli.tvpc@gmail.com) always bypasses approval check
+          if (email.toLowerCase() !== 'zaimrosli.tvpc@gmail.com') {
+            try {
+              const { data: profile } = await supabaseClient
+                .from('agent_profiles')
+                .select('status')
+                .eq('id', data.user.id)
+                .maybeSingle();
+
+              if (profile && profile.status) {
+                status = profile.status;
+              } else {
+                const metadata = data.user.user_metadata || {};
+                status = metadata.status || 'Approved';
+              }
+            } catch (pErr) {
+              const metadata = data.user.user_metadata || {};
+              status = metadata.status || 'Approved';
+            }
+          }
 
           if (status === 'Pending') {
-            // Sign out immediately if not approved yet
             await supabaseClient.auth.signOut();
             showAlert(`
               ⚠️ <strong>Akaun Belum Diluluskan!</strong><br>

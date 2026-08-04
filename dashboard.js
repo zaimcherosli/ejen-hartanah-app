@@ -501,14 +501,19 @@ async function loadAgentApprovals() {
   container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">⏳ Memuat senarai pendaftaran ejen dari Supabase...</span>';
 
   try {
-    const { data: { users }, error } = await supabaseClient.auth.admin.listUsers();
+    const { data: profiles, error } = await supabaseClient
+      .from('agent_profiles')
+      .select('*')
+      .order('registered_at', { ascending: false });
+
     if (error) {
-      container.innerHTML = `<span style="color: #dc2626; font-size: 0.85rem;">Ralat memuat senarai ejen: ${error.message}</span>`;
+      console.warn('agent_profiles query warning:', error.message);
+      container.innerHTML = `<span style="color: #dc2626; font-size: 0.85rem;">Ralat memuat senarai ejen: ${error.message}. Sila pastikan jadual 'agent_profiles' wujud di Supabase SQL Editor.</span>`;
       return;
     }
 
-    if (!users || users.length === 0) {
-      container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">Tiada pendaftaran ejen dijumpai.</span>';
+    if (!profiles || profiles.length === 0) {
+      container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">Tiada pendaftaran ejen baharu dijumpai.</span>';
       return;
     }
 
@@ -526,12 +531,11 @@ async function loadAgentApprovals() {
             </tr>
           </thead>
           <tbody>
-            ${users.map(u => {
-              const meta = u.user_metadata || {};
-              const name = meta.full_name || 'Ejen Registered';
-              const wa = meta.whatsapp_number || '-';
-              const ren = meta.ren_number || '-';
-              const status = meta.status || 'Approved';
+            ${profiles.map(u => {
+              const name = u.full_name || 'Ejen Registered';
+              const wa = u.whatsapp_number || '-';
+              const ren = u.ren_number || '-';
+              const status = u.status || 'Pending';
 
               let badgeBg = '#d1fae5'; let badgeColor = '#047857';
               if (status === 'Pending') { badgeBg = '#fef3c7'; badgeColor = '#b45309'; }
@@ -579,13 +583,10 @@ async function approveAgent(userId, email) {
   if (!confirm(`Adakah anda pasti mahu LULUSKAN akaun ejen (${email})?`)) return;
 
   try {
-    const { data: { user }, error: getErr } = await supabaseClient.auth.admin.getUserById(userId);
-    if (getErr || !user) return alert('Ralat mendapatkan data ejen: ' + (getErr ? getErr.message : 'User not found'));
-
-    const meta = user.user_metadata || {};
-    const { error } = await supabaseClient.auth.admin.updateUserById(userId, {
-      user_metadata: { ...meta, status: 'Approved' }
-    });
+    const { error } = await supabaseClient
+      .from('agent_profiles')
+      .update({ status: 'Approved' })
+      .eq('id', userId);
 
     if (error) {
       alert('Gagal meluluskan: ' + error.message);
@@ -603,13 +604,10 @@ async function rejectAgent(userId, email) {
   if (!confirm(`Adakah anda pasti mahu TOLAK pendaftaran akaun ejen (${email})?`)) return;
 
   try {
-    const { data: { user }, error: getErr } = await supabaseClient.auth.admin.getUserById(userId);
-    if (getErr || !user) return alert('Ralat mendapatkan data ejen');
-
-    const meta = user.user_metadata || {};
-    const { error } = await supabaseClient.auth.admin.updateUserById(userId, {
-      user_metadata: { ...meta, status: 'Rejected' }
-    });
+    const { error } = await supabaseClient
+      .from('agent_profiles')
+      .update({ status: 'Rejected' })
+      .eq('id', userId);
 
     if (error) {
       alert('Gagal menolak: ' + error.message);
