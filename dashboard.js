@@ -879,8 +879,8 @@ async function loadActivityLogs() {
                   ${log.action_type}
                 </span>
               </div>
-              <div style="font-weight: 700; color: var(--cem-navy); font-size: 0.82rem; margin-bottom: 0.25rem; word-break: break-all;">${log.user_email}</div>
-              <div style="font-size: 0.8rem; color: var(--text-main); line-height: 1.35; margin-bottom: 0.35rem;">${log.details}</div>
+              <div style="font-weight: 700; color: var(--cem-navy); font-size: 0.82rem; margin-bottom: 0.25rem; word-break: break-word; overflow-wrap: anywhere;">${log.user_email}</div>
+              <div style="font-size: 0.8rem; color: var(--text-main); line-height: 1.35; margin-bottom: 0.35rem; word-break: break-word; overflow-wrap: anywhere;">${log.details}</div>
               <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600; text-align: right; border-top: 1px dashed #f1f5f9; padding-top: 0.35rem; margin-top: 0.35rem;">🕒 ${dt}</div>
             </div>
           `;

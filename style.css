@@ -155,6 +155,13 @@ body {
 
 /* Hide menu button text label on very small screens, show only ☰ icon */
 @media (max-width: 380px) {
+  .container {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  .dash-card {
+    padding: 0.5rem !important;
+  }
   .mobile-menu-btn .menu-btn-label {
     display: none;
   }
@@ -1003,6 +1010,16 @@ body:has(.modal-overlay.active) .floating-wa-btn,
 
 /* ⚡ MOBILE APPS & IPHONE SE (375PX) BREAKPOINT OVERHAUL */
 @media (max-width: 640px) {
+  /* Narrow horizontal side gaps for maximum usable width on mobile */
+  .container {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  .dash-card {
+    padding: 0.75rem !important;
+  }
+
   .about-pillars-grid {
     grid-template-columns: 1fr !important;
   }
