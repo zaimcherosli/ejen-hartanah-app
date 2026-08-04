@@ -6,9 +6,9 @@
   <title>WanAzemi | Senior Industrial Property Specialist | Corporate Estate Malaysia</title>
   <link rel="icon" type="image/png" href="/logo.png">
   <link rel="apple-touch-icon" href="/logo.png">
-  <meta name="description" content="Official property portfolio of WanAzemi, Principal & Senior Industrial Property Specialist at Corporate Estate Malaysia. Specializing in factory, warehouse, and industrial land transactions across Selangor & KL.">
+  <meta name="description" content="Official profile of WanAzemi, Principal & Senior Industrial Property Specialist at Corporate Estate Malaysia. Property owners are welcome to list factory, warehouse, and industrial land with us.">
   <meta property="og:title" content="WanAzemi - Senior Industrial Specialist | Corporate Estate Malaysia">
-  <meta property="og:description" content="View WanAzemi's exclusive industrial & commercial property portfolio across Selangor & KL.">
+  <meta property="og:description" content="Property owners are welcome to list factory, warehouse, and industrial land with WanAzemi at Corporate Estate Malaysia.">
   <meta property="og:image" content="https://corporateestatemalaysia.com/agents/wanazemi.png">
   <meta property="og:url" content="https://corporateestatemalaysia.com/agents/wanazemi">
   
@@ -16,7 +16,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css?v=35">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    /* Mobile-First Custom Enhancements for WanAzemi Page */
+    @media (max-width: 640px) {
+      .hero-title { font-size: 1.75rem !important; }
+      .hero-subtitle { font-size: 0.95rem !important; }
+      .profile-img-lg { width: 110px !important; height: 110px !important; }
+      .form-grid-2 { grid-template-columns: 1fr !important; }
+      .hero-pad { padding: 2.25rem 1rem 2rem 1rem !important; }
+      .card-pad { padding: 1.25rem 1rem !important; }
+    }
+  </style>
 </head>
 <body style="background: #f8fafc; display: flex; flex-direction: column; min-height: 100vh;">
 
@@ -51,37 +62,38 @@
   </div>
 
   <!-- Agent Profile Header Hero -->
-  <header style="background: linear-gradient(135deg, #0a192f 0%, #1e293b 100%); color: white; padding: 3rem 1.5rem 2.5rem 1.5rem; text-align: center; border-bottom: 4px solid var(--cem-red);">
+  <header class="hero-pad" style="background: linear-gradient(135deg, #0a192f 0%, #1e293b 100%); color: white; padding: 3rem 1.5rem 2.5rem 1.5rem; text-align: center; border-bottom: 4px solid var(--cem-red);">
     <div style="max-width: 900px; margin: 0 auto;">
-      <img src="/agents/wanazemi.png" alt="WanAzemi Profile" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 8px 25px rgba(0,0,0,0.3); margin-bottom: 1rem;">
-      <h1 style="font-size: 2.2rem; font-weight: 900; color: white; margin-bottom: 0.25rem; letter-spacing: -0.02em;">WanAzemi</h1>
-      <p style="font-size: 1.1rem; font-weight: 800; color: #ef4444; text-transform: uppercase; margin-bottom: 0.5rem;">Principal / Senior Industrial Property Specialist</p>
-      <p style="font-size: 0.95rem; color: #94a3b8; margin-bottom: 1.25rem; font-weight: 600;">Corporate Estate Malaysia • Selangor &amp; Kuala Lumpur Zones • <span style="color: #cbd5e1; background: rgba(255,255,255,0.1); padding: 0.2rem 0.5rem; border-radius: 4px;">REN 12345</span></p>
+      <img src="/agents/wanazemi.png" alt="WanAzemi Profile" class="profile-img-lg" style="width: 135px; height: 135px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 8px 25px rgba(0,0,0,0.3); margin-bottom: 1rem;">
+      <h1 class="hero-title" style="font-size: 2.2rem; font-weight: 900; color: white; margin-bottom: 0.25rem; letter-spacing: -0.02em;">WanAzemi</h1>
+      <p class="hero-subtitle" style="font-size: 1.1rem; font-weight: 800; color: #ef4444; text-transform: uppercase; margin-bottom: 0.5rem;">Principal / Senior Industrial Property Specialist</p>
+      <p style="font-size: 0.92rem; color: #94a3b8; margin-bottom: 1.25rem; font-weight: 600;">Corporate Estate Malaysia • Selangor &amp; KL Zones • <span style="color: #cbd5e1; background: rgba(255,255,255,0.1); padding: 0.2rem 0.55rem; border-radius: 4px;">REN 12345</span></p>
 
       <div style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap;">
-        <a href="https://wa.me/60173569452?text=Hello%20WanAzemi,%20I%20am%20viewing%20your%20official%20property%20portfolio%20at%20Corporate%20Estate%20Malaysia." target="_blank" class="btn-whatsapp" style="padding: 0.75rem 1.5rem; font-size: 0.95rem; font-weight: 800; border-radius: 8px; box-shadow: 0 4px 15px rgba(37,211,102,0.4);">
-          💬 Direct WhatsApp WanAzemi (017-356 9452)
+        <a href="https://wa.me/60173569452?text=Hello%20WanAzemi,%20I%20am%20interested%20in%20listing/consulting%20industrial%20property%20with%20Corporate%20Estate%20Malaysia." target="_blank" class="btn-whatsapp" style="padding: 0.75rem 1.4rem; font-size: 0.92rem; font-weight: 800; border-radius: 8px; box-shadow: 0 4px 15px rgba(37,211,102,0.35); text-align: center;">
+          💬 WhatsApp WanAzemi Directly (017-356 9452)
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Agent Overview & Specialization Cards -->
-  <main class="container" style="max-width: 1100px; padding-top: 2rem; padding-bottom: 3rem;">
+  <!-- Main Content Container -->
+  <main class="container" style="max-width: 1000px; padding-top: 2rem; padding-bottom: 3.5rem;">
     
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+    <!-- Executive Overview & Specializations -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin-bottom: 2.25rem;">
       
-      <!-- Experience & Track Record -->
-      <div style="background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+      <!-- Executive Overview -->
+      <div class="card-pad" style="background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
         <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.4rem;">
           📋 Executive Profile &amp; Overview
         </h3>
-        <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1rem;">
+        <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 1rem;">
           10+ years in industrial &amp; commercial property transactions across Selangor &amp; Kuala Lumpur. Successfully negotiated over <strong>RM 200+ million</strong> in total property value for corporate clients including multinational tenants and local SME operators.
         </p>
         <div style="border-top: 1px solid #f1f5f9; padding-top: 0.85rem;">
-          <h4 style="font-size: 0.78rem; font-weight: 800; color: var(--cem-navy); text-transform: uppercase; margin-bottom: 0.5rem;">🏆 Career Highlights</h4>
-          <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.85rem; color: var(--text-main); line-height: 1.6;">
+          <h4 style="font-size: 0.75rem; font-weight: 800; color: var(--cem-navy); text-transform: uppercase; margin-bottom: 0.5rem;">🏆 Career Highlights</h4>
+          <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.85rem; color: var(--text-main); line-height: 1.65;">
             <li>Top Industrial Property Negotiator (2023 - 2025)</li>
             <li>RM 200M+ cumulative transaction volume</li>
             <li>Specialist in Built-to-Suit (BTS) factories &amp; warehouses</li>
@@ -90,20 +102,19 @@
         </div>
       </div>
 
-      <!-- Specializations & Coverage -->
-      <div style="background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+      <!-- Specializations & Coverage Areas -->
+      <div class="card-pad" style="background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
         <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.4rem;">
           🏭 Key Specializations
         </h3>
         <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem;">
-          <span style="padding: 0.35rem 0.7rem; background: #e0f2fe; color: #0369a1; font-size: 0.8rem; font-weight: 700; border-radius: 6px;">Industrial Factory &amp; Warehouse (Sale &amp; Lease)</span>
-          <span style="padding: 0.35rem 0.7rem; background: #e0f2fe; color: #0369a1; font-size: 0.8rem; font-weight: 700; border-radius: 6px;">Industrial Land Acquisition &amp; Joint Venture</span>
-          <span style="padding: 0.35rem 0.7rem; background: #e0f2fe; color: #0369a1; font-size: 0.8rem; font-weight: 700; border-radius: 6px;">Built-to-Suit (BTS) Development</span>
-          <span style="padding: 0.35rem 0.7rem; background: #e0f2fe; color: #0369a1; font-size: 0.8rem; font-weight: 700; border-radius: 6px;">Commercial Building &amp; Shoplot</span>
-          <span style="padding: 0.35rem 0.7rem; background: #e0f2fe; color: #0369a1; font-size: 0.8rem; font-weight: 700; border-radius: 6px;">Corporate Property Valuation</span>
+          <span style="padding: 0.35rem 0.65rem; background: #e0f2fe; color: #0369a1; font-size: 0.78rem; font-weight: 700; border-radius: 6px;">Industrial Factory &amp; Warehouse (Sale &amp; Lease)</span>
+          <span style="padding: 0.35rem 0.65rem; background: #e0f2fe; color: #0369a1; font-size: 0.78rem; font-weight: 700; border-radius: 6px;">Industrial Land Acquisition &amp; Joint Venture</span>
+          <span style="padding: 0.35rem 0.65rem; background: #e0f2fe; color: #0369a1; font-size: 0.78rem; font-weight: 700; border-radius: 6px;">Built-to-Suit (BTS) Development</span>
+          <span style="padding: 0.35rem 0.65rem; background: #e0f2fe; color: #0369a1; font-size: 0.78rem; font-weight: 700; border-radius: 6px;">Commercial Building &amp; Shoplot</span>
         </div>
 
-        <h4 style="font-size: 0.78rem; font-weight: 800; color: var(--cem-navy); text-transform: uppercase; margin-bottom: 0.5rem;">📍 Core Coverage Areas</h4>
+        <h4 style="font-size: 0.75rem; font-weight: 800; color: var(--cem-navy); text-transform: uppercase; margin-bottom: 0.5rem;">📍 Core Coverage Areas</h4>
         <div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
           <span style="padding: 0.25rem 0.55rem; background: #f0fdf4; color: #166534; font-size: 0.78rem; font-weight: 600; border-radius: 4px; border: 1px solid #bbf7d0;">Shah Alam</span>
           <span style="padding: 0.25rem 0.55rem; background: #f0fdf4; color: #166534; font-size: 0.78rem; font-weight: 600; border-radius: 4px; border: 1px solid #bbf7d0;">Klang</span>
@@ -117,34 +128,76 @@
 
     </div>
 
-    <!-- Active Property Portfolio Managed by WanAzemi -->
-    <div style="margin-top: 1rem;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
-        <div>
-          <h2 style="font-size: 1.4rem; font-weight: 800; color: var(--cem-navy); margin: 0;">🏢 Active Property Portfolio</h2>
-          <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.2rem;">Exclusive factories, warehouses, and commercial listings managed by WanAzemi.</p>
-        </div>
-        <a href="https://wa.me/60173569452?text=Hello%20WanAzemi,%20I%20want%20to%20enquire%20about%20your%20property%20listings." target="_blank" style="padding: 0.5rem 1rem; background: #25d366; color: white; text-decoration: none; border-radius: 6px; font-weight: 800; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.35rem;">
-          💬 Enquire via WhatsApp
-        </a>
+    <!-- OWNER ARE WELCOME TO LIST WITH US FORM SECTION -->
+    <div class="card-pad" style="background: white; border: 1px solid var(--border); border-top: 4px solid var(--cem-red); border-radius: 14px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
+      
+      <div style="text-align: center; max-width: 650px; margin: 0 auto 1.75rem auto;">
+        <span style="background: #fef2f2; color: var(--cem-red); border: 1px solid #fca5a5; font-size: 0.75rem; font-weight: 800; padding: 0.3rem 0.75rem; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em;">
+          🏢 FOR PROPERTY OWNERS &amp; LANDLORDS
+        </span>
+        <h2 style="font-size: 1.6rem; font-weight: 900; color: var(--cem-navy); margin: 0.6rem 0 0.35rem 0;">
+          Owners Are Welcome To List With Us
+        </h2>
+        <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
+          Adakah anda mempunyai Kilang, Gudang, Tanah Industri, atau Bangunan Komersial untuk Dijual / Disewa? Hantar butiran hartanah anda di bawah untuk perkhidmatan promosi &amp; pemadanan pembeli korporat oleh <strong>WanAzemi &amp; Pasukan Corporate Estate Malaysia</strong>.
+        </p>
       </div>
 
-      <div id="wanazemiListingsGrid" class="listing-grid">
-        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-muted);">
-          ⏳ Loading WanAzemi's property portfolio...
+      <form id="ownerListingForm" onsubmit="handleOwnerSubmission(event)" style="max-width: 750px; margin: 0 auto;">
+        
+        <div class="form-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+          <div>
+            <label style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--cem-navy); margin-bottom: 0.35rem;">Nama Pemilik / Contact Person *</label>
+            <input type="text" id="ownerName" required placeholder="Contoh: Tan Sri / Dato' / Encik Ahmad" style="width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 0.9rem;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--cem-navy); margin-bottom: 0.35rem;">Nombor Telefon / WhatsApp *</label>
+            <input type="tel" id="ownerPhone" required placeholder="Contoh: 012-345 6789" style="width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 0.9rem;">
+          </div>
         </div>
-      </div>
+
+        <div class="form-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+          <div>
+            <label style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--cem-navy); margin-bottom: 0.35rem;">Emel (Opsional)</label>
+            <input type="email" id="ownerEmail" placeholder="nama@syarikat.com" style="width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 0.9rem;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--cem-navy); margin-bottom: 0.35rem;">Jenis Hartanah *</label>
+            <select id="propertyType" required style="width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 0.9rem; background: white;">
+              <option value="Kilang (Factory)">Kilang (Factory - Detached/Semi-D/Terrace)</option>
+              <option value="Gudang (Warehouse)">Gudang Logistik (Logistics Warehouse)</option>
+              <option value="Tanah Industri (Industrial Land)">Tanah Industri (Industrial Land)</option>
+              <option value="Bangunan Komersial / Shoplot">Bangunan Komersial / Shoplot</option>
+              <option value="Lain-lain Hartanah Korporat">Lain-lain Hartanah Korporat</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+          <div>
+            <label style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--cem-navy); margin-bottom: 0.35rem;">Lokasi &amp; Kawasan Hartanah *</label>
+            <input type="text" id="propertyLocation" required placeholder="Contoh: Shah Alam / Klang / Telok Gong" style="width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 0.9rem;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--cem-navy); margin-bottom: 0.35rem;">Cadangan Harga Jual / Sewa *</label>
+            <input type="text" id="propertyPrice" required placeholder="Contoh: RM 5.5 Million atau RM 25,000/bln" style="width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 0.9rem;">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--cem-navy); margin-bottom: 0.35rem;">Butiran Tambahan Hartanah (Keluasan, Kuasa Elektrik Amp, Ceiling Height, dsb)</label>
+          <textarea id="propertyDetails" rows="4" placeholder="Keluasan tanah (land area), keluasan binaan (built-up sqft), bekalan elektrik (amp), dll..." style="width: 100%; padding: 0.75rem 0.85rem; border: 1px solid var(--border-strong); border-radius: 8px; font-size: 0.9rem; line-height: 1.5;"></textarea>
+        </div>
+
+        <button type="submit" id="btnSubmitOwner" style="width: 100%; padding: 0.9rem 1.5rem; background: var(--cem-navy); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: background 0.15s; box-shadow: 0 4px 12px rgba(10,25,47,0.25);">
+          📩 Hantar Borang Pendaftaran Hartanah
+        </button>
+
+      </form>
+
     </div>
 
   </main>
-
-  <!-- Property Detail Modal -->
-  <div id="propertyModal" class="modal-overlay" onclick="if(event.target===this) closeModal()">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closeModal()">✕</button>
-      <div id="modalBody"></div>
-    </div>
-  </div>
 
   <!-- Pure White Footer -->
   <footer style="background: #ffffff; color: var(--text-muted); text-align: center; padding: 2.25rem 1rem; margin-top: auto; font-size: 0.85rem; border-top: 1px solid var(--border);">
@@ -156,101 +209,60 @@
   </footer>
 
   <!-- FLOATING WHATSAPP BUTTON -->
-  <a href="https://wa.me/60173569452?text=Hello%20WanAzemi,%20I%20have%20an%20enquiry%20regarding%20an%20industrial/commercial%20property." target="_blank" class="floating-wa-btn" title="Chat with WanAzemi on WhatsApp">
+  <a href="https://wa.me/60173569452?text=Hello%20WanAzemi,%20I%20have%20an%20enquiry%20regarding%20listing%20my%20property." target="_blank" class="floating-wa-btn" title="Chat with WanAzemi on WhatsApp">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="white" width="28" height="28"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
   </a>
 
-  <script src="/config.js"></script>
   <script>
     function toggleMobileMenu(e) {
       if (e) e.stopPropagation();
       document.getElementById('mobileDrawer').classList.toggle('open');
     }
 
-    let wanazemiData = [];
+    function handleOwnerSubmission(e) {
+      e.preventDefault();
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      await loadWanAzemiListings();
-    });
+      const name = document.getElementById('ownerName').value;
+      const phone = document.getElementById('ownerPhone').value;
+      const email = document.getElementById('ownerEmail').value || 'Tiada';
+      const type = document.getElementById('propertyType').value;
+      const location = document.getElementById('propertyLocation').value;
+      const price = document.getElementById('propertyPrice').value;
+      const details = document.getElementById('propertyDetails').value || 'Tiada butiran tambahan';
 
-    async function loadWanAzemiListings() {
-      const grid = document.getElementById('wanazemiListingsGrid');
-      try {
-        const { data: listings, error } = await supabaseClient
-          .from('listings')
-          .select('*')
-          .order('created_at', { ascending: false });
+      const subject = `Pendaftaran Hartanah Baru (Pemilik): ${type} @ ${location}`;
+      const bodyText = 
+`SALINAN BORANG PENDAFTARAN HARTANAH PEMILIK (OWNERS ARE WELCOME TO LIST)
+--------------------------------------------------
+Nama Pemilik / Contact Person: ${name}
+Nombor Telefon / WhatsApp: ${phone}
+Emel: ${email}
+Jenis Hartanah: ${type}
+Lokasi Hartanah: ${location}
+Cadangan Harga Jual / Sewa: ${price}
 
-        if (error) throw error;
+BUTIRAN TAMBAHAN HARTANAH:
+${details}
+--------------------------------------------------
+Hantar Kepada: WanAzemi & SuperAdmin Corporate Estate Malaysia`;
 
-        wanazemiData = listings || [];
+      // 1. Open Mailto directly to biztreat2017@gmail.com
+      const mailtoUrl = `mailto:biztreat2017@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+      
+      // 2. Also prepare WhatsApp message to WanAzemi (017-356 9452)
+      const cleanPhone = '60173569452';
+      const waMessage = `*PENDAFTARAN HARTANAH PEMILIK (OWNERS ARE WELCOME TO LIST)*\n\n👤 *Pemilik:* ${name}\n📱 *Tel:* ${phone}\n✉️ *Emel:* ${email}\n🏢 *Jenis Hartanah:* ${type}\n📍 *Lokasi:* ${location}\n💰 *Harga/Sewa:* ${price}\n\n📝 *Butiran:* ${details}`;
+      const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waMessage)}`;
 
-        if (wanazemiData.length === 0) {
-          grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 2.5rem; color: var(--text-muted);">No property listings found.</div>';
-          return;
+      // Execute mailto notification
+      window.location.href = mailtoUrl;
+
+      // Prompt user with option to also send instant WhatsApp message
+      setTimeout(() => {
+        if (confirm("Email client anda telah dibuka untuk pengiriman ke biztreat2017@gmail.com.\n\nAdakah anda mahu juga menghantar mesej WhatsApp secara terus kepada WanAzemi (017-356 9452)?")) {
+          window.open(waUrl, '_blank');
         }
-
-        grid.innerHTML = wanazemiData.map(item => {
-          const imgUrl = (item.images && item.images.length > 0) ? item.images[0] : '/logo.png';
-          const priceFormatted = item.asking_price ? 'RM ' + item.asking_price.toLocaleString('en-US') : 'RM Contact for Price';
-          const listingBadge = item.listing_type || 'For Rent';
-
-          return `
-            <div class="card" onclick="openModal('${item.id}')" style="cursor: pointer;">
-              <div class="card-img-wrap">
-                <img src="${imgUrl}" alt="${item.title}" class="card-img">
-                <span class="badge-type">${listingBadge}</span>
-              </div>
-              <div class="card-body">
-                <div class="card-price">${priceFormatted}</div>
-                <h3 class="card-title">${item.title}</h3>
-                <div class="card-location">📍 ${item.location || 'Selangor / KL'}</div>
-                <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.5rem;">
-                  <span style="font-size: 0.72rem; background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; color: var(--text-muted);">${item.property_type || 'Industrial'}</span>
-                  ${item.built_up_sqft ? `<span style="font-size: 0.72rem; background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; color: var(--text-muted);">${item.built_up_sqft.toLocaleString()} sqft</span>` : ''}
-                </div>
-                <a href="https://wa.me/60173569452?text=${encodeURIComponent('Hello WanAzemi, I am interested in this property listing: ' + item.title)}" target="_blank" class="btn-whatsapp" style="margin-top: 0.85rem;" onclick="event.stopPropagation();">
-                  💬 Contact WanAzemi (017-356 9452)
-                </a>
-              </div>
-            </div>
-          `;
-        }).join('');
-
-      } catch (err) {
-        console.error('Error loading WanAzemi portfolio:', err);
-        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #dc2626; padding: 2rem;">Error loading property portfolio: ${err.message}</div>`;
-      }
-    }
-
-    function openModal(id) {
-      const item = wanazemiData.find(x => x.id === id);
-      if (!item) return;
-
-      const modalBody = document.getElementById('modalBody');
-      const imagesHtml = (item.images && item.images.length > 0)
-        ? `<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; margin-bottom: 1rem;">
-            ${item.images.map(img => `<img src="${img}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 6px;">`).join('')}
-           </div>`
-        : '';
-
-      modalBody.innerHTML = `
-        <h2 style="color: var(--cem-navy); font-size: 1.4rem; font-weight: 900; margin-bottom: 0.5rem;">${item.title}</h2>
-        <div style="font-size: 1.25rem; font-weight: 800; color: var(--cem-red); margin-bottom: 1rem;">RM ${item.asking_price ? item.asking_price.toLocaleString() : 'Contact for Price'}</div>
-        ${imagesHtml}
-        <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-          <p style="font-size: 0.88rem; color: var(--text-main); line-height: 1.6; margin: 0; white-space: pre-line;">${item.description || 'Contact WanAzemi for full property details and viewing arrangements.'}</p>
-        </div>
-        <a href="https://wa.me/60173569452?text=${encodeURIComponent('Hello WanAzemi, I want to arrange viewing for: ' + item.title)}" target="_blank" class="btn-whatsapp" style="width: 100%; justify-content: center; padding: 0.75rem; font-size: 0.95rem;">
-          💬 WhatsApp WanAzemi for Viewing (017-356 9452)
-        </a>
-      `;
-
-      document.getElementById('propertyModal').classList.add('active');
-    }
-
-    function closeModal() {
-      document.getElementById('propertyModal').classList.remove('active');
+      }, 500);
     }
   </script>
 </body>
