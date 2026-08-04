@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     alertBox.style.background = isError ? '#fee2e2' : '#d1fae5';
     alertBox.style.color = isError ? '#dc2626' : '#047857';
     alertBox.style.border = `1px solid ${isError ? '#fca5a5' : '#6ee7b7'}`;
+    alertBox.style.textAlign = 'center';
     alertBox.innerHTML = msg;
   }
 
@@ -78,10 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
           }
 
           showAlert(`
-            🎉 <strong>Pendaftaran Berjaya Dihantar!</strong><br>
-            Akaun ejen anda (<strong>${email}</strong>) kini berstatus <strong>Pending Approval</strong>.<br>
-            Sila maklumkan kepada <strong>SuperAdmin</strong> untuk kelulusan akaun anda sebelum anda boleh log masuk.<br><br>
-            <a href="login.html" class="btn-show-listings" style="display:inline-block; padding:0.5rem 1rem; height:auto; text-decoration:none; margin-top:0.5rem;">Kembali ke Halaman Log Masuk</a>
+            <div style="text-align: center; padding: 0.25rem 0;">
+              <div style="font-size: 1.05rem; font-weight: 800; margin-bottom: 0.4rem;">🎉 Pendaftaran Berjaya Dihantar!</div>
+              <div style="margin-bottom: 0.35rem;">Akaun ejen anda (<strong>${email}</strong>) kini berstatus <strong>Pending Approval</strong>.</div>
+              <div style="margin-bottom: 0.85rem; line-height: 1.5;">Sila maklumkan kepada <strong>SuperAdmin</strong> untuk kelulusan akaun anda sebelum anda boleh log masuk.</div>
+              <a href="login.html" class="btn-show-listings" style="display: inline-block; padding: 0.65rem 1.25rem; height: auto; text-decoration: none; border-radius: 6px; font-weight: 700;">KEMBALI KE HALAMAN LOG MASUK</a>
+            </div>
           `, false);
           registerForm.reset();
         }
