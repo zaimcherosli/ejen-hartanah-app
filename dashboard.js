@@ -25,14 +25,18 @@ async function checkAuth() {
   // Check if user is SuperAdmin
   const meta = currentUser.user_metadata || {};
   const isSuperAdmin = meta.role === 'superadmin' || 
-                      meta.status === 'Approved' ||
-                      ['multiple.revenue@gmail.com', 'huzaimrosli@gmail.com', 'biztreat2017@gmail.com'].includes(currentUser.email);
+                      ['multiple.revenue@gmail.com', 'huzaimrosli@gmail.com', 'biztreat2017@gmail.com', 'zaimrosli.tvpc@gmail.com'].includes((currentUser.email || '').toLowerCase());
 
   if (isSuperAdmin) {
     const adminSection = document.getElementById('superadminApprovalSection');
     if (adminSection) {
       adminSection.style.display = 'block';
       loadAgentApprovals();
+    }
+    const logsSection = document.getElementById('superadminLogsSection');
+    if (logsSection) {
+      logsSection.style.display = 'block';
+      loadActivityLogs();
     }
   }
 
@@ -344,6 +348,7 @@ function setupEditFormHandler() {
       alertBox.style.background = '#d1fae5';
       alertBox.style.color = '#047857';
       alertBox.innerText = 'Listing updated successfully!';
+      logActivity('EDIT_LISTING', `Mengemaskini listing: "${title}" (Status: ${status}, Harga: RM ${asking_price})`, id);
       setTimeout(() => {
         closeEditModal();
         loadAgentListings();
@@ -449,6 +454,7 @@ function setupFormHandler() {
       showAlert(`Gagal menyimpan listing: ${insertErr.message}`, true);
     } else {
       showAlert(' Listing & gambar berjaya disimpan!', false);
+      logActivity('ADD_LISTING', `Menambah listing baharu: "${title}" (${category} - ${property_type}) pada harga RM ${asking_price}`, insertedData ? insertedData[0]?.id : null);
       form.reset();
       loadAgentListings();
     }
@@ -462,9 +468,11 @@ async function deleteListing(id) {
   try {
     const { data: item } = await supabaseClient
       .from('listings')
-      .select('images')
+      .select('title, images')
       .eq('id', id)
       .single();
+
+    const titleStr = item ? (item.title || `ID ${id}`) : `ID ${id}`;
 
     if (item && item.images && item.images.length > 0) {
       const paths = item.images.map(url => {
@@ -486,6 +494,7 @@ async function deleteListing(id) {
     if (error) {
       alert('Gagal memadam: ' + error.message);
     } else {
+      logActivity('DELETE_LISTING', `Memadam listing: "${titleStr}"`, id);
       loadAgentListings();
     }
   } catch (err) {
@@ -598,7 +607,9 @@ async function approveAgent(userId, email) {
       alert('Gagal meluluskan: ' + error.message);
     } else {
       alert(`🎉 Akaun ejen (${email}) TELAH DILULUSKAN! Ejen kini boleh log masuk ke Dashboard.`);
+      await logActivity('APPROVE_AGENT', `Meluluskan pendaftaran akaun ejen (${email})`, userId);
       loadAgentApprovals();
+      loadActivityLogs();
     }
   } catch (err) {
     console.error('approveAgent error:', err);
@@ -619,10 +630,100 @@ async function rejectAgent(userId, email) {
       alert('Gagal menolak: ' + error.message);
     } else {
       alert(`Permohonan ejen (${email}) TELAH DITOLAK.`);
+      await logActivity('REJECT_AGENT', `Menolak pendaftaran akaun ejen (${email})`, userId);
       loadAgentApprovals();
+      loadActivityLogs();
     }
   } catch (err) {
     console.error('rejectAgent error:', err);
     alert('Ralat: ' + err.message);
+  }
+}
+
+// Helper: Log Activity to activity_logs Table
+async function logActivity(actionType, details, targetId = null) {
+  try {
+    if (!supabaseClient || !currentUser) return;
+    await supabaseClient.from('activity_logs').insert([{
+      user_email: currentUser.email,
+      action_type: actionType,
+      details: details,
+      target_id: targetId ? String(targetId) : null,
+      created_at: new Date().toISOString()
+    }]);
+  } catch (err) {
+    console.warn('logActivity warning:', err);
+  }
+}
+
+// SuperAdmin Activity Audit Logs Function
+async function loadActivityLogs() {
+  const container = document.getElementById('activityLogsContainer');
+  if (!container) return;
+
+  container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">⏳ Memuatkan log aktiviti...</span>';
+
+  try {
+    const { data: logs, error } = await supabaseClient
+      .from('activity_logs')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(30);
+
+    if (error) {
+      console.warn('activity_logs query error:', error.message);
+      container.innerHTML = `<span style="color: var(--text-muted); font-size: 0.82rem;">Belum ada log aktiviti direkodkan setakat ini. Sila pastikan jadual 'activity_logs' telah dicipta di Supabase SQL Editor.</span>`;
+      return;
+    }
+
+    if (!logs || logs.length === 0) {
+      container.innerHTML = '<span style="font-size: 0.82rem; color: var(--text-muted);">Tiada log aktiviti direkodkan setakat ini.</span>';
+      return;
+    }
+
+    const html = `
+      <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid var(--border); background: white;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.83rem; text-align: left; min-width: 620px;">
+          <thead>
+            <tr style="background: #f8fafc; color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border);">
+              <th style="padding: 0.8rem 0.9rem; white-space: nowrap;">MASA &amp; TARIKH</th>
+              <th style="padding: 0.8rem 0.9rem; white-space: nowrap;">EJEN / PENGENDALI</th>
+              <th style="padding: 0.8rem 0.9rem; white-space: nowrap;">JENIS TINDAKAN</th>
+              <th style="padding: 0.8rem 0.9rem;">BUTIRAN AKTIVITI</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${logs.map(log => {
+              const dt = new Date(log.created_at).toLocaleString('ms-MY', {
+                day: '2-digit', month: 'short', year: 'numeric',
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+              });
+
+              let actColor = '#2563eb'; let actBg = '#eff6ff';
+              if (log.action_type === 'ADD_LISTING') { actColor = '#16a34a'; actBg = '#f0fdf4'; }
+              if (log.action_type === 'EDIT_LISTING') { actColor = '#d97706'; actBg = '#fffbeb'; }
+              if (log.action_type === 'DELETE_LISTING') { actColor = '#dc2626'; actBg = '#fef2f2'; }
+              if (log.action_type === 'APPROVE_AGENT') { actColor = '#059669'; actBg = '#ecfdf5'; }
+              if (log.action_type === 'REJECT_AGENT') { actColor = '#991b1b'; actBg = '#fef2f2'; }
+
+              return `
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                  <td style="padding: 0.75rem 0.9rem; white-space: nowrap; color: var(--text-muted); font-size: 0.78rem;">${dt}</td>
+                  <td style="padding: 0.75rem 0.9rem; font-weight: 700; color: var(--cem-navy); white-space: nowrap;">${log.user_email}</td>
+                  <td style="padding: 0.75rem 0.9rem; white-space: nowrap;">
+                    <span style="padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 800; font-size: 0.72rem; background: ${actBg}; color: ${actColor}; display: inline-block;">${log.action_type}</span>
+                  </td>
+                  <td style="padding: 0.75rem 0.9rem; color: var(--text-main); font-weight: 500;">${log.details}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+
+    container.innerHTML = html;
+  } catch (err) {
+    console.error('loadActivityLogs error:', err);
   }
 }
