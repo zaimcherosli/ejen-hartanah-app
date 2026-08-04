@@ -874,14 +874,14 @@ async function loadActivityLogs() {
 
           return `
             <div style="background: white; border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-                <span style="padding: 0.2rem 0.55rem; border-radius: 4px; font-weight: 800; font-size: 0.7rem; background: ${actBg}; color: ${actColor};">
+              <div style="margin-bottom: 0.4rem;">
+                <span style="padding: 0.2rem 0.55rem; border-radius: 4px; font-weight: 800; font-size: 0.7rem; background: ${actBg}; color: ${actColor}; display: inline-block;">
                   ${log.action_type}
                 </span>
-                <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">${dt}</span>
               </div>
-              <div style="font-weight: 700; color: var(--cem-navy); font-size: 0.82rem; margin-bottom: 0.25rem;">${log.user_email}</div>
-              <div style="font-size: 0.8rem; color: var(--text-main); line-height: 1.35;">${log.details}</div>
+              <div style="font-weight: 700; color: var(--cem-navy); font-size: 0.82rem; margin-bottom: 0.25rem; word-break: break-all;">${log.user_email}</div>
+              <div style="font-size: 0.8rem; color: var(--text-main); line-height: 1.35; margin-bottom: 0.35rem;">${log.details}</div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600; text-align: right; border-top: 1px dashed #f1f5f9; padding-top: 0.35rem; margin-top: 0.35rem;">🕒 ${dt}</div>
             </div>
           `;
         }).join('')}
