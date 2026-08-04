@@ -185,7 +185,8 @@ body {
   z-index: 9999;
 }
 
-.mobile-menu-drawer.active {
+.mobile-menu-drawer.active,
+.mobile-menu-drawer.open {
   display: flex !important;
   flex-direction: column;
   gap: 0.5rem;
