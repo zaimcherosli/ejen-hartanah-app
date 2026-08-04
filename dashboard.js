@@ -561,7 +561,7 @@ async function loadAgentApprovals() {
                   <td style="padding: 0.85rem 1rem; font-weight: 700; color: var(--cem-navy); min-width: 160px;">${name}</td>
                   <td style="padding: 0.85rem 1rem; font-weight: 600; white-space: nowrap;">
                     <a href="https://wa.me/${cleanWa.startsWith('60') ? cleanWa : '60' + cleanWa}" target="_blank" style="color: #16a34a; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; background: #f0fdf4; padding: 0.3rem 0.65rem; border-radius: 6px; border: 1px solid #bbf7d0; font-size: 0.82rem;">
-                      💬 ${wa}
+                      ${wa}
                     </a>
                   </td>
                   <td style="padding: 0.85rem 1rem; color: var(--text-muted); font-weight: 600; white-space: nowrap;">
@@ -621,7 +621,7 @@ async function loadAgentApprovals() {
 
               <div style="display: flex; gap: 0.4rem; margin-bottom: 0.75rem; align-items: center;">
                 <a href="https://wa.me/${cleanWa.startsWith('60') ? cleanWa : '60' + cleanWa}" target="_blank" style="color: #16a34a; text-decoration: none; display: inline-flex; align-items: center; gap: 0.25rem; background: #f0fdf4; padding: 0.25rem 0.55rem; border-radius: 6px; border: 1px solid #bbf7d0; font-size: 0.75rem; font-weight: 700;">
-                  💬 ${wa}
+                  ${wa}
                 </a>
                 <span style="background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700; color: var(--text-muted);">
                   ${ren}
