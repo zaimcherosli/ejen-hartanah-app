@@ -11,6 +11,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css?v=25">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    if (window.location.pathname !== '/agent-listing-management' && !window.location.pathname.includes('.html')) {
+      window.history.replaceState(null, '', '/agent-listing-management');
+    }
+  </script>
   <style>
     @media (max-width: 640px) {
       .desktop-only-table {
