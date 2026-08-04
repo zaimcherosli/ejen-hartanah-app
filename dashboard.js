@@ -597,34 +597,37 @@ async function loadAgentApprovals() {
           const cleanWa = wa.replace(/[^0-9]/g, '');
 
           return `
-            <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.65rem;">
-                <div>
-                  <div style="font-weight: 800; color: var(--cem-navy); font-size: 0.95rem; line-height: 1.2;">${name}</div>
-                  <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600; margin-top: 0.15rem;">${u.email}</div>
-                </div>
-                <span style="padding: 0.25rem 0.65rem; border-radius: 20px; font-weight: 800; font-size: 0.72rem; background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder}; white-space: nowrap; margin-left: 0.5rem;">
+            <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 0.85rem 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; gap: 0.5rem;">
+                <div style="font-weight: 800; color: var(--cem-navy); font-size: 0.95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${name}</div>
+                <span style="padding: 0.2rem 0.55rem; border-radius: 20px; font-weight: 800; font-size: 0.7rem; background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder}; white-space: nowrap;">
                   ${status === 'Pending' ? '⏳' : status === 'Approved' ? '✅' : '❌'} ${status}
                 </span>
               </div>
 
-              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.85rem; align-items: center;">
-                <a href="https://wa.me/${cleanWa.startsWith('60') ? cleanWa : '60' + cleanWa}" target="_blank" style="color: #16a34a; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; background: #f0fdf4; padding: 0.35rem 0.65rem; border-radius: 6px; border: 1px solid #bbf7d0; font-size: 0.78rem; font-weight: 700;">
+              <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600; margin-bottom: 0.6rem; word-break: break-all;">
+                ${u.email}
+              </div>
+
+              <div style="display: flex; gap: 0.4rem; margin-bottom: 0.75rem; align-items: center;">
+                <a href="https://wa.me/${cleanWa.startsWith('60') ? cleanWa : '60' + cleanWa}" target="_blank" style="color: #16a34a; text-decoration: none; display: inline-flex; align-items: center; gap: 0.25rem; background: #f0fdf4; padding: 0.25rem 0.55rem; border-radius: 6px; border: 1px solid #bbf7d0; font-size: 0.75rem; font-weight: 700;">
                   💬 ${wa}
                 </a>
-                <span style="background: #f1f5f9; padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">
+                <span style="background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700; color: var(--text-muted);">
                   ${ren}
                 </span>
               </div>
 
-              <div style="display: flex; gap: 0.4rem; padding-top: 0.75rem; border-top: 1px solid #f1f5f9; justify-content: flex-end; align-items: center;">
+              <div style="display: flex; gap: 0.4rem; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; justify-content: space-between; align-items: center;">
                 ${status === 'Pending' ? `
-                  <button type="button" onclick="approveAgent('${u.id}', '${u.email}')" style="flex: 1; padding: 0.55rem; background: #10b981; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; text-align: center;">✅ Approve</button>
-                  <button type="button" onclick="rejectAgent('${u.id}', '${u.email}')" style="flex: 1; padding: 0.55rem; background: #ef4444; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; text-align: center;">❌ Reject</button>
+                  <div style="display: flex; gap: 0.35rem; flex: 1;">
+                    <button type="button" onclick="approveAgent('${u.id}', '${u.email}')" style="flex: 1; padding: 0.45rem; background: #10b981; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.75rem; cursor: pointer; text-align: center;">✅ Approve</button>
+                    <button type="button" onclick="rejectAgent('${u.id}', '${u.email}')" style="flex: 1; padding: 0.45rem; background: #ef4444; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.75rem; cursor: pointer; text-align: center;">❌ Reject</button>
+                  </div>
                 ` : `
-                  <span style="color: var(--text-muted); font-size: 0.75rem; font-weight: 600; flex: 1;">Active / ${status}</span>
+                  <span style="color: var(--text-muted); font-size: 0.72rem; font-weight: 700; background: #f8fafc; padding: 0.25rem 0.5rem; border-radius: 4px; border: 1px solid #e2e8f0;">Active / ${status}</span>
                 `}
-                <button type="button" onclick="deleteAgentProfile('${u.id}', '${u.email}')" title="Memadam profil ejen" style="padding: 0.55rem 0.85rem; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer;">🗑️</button>
+                <button type="button" onclick="deleteAgentProfile('${u.id}', '${u.email}')" title="Memadam profil ejen" style="padding: 0.35rem 0.65rem; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">🗑️</button>
               </div>
             </div>
           `;
