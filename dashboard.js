@@ -374,12 +374,18 @@ function setupFormHandler() {
   const alertBox = document.getElementById('formAlert');
 
   function showAlert(msg, isError = true) {
-    alertBox.style.display = 'block';
-    alertBox.style.background = isError ? 'rgba(244, 63, 94, 0.15)' : 'rgba(16, 185, 129, 0.15)';
-    alertBox.style.color = isError ? '#f43f5e' : '#10b981';
-    alertBox.style.border = `1px solid ${isError ? '#f43f5e' : '#10b981'}`;
-    alertBox.innerText = msg;
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = isError ? 'rgba(244, 63, 94, 0.15)' : 'rgba(16, 185, 129, 0.15)';
+      alertBox.style.color = isError ? '#f43f5e' : '#10b981';
+      alertBox.style.border = `1px solid ${isError ? '#f43f5e' : '#10b981'}`;
+      alertBox.innerText = msg;
+    } else {
+      if (isError) alert(msg);
+    }
   }
+
+  if (!form) return;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -401,10 +407,10 @@ function setupFormHandler() {
     const agent_phone = document.getElementById('agent_phone').value;
     const description = document.getElementById('description').value;
 
-    const filesInput = document.getElementById('imagesInput');
-    const files = filesInput.files;
+    const filesInput = document.getElementById('listingImages') || document.getElementById('imagesInput');
+    const files = filesInput ? filesInput.files : null;
 
-    showAlert('Mengecilkan & memuat naik gambar ke Supabase Storage...', false);
+    showAlert('Compressing & watermarking photos for publishing...', false);
 
     const imageUrls = [];
 

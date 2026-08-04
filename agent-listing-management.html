@@ -95,6 +95,8 @@
         <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-red); margin-bottom: 1rem;">+ Add New Property Listing</h3>
         
         <form id="addListingForm">
+          <div id="formAlert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.82rem; font-weight: 700; margin-bottom: 1rem;"></div>
+
           <div style="margin-bottom: 0.85rem;">
             <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">LISTING TITLE *</label>
             <input type="text" id="title" placeholder="e.g. 3-Storey Semi-D Factory in Bukit Jelutong" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
@@ -412,7 +414,7 @@
 
   <script src="config.js"></script>
   <script src="image-watermark.js?v=2"></script>
-  <script src="dashboard.js"></script>
+  <script src="dashboard.js?v=7"></script>
   <script>
     function togglePortalMobileMenu(e) {
       if (e) e.stopPropagation();
