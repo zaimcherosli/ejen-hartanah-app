@@ -643,10 +643,11 @@ async function deleteAgentProfile(userId, email) {
   if (!confirm(`Adakah anda pasti mahu MEMADAM PROFIL EJEN (${email}) daripada sistem?`)) return;
 
   try {
-    const { error } = await supabaseClient
+    const { data, error } = await supabaseClient
       .from('agent_profiles')
       .delete()
-      .eq('id', userId);
+      .ilike('email', email)
+      .select();
 
     if (error) {
       alert('Gagal memadam profil ejen: ' + error.message);
