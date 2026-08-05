@@ -133,8 +133,8 @@
                 <option value="Hotel &amp; Resort">Hotel &amp; Resort</option>
               </select>
             </div>
-            <div>
-              <label style="font-size: 0.75rem; font-weight: 700; color: var(--cem-navy); display: block; margin-bottom: 0.25rem;">LAND TENURE (OPTIONAL FOR RENT)</label>
+            <div id="tenureWrapper">
+              <label style="font-size: 0.75rem; font-weight: 700; color: var(--cem-navy); display: block; margin-bottom: 0.25rem;">LAND TENURE</label>
               <select id="tenure" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
                 <option value="N/A">N/A / Optional (For Rental)</option>
                 <option value="Freehold">Freehold</option>
@@ -343,8 +343,8 @@
         </div>
 
         <div class="form-2col">
-          <div>
-            <label style="font-size: 0.75rem; font-weight: 700; color: var(--cem-navy); display: block; margin-bottom: 0.25rem;">LAND TENURE (OPTIONAL FOR RENT)</label>
+          <div id="editTenureWrapper">
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--cem-navy); display: block; margin-bottom: 0.25rem;">LAND TENURE</label>
             <select id="editTenure" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
               <option value="N/A">N/A / Optional (For Rental)</option>
               <option value="Freehold">Freehold</option>
@@ -439,7 +439,7 @@
 
   <script src="config.js"></script>
   <script src="image-watermark.js?v=2"></script>
-  <script src="dashboard.js?v=8"></script>
+  <script src="dashboard.js?v=9"></script>
   <script>
     function togglePortalMobileMenu(e) {
       if (e) e.stopPropagation();

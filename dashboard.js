@@ -232,6 +232,7 @@ function openEditModal(id) {
   document.getElementById('editPrice').value = item.asking_price || '';
   document.getElementById('editStatus').value = item.status || 'Available';
   document.getElementById('editListingType').value = item.listing_type || 'For Rent';
+  if (window.updateEditTenureVisibility) window.updateEditTenureVisibility();
   document.getElementById('editPropertyType').value = item.property_type || 'Detached Factory';
 
   const rawZoning = item.zoning || '';
@@ -978,3 +979,52 @@ async function loadActivityLogs() {
     console.error('loadActivityLogs error:', err);
   }
 }
+
+// Dynamic Land Tenure Hide/Show Toggles
+function setupTenureToggles() {
+  const listingTypeSelect = document.getElementById('listing_type');
+  const tenureWrapper = document.getElementById('tenureWrapper');
+
+  function updateAddTenureVisibility() {
+    if (!listingTypeSelect || !tenureWrapper) return;
+    if (listingTypeSelect.value === 'For Rent') {
+      tenureWrapper.style.display = 'none';
+    } else {
+      tenureWrapper.style.display = 'block';
+    }
+  }
+
+  if (listingTypeSelect) {
+    listingTypeSelect.addEventListener('change', updateAddTenureVisibility);
+    updateAddTenureVisibility();
+  }
+
+  const editListingTypeSelect = document.getElementById('editListingType');
+  const editTenureWrapper = document.getElementById('editTenureWrapper');
+
+  function updateEditTenureVisibility() {
+    if (!editListingTypeSelect || !editTenureWrapper) return;
+    if (editListingTypeSelect.value === 'For Rent') {
+      editTenureWrapper.style.display = 'none';
+    } else {
+      editTenureWrapper.style.display = 'block';
+    }
+  }
+
+  if (editListingTypeSelect) {
+    editListingTypeSelect.addEventListener('change', updateEditTenureVisibility);
+    updateEditTenureVisibility();
+  }
+}
+
+window.updateEditTenureVisibility = function() {
+  const editListingTypeSelect = document.getElementById('editListingType');
+  const editTenureWrapper = document.getElementById('editTenureWrapper');
+  if (editListingTypeSelect && editTenureWrapper) {
+    editTenureWrapper.style.display = editListingTypeSelect.value === 'For Rent' ? 'none' : 'block';
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  setupTenureToggles();
+});
