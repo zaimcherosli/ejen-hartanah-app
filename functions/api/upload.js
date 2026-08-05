@@ -1,4 +1,4 @@
-// Cloudflare Pages Function for R2 Image Uploads
+// Cloudflare Pages Function for R2 Image Uploads & Deletions
 export async function onRequestPost(context) {
   try {
     const bucket = context.env.ejen_hartanah_storage;
@@ -55,12 +55,39 @@ export async function onRequestPost(context) {
   }
 }
 
+// Delete file from R2 Bucket
+export async function onRequestDelete(context) {
+  try {
+    const bucket = context.env.ejen_hartanah_storage;
+    const url = new URL(context.request.url);
+    const fileName = url.searchParams.get('file');
+
+    if (bucket && fileName) {
+      await bucket.delete(fileName);
+      return new Response(JSON.stringify({ success: true, deleted: fileName }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+      });
+    }
+
+    return new Response(JSON.stringify({ error: 'Missing bucket or file parameter' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+    });
+  } catch (err) {
+    return new Response(JSON.stringify({ error: err.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+    });
+  }
+}
+
 export async function onRequestOptions() {
   return new Response(null, {
     status: 204,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Methods': 'POST, DELETE, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type'
     }
   });

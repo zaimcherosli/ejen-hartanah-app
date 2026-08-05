@@ -549,14 +549,23 @@ async function deleteListing(id) {
     const titleStr = item ? (item.title || `ID ${id}`) : `ID ${id}`;
 
     if (item && item.images && item.images.length > 0) {
-      const paths = item.images.map(url => {
-        const parts = url.split('/storage/v1/object/public/listing-images/');
-        return parts.length > 1 ? parts[1] : null;
-      }).filter(Boolean);
-
-      if (paths.length > 0) {
-        console.log('Deleting storage files:', paths);
-        await supabaseClient.storage.from('listing-images').remove(paths);
+      for (const imgUrl of item.images) {
+        if (imgUrl.includes('.r2.dev/')) {
+          const r2FileName = imgUrl.split('.r2.dev/')[1];
+          if (r2FileName) {
+            try {
+              await fetch(`/api/upload?file=${encodeURIComponent(r2FileName)}`, { method: 'DELETE' });
+              console.log('⚡ Successfully deleted image from Cloudflare R2:', r2FileName);
+            } catch (r2Err) {
+              console.warn('R2 file deletion error:', r2Err);
+            }
+          }
+        } else if (imgUrl.includes('/storage/v1/object/public/listing-images/')) {
+          const path = imgUrl.split('/storage/v1/object/public/listing-images/')[1];
+          if (path) {
+            await supabaseClient.storage.from('listing-images').remove([path]);
+          }
+        }
       }
     }
 
