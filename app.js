@@ -122,9 +122,11 @@ function renderListings(listings) {
 
   if (listings.length === 0) {
     container.innerHTML = `
-      <div class="empty-state">
-        <h3>No Property Listings Found</h3>
-        <p>Try adjusting your search filters or browse other industrial areas.</p>
+      <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 3rem 1.5rem; background: #ffffff; border: 1px solid var(--border-strong); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin: 1rem 0;">
+        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔍</div>
+        <h3 style="font-size: 1.1rem; color: var(--cem-navy); margin-bottom: 0.35rem; font-weight: 800;">Tiada Hartanah Ditemui / No Listings Found</h3>
+        <p style="font-size: 0.88rem; color: var(--text-muted); max-width: 460px; margin: 0 auto 1.25rem auto; line-height: 1.4;">Tiada padanan hartanah ditemui untuk kriteria carian anda. Sila cuba tukar kata kunci atau set semula beberapa tapisan.</p>
+        <button onclick="resetAllFilters()" style="padding: 0.65rem 1.35rem; background: var(--cem-red); color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: transform 0.15s;">🔄 Reset Carian / Clear Filters</button>
       </div>
     `;
     return;

@@ -4,10 +4,10 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 // System Versioning & Build Info
 window.CEM_SYSTEM = {
-  VERSION: 'v1.5.0',
-  BUILD_DATE: '2026-08-04',
+  VERSION: 'v1.6.0',
+  BUILD_DATE: '2026-08-05',
   ENV: 'Production (Cloudflare Pages)',
-  PWA_VERSION: 'cem-pwa-v2'
+  PWA_VERSION: 'cem-pwa-v3'
 };
 
 // Console Diagnostic Log
