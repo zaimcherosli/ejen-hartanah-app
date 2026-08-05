@@ -6,13 +6,13 @@
  */
 
 const DEFAULT_WATERMARK_OPTIONS = {
-  src: 'assets/watermark.png?v=2',
-  position: 'bottom-right', // 'bottom-right', 'bottom-left', 'top-right', 'top-left', 'center'
-  opacity: 0.85,        // High-contrast, clear visibility
+  src: 'assets/watermark.png?v=3',
+  position: 'center',   // Positioned dead-center on property photo
+  opacity: 0.38,        // Elegant 38% transparency overlay
   margin: 0.03,         // 3% margin from container edges
-  scale: 0.28,          // 28% of canvas width
-  minScale: 0.22,       // For canvas width < 600px
-  maxScale: 0.32,       // For canvas width > 3000px
+  scale: 0.45,          // 45% of canvas width in center
+  minScale: 0.35,       // For canvas width < 600px
+  maxScale: 0.55,       // For canvas width > 3000px
   rotation: 0,          // Rotation in degrees (0 = no rotation)
   debug: true           // Enable debug console logs
 };
