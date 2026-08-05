@@ -152,22 +152,25 @@ async function loadAgentListings() {
 
         return `
           <tr onclick="openEditModal('${item.id}')" style="cursor: pointer;" title="Click to Preview & Edit">
-            <td style="padding: 0.65rem 0.5rem;">
-              <img src="${thumb}" style="width: 54px; height: 42px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border);" onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80'" />
+            <td style="padding: 0.65rem 0.5rem; width: 64px; vertical-align: middle;">
+              <img src="${thumb}" style="width: 54px; height: 42px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); flex-shrink: 0;" onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80'" />
             </td>
-            <td style="padding: 0.65rem 0.5rem;">
-              <strong style="color: var(--text-main); font-size: 0.88rem; display: block; line-height: 1.25;">${item.title}</strong>
-              <span style="font-size: 0.76rem; color: var(--text-muted); display: block; margin-top: 0.15rem;">
-                📍 ${item.location} • <span style="${typeBadgeStyle} padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: 800; font-size: 0.68rem; text-transform: uppercase;">${item.listing_type || 'For Rent'}</span>
-              </span>
+            <td style="padding: 0.65rem 0.5rem; vertical-align: middle; max-width: 260px;">
+              <strong style="color: var(--text-main); font-size: 0.85rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.35; margin-bottom: 0.2rem;">${item.title}</strong>
+              <div style="display: flex; align-items: center; gap: 0.3rem; flex-wrap: wrap; margin-top: 0.15rem;">
+                <span style="font-size: 0.73rem; color: var(--text-muted); white-space: nowrap;">📍 ${item.location}</span>
+              </div>
+              <div style="margin-top: 0.2rem;">
+                <span style="${typeBadgeStyle} padding: 0.12rem 0.45rem; border-radius: 4px; font-weight: 800; font-size: 0.67rem; text-transform: uppercase; display: inline-block;">${item.listing_type || 'For Rent'}</span>
+              </div>
             </td>
-            <td style="padding: 0.65rem 0.5rem; color: var(--cem-red); font-weight: 800; font-size: 0.88rem; white-space: nowrap;">${formattedPrice}</td>
-            <td style="padding: 0.65rem 0.5rem;">
-              <span style="background: rgba(16,185,129,0.12); color: #059669; padding: 0.25rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700; white-space: nowrap;">
+            <td style="padding: 0.65rem 0.5rem; color: var(--cem-red); font-weight: 800; font-size: 0.88rem; white-space: nowrap; vertical-align: middle; text-align: right;">${formattedPrice}</td>
+            <td style="padding: 0.65rem 0.5rem; vertical-align: middle; text-align: center;">
+              <span style="background: rgba(16,185,129,0.12); color: #059669; padding: 0.25rem 0.55rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700; white-space: nowrap; display: inline-block;">
                 ${item.status}
               </span>
             </td>
-            <td style="padding: 0.65rem 0.5rem; text-align: center;">
+            <td style="padding: 0.65rem 0.5rem; text-align: center; vertical-align: middle;">
               <button onclick="event.stopPropagation(); deleteListing('${item.id}')" title="Delete Listing" style="background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; width: 34px; height: 34px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s;">
                 🗑️
               </button>
@@ -192,9 +195,10 @@ async function loadAgentListings() {
             <img src="${thumb}" class="inv-card-thumb" onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80'" />
             
             <div class="inv-card-details">
-              <div class="inv-card-title">${item.title}</div>
-              <div class="inv-card-sub">
-                📍 ${item.location} • <span style="${typeBadgeStyle} padding: 0.08rem 0.35rem; border-radius: 3px; font-weight: 800; font-size: 0.65rem; text-transform: uppercase;">${item.listing_type || 'For Rent'}</span>
+              <div class="inv-card-title" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.35; min-height: 2.7em;">${item.title}</div>
+              <div class="inv-card-sub">📍 ${item.location}</div>
+              <div style="margin-top: 0.2rem;">
+                <span style="${typeBadgeStyle} padding: 0.1rem 0.4rem; border-radius: 3px; font-weight: 800; font-size: 0.65rem; text-transform: uppercase; display: inline-block;">${item.listing_type || 'For Rent'}</span>
               </div>
               <div class="inv-card-price">${formattedPrice}</div>
             </div>
