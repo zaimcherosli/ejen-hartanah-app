@@ -160,6 +160,31 @@ function renderListings(listings) {
       zoneVal = '-';
     }
 
+    // Format Power Supply with Amp
+    let formattedPower = '-';
+    if (item.power_supply_amp) {
+      const pStr = String(item.power_supply_amp).trim();
+      if (pStr) {
+        formattedPower = /^\d+$/.test(pStr) ? `${pStr} Amp` : pStr;
+      }
+    }
+
+    // Format Ceiling Height with unit (m / ft)
+    let formattedCeiling = '-';
+    if (item.ceiling_height_ft) {
+      const cStr = String(item.ceiling_height_ft).trim();
+      if (cStr) {
+        if (cStr.endsWith('m') || cStr.endsWith('ft')) {
+          formattedCeiling = cStr;
+        } else if (!isNaN(parseFloat(cStr))) {
+          const cNum = parseFloat(cStr);
+          formattedCeiling = `${Number.isInteger(cNum) ? cNum : cNum.toFixed(2)} ft`;
+        } else {
+          formattedCeiling = cStr;
+        }
+      }
+    }
+
     const isSale = (item.listing_type || '').toLowerCase().includes('sale');
     const badgeTypeClass = isSale ? 'badge-sale' : 'badge-rent';
 
@@ -181,12 +206,12 @@ function renderListings(listings) {
               <span class="val" style="color: var(--cem-navy); font-weight: 800;">${tenureVal}</span>
             </div>
             <div class="spec-item">
-              <span class="label">Power Supply</span>
-              <span class="val">${item.power_supply_amp || '-'}</span>
+              <span class="label">Power Supply (Amp)</span>
+              <span class="val">${formattedPower}</span>
             </div>
             <div class="spec-item">
               <span class="label">Ceiling Height</span>
-              <span class="val">${item.ceiling_height_ft || '-'}</span>
+              <span class="val">${formattedCeiling}</span>
             </div>
             <div class="spec-item">
               <span class="label">Zone / Details</span>
@@ -320,6 +345,31 @@ function openModal(id, updateHistory = true) {
     zoneVal = '-';
   }
 
+  // Format Power Supply with Amp
+  let formattedPower = '-';
+  if (item.power_supply_amp) {
+    const pStr = String(item.power_supply_amp).trim();
+    if (pStr) {
+      formattedPower = /^\d+$/.test(pStr) ? `${pStr} Amp` : pStr;
+    }
+  }
+
+  // Format Ceiling Height with unit (m / ft)
+  let formattedCeiling = '-';
+  if (item.ceiling_height_ft) {
+    const cStr = String(item.ceiling_height_ft).trim();
+    if (cStr) {
+      if (cStr.endsWith('m') || cStr.endsWith('ft')) {
+        formattedCeiling = cStr;
+      } else if (!isNaN(parseFloat(cStr))) {
+        const cNum = parseFloat(cStr);
+        formattedCeiling = `${Number.isInteger(cNum) ? cNum : cNum.toFixed(2)} ft`;
+      } else {
+        formattedCeiling = cStr;
+      }
+    }
+  }
+
   if (modalBody) {
     modalBody.innerHTML = `
       <h2 style="font-size: 1.4rem; margin-bottom: 0.35rem; color: var(--text-main); line-height: 1.25;">${item.title}</h2>
@@ -331,8 +381,8 @@ function openModal(id, updateHistory = true) {
         <div class="spec-item"><span class="label">Category</span><span class="val">${item.category || 'Industrial'}</span></div>
         <div class="spec-item"><span class="label">Property Type</span><span class="val">${item.property_type}</span></div>
         <div class="spec-item"><span class="label">Land Tenure</span><span class="val" style="color: var(--cem-navy); font-weight: 800;">${tenureVal}</span></div>
-        <div class="spec-item"><span class="label">Power Supply</span><span class="val">${item.power_supply_amp || '-'}</span></div>
-        <div class="spec-item"><span class="label">Ceiling Height</span><span class="val">${item.ceiling_height_ft || '-'}</span></div>
+        <div class="spec-item"><span class="label">Power Supply (Amp)</span><span class="val">${formattedPower}</span></div>
+        <div class="spec-item"><span class="label">Ceiling Height</span><span class="val">${formattedCeiling}</span></div>
         <div class="spec-item"><span class="label">Floor Loading</span><span class="val">${item.floor_loading_kn || '-'}</span></div>
         <div class="spec-item"><span class="label">Zone / Details</span><span class="val">${zoneVal || '-'}</span></div>
         <div class="spec-item"><span class="label">Built-up Size</span><span class="val">${item.built_up_sqft ? item.built_up_sqft + ' sqft' : '-'}</span></div>
