@@ -1173,6 +1173,31 @@ body:has(.modal-overlay.active) .floating-wa-btn,
     cursor: pointer;
   }
 
+  /* ⚡ Clean Pagination Button Styles */
+  .pagination-btn {
+    padding: 0.5rem 0.85rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    background: #ffffff;
+    color: var(--text-main);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+  }
+
+  .pagination-btn:hover:not([disabled]) {
+    background: var(--cem-navy);
+    color: #ffffff;
+    border-color: var(--cem-navy);
+  }
+
   .navbar {
     padding: 0.65rem 1rem;
   }

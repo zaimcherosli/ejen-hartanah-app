@@ -1,5 +1,8 @@
 // App.js - Public Portal Logic with Enterprise /listings/title-slug URL Routing
 let allListings = [];
+let currentFilteredListings = [];
+let currentPage = 1;
+const ITEMS_PER_PAGE = 10;
 
 document.addEventListener('DOMContentLoaded', () => {
   fetchListings();
@@ -63,7 +66,7 @@ async function fetchListings() {
     }
 
     allListings = data || [];
-    renderListings(allListings);
+    setFilteredListings(allListings);
 
     // ⚡ Auto-open listing modal if URL is /listings/nama-hartanah
     checkUrlPathForListing();
@@ -115,9 +118,6 @@ function checkUrlPathForListing() {
 // Render property listing cards
 function renderListings(listings) {
   const container = document.getElementById('listingsContainer');
-  const totalCountEl = document.getElementById('totalCount');
-  if (totalCountEl) totalCountEl.innerText = listings.length;
-
   if (!container) return;
 
   if (listings.length === 0) {
@@ -285,7 +285,7 @@ function setupFilterListeners() {
       filtered = filtered.filter(x => x.zoning && x.zoning.toLowerCase().includes(zoning.value.toLowerCase()));
     }
 
-    renderListings(filtered);
+    setFilteredListings(filtered);
   };
 
   if (state) state.addEventListener('change', applyFilters);
@@ -306,6 +306,83 @@ function setupFilterListeners() {
   if (paramState || paramListingType || paramType || paramArea) {
     applyFilters();
   }
+}
+
+// ⚡ Pagination Core Functions (10 items per page)
+function setFilteredListings(list) {
+  currentFilteredListings = list || [];
+  currentPage = 1;
+  renderPaginatedListings();
+}
+
+function renderPaginatedListings() {
+  const totalCountEl = document.getElementById('totalCount');
+  if (totalCountEl) totalCountEl.innerText = currentFilteredListings.length;
+
+  const totalPages = Math.ceil(currentFilteredListings.length / ITEMS_PER_PAGE) || 1;
+  if (currentPage > totalPages) currentPage = totalPages;
+  if (currentPage < 1) currentPage = 1;
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const pageData = currentFilteredListings.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  renderListings(pageData);
+  renderPaginationControls(totalPages);
+}
+
+function renderPaginationControls(totalPages) {
+  const paginationContainer = document.getElementById('paginationContainer');
+  if (!paginationContainer) return;
+
+  if (currentFilteredListings.length === 0 || totalPages <= 1) {
+    paginationContainer.innerHTML = '';
+    return;
+  }
+
+  let html = '';
+
+  // Prev Button
+  if (currentPage > 1) {
+    html += `<button type="button" onclick="goToPage(${currentPage - 1})" class="pagination-btn">‹ Prev</button>`;
+  } else {
+    html += `<button type="button" disabled class="pagination-btn disabled" style="opacity: 0.4; cursor: not-allowed;">‹ Prev</button>`;
+  }
+
+  // Numbered Buttons
+  for (let i = 1; i <= totalPages; i++) {
+    const isCurrent = i === currentPage;
+    const activeStyle = isCurrent 
+      ? 'background: var(--cem-navy); color: #ffffff; font-weight: 800; border-color: var(--cem-navy); shadow: 0 2px 6px rgba(0,0,0,0.15);' 
+      : 'background: #ffffff; color: var(--text-main); font-weight: 600; cursor: pointer;';
+    html += `<button type="button" onclick="goToPage(${i})" class="pagination-btn ${isCurrent ? 'active' : ''}" style="${activeStyle}">${i}</button>`;
+  }
+
+  // Next Button
+  if (currentPage < totalPages) {
+    html += `<button type="button" onclick="goToPage(${currentPage + 1})" class="pagination-btn">Next ›</button>`;
+  } else {
+    html += `<button type="button" disabled class="pagination-btn disabled" style="opacity: 0.4; cursor: not-allowed;">Next ›</button>`;
+  }
+
+  paginationContainer.innerHTML = html;
+}
+
+function goToPage(page) {
+  currentPage = page;
+  renderPaginatedListings();
+  const targetEl = document.getElementById('searchSection') || document.getElementById('listingsSection');
+  if (targetEl) {
+    targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function resetAllFilters() {
+  const inputs = ['filterState', 'filterArea', 'filterType', 'filterListingType', 'filterTenure', 'filterZoning', 'searchKeyword'];
+  inputs.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  setFilteredListings(allListings);
 }
 
 // Open Detail View Modal & Update Browser URL dynamically to /listings/title-slug
