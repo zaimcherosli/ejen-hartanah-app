@@ -1,6 +1,5 @@
 name = "ejen-hartanah-app"
-account_id = "431ef2b6ec25d5011d98c1ee331f1317"
-compatibility_date = "2026-08-05"
+pages_build_output_dir = "."
 
 [[r2_buckets]]
 binding = "ejen_hartanah_storage"
