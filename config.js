@@ -35,3 +35,12 @@ window.showSystemInfo = function() {
 
 // Initialize Supabase Client
 const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+// ⚡ Auto-inject version badge on any page that has id="versionBadge"
+// This ensures the displayed version ALWAYS matches config.js — no hardcoding needed.
+document.addEventListener('DOMContentLoaded', function() {
+  const badge = document.getElementById('versionBadge');
+  if (badge && window.CEM_SYSTEM) {
+    badge.textContent = window.CEM_SYSTEM.VERSION;
+  }
+});
