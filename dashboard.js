@@ -195,7 +195,7 @@ async function loadAgentListings() {
             <img src="${thumb}" class="inv-card-thumb" onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80'" />
             
             <div class="inv-card-details">
-              <div class="inv-card-title" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.35; min-height: 2.7em;">${item.title}</div>
+              <div class="inv-card-title">${item.title}</div>
               <div class="inv-card-sub">📍 ${item.location}</div>
               <div style="margin-top: 0.2rem;">
                 <span style="${typeBadgeStyle} padding: 0.1rem 0.4rem; border-radius: 3px; font-weight: 800; font-size: 0.65rem; text-transform: uppercase; display: inline-block;">${item.listing_type || 'For Rent'}</span>

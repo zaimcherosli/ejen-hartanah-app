@@ -1110,16 +1110,19 @@ body:has(.modal-overlay.active) .floating-wa-btn,
     flex-direction: column;
     justify-content: center;
     gap: 0.15rem;
+    padding-top: 0.15rem;
   }
 
   .inv-card-title {
     font-size: 0.86rem;
     font-weight: 800;
     color: var(--text-main);
-    white-space: nowrap;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.25;
+    margin-top: 0.2rem;
   }
 
   .inv-card-sub {
@@ -1128,6 +1131,7 @@ body:has(.modal-overlay.active) .floating-wa-btn,
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-top: 0.1rem;
   }
 
   .inv-card-price {
@@ -1137,7 +1141,7 @@ body:has(.modal-overlay.active) .floating-wa-btn,
     margin-top: 0.15rem;
   }
 
-  /* ⚡ Right Action Column: Trash Button on TOP Right, Green Badge on BOTTOM Right */
+  /* ⚡ Right Action Column: Trash Button shifted down, Green Badge shifted down */
   .inv-card-right-actions {
     display: flex;
     flex-direction: column;
@@ -1145,6 +1149,8 @@ body:has(.modal-overlay.active) .floating-wa-btn,
     justify-content: space-between;
     flex-shrink: 0;
     height: 100%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.25rem;
   }
 
   .inv-card-delete {
