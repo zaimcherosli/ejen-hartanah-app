@@ -137,15 +137,7 @@
         <option value="Hotel &amp; Resort">HOTEL &amp; RESORT</option>
       </select>
 
-      <select name="area" class="filter-select">
-        <option value="">ANY AREA</option>
-        <option value="Shah Alam">SHAH ALAM</option>
-        <option value="Klang">KLANG</option>
-        <option value="Subang Jaya">SUBANG JAYA</option>
-        <option value="Puchong">PUCHONG</option>
-        <option value="Petaling Jaya">PETALING JAYA</option>
-        <option value="Rawang">RAWANG</option>
-      </select>
+      <input type="text" name="area" id="searchKeyword" class="filter-input" placeholder="🔍 Search area / keyword (e.g. Shah Alam)...">
 
       <a href="listings.html" class="btn-show-listings">SHOW LISTINGS</a>
     </form>
@@ -439,6 +431,6 @@
       window.open(`https://wa.me/60173569452?text=${waMsg}`, '_blank');
     }
   </script>
-  <script src="/pwa.js"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>

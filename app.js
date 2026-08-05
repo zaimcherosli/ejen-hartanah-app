@@ -204,7 +204,7 @@ function renderListings(listings) {
   }).join('');
 }
 
-// Setup Filters for State, Area, Type, Transaction, Tenure & Keyword
+// Setup Filters for State, Area/Keyword Text Search, Type, Transaction, Tenure
 function setupFilterListeners() {
   const state = document.getElementById('filterState');
   const area = document.getElementById('filterArea');
@@ -214,15 +214,37 @@ function setupFilterListeners() {
   const zoning = document.getElementById('filterZoning');
   const keyword = document.getElementById('searchKeyword');
 
+  // Pre-fill filters from URL Query String if present (e.g. ?area=Shah+Alam or ?q=Shah+Alam)
+  const urlParams = new URLSearchParams(window.location.search);
+  const paramState = urlParams.get('state');
+  const paramListingType = urlParams.get('listingType');
+  const paramType = urlParams.get('type');
+  const paramArea = urlParams.get('area') || urlParams.get('q') || urlParams.get('search');
+
+  if (state && paramState) state.value = paramState;
+  if (listingType && paramListingType) listingType.value = paramListingType;
+  if (type && paramType) type.value = paramType;
+  if (area && paramArea) area.value = paramArea;
+  if (keyword && paramArea) keyword.value = paramArea;
+
   const applyFilters = () => {
     let filtered = [...allListings];
 
     if (state && state.value) {
       filtered = filtered.filter(x => x.location && x.location.toLowerCase().includes(state.value.toLowerCase()));
     }
-    if (area && area.value) {
-      filtered = filtered.filter(x => x.location && x.location.toLowerCase().includes(area.value.toLowerCase()));
+
+    // Real-time Text Search for Area / Keyword
+    const searchText = (area && area.value ? area.value : (keyword && keyword.value ? keyword.value : '')).toLowerCase().trim();
+    if (searchText) {
+      filtered = filtered.filter(x => 
+        (x.title && x.title.toLowerCase().includes(searchText)) || 
+        (x.location && x.location.toLowerCase().includes(searchText)) ||
+        (x.description && x.description.toLowerCase().includes(searchText)) ||
+        (x.property_type && x.property_type.toLowerCase().includes(searchText))
+      );
     }
+
     if (type && type.value) {
       filtered = filtered.filter(x => x.property_type === type.value);
     }
@@ -235,25 +257,28 @@ function setupFilterListeners() {
     if (zoning && zoning.value) {
       filtered = filtered.filter(x => x.zoning && x.zoning.toLowerCase().includes(zoning.value.toLowerCase()));
     }
-    if (keyword && keyword.value) {
-      const q = keyword.value.toLowerCase();
-      filtered = filtered.filter(x => 
-        (x.title && x.title.toLowerCase().includes(q)) || 
-        (x.location && x.location.toLowerCase().includes(q)) ||
-        (x.description && x.description.toLowerCase().includes(q))
-      );
-    }
 
     renderListings(filtered);
   };
 
   if (state) state.addEventListener('change', applyFilters);
-  if (area) area.addEventListener('change', applyFilters);
+  if (area) {
+    area.addEventListener('input', applyFilters);
+    area.addEventListener('change', applyFilters);
+  }
   if (type) type.addEventListener('change', applyFilters);
   if (listingType) listingType.addEventListener('change', applyFilters);
   if (tenure) tenure.addEventListener('change', applyFilters);
   if (zoning) zoning.addEventListener('change', applyFilters);
-  if (keyword) keyword.addEventListener('input', applyFilters);
+  if (keyword) {
+    keyword.addEventListener('input', applyFilters);
+    keyword.addEventListener('change', applyFilters);
+  }
+
+  // Initial Filter Trigger if URL params exist
+  if (paramState || paramListingType || paramType || paramArea) {
+    applyFilters();
+  }
 }
 
 // Open Detail View Modal & Update Browser URL dynamically to /listings/title-slug

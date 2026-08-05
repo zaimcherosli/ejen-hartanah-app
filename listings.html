@@ -104,21 +104,7 @@
         <option value="Leasehold Extension">LEASEHOLD EXTENSION</option>
       </select>
 
-      <select id="filterArea" class="filter-select">
-        <option value="">ANY AREA</option>
-        <option value="Shah Alam">SHAH ALAM</option>
-        <option value="Klang">KLANG</option>
-        <option value="Subang Jaya">SUBANG JAYA</option>
-        <option value="Puchong">PUCHONG</option>
-        <option value="Petaling Jaya">PETALING JAYA</option>
-        <option value="Rawang">RAWANG</option>
-        <option value="Banting">BANTING</option>
-        <option value="Kepong">KEPONG</option>
-        <option value="Batu Caves">BATU CAVES</option>
-        <option value="Johor Bahru">JOHOR BAHRU</option>
-        <option value="Bayan Lepas">BAYAN LEPAS</option>
-        <option value="Nilai">NILAI / SEREMBAN</option>
-      </select>
+      <input type="text" id="filterArea" class="filter-input" placeholder="🔍 Search area / keyword (e.g. Shah Alam)...">
 
       <button id="btnSearch" class="btn-show-listings">SHOW LISTINGS</button>
     </div>
@@ -161,7 +147,7 @@
   </div>
 
   <script src="config.js"></script>
-  <script src="app.js"></script>
+  <script src="app.js?v=6"></script>
   <script>
     function toggleMobileMenu(e) {
       if (e) e.stopPropagation();
