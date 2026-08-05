@@ -1,6 +1,8 @@
 node_modules/
 package-lock.json
 *.log
+.env
+.wrangler/
 setup.js
 create_table.js
 run_sql_api.js

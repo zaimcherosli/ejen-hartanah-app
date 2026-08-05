@@ -231,6 +231,13 @@
             <input type="text" id="agent_phone" placeholder="60173569452" value="60173569452" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
           </div>
 
+          <!-- YouTube Video URL (Optional) -->
+          <div style="margin-bottom: 0.85rem;">
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">📹 YOUTUBE VIDEO URL <span style="font-weight: 400; color: #94a3b8;">(Optional)</span></label>
+            <input type="url" id="youtube_url" placeholder="https://www.youtube.com/watch?v=..." style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+            <small style="color: var(--text-muted); font-size: 0.7rem; display: block; margin-top: 0.25rem;">Paste a YouTube video link for property walkthrough / virtual tour.</small>
+          </div>
+
           <!-- Image Upload with Auto Watermark -->
           <div style="margin-bottom: 1rem;">
             <label style="font-size: 0.75rem; font-weight: 700; color: var(--cem-navy); display: block; margin-bottom: 0.25rem;">
@@ -457,6 +464,13 @@
           <input type="text" id="editAgentPhone" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
         </div>
 
+        <!-- YouTube Video URL (Optional) -->
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">📹 YOUTUBE VIDEO URL <span style="font-weight: 400; color: #94a3b8;">(Optional)</span></label>
+          <input type="url" id="editYoutubeUrl" placeholder="https://www.youtube.com/watch?v=..." style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+          <small style="color: var(--text-muted); font-size: 0.7rem; display: block; margin-top: 0.25rem;">Paste a YouTube video link for property walkthrough / virtual tour.</small>
+        </div>
+
         <div style="margin-bottom: 1rem;">
           <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">DESCRIPTION (FULL DETAILS &amp; SPECS)</label>
           <textarea id="editDescription" rows="6" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; line-height: 1.5;"></textarea>
@@ -484,7 +498,7 @@
 
   <script src="config.js?v=1.7.0"></script>
   <script src="image-watermark.js?v=3"></script>
-  <script src="dashboard.js?v=14"></script>
+  <script src="dashboard.js?v=15"></script>
   <script>
     function togglePortalMobileMenu(e) {
       if (e) e.stopPropagation();

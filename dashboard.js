@@ -275,6 +275,7 @@ function openEditModal(id) {
 
   if (document.getElementById('editAgentPhone')) document.getElementById('editAgentPhone').value = item.agent_phone || '60173569452';
   if (document.getElementById('editDescription')) document.getElementById('editDescription').value = item.description || '';
+  if (document.getElementById('editYoutubeUrl')) document.getElementById('editYoutubeUrl').value = item.youtube_url || '';
 
   renderEditImagesPreview();
 
@@ -359,6 +360,7 @@ function setupEditFormHandler() {
 
     const agent_phone = document.getElementById('editAgentPhone') ? document.getElementById('editAgentPhone').value : '60173569452';
     const description = document.getElementById('editDescription').value;
+    const youtube_url = document.getElementById('editYoutubeUrl') ? document.getElementById('editYoutubeUrl').value.trim() : '';
 
     const newFilesInput = document.getElementById('editNewImagesInput');
     const newFiles = newFilesInput ? newFilesInput.files : null;
@@ -404,6 +406,7 @@ function setupEditFormHandler() {
         location,
         agent_phone,
         description,
+        youtube_url,
         images: finalImages
       })
       .eq('id', id);
@@ -478,6 +481,7 @@ function setupFormHandler() {
 
     const agent_phone = document.getElementById('agent_phone').value;
     const description = document.getElementById('description').value;
+    const youtube_url = document.getElementById('youtube_url') ? document.getElementById('youtube_url').value.trim() : '';
 
     const filesInput = document.getElementById('listingImages') || document.getElementById('imagesInput');
     const files = filesInput ? filesInput.files : null;
@@ -519,6 +523,7 @@ function setupFormHandler() {
         location,
         agent_phone,
         description,
+        youtube_url,
         images: imageUrls,
         status: 'Available'
       }]);
