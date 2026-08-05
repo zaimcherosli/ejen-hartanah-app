@@ -134,8 +134,9 @@
               </select>
             </div>
             <div>
-              <label style="font-size: 0.75rem; font-weight: 700; color: var(--cem-navy); display: block; margin-bottom: 0.25rem;">LAND TENURE *</label>
-              <select id="tenure" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+              <label style="font-size: 0.75rem; font-weight: 700; color: var(--cem-navy); display: block; margin-bottom: 0.25rem;">LAND TENURE (OPTIONAL FOR RENT)</label>
+              <select id="tenure" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+                <option value="N/A">N/A / Optional (For Rental)</option>
                 <option value="Freehold">Freehold</option>
                 <option value="Leasehold">Leasehold</option>
                 <option value="Leasehold Extension">Leasehold Extension</option>
@@ -156,7 +157,13 @@
             </div>
             <div>
               <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">CEILING HEIGHT</label>
-              <input type="text" id="ceiling_height_ft" placeholder="e.g. 30 ft" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+              <div style="display: flex; gap: 0.35rem;">
+                <input type="text" id="ceiling_height_ft" placeholder="e.g. 30" style="flex: 1; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+                <select id="ceiling_height_unit" style="padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+                  <option value="ft">ft</option>
+                  <option value="m">m</option>
+                </select>
+              </div>
             </div>
           </div>
 
@@ -168,10 +175,9 @@
             <div>
               <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ZONING</label>
               <select id="zoning" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
-                <option value="Medium Industry">Medium Industry</option>
-                <option value="Light Industry">Light Industry</option>
-                <option value="Heavy Industry">Heavy Industry</option>
+                <option value="Industrial">Industrial</option>
                 <option value="Commercial">Commercial</option>
+                <option value="Agriculture / Land">Agriculture / Land</option>
               </select>
             </div>
           </div>
@@ -182,8 +188,14 @@
               <input type="number" id="built_up_sqft" placeholder="15000" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
             </div>
             <div>
-              <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">LAND AREA (SQFT)</label>
-              <input type="number" id="land_area_sqft" placeholder="20000" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+              <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">LAND AREA</label>
+              <div style="display: flex; gap: 0.35rem;">
+                <input type="number" id="land_area_sqft" placeholder="e.g. 20000" style="flex: 1; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+                <select id="land_area_unit" style="padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+                  <option value="sqft">sqft</option>
+                  <option value="acre">acre</option>
+                </select>
+              </div>
             </div>
           </div>
 
@@ -286,6 +298,7 @@
 
       <form id="editListingForm">
         <input type="hidden" id="editId">
+        <div id="editAlert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.82rem; font-weight: 700; margin-bottom: 1rem;"></div>
 
         <div style="margin-bottom: 0.85rem;">
           <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">LISTING TITLE *</label>
@@ -331,8 +344,9 @@
 
         <div class="form-2col">
           <div>
-            <label style="font-size: 0.75rem; font-weight: 700; color: var(--cem-navy); display: block; margin-bottom: 0.25rem;">LAND TENURE *</label>
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--cem-navy); display: block; margin-bottom: 0.25rem;">LAND TENURE (OPTIONAL FOR RENT)</label>
             <select id="editTenure" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+              <option value="N/A">N/A / Optional (For Rental)</option>
               <option value="Freehold">Freehold</option>
               <option value="Leasehold">Leasehold</option>
               <option value="Leasehold Extension">Leasehold Extension</option>
@@ -347,7 +361,13 @@
         <div class="form-2col">
           <div>
             <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">CEILING HEIGHT</label>
-            <input type="text" id="editCeiling" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+            <div style="display: flex; gap: 0.35rem;">
+              <input type="text" id="editCeiling" placeholder="e.g. 30" style="flex: 1; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+              <select id="editCeilingUnit" style="padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+                <option value="ft">ft</option>
+                <option value="m">m</option>
+              </select>
+            </div>
           </div>
           <div>
             <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">FLOOR LOADING</label>
@@ -359,10 +379,9 @@
           <div>
             <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ZONING</label>
             <select id="editZoning" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
-              <option value="Medium Industry">Medium Industry</option>
-              <option value="Light Industry">Light Industry</option>
-              <option value="Heavy Industry">Heavy Industry</option>
+              <option value="Industrial">Industrial</option>
               <option value="Commercial">Commercial</option>
+              <option value="Agriculture / Land">Agriculture / Land</option>
             </select>
           </div>
           <div>
@@ -373,8 +392,14 @@
 
         <div class="form-2col">
           <div>
-            <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">LAND AREA (SQFT)</label>
-            <input type="number" id="editLandArea" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+            <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">LAND AREA</label>
+            <div style="display: flex; gap: 0.35rem;">
+              <input type="number" id="editLandArea" placeholder="e.g. 20000" style="flex: 1; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+              <select id="editLandAreaUnit" style="padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+                <option value="sqft">sqft</option>
+                <option value="acre">acre</option>
+              </select>
+            </div>
           </div>
           <div>
             <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">LOCATION / AREA *</label>
@@ -414,7 +439,7 @@
 
   <script src="config.js"></script>
   <script src="image-watermark.js?v=2"></script>
-  <script src="dashboard.js?v=7"></script>
+  <script src="dashboard.js?v=8"></script>
   <script>
     function togglePortalMobileMenu(e) {
       if (e) e.stopPropagation();

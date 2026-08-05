@@ -145,6 +145,10 @@ async function loadAgentListings() {
       tbody.innerHTML = data.map(item => {
         const formattedPrice = new Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR', maximumFractionDigits: 0 }).format(item.asking_price);
         const thumb = (item.images && item.images.length > 0) ? item.images[0] : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80';
+        const isSale = (item.listing_type || '').toLowerCase().includes('sale');
+        const typeBadgeStyle = isSale 
+          ? 'background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe;' 
+          : 'background: #fef3c7; color: #b45309; border: 1px solid #fde68a;';
 
         return `
           <tr onclick="openEditModal('${item.id}')" style="cursor: pointer;" title="Click to Preview & Edit">
@@ -153,7 +157,9 @@ async function loadAgentListings() {
             </td>
             <td style="padding: 0.65rem 0.5rem;">
               <strong style="color: var(--text-main); font-size: 0.88rem; display: block; line-height: 1.25;">${item.title}</strong>
-              <span style="font-size: 0.76rem; color: var(--text-muted); display: block; margin-top: 0.15rem;">${item.location} • ${item.property_type}</span>
+              <span style="font-size: 0.76rem; color: var(--text-muted); display: block; margin-top: 0.15rem;">
+                📍 ${item.location} • <span style="${typeBadgeStyle} padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: 800; font-size: 0.68rem; text-transform: uppercase;">${item.listing_type || 'For Rent'}</span>
+              </span>
             </td>
             <td style="padding: 0.65rem 0.5rem; color: var(--cem-red); font-weight: 800; font-size: 0.88rem; white-space: nowrap;">${formattedPrice}</td>
             <td style="padding: 0.65rem 0.5rem;">
@@ -171,11 +177,15 @@ async function loadAgentListings() {
       }).join('');
     }
 
-    // 2. Render Sleek Mobile App Cards (Top Right: Delete Icon | Bottom Right: Green Badge)
+    // 2. Render Sleek Mobile App Cards
     if (mobileContainer) {
       mobileContainer.innerHTML = data.map(item => {
         const formattedPrice = new Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR', maximumFractionDigits: 0 }).format(item.asking_price);
         const thumb = (item.images && item.images.length > 0) ? item.images[0] : 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80';
+        const isSale = (item.listing_type || '').toLowerCase().includes('sale');
+        const typeBadgeStyle = isSale 
+          ? 'background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe;' 
+          : 'background: #fef3c7; color: #b45309; border: 1px solid #fde68a;';
 
         return `
           <div class="inv-card-item" onclick="openEditModal('${item.id}')" title="Click to Preview & Edit">
@@ -183,7 +193,9 @@ async function loadAgentListings() {
             
             <div class="inv-card-details">
               <div class="inv-card-title">${item.title}</div>
-              <div class="inv-card-sub">📍 ${item.location} • ${item.property_type}</div>
+              <div class="inv-card-sub">
+                📍 ${item.location} • <span style="${typeBadgeStyle} padding: 0.08rem 0.35rem; border-radius: 3px; font-weight: 800; font-size: 0.65rem; text-transform: uppercase;">${item.listing_type || 'For Rent'}</span>
+              </div>
               <div class="inv-card-price">${formattedPrice}</div>
             </div>
 
@@ -223,7 +235,7 @@ function openEditModal(id) {
   document.getElementById('editPropertyType').value = item.property_type || 'Detached Factory';
 
   const rawZoning = item.zoning || '';
-  let tenureVal = 'Freehold';
+  let tenureVal = 'N/A';
   if (rawZoning.includes('Freehold')) tenureVal = 'Freehold';
   else if (rawZoning.includes('Leasehold Extension')) tenureVal = 'Leasehold Extension';
   else if (rawZoning.includes('Leasehold')) tenureVal = 'Leasehold';
@@ -232,10 +244,24 @@ function openEditModal(id) {
     document.getElementById('editTenure').value = tenureVal;
   }
 
-  document.getElementById('editPower').value = item.power_supply_amp || '';
-  document.getElementById('editCeiling').value = item.ceiling_height_ft || '';
-  document.getElementById('editLocation').value = item.location || '';
-  document.getElementById('editDescription').value = item.description || '';
+  // Parse Ceiling Height & Unit
+  const rawCeiling = item.ceiling_height_ft || '';
+  const ceilingNum = rawCeiling.replace(/[^0-9.]/g, '');
+  const ceilingUnit = rawCeiling.includes('m') && !rawCeiling.includes('ft') ? 'm' : 'ft';
+  if (document.getElementById('editCeiling')) document.getElementById('editCeiling').value = ceilingNum;
+  if (document.getElementById('editCeilingUnit')) document.getElementById('editCeilingUnit').value = ceilingUnit;
+
+  // Parse Land Area & Unit
+  const rawLandArea = item.land_area_sqft ? String(item.land_area_sqft) : '';
+  if (document.getElementById('editLandArea')) document.getElementById('editLandArea').value = rawLandArea;
+  if (document.getElementById('editLandAreaUnit')) document.getElementById('editLandAreaUnit').value = 'sqft';
+
+  if (document.getElementById('editPower')) document.getElementById('editPower').value = item.power_supply_amp || '';
+  if (document.getElementById('editFloor')) document.getElementById('editFloor').value = item.floor_loading_kn || '';
+  if (document.getElementById('editBuiltUp')) document.getElementById('editBuiltUp').value = item.built_up_sqft || '';
+  if (document.getElementById('editLocation')) document.getElementById('editLocation').value = item.location || '';
+  if (document.getElementById('editAgentPhone')) document.getElementById('editAgentPhone').value = item.agent_phone || '60173569452';
+  if (document.getElementById('editDescription')) document.getElementById('editDescription').value = item.description || '';
 
   renderEditImagesPreview();
 
@@ -247,14 +273,30 @@ function renderEditImagesPreview() {
   if (!imagesContainer) return;
 
   if (currentEditImages && currentEditImages.length > 0) {
-    imagesContainer.innerHTML = currentEditImages.map((img, idx) => `
-      <div style="position: relative; display: inline-block; flex-shrink: 0;">
-        <img src="${img}" style="height: 110px; width: 130px; border-radius: 6px; object-fit: cover; border: 1px solid var(--border);" />
-        <button type="button" onclick="removeEditImage(${idx})" title="Remove photo" style="position: absolute; top: 4px; right: 4px; background: #ef4444; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.3); transition: transform 0.15s;">✕</button>
-      </div>
-    `).join('');
+    imagesContainer.innerHTML = currentEditImages.map((img, idx) => {
+      const isCover = idx === 0;
+      return `
+        <div style="position: relative; display: inline-block; flex-shrink: 0; border: ${isCover ? '2px solid #eab308' : '1px solid var(--border)'}; border-radius: 8px; padding: 2px; background: white; margin-right: 0.5rem;">
+          <img src="${img}" style="height: 110px; width: 130px; border-radius: 6px; object-fit: cover; display: block;" />
+          ${isCover ? `
+            <span style="position: absolute; top: 6px; left: 6px; background: #eab308; color: #000; font-size: 0.65rem; font-weight: 900; padding: 0.2rem 0.45rem; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">⭐ COVER PHOTO</span>
+          ` : `
+            <button type="button" onclick="setCoverImage(${idx})" title="Set as Cover Photo" style="position: absolute; bottom: 6px; left: 6px; background: rgba(10,25,47,0.85); color: #fef08a; border: 1px solid #fde047; border-radius: 4px; padding: 0.15rem 0.4rem; font-size: 0.68rem; font-weight: 800; cursor: pointer;">⭐ Set Cover</button>
+          `}
+          <button type="button" onclick="removeEditImage(${idx})" title="Remove photo" style="position: absolute; top: 6px; right: 6px; background: #ef4444; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">✕</button>
+        </div>
+      `;
+    }).join('');
   } else {
     imagesContainer.innerHTML = '<span style="font-size: 0.82rem; color: var(--text-muted); font-style: italic; padding: 0.5rem 0;">No existing property photos. Upload new photos below.</span>';
+  }
+}
+
+function setCoverImage(idx) {
+  if (idx > 0 && idx < currentEditImages.length) {
+    const selected = currentEditImages.splice(idx, 1)[0];
+    currentEditImages.unshift(selected); // Move selected image to index 0 (Cover)
+    renderEditImagesPreview();
   }
 }
 
@@ -285,24 +327,36 @@ function setupEditFormHandler() {
     const status = document.getElementById('editStatus').value;
     const listing_type = document.getElementById('editListingType').value;
     const property_type = document.getElementById('editPropertyType').value;
-    const tenure = document.getElementById('editTenure') ? document.getElementById('editTenure').value : 'Freehold';
-    const power_supply_amp = document.getElementById('editPower').value;
-    const ceiling_height_ft = document.getElementById('editCeiling').value;
+    const tenure = document.getElementById('editTenure') ? document.getElementById('editTenure').value : 'N/A';
+    const power_supply_amp = document.getElementById('editPower') ? document.getElementById('editPower').value : '';
+    
+    const ceilingVal = document.getElementById('editCeiling') ? document.getElementById('editCeiling').value.trim() : '';
+    const ceilingUnit = document.getElementById('editCeilingUnit') ? document.getElementById('editCeilingUnit').value : 'ft';
+    const ceiling_height_ft = ceilingVal ? `${ceilingVal} ${ceilingUnit}` : '';
+
+    const zoningVal = document.getElementById('editZoning') ? document.getElementById('editZoning').value : 'Industrial';
+    const fullZoning = tenure && tenure !== 'N/A' ? `${tenure} | ${zoningVal}` : zoningVal;
+
+    const built_up_sqft = document.getElementById('editBuiltUp') && document.getElementById('editBuiltUp').value ? parseFloat(document.getElementById('editBuiltUp').value) : null;
+    const land_area_sqft = document.getElementById('editLandArea') && document.getElementById('editLandArea').value ? parseFloat(document.getElementById('editLandArea').value) : null;
     const location = document.getElementById('editLocation').value;
+    const agent_phone = document.getElementById('editAgentPhone') ? document.getElementById('editAgentPhone').value : '60173569452';
     const description = document.getElementById('editDescription').value;
 
     const newFilesInput = document.getElementById('editNewImagesInput');
     const newFiles = newFilesInput ? newFilesInput.files : null;
 
-    alertBox.style.display = 'block';
-    alertBox.style.background = '#fef3c7';
-    alertBox.style.color = '#b45309';
-    alertBox.innerText = 'Updating listing & processing photos...';
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = '#fef3c7';
+      alertBox.style.color = '#b45309';
+      alertBox.innerText = 'Updating listing & processing photos...';
+    }
 
     let finalImages = [...currentEditImages];
 
     if (newFiles && newFiles.length > 0) {
-      alertBox.innerText = 'Compressing & uploading new photos to Supabase...';
+      if (alertBox) alertBox.innerText = 'Compressing & watermarking new photos...';
       for (let i = 0; i < newFiles.length; i++) {
         let rawFile = newFiles[i];
         const fileToUpload = await compressImage(rawFile);
@@ -317,9 +371,11 @@ function setupEditFormHandler() {
 
         if (uploadErr) {
           console.error('Image upload error:', uploadErr);
-          alertBox.style.background = '#fee2e2';
-          alertBox.style.color = '#dc2626';
-          alertBox.innerText = `Ralat muat naik gambar: ${uploadErr.message}`;
+          if (alertBox) {
+            alertBox.style.background = '#fee2e2';
+            alertBox.style.color = '#dc2626';
+            alertBox.innerText = `Image upload error: ${uploadErr.message}`;
+          }
           return;
         }
 
@@ -342,24 +398,33 @@ function setupEditFormHandler() {
         status,
         listing_type,
         property_type,
-        zoning: tenure,
+        zoning: fullZoning,
         power_supply_amp,
         ceiling_height_ft,
+        built_up_sqft,
+        land_area_sqft,
         location,
+        agent_phone,
         description,
         images: finalImages
       })
       .eq('id', id);
 
     if (error) {
-      alertBox.style.background = '#fee2e2';
-      alertBox.style.color = '#dc2626';
-      alertBox.innerText = 'Failed to update: ' + error.message;
+      if (alertBox) {
+        alertBox.style.background = '#fee2e2';
+        alertBox.style.color = '#dc2626';
+        alertBox.innerText = 'Failed to update: ' + error.message;
+      } else {
+        alert('Failed to update: ' + error.message);
+      }
     } else {
-      alertBox.style.background = '#d1fae5';
-      alertBox.style.color = '#047857';
-      alertBox.innerText = 'Listing updated successfully!';
-      logActivity('EDIT_LISTING', `Mengemaskini listing: "${title}" (Status: ${status}, Harga: RM ${asking_price})`, id);
+      if (alertBox) {
+        alertBox.style.background = '#d1fae5';
+        alertBox.style.color = '#047857';
+        alertBox.innerText = 'Listing updated successfully!';
+      }
+      logActivity('EDIT_LISTING', `Updated listing: "${title}" (Status: ${status}, Price: RM ${asking_price})`, id);
       setTimeout(() => {
         closeEditModal();
         loadAgentListings();
@@ -394,13 +459,18 @@ function setupFormHandler() {
     const category = document.getElementById('category').value;
     const listing_type = document.getElementById('listing_type').value;
     const property_type = document.getElementById('property_type').value;
-    const tenure = document.getElementById('tenure') ? document.getElementById('tenure').value : 'Freehold';
+    const tenure = document.getElementById('tenure') ? document.getElementById('tenure').value : 'N/A';
     const asking_price = parseFloat(document.getElementById('asking_price').value);
     const power_supply_amp = document.getElementById('power_supply_amp').value;
-    const ceiling_height_ft = document.getElementById('ceiling_height_ft').value;
+
+    const ceilingVal = document.getElementById('ceiling_height_ft').value.trim();
+    const ceilingUnit = document.getElementById('ceiling_height_unit') ? document.getElementById('ceiling_height_unit').value : 'ft';
+    const ceiling_height_ft = ceilingVal ? `${ceilingVal} ${ceilingUnit}` : '';
+
     const floor_loading_kn = document.getElementById('floor_loading_kn').value;
     const zoning = document.getElementById('zoning').value;
-    const fullZoning = `${tenure} | ${zoning}`;
+    const fullZoning = tenure && tenure !== 'N/A' ? `${tenure} | ${zoning}` : zoning;
+
     const built_up_sqft = parseFloat(document.getElementById('built_up_sqft').value) || null;
     const land_area_sqft = parseFloat(document.getElementById('land_area_sqft').value) || null;
     const location = document.getElementById('location').value;

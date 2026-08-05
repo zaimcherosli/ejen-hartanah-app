@@ -669,6 +669,20 @@ body {
   text-transform: uppercase;
 }
 
+.badge-tag.badge-sale {
+  background: #2563eb !important; /* Blue for Sale */
+  color: #ffffff !important;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+}
+
+.badge-tag.badge-rent {
+  background: #d97706 !important; /* Amber / Yellow for Rent */
+  color: #ffffff !important;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.4);
+}
+
 .badge-status {
   position: absolute;
   top: 10px;

@@ -158,11 +158,14 @@ function renderListings(listings) {
       zoneVal = '-';
     }
 
+    const isSale = (item.listing_type || '').toLowerCase().includes('sale');
+    const badgeTypeClass = isSale ? 'badge-sale' : 'badge-rent';
+
     return `
       <div class="property-card">
         <div class="card-img-wrap" onclick="openModal('${item.id}')" style="cursor: pointer;">
           <img src="${mainImg}" alt="${item.title}" class="card-img" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80'">
-          <span class="badge-tag">${item.property_type} (${item.listing_type})</span>
+          <span class="badge-tag ${badgeTypeClass}">${item.property_type} (${item.listing_type})</span>
           <span class="badge-status">${item.status}</span>
         </div>
         <div class="card-body">
