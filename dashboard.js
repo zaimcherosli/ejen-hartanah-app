@@ -236,7 +236,7 @@ function openEditModal(id) {
   document.getElementById('editPropertyType').value = item.property_type || 'Detached Factory';
 
   const rawZoning = item.zoning || '';
-  let tenureVal = 'N/A';
+  let tenureVal = 'Freehold';
   if (rawZoning.includes('Freehold')) tenureVal = 'Freehold';
   else if (rawZoning.includes('Leasehold Extension')) tenureVal = 'Leasehold Extension';
   else if (rawZoning.includes('Leasehold')) tenureVal = 'Leasehold';
@@ -328,7 +328,7 @@ function setupEditFormHandler() {
     const status = document.getElementById('editStatus').value;
     const listing_type = document.getElementById('editListingType').value;
     const property_type = document.getElementById('editPropertyType').value;
-    const tenure = document.getElementById('editTenure') ? document.getElementById('editTenure').value : 'N/A';
+    const tenure = (document.getElementById('editTenure') && listing_type === 'For Sale') ? document.getElementById('editTenure').value : '';
     const power_supply_amp = document.getElementById('editPower') ? document.getElementById('editPower').value : '';
     
     const ceilingVal = document.getElementById('editCeiling') ? document.getElementById('editCeiling').value.trim() : '';
@@ -336,7 +336,7 @@ function setupEditFormHandler() {
     const ceiling_height_ft = ceilingVal ? `${ceilingVal} ${ceilingUnit}` : '';
 
     const zoningVal = document.getElementById('editZoning') ? document.getElementById('editZoning').value : 'Industrial';
-    const fullZoning = tenure && tenure !== 'N/A' ? `${tenure} | ${zoningVal}` : zoningVal;
+    const fullZoning = (listing_type === 'For Sale' && tenure) ? `${tenure} | ${zoningVal}` : zoningVal;
 
     const built_up_sqft = document.getElementById('editBuiltUp') && document.getElementById('editBuiltUp').value ? parseFloat(document.getElementById('editBuiltUp').value) : null;
     const land_area_sqft = document.getElementById('editLandArea') && document.getElementById('editLandArea').value ? parseFloat(document.getElementById('editLandArea').value) : null;
@@ -460,7 +460,7 @@ function setupFormHandler() {
     const category = document.getElementById('category').value;
     const listing_type = document.getElementById('listing_type').value;
     const property_type = document.getElementById('property_type').value;
-    const tenure = document.getElementById('tenure') ? document.getElementById('tenure').value : 'N/A';
+    const tenure = (document.getElementById('tenure') && listing_type === 'For Sale') ? document.getElementById('tenure').value : '';
     const asking_price = parseFloat(document.getElementById('asking_price').value);
     const power_supply_amp = document.getElementById('power_supply_amp').value;
 
@@ -470,7 +470,7 @@ function setupFormHandler() {
 
     const floor_loading_kn = document.getElementById('floor_loading_kn').value;
     const zoning = document.getElementById('zoning').value;
-    const fullZoning = tenure && tenure !== 'N/A' ? `${tenure} | ${zoning}` : zoning;
+    const fullZoning = (listing_type === 'For Sale' && tenure) ? `${tenure} | ${zoning}` : zoning;
 
     const built_up_sqft = parseFloat(document.getElementById('built_up_sqft').value) || null;
     const land_area_sqft = parseFloat(document.getElementById('land_area_sqft').value) || null;
