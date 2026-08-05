@@ -203,10 +203,10 @@ async function loadAgentListings() {
               <div class="inv-card-price">${formattedPrice}</div>
             </div>
 
-            <!-- Right Column Stack: Trash Icon on Top, Green Badge on Bottom -->
+            <!-- Right Column Stack: Status Badge on Top, Trash Icon on Bottom (Level with Price) -->
             <div class="inv-card-right-actions">
-              <button onclick="event.stopPropagation(); deleteListing('${item.id}')" class="inv-card-delete" title="Delete Listing">🗑️</button>
               <span class="inv-card-badge">${item.status}</span>
+              <button onclick="event.stopPropagation(); deleteListing('${item.id}')" class="inv-card-delete" title="Delete Listing">🗑️</button>
             </div>
           </div>
         `;
