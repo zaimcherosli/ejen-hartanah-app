@@ -38,7 +38,7 @@ export async function onRequestPost(context) {
       httpMetadata: { contentType: mimeType }
     });
 
-    const publicUrl = `https://pub-268e365cedb9412fbed8d5bf3fa79b26.r2.dev/${fileName}`;
+    const publicUrl = `https://pub-b41a57c40e74430eb994919066288290.r2.dev/${fileName}`;
 
     return new Response(JSON.stringify({ success: true, url: publicUrl }), {
       status: 200,
