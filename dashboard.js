@@ -260,7 +260,19 @@ function openEditModal(id) {
   if (document.getElementById('editPower')) document.getElementById('editPower').value = item.power_supply_amp || '';
   if (document.getElementById('editFloor')) document.getElementById('editFloor').value = item.floor_loading_kn || '';
   if (document.getElementById('editBuiltUp')) document.getElementById('editBuiltUp').value = item.built_up_sqft || '';
-  if (document.getElementById('editLocation')) document.getElementById('editLocation').value = item.location || '';
+  
+  // Parse City & State
+  const rawLoc = item.location || '';
+  let cityVal = rawLoc;
+  let stateVal = 'Selangor';
+  if (rawLoc.includes(',')) {
+    const locParts = rawLoc.split(',');
+    cityVal = locParts[0].trim();
+    stateVal = locParts[1].trim();
+  }
+  if (document.getElementById('editLocation')) document.getElementById('editLocation').value = cityVal;
+  if (document.getElementById('editState')) document.getElementById('editState').value = stateVal;
+
   if (document.getElementById('editAgentPhone')) document.getElementById('editAgentPhone').value = item.agent_phone || '60173569452';
   if (document.getElementById('editDescription')) document.getElementById('editDescription').value = item.description || '';
 
@@ -340,7 +352,11 @@ function setupEditFormHandler() {
 
     const built_up_sqft = document.getElementById('editBuiltUp') && document.getElementById('editBuiltUp').value ? parseFloat(document.getElementById('editBuiltUp').value) : null;
     const land_area_sqft = document.getElementById('editLandArea') && document.getElementById('editLandArea').value ? parseFloat(document.getElementById('editLandArea').value) : null;
-    const location = document.getElementById('editLocation').value;
+    
+    const cityInput = document.getElementById('editLocation').value.trim();
+    const stateInput = document.getElementById('editState') ? document.getElementById('editState').value : 'Selangor';
+    const location = cityInput.toLowerCase().includes(stateInput.toLowerCase()) ? cityInput : `${cityInput}, ${stateInput}`;
+
     const agent_phone = document.getElementById('editAgentPhone') ? document.getElementById('editAgentPhone').value : '60173569452';
     const description = document.getElementById('editDescription').value;
 
@@ -474,7 +490,11 @@ function setupFormHandler() {
 
     const built_up_sqft = parseFloat(document.getElementById('built_up_sqft').value) || null;
     const land_area_sqft = parseFloat(document.getElementById('land_area_sqft').value) || null;
-    const location = document.getElementById('location').value;
+    
+    const cityInput = document.getElementById('location').value.trim();
+    const stateInput = document.getElementById('state') ? document.getElementById('state').value : 'Selangor';
+    const location = cityInput.toLowerCase().includes(stateInput.toLowerCase()) ? cityInput : `${cityInput}, ${stateInput}`;
+
     const agent_phone = document.getElementById('agent_phone').value;
     const description = document.getElementById('description').value;
 
