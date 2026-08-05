@@ -1,0 +1,45 @@
+/*.html
+  Cache-Control: no-cache, must-revalidate
+
+/config.js
+  Cache-Control: no-cache, must-revalidate
+
+/dashboard.js
+  Cache-Control: no-cache, must-revalidate
+
+/app.js
+  Cache-Control: no-cache, must-revalidate
+
+/login.js
+  Cache-Control: no-cache, must-revalidate
+
+/register.js
+  Cache-Control: no-cache, must-revalidate
+
+/image-watermark.js
+  Cache-Control: no-cache, must-revalidate
+
+/style.css
+  Cache-Control: no-cache, must-revalidate
+
+/pwa.js
+  Cache-Control: no-cache, must-revalidate
+
+# Static assets - cached for 30 days
+/assets/*
+  Cache-Control: public, max-age=2592000
+
+/logo.png
+  Cache-Control: public, max-age=2592000
+
+/*.png
+  Cache-Control: public, max-age=2592000
+
+/*.jpg
+  Cache-Control: public, max-age=2592000
+
+/*.ico
+  Cache-Control: public, max-age=2592000
+
+/*.webp
+  Cache-Control: public, max-age=2592000
