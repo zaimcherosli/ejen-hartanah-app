@@ -381,28 +381,9 @@ function setupEditFormHandler() {
         const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
         const filePath = `properties/${fileName}`;
 
-        const { data: uploadData, error: uploadErr } = await supabaseClient
-          .storage
-          .from('listing-images')
-          .upload(filePath, fileToUpload, { cacheControl: '3600', upsert: false });
-
-        if (uploadErr) {
-          console.error('Image upload error:', uploadErr);
-          if (alertBox) {
-            alertBox.style.background = '#fee2e2';
-            alertBox.style.color = '#dc2626';
-            alertBox.innerText = `Image upload error: ${uploadErr.message}`;
-          }
-          return;
-        }
-
-        const { data: publicUrlData } = supabaseClient
-          .storage
-          .from('listing-images')
-          .getPublicUrl(filePath);
-
-        if (publicUrlData && publicUrlData.publicUrl) {
-          finalImages.push(publicUrlData.publicUrl);
+        const publicUrl = await uploadImageFile(fileToUpload, fileName);
+        if (publicUrl) {
+          finalImages.push(publicUrl);
         }
       }
     }
@@ -514,24 +495,9 @@ function setupFormHandler() {
         const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
         const filePath = `properties/${fileName}`;
 
-        const { data: uploadData, error: uploadErr } = await supabaseClient
-          .storage
-          .from('listing-images')
-          .upload(filePath, fileToUpload, { cacheControl: '3600', upsert: false });
-
-        if (uploadErr) {
-          console.error('Image upload error:', uploadErr);
-          showAlert(`Ralat muat naik gambar: ${uploadErr.message}`, true);
-          return;
-        }
-
-        const { data: publicUrlData } = supabaseClient
-          .storage
-          .from('listing-images')
-          .getPublicUrl(filePath);
-
-        if (publicUrlData && publicUrlData.publicUrl) {
-          imageUrls.push(publicUrlData.publicUrl);
+        const publicUrl = await uploadImageFile(fileToUpload, fileName);
+        if (publicUrl) {
+          imageUrls.push(publicUrl);
         }
       }
     }
@@ -1048,3 +1014,44 @@ window.updateEditTenureVisibility = function() {
 document.addEventListener('DOMContentLoaded', () => {
   setupTenureToggles();
 });
+
+// Helper: Upload Image to Cloudflare R2 Edge Function with Supabase Storage Fallback
+async function uploadImageFile(fileToUpload, fileName) {
+  try {
+    const formData = new FormData();
+    formData.append('file', fileToUpload, fileName);
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      body: formData
+    });
+    if (res.ok) {
+      const json = await res.json();
+      if (json.success && json.url) {
+        console.log('⚡ Successfully uploaded image to Cloudflare R2:', json.url);
+        return json.url;
+      }
+    }
+    console.warn('R2 upload endpoint response not ok, falling back to Supabase Storage...');
+  } catch (err) {
+    console.warn('R2 upload error, falling back to Supabase Storage:', err);
+  }
+
+  // Fallback to Supabase Storage if R2 is unavailable
+  const filePath = `properties/${fileName}`;
+  const { data: uploadData, error: uploadErr } = await supabaseClient
+    .storage
+    .from('listing-images')
+    .upload(filePath, fileToUpload, { cacheControl: '3600', upsert: false });
+
+  if (uploadErr) {
+    console.error('Supabase Storage upload error:', uploadErr);
+    throw uploadErr;
+  }
+
+  const { data: publicUrlData } = supabaseClient
+    .storage
+    .from('listing-images')
+    .getPublicUrl(filePath);
+
+  return publicUrlData ? publicUrlData.publicUrl : null;
+}
