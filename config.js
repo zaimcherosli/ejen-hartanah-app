@@ -7,7 +7,7 @@ window.CEM_SYSTEM = {
   VERSION: 'v1.7.2',
   BUILD_DATE: '2026-08-07',
   ENV: 'Production (Cloudflare Pages + R2 Storage)',
-  PWA_VERSION: 'cem-pwa-v3'
+  PWA_VERSION: 'cem-pwa-v4'
 };
 
 // Console Diagnostic Log
