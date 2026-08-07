@@ -392,25 +392,30 @@ function setupEditFormHandler() {
       }
     }
 
+    const updatePayload = {
+      title,
+      asking_price,
+      status,
+      listing_type,
+      property_type,
+      zoning: fullZoning,
+      power_supply_amp,
+      ceiling_height_ft,
+      built_up_sqft,
+      land_area_sqft,
+      location,
+      agent_phone,
+      description,
+      images: finalImages
+    };
+
+    if (youtube_url) {
+      updatePayload.youtube_url = youtube_url;
+    }
+
     const { error } = await supabaseClient
       .from('listings')
-      .update({
-        title,
-        asking_price,
-        status,
-        listing_type,
-        property_type,
-        zoning: fullZoning,
-        power_supply_amp,
-        ceiling_height_ft,
-        built_up_sqft,
-        land_area_sqft,
-        location,
-        agent_phone,
-        description,
-        youtube_url,
-        images: finalImages
-      })
+      .update(updatePayload)
       .eq('id', id);
 
     if (error) {
@@ -508,27 +513,32 @@ function setupFormHandler() {
       }
     }
 
+    const insertPayload = {
+      title,
+      category,
+      listing_type,
+      property_type,
+      asking_price,
+      power_supply_amp,
+      ceiling_height_ft,
+      floor_loading_kn,
+      zoning: fullZoning,
+      built_up_sqft,
+      land_area_sqft,
+      location,
+      agent_phone,
+      description,
+      images: imageUrls,
+      status: 'Available'
+    };
+
+    if (youtube_url) {
+      insertPayload.youtube_url = youtube_url;
+    }
+
     const { data: insertedData, error: insertErr } = await supabaseClient
       .from('listings')
-      .insert([{
-        title,
-        category,
-        listing_type,
-        property_type,
-        asking_price,
-        power_supply_amp,
-        ceiling_height_ft,
-        floor_loading_kn,
-        zoning: fullZoning,
-        built_up_sqft,
-        land_area_sqft,
-        location,
-        agent_phone,
-        description,
-        youtube_url,
-        images: imageUrls,
-        status: 'Available'
-      }]);
+      .insert([insertPayload]);
 
     if (insertErr) {
       console.error('Insert error:', insertErr);
