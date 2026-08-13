@@ -275,7 +275,7 @@ function openEditModal(id) {
   if (document.getElementById('editLocation')) document.getElementById('editLocation').value = cityVal;
   if (document.getElementById('editState')) document.getElementById('editState').value = stateVal;
 
-  if (document.getElementById('editAgentPhone')) document.getElementById('editAgentPhone').value = item.agent_phone || '60173569452';
+  if (document.getElementById('editAgentPhone')) document.getElementById('editAgentPhone').value = item.agent_phone || '60173790592';
   if (document.getElementById('editDescription')) document.getElementById('editDescription').value = item.description || '';
   if (document.getElementById('editYoutubeUrl')) document.getElementById('editYoutubeUrl').value = item.youtube_url || '';
 
@@ -360,7 +360,7 @@ function setupEditFormHandler() {
     const stateInput = document.getElementById('editState') ? document.getElementById('editState').value : 'Selangor';
     const location = cityInput.toLowerCase().includes(stateInput.toLowerCase()) ? cityInput : `${cityInput}, ${stateInput}`;
 
-    const agent_phone = document.getElementById('editAgentPhone') ? document.getElementById('editAgentPhone').value : '60173569452';
+    const agent_phone = document.getElementById('editAgentPhone') ? document.getElementById('editAgentPhone').value : '60173790592';
     const description = document.getElementById('editDescription').value;
     const youtube_url = document.getElementById('editYoutubeUrl') ? document.getElementById('editYoutubeUrl').value.trim() : '';
 
