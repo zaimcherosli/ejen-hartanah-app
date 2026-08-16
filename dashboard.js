@@ -261,9 +261,13 @@ function openEditModal(id) {
   if (document.getElementById('editCeilingUnit')) document.getElementById('editCeilingUnit').value = ceilingUnit;
 
   // Parse Land Area & Unit
-  const rawLandArea = item.land_area_sqft ? String(item.land_area_sqft) : '';
-  if (document.getElementById('editLandArea')) document.getElementById('editLandArea').value = rawLandArea;
-  if (document.getElementById('editLandAreaUnit')) document.getElementById('editLandAreaUnit').value = 'sqft';
+  const rawLandArea = item.land_area_sqft ? parseFloat(item.land_area_sqft) : '';
+  let landUnit = 'sqft';
+  if (rawLandArea && (rawLandArea <= 500 || (item.description && /acre|ekar/i.test(item.description)))) {
+    landUnit = 'acre';
+  }
+  if (document.getElementById('editLandArea')) document.getElementById('editLandArea').value = rawLandArea || '';
+  if (document.getElementById('editLandAreaUnit')) document.getElementById('editLandAreaUnit').value = landUnit;
 
   if (document.getElementById('editPower')) document.getElementById('editPower').value = item.power_supply_amp || '';
   if (document.getElementById('editFloor')) document.getElementById('editFloor').value = item.floor_loading_kn || '';

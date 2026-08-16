@@ -19,6 +19,18 @@ function createSlug(title) {
     .replace(/^-+|-+$/g, '');
 }
 
+// Helper: Intelligently format Land Area (Acre vs Sqft)
+function formatLandArea(val, desc = '') {
+  if (!val && val !== 0) return '-';
+  const num = parseFloat(val);
+  if (isNaN(num) || num <= 0) return '-';
+  const isAcre = num <= 500 || (desc && /acre|ekar/i.test(desc));
+  if (isAcre && num <= 500) {
+    return `${num} ${num === 1 ? 'Acre' : 'Acres'}`;
+  }
+  return `${new Intl.NumberFormat('en-US').format(num)} sqft`;
+}
+
 // Helper: Copy Enterprise /listings/slug WhatsApp Share Link to Clipboard
 function copyShareLink(id, title) {
   const slug = createSlug(title);
@@ -185,8 +197,52 @@ function renderListings(listings) {
       }
     }
 
+    // Format Land Area intelligently (Acre vs Sqft)
+    const isLand = (item.category === 'Land') || (item.property_type && item.property_type.toLowerCase().includes('land'));
+    const formattedLand = formatLandArea(item.land_area_sqft, item.description);
+
     const isSale = (item.listing_type || '').toLowerCase().includes('sale');
     const badgeTypeClass = isSale ? 'badge-sale' : 'badge-rent';
+
+    const specGridHtml = isLand ? `
+      <div class="spec-grid">
+        <div class="spec-item">
+          <span class="label">Land Tenure</span>
+          <span class="val" style="color: var(--cem-navy); font-weight: 800;">${tenureVal}</span>
+        </div>
+        <div class="spec-item">
+          <span class="label">Land Area</span>
+          <span class="val" style="color: var(--cem-navy); font-weight: 800;">${formattedLand}</span>
+        </div>
+        <div class="spec-item">
+          <span class="label">Property Type</span>
+          <span class="val">${item.property_type}</span>
+        </div>
+        <div class="spec-item">
+          <span class="label">Zone / Details</span>
+          <span class="val">${zoneVal || '-'}</span>
+        </div>
+      </div>
+    ` : `
+      <div class="spec-grid">
+        <div class="spec-item">
+          <span class="label">Land Tenure</span>
+          <span class="val" style="color: var(--cem-navy); font-weight: 800;">${tenureVal}</span>
+        </div>
+        <div class="spec-item">
+          <span class="label">Power Supply (Amp)</span>
+          <span class="val">${formattedPower}</span>
+        </div>
+        <div class="spec-item">
+          <span class="label">Ceiling Height</span>
+          <span class="val">${formattedCeiling}</span>
+        </div>
+        <div class="spec-item">
+          <span class="label">Zone / Details</span>
+          <span class="val">${zoneVal || '-'}</span>
+        </div>
+      </div>
+    `;
 
     return `
       <div class="property-card">
@@ -200,24 +256,7 @@ function renderListings(listings) {
           <h3 class="card-title" onclick="openModal('${item.id}')" style="cursor: pointer;">${item.title}</h3>
           <div class="card-location">📍 ${item.location} • <strong style="color: var(--cem-navy);">${tenureVal}</strong></div>
           
-          <div class="spec-grid">
-            <div class="spec-item">
-              <span class="label">Land Tenure</span>
-              <span class="val" style="color: var(--cem-navy); font-weight: 800;">${tenureVal}</span>
-            </div>
-            <div class="spec-item">
-              <span class="label">Power Supply (Amp)</span>
-              <span class="val">${formattedPower}</span>
-            </div>
-            <div class="spec-item">
-              <span class="label">Ceiling Height</span>
-              <span class="val">${formattedCeiling}</span>
-            </div>
-            <div class="spec-item">
-              <span class="label">Zone / Details</span>
-              <span class="val">${zoneVal || '-'}</span>
-            </div>
-          </div>
+          ${specGridHtml}
 
           <div class="card-actions">
             <a href="${waUrl}" target="_blank" class="btn-whatsapp">
@@ -462,8 +501,8 @@ function openModal(id, updateHistory = true) {
         <div class="spec-item"><span class="label">Ceiling Height</span><span class="val">${formattedCeiling}</span></div>
         <div class="spec-item"><span class="label">Floor Loading</span><span class="val">${item.floor_loading_kn || '-'}</span></div>
         <div class="spec-item"><span class="label">Zone / Details</span><span class="val">${zoneVal || '-'}</span></div>
-        <div class="spec-item"><span class="label">Built-up Size</span><span class="val">${item.built_up_sqft ? item.built_up_sqft + ' sqft' : '-'}</span></div>
-        <div class="spec-item"><span class="label">Land Area</span><span class="val">${item.land_area_sqft ? item.land_area_sqft + ' sqft' : '-'}</span></div>
+        <div class="spec-item"><span class="label">Built-up Size</span><span class="val">${item.built_up_sqft ? new Intl.NumberFormat('en-US').format(item.built_up_sqft) + ' sqft' : '-'}</span></div>
+        <div class="spec-item"><span class="label">Land Area</span><span class="val" style="color: var(--cem-navy); font-weight: 800;">${formatLandArea(item.land_area_sqft, item.description)}</span></div>
       </div>
 
       <h4 style="margin-bottom: 0.5rem; font-size: 1rem; color: var(--text-main);">Full Description & Specifications:</h4>
