@@ -229,13 +229,14 @@ function openEditModal(id) {
   const newFileInput = document.getElementById('editNewImagesInput');
   if (newFileInput) newFileInput.value = '';
 
-  document.getElementById('editId').value = item.id;
-  document.getElementById('editTitle').value = item.title || '';
-  document.getElementById('editPrice').value = item.asking_price || '';
-  document.getElementById('editStatus').value = item.status || 'Available';
-  document.getElementById('editListingType').value = item.listing_type || 'For Rent';
+  if (document.getElementById('editId')) document.getElementById('editId').value = item.id;
+  if (document.getElementById('editTitle')) document.getElementById('editTitle').value = item.title || '';
+  if (document.getElementById('editCategory')) document.getElementById('editCategory').value = item.category || 'Industrial';
+  if (document.getElementById('editPrice')) document.getElementById('editPrice').value = item.asking_price || '';
+  if (document.getElementById('editStatus')) document.getElementById('editStatus').value = item.status || 'Available';
+  if (document.getElementById('editListingType')) document.getElementById('editListingType').value = item.listing_type || 'For Rent';
   if (window.updateEditTenureVisibility) window.updateEditTenureVisibility();
-  document.getElementById('editPropertyType').value = item.property_type || 'Detached Factory';
+  if (document.getElementById('editPropertyType')) document.getElementById('editPropertyType').value = item.property_type || 'Detached Factory';
 
   const rawZoning = item.zoning || '';
   let tenureVal = 'Freehold';
@@ -245,6 +246,11 @@ function openEditModal(id) {
 
   if (document.getElementById('editTenure')) {
     document.getElementById('editTenure').value = tenureVal;
+  }
+
+  const cleanZoning = rawZoning.replace(/Freehold \| |Leasehold Extension \| |Leasehold \| /gi, '').trim();
+  if (document.getElementById('editZoning')) {
+    document.getElementById('editZoning').value = cleanZoning || 'Industrial';
   }
 
   // Parse Ceiling Height & Unit
@@ -343,8 +349,23 @@ function setupEditFormHandler() {
     const status = document.getElementById('editStatus').value;
     const listing_type = document.getElementById('editListingType').value;
     const property_type = document.getElementById('editPropertyType').value;
+    
+    let category = document.getElementById('editCategory') ? document.getElementById('editCategory').value : '';
+    if (!category) {
+      if (property_type.includes('Land')) {
+        if (property_type.includes('Commercial')) category = 'Commercial';
+        else if (property_type.includes('Agriculture') || property_type.includes('Residential')) category = 'Land';
+        else category = 'Industrial';
+      } else if (property_type.includes('Commercial') || property_type.includes('Shoplot') || property_type.includes('Hotel') || property_type.includes('Office')) {
+        category = 'Commercial';
+      } else {
+        category = 'Industrial';
+      }
+    }
+
     const tenure = (document.getElementById('editTenure') && listing_type === 'For Sale') ? document.getElementById('editTenure').value : '';
     const power_supply_amp = document.getElementById('editPower') ? document.getElementById('editPower').value : '';
+    const floor_loading_kn = document.getElementById('editFloor') ? document.getElementById('editFloor').value : '';
     
     const ceilingVal = document.getElementById('editCeiling') ? document.getElementById('editCeiling').value.trim() : '';
     const ceilingUnit = document.getElementById('editCeilingUnit') ? document.getElementById('editCeilingUnit').value : 'ft';
@@ -394,6 +415,7 @@ function setupEditFormHandler() {
 
     const updatePayload = {
       title,
+      category,
       asking_price,
       status,
       listing_type,
@@ -401,6 +423,7 @@ function setupEditFormHandler() {
       zoning: fullZoning,
       power_supply_amp,
       ceiling_height_ft,
+      floor_loading_kn,
       built_up_sqft,
       land_area_sqft,
       location,
@@ -411,33 +434,46 @@ function setupEditFormHandler() {
 
     if (youtube_url) {
       updatePayload.youtube_url = youtube_url;
+    } else {
+      updatePayload.youtube_url = '';
     }
 
-    const { error } = await supabaseClient
+    const { data: updatedRows, error } = await supabaseClient
       .from('listings')
       .update(updatePayload)
-      .eq('id', id);
+      .eq('id', id)
+      .select();
 
-    if (error) {
+    if (error || !updatedRows || updatedRows.length === 0) {
+      const errMsg = error ? error.message : 'Rekod tidak ditemui atau kemaskini gagal disimpan.';
       if (alertBox) {
         alertBox.style.background = '#fee2e2';
         alertBox.style.color = '#dc2626';
-        alertBox.innerText = 'Failed to update: ' + error.message;
+        alertBox.innerText = 'Failed to update: ' + errMsg;
       } else {
-        alert('Failed to update: ' + error.message);
+        alert('Failed to update: ' + errMsg);
       }
-    } else {
-      if (alertBox) {
-        alertBox.style.background = '#d1fae5';
-        alertBox.style.color = '#047857';
-        alertBox.innerText = 'Listing updated successfully!';
-      }
-      logActivity('EDIT_LISTING', `Updated listing: "${title}" (Status: ${status}, Price: RM ${asking_price})`, id);
-      setTimeout(() => {
-        closeEditModal();
-        loadAgentListings();
-      }, 600);
+      return;
     }
+
+    // Instantly update in-memory currentListingsData array
+    if (updatedRows && updatedRows[0]) {
+      const listIdx = currentListingsData.findIndex(x => String(x.id) === String(id));
+      if (listIdx !== -1) {
+        currentListingsData[listIdx] = updatedRows[0];
+      }
+    }
+
+    if (alertBox) {
+      alertBox.style.background = '#d1fae5';
+      alertBox.style.color = '#047857';
+      alertBox.innerText = 'Listing updated successfully!';
+    }
+    logActivity('EDIT_LISTING', `Updated listing: "${title}" (Status: ${status}, Price: RM ${asking_price})`, id);
+    setTimeout(() => {
+      closeEditModal();
+      loadAgentListings();
+    }, 600);
   });
 }
 
