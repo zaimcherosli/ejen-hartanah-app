@@ -19,13 +19,22 @@ function createSlug(title) {
     .replace(/^-+|-+$/g, '');
 }
 
-// Helper: Intelligently format Land Area (Acre vs Sqft)
-function formatLandArea(val, desc = '') {
+// Helper: Intelligently format Land Area (Acre vs Sqft) based on saved listing data
+function getLandUnit(item) {
+  if (!item) return 'sqft';
+  const rawZoning = typeof item === 'object' ? (item.zoning || '') : String(item);
+  if (rawZoning.includes('[unit:acre]')) return 'acre';
+  if (rawZoning.includes('[unit:sqft]')) return 'sqft';
+  if (typeof item === 'object' && item.description && /acre|ekar/i.test(item.description)) return 'acre';
+  return 'sqft';
+}
+
+function formatLandArea(val, item) {
   if (!val && val !== 0) return '-';
   const num = parseFloat(val);
   if (isNaN(num) || num <= 0) return '-';
-  const isAcre = num <= 500 || (desc && /acre|ekar/i.test(desc));
-  if (isAcre && num <= 500) {
+  const unit = getLandUnit(item);
+  if (unit === 'acre') {
     return `${num} ${num === 1 ? 'Acre' : 'Acres'}`;
   }
   return `${new Intl.NumberFormat('en-US').format(num)} sqft`;
@@ -162,13 +171,13 @@ function renderListings(listings) {
     // Extract Tenure & Zoning
     const rawZoning = item.zoning || '';
     let tenureVal = 'Freehold';
-    let zoneVal = rawZoning;
-    if (rawZoning.includes('|')) {
-      const parts = rawZoning.split('|');
+    let zoneVal = rawZoning.replace(/\[unit:acre\]|\[unit:sqft\]/gi, '').trim();
+    if (zoneVal.includes('|')) {
+      const parts = zoneVal.split('|');
       tenureVal = parts[0].trim();
       zoneVal = parts[1].trim();
-    } else if (['Freehold', 'Leasehold', 'Leasehold Extension'].includes(rawZoning)) {
-      tenureVal = rawZoning;
+    } else if (['Freehold', 'Leasehold', 'Leasehold Extension'].includes(zoneVal)) {
+      tenureVal = zoneVal;
       zoneVal = '-';
     }
 
@@ -197,9 +206,9 @@ function renderListings(listings) {
       }
     }
 
-    // Format Land Area intelligently (Acre vs Sqft)
+    // Format Land Area dynamically (Acre vs Sqft)
     const isLand = (item.category === 'Land') || (item.property_type && item.property_type.toLowerCase().includes('land'));
-    const formattedLand = formatLandArea(item.land_area_sqft, item.description);
+    const formattedLand = formatLandArea(item.land_area_sqft, item);
 
     const isSale = (item.listing_type || '').toLowerCase().includes('sale');
     const badgeTypeClass = isSale ? 'badge-sale' : 'badge-rent';
@@ -502,7 +511,7 @@ function openModal(id, updateHistory = true) {
         <div class="spec-item"><span class="label">Floor Loading</span><span class="val">${item.floor_loading_kn || '-'}</span></div>
         <div class="spec-item"><span class="label">Zone / Details</span><span class="val">${zoneVal || '-'}</span></div>
         <div class="spec-item"><span class="label">Built-up Size</span><span class="val">${item.built_up_sqft ? new Intl.NumberFormat('en-US').format(item.built_up_sqft) + ' sqft' : '-'}</span></div>
-        <div class="spec-item"><span class="label">Land Area</span><span class="val" style="color: var(--cem-navy); font-weight: 800;">${formatLandArea(item.land_area_sqft, item.description)}</span></div>
+        <div class="spec-item"><span class="label">Land Area</span><span class="val" style="color: var(--cem-navy); font-weight: 800;">${formatLandArea(item.land_area_sqft, item)}</span></div>
       </div>
 
       <h4 style="margin-bottom: 0.5rem; font-size: 1rem; color: var(--text-main);">Full Description & Specifications:</h4>

@@ -248,7 +248,10 @@ function openEditModal(id) {
     document.getElementById('editTenure').value = tenureVal;
   }
 
-  const cleanZoning = rawZoning.replace(/Freehold \| |Leasehold Extension \| |Leasehold \| /gi, '').trim();
+  const cleanZoning = rawZoning
+    .replace(/\[unit:acre\]|\[unit:sqft\]/gi, '')
+    .replace(/Freehold \| |Leasehold Extension \| |Leasehold \| /gi, '')
+    .trim();
   if (document.getElementById('editZoning')) {
     document.getElementById('editZoning').value = cleanZoning || 'Industrial';
   }
@@ -260,13 +263,18 @@ function openEditModal(id) {
   if (document.getElementById('editCeiling')) document.getElementById('editCeiling').value = ceilingNum;
   if (document.getElementById('editCeilingUnit')) document.getElementById('editCeilingUnit').value = ceilingUnit;
 
-  // Parse Land Area & Unit
-  const rawLandArea = item.land_area_sqft ? parseFloat(item.land_area_sqft) : '';
+  // Parse Land Area & Unit dynamically
   let landUnit = 'sqft';
-  if (rawLandArea && (rawLandArea <= 500 || (item.description && /acre|ekar/i.test(item.description)))) {
+  if (rawZoning.includes('[unit:acre]')) {
+    landUnit = 'acre';
+  } else if (rawZoning.includes('[unit:sqft]')) {
+    landUnit = 'sqft';
+  } else if (item.description && /acre|ekar/i.test(item.description)) {
     landUnit = 'acre';
   }
-  if (document.getElementById('editLandArea')) document.getElementById('editLandArea').value = rawLandArea || '';
+
+  const rawLandArea = (item.land_area_sqft !== null && item.land_area_sqft !== undefined) ? item.land_area_sqft : '';
+  if (document.getElementById('editLandArea')) document.getElementById('editLandArea').value = rawLandArea;
   if (document.getElementById('editLandAreaUnit')) document.getElementById('editLandAreaUnit').value = landUnit;
 
   if (document.getElementById('editPower')) document.getElementById('editPower').value = item.power_supply_amp || '';
@@ -375,11 +383,18 @@ function setupEditFormHandler() {
     const ceilingUnit = document.getElementById('editCeilingUnit') ? document.getElementById('editCeilingUnit').value : 'ft';
     const ceiling_height_ft = ceilingVal ? `${ceilingVal} ${ceilingUnit}` : '';
 
-    const zoningVal = document.getElementById('editZoning') ? document.getElementById('editZoning').value : 'Industrial';
-    const fullZoning = (listing_type === 'For Sale' && tenure) ? `${tenure} | ${zoningVal}` : zoningVal;
-
     const built_up_sqft = document.getElementById('editBuiltUp') && document.getElementById('editBuiltUp').value ? parseFloat(document.getElementById('editBuiltUp').value) : null;
-    const land_area_sqft = document.getElementById('editLandArea') && document.getElementById('editLandArea').value ? parseFloat(document.getElementById('editLandArea').value) : null;
+    const landInputVal = document.getElementById('editLandArea') && document.getElementById('editLandArea').value ? parseFloat(document.getElementById('editLandArea').value) : null;
+    const landUnitVal = document.getElementById('editLandAreaUnit') ? document.getElementById('editLandAreaUnit').value : 'sqft';
+    const land_area_sqft = landInputVal;
+
+    const zoningVal = document.getElementById('editZoning') ? document.getElementById('editZoning').value : 'Industrial';
+    let fullZoning = (listing_type === 'For Sale' && tenure) ? `${tenure} | ${zoningVal}` : zoningVal;
+    if (landUnitVal === 'acre') {
+      fullZoning = `${fullZoning} [unit:acre]`;
+    } else {
+      fullZoning = `${fullZoning} [unit:sqft]`;
+    }
     
     const cityInput = document.getElementById('editLocation').value.trim();
     const stateInput = document.getElementById('editState') ? document.getElementById('editState').value : 'Selangor';
@@ -515,12 +530,19 @@ function setupFormHandler() {
     const ceilingUnit = document.getElementById('ceiling_height_unit') ? document.getElementById('ceiling_height_unit').value : 'ft';
     const ceiling_height_ft = ceilingVal ? `${ceilingVal} ${ceilingUnit}` : '';
 
+    const built_up_sqft = parseFloat(document.getElementById('built_up_sqft').value) || null;
+    const landInputVal = document.getElementById('land_area_sqft') && document.getElementById('land_area_sqft').value ? parseFloat(document.getElementById('land_area_sqft').value) : null;
+    const landUnitVal = document.getElementById('land_area_unit') ? document.getElementById('land_area_unit').value : 'sqft';
+    const land_area_sqft = landInputVal;
+
     const floor_loading_kn = document.getElementById('floor_loading_kn').value;
     const zoning = document.getElementById('zoning').value;
-    const fullZoning = (listing_type === 'For Sale' && tenure) ? `${tenure} | ${zoning}` : zoning;
-
-    const built_up_sqft = parseFloat(document.getElementById('built_up_sqft').value) || null;
-    const land_area_sqft = parseFloat(document.getElementById('land_area_sqft').value) || null;
+    let fullZoning = (listing_type === 'For Sale' && tenure) ? `${tenure} | ${zoning}` : zoning;
+    if (landUnitVal === 'acre') {
+      fullZoning = `${fullZoning} [unit:acre]`;
+    } else {
+      fullZoning = `${fullZoning} [unit:sqft]`;
+    }
     
     const cityInput = document.getElementById('location').value.trim();
     const stateInput = document.getElementById('state') ? document.getElementById('state').value : 'Selangor';
