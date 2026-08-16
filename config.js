@@ -4,10 +4,10 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 // System Versioning & Build Info
 window.CEM_SYSTEM = {
-  VERSION: 'v1.7.7',
+  VERSION: 'v1.7.8',
   BUILD_DATE: '2026-08-16',
-  ENV: 'Production (Cloudflare Pages + R2 Storage)',
-  PWA_VERSION: 'cem-pwa-v9'
+  ENV: 'Production (Cloudflare Pages + R2 Storage + Sentry Monitoring)',
+  PWA_VERSION: 'cem-pwa-v10'
 };
 
 // Console Diagnostic Log
@@ -27,17 +27,27 @@ window.showSystemInfo = function() {
     `• Environment    : ${window.CEM_SYSTEM.ENV}\n` +
     `• Service Worker : ${window.CEM_SYSTEM.PWA_VERSION}\n` +
     `• Database API   : Supabase PostgREST Connected\n` +
+    `• Monitoring     : Sentry Real-Time Error Tracking Active 🛡️\n` +
     `• User Agent     : ${navigator.userAgent.slice(0, 60)}...\n` +
     `--------------------------------------------------\n` +
     `Status: All Systems Operational ✅`;
   alert(infoMsg);
 };
 
+// Developer Sentry Test Trigger
+window.testSentryError = function() {
+  if (window.Sentry) {
+    Sentry.captureMessage("Test alert from Corporate Estate Malaysia Developer Diagnostics!");
+    alert("✅ Mesej ujian Sentry berjaya dihantar! Sila semak dashboard Sentry anda.");
+  } else {
+    alert("⚠️ Sentry sedang dimuatkan, sila cuba sebentar lagi.");
+  }
+};
+
 // Initialize Supabase Client
 const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
 // ⚡ Auto-inject version badge on any page that has id="versionBadge"
-// This ensures the displayed version ALWAYS matches config.js — no hardcoding needed.
 document.addEventListener('DOMContentLoaded', function() {
   const badge = document.getElementById('versionBadge');
   if (badge && window.CEM_SYSTEM) {
