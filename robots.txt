@@ -2,6 +2,8 @@
 User-agent: *
 Allow: /
 Disallow: /dashboard.html
+Disallow: /agent-listing-management.html
 Disallow: /login.html
+Disallow: /register.html
 
-Sitemap: https://ejen-hartanah-app.pages.dev/sitemap.xml
+Sitemap: https://corporateestatemalaysia.com/sitemap.xml
