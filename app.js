@@ -176,7 +176,7 @@ function renderListings(listings) {
       const parts = zoneVal.split('|');
       tenureVal = parts[0].trim();
       zoneVal = parts[1].trim();
-    } else if (['Freehold', 'Leasehold', 'Leasehold Extension'].includes(zoneVal)) {
+    } else if (['Freehold', 'Leasehold', 'Leasehold Extension', 'Malay Reserved', 'Malay Reserve', 'Rizab Melayu'].includes(zoneVal)) {
       tenureVal = zoneVal;
       zoneVal = '-';
     }
@@ -460,13 +460,13 @@ function openModal(id, updateHistory = true) {
 
   const rawZoning = item.zoning || '';
   let tenureVal = 'Freehold';
-  let zoneVal = rawZoning;
-  if (rawZoning.includes('|')) {
-    const parts = rawZoning.split('|');
+  let zoneVal = rawZoning.replace(/\[unit:acre\]|\[unit:sqft\]/gi, '').trim();
+  if (zoneVal.includes('|')) {
+    const parts = zoneVal.split('|');
     tenureVal = parts[0].trim();
     zoneVal = parts[1].trim();
-  } else if (['Freehold', 'Leasehold', 'Leasehold Extension'].includes(rawZoning)) {
-    tenureVal = rawZoning;
+  } else if (['Freehold', 'Leasehold', 'Leasehold Extension', 'Malay Reserved', 'Malay Reserve', 'Rizab Melayu'].includes(zoneVal)) {
+    tenureVal = zoneVal;
     zoneVal = '-';
   }
 

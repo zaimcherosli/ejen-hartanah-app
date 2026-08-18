@@ -243,6 +243,7 @@ function openEditModal(id) {
   if (rawZoning.includes('Freehold')) tenureVal = 'Freehold';
   else if (rawZoning.includes('Leasehold Extension')) tenureVal = 'Leasehold Extension';
   else if (rawZoning.includes('Leasehold')) tenureVal = 'Leasehold';
+  else if (rawZoning.includes('Malay Reserved') || rawZoning.includes('Malay Reserve') || rawZoning.includes('Rizab Melayu')) tenureVal = 'Malay Reserved';
 
   if (document.getElementById('editTenure')) {
     document.getElementById('editTenure').value = tenureVal;
@@ -250,7 +251,7 @@ function openEditModal(id) {
 
   const cleanZoning = rawZoning
     .replace(/\[unit:acre\]|\[unit:sqft\]/gi, '')
-    .replace(/Freehold \| |Leasehold Extension \| |Leasehold \| /gi, '')
+    .replace(/Freehold \| |Leasehold Extension \| |Leasehold \| |Malay Reserved \| |Malay Reserve \| |Rizab Melayu \| /gi, '')
     .trim();
   if (document.getElementById('editZoning')) {
     document.getElementById('editZoning').value = cleanZoning || 'Industrial';

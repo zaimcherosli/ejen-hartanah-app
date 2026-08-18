@@ -144,13 +144,14 @@
                 <option value="Freehold">Freehold</option>
                 <option value="Leasehold">Leasehold</option>
                 <option value="Leasehold Extension">Leasehold Extension</option>
+                <option value="Malay Reserved">Malay Reserved</option>
               </select>
             </div>
           </div>
 
           <div style="margin-bottom: 0.85rem;">
             <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ASKING PRICE (RM) *</label>
-            <input type="number" id="asking_price" placeholder="e.g. 4500000" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+            <input type="number" step="any" id="asking_price" placeholder="e.g. 4500000" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
           </div>
 
           <!-- Specs -->
@@ -190,12 +191,12 @@
           <div class="form-2col">
             <div>
               <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">BUILT-UP (SQFT)</label>
-              <input type="number" id="built_up_sqft" placeholder="15000" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+              <input type="number" step="any" id="built_up_sqft" placeholder="15000" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
             </div>
             <div>
               <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">LAND AREA</label>
               <div style="display: flex; gap: 0.35rem;">
-                <input type="number" id="land_area_sqft" placeholder="e.g. 20000" style="flex: 1; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+                <input type="number" step="any" id="land_area_sqft" placeholder="e.g. 20000" style="flex: 1; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
                 <select id="land_area_unit" style="padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
                   <option value="sqft">sqft</option>
                   <option value="acre">acre</option>
@@ -343,7 +344,7 @@
         <div class="form-2col">
           <div>
             <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ASKING PRICE (RM) *</label>
-            <input type="number" id="editPrice" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+            <input type="number" step="any" id="editPrice" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
           </div>
           <div>
             <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">STATUS *</label>
@@ -399,6 +400,7 @@
               <option value="Freehold">Freehold</option>
               <option value="Leasehold">Leasehold</option>
               <option value="Leasehold Extension">Leasehold Extension</option>
+              <option value="Malay Reserved">Malay Reserved</option>
             </select>
           </div>
           <div>
@@ -436,7 +438,7 @@
           </div>
           <div>
             <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">BUILT-UP (SQFT)</label>
-            <input type="number" id="editBuiltUp" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+            <input type="number" step="any" id="editBuiltUp" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
           </div>
         </div>
 
@@ -444,7 +446,7 @@
           <div>
             <label style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">LAND AREA</label>
             <div style="display: flex; gap: 0.35rem;">
-              <input type="number" id="editLandArea" placeholder="e.g. 20000" style="flex: 1; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+              <input type="number" step="any" id="editLandArea" placeholder="e.g. 20000" style="flex: 1; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
               <select id="editLandAreaUnit" style="padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
                 <option value="sqft">sqft</option>
                 <option value="acre">acre</option>
@@ -518,9 +520,9 @@
     </p>
   </footer>
 
-  <script src="config.js?v=1.7.9"></script>
+  <script src="config.js?v=1.8.0"></script>
   <script src="image-watermark.js?v=3"></script>
-  <script src="dashboard.js?v=23"></script>
+  <script src="dashboard.js?v=24"></script>
   <script>
     function togglePortalMobileMenu(e) {
       if (e) e.stopPropagation();
