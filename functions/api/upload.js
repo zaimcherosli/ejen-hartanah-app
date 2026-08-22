@@ -1,4 +1,7 @@
-// Cloudflare Pages Function for R2 Image Uploads & Deletions (Hardened Security)
+// Cloudflare Pages Function for R2 Image Uploads & Deletions (Enterprise Hardened Security)
+
+const SUPABASE_AUTH_URL = 'https://csrzhidtzqxfbapsenhu.supabase.co/auth/v1/user';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzcnpoaWR0enF4ZmJhcHNlbmh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU0OTM3OTYsImV4cCI6MjEwMTA2OTc5Nn0.NnHFURbQTvsdgGbm1d_PC-hkOgQFQIHKTMQaS2n44SU';
 
 const ALLOWED_MIME_TYPES = new Set([
   'image/jpeg',
@@ -9,8 +12,52 @@ const ALLOWED_MIME_TYPES = new Set([
 
 const ALLOWED_EXTENSIONS = new Set(['jpg', 'jpeg', 'png', 'webp', 'gif']);
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB Limit
+const MAX_UPLOADS_PER_MINUTE = 30; // Rate Limit
 
-// Helper: Validate Origin / Referer against authorized domains
+// In-Memory Rate Limiting Cache for Edge Instance
+const ipRateLimits = new Map();
+
+function checkRateLimit(clientIp) {
+  const now = Date.now();
+  const record = ipRateLimits.get(clientIp) || { count: 0, resetAt: now + 60000 };
+  if (now > record.resetAt) {
+    record.count = 1;
+    record.resetAt = now + 60000;
+  } else {
+    record.count++;
+  }
+  ipRateLimits.set(clientIp, record);
+  return record.count <= MAX_UPLOADS_PER_MINUTE;
+}
+
+// 1. Supabase JWT Authentication Gate
+async function verifyAgentSession(request) {
+  const authHeader = request.headers.get('Authorization') || request.headers.get('authorization');
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return null;
+  }
+
+  try {
+    const res = await fetch(SUPABASE_AUTH_URL, {
+      headers: {
+        'Authorization': authHeader,
+        'apikey': SUPABASE_ANON_KEY
+      }
+    });
+
+    if (res.ok) {
+      const user = await res.json();
+      if (user && user.id) {
+        return user;
+      }
+    }
+  } catch (e) {
+    return null;
+  }
+  return null;
+}
+
+// 2. Validate Origin / Referer against authorized domains
 function isAuthorizedOrigin(request) {
   const origin = request.headers.get('origin') || '';
   const referer = request.headers.get('referer') || '';
@@ -27,7 +74,7 @@ function isAuthorizedOrigin(request) {
   return allowedPatterns.some(pattern => checkString.includes(pattern));
 }
 
-// Helper: Magic byte inspection to verify real image contents
+// 3. Magic byte inspection to verify real image contents
 function isValidImageMagicBytes(buffer) {
   if (!buffer || buffer.byteLength < 4) return false;
   const bytes = new Uint8Array(buffer.slice(0, 12));
@@ -53,10 +100,28 @@ function isValidImageMagicBytes(buffer) {
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  // 1. Origin & Domain Security Verification
+  // A. Origin Verification
   if (!isAuthorizedOrigin(request)) {
     return new Response(JSON.stringify({ error: 'Forbidden: Unauthorized upload origin' }), {
       status: 403,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  // B. Rate Limiting Check (Max 30 uploads / min)
+  const clientIp = request.headers.get('cf-connecting-ip') || 'unknown';
+  if (!checkRateLimit(clientIp)) {
+    return new Response(JSON.stringify({ error: 'Too Many Requests: Rate limit exceeded (Max 30 uploads per minute)' }), {
+      status: 429,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  // C. Authenticated Agent Session / JWT Check
+  const authenticatedAgent = await verifyAgentSession(request);
+  if (!authenticatedAgent) {
+    return new Response(JSON.stringify({ error: 'Unauthorized: Active Supabase agent session token required' }), {
+      status: 401,
       headers: { 'Content-Type': 'application/json' }
     });
   }
@@ -103,7 +168,7 @@ export async function onRequestPost(context) {
       }
     }
 
-    // 2. Server-side File Size Validation (Max 10MB)
+    // D. Server-side File Size Validation (Max 10MB)
     if (!fileBuffer || fileBuffer.byteLength === 0) {
       return new Response(JSON.stringify({ error: 'Bad Request: Empty file buffer' }), {
         status: 400,
@@ -118,7 +183,7 @@ export async function onRequestPost(context) {
       });
     }
 
-    // 3. Server-side MIME & Magic Byte Validation
+    // E. Server-side MIME & Magic Byte Validation
     if (!ALLOWED_MIME_TYPES.has(mimeType)) {
       return new Response(JSON.stringify({ error: 'Unsupported Media Type: Only JPG, PNG, WEBP, and GIF images are allowed' }), {
         status: 415,
@@ -133,15 +198,19 @@ export async function onRequestPost(context) {
       });
     }
 
-    // 4. Secure Random File Naming
+    // F. Secure Random File Naming with Agent Traceability
     const randomSuffix = Math.random().toString(36).substring(2, 10);
     const fileName = `img_${Date.now()}_${randomSuffix}.${fileExt}`;
 
-    // 5. Store File into Cloudflare R2 Bucket
+    // G. Store File into Cloudflare R2 Bucket
     await bucket.put(fileName, fileBuffer, {
       httpMetadata: {
         contentType: mimeType,
         cacheControl: 'public, max-age=31536000, immutable'
+      },
+      customMetadata: {
+        uploaderId: authenticatedAgent.id,
+        uploaderEmail: authenticatedAgent.email || 'agent'
       }
     });
 
@@ -150,7 +219,8 @@ export async function onRequestPost(context) {
     return new Response(JSON.stringify({
       success: true,
       url: publicUrl,
-      sizeBytes: fileBuffer.byteLength
+      sizeBytes: fileBuffer.byteLength,
+      uploader: authenticatedAgent.email
     }), {
       status: 200,
       headers: {
@@ -167,7 +237,7 @@ export async function onRequestPost(context) {
   }
 }
 
-// Delete file from R2 Bucket (with origin protection)
+// Delete file from R2 Bucket (with strict Agent Auth requirement)
 export async function onRequestDelete(context) {
   const { request, env } = context;
 
@@ -178,13 +248,20 @@ export async function onRequestDelete(context) {
     });
   }
 
+  const authenticatedAgent = await verifyAgentSession(request);
+  if (!authenticatedAgent) {
+    return new Response(JSON.stringify({ error: 'Unauthorized: Active agent session required' }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
   try {
     const bucket = env.ejen_hartanah_storage;
     const url = new URL(request.url);
     const fileName = url.searchParams.get('file');
 
     if (bucket && fileName) {
-      // Prevent directory traversal attacks on filename
       const sanitizedName = fileName.replace(/[^a-zA-Z0-9_.-]/g, '');
       await bucket.delete(sanitizedName);
       return new Response(JSON.stringify({ success: true, deleted: sanitizedName }), {
@@ -211,7 +288,7 @@ export async function onRequestOptions() {
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'POST, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type'
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
     }
   });
 }

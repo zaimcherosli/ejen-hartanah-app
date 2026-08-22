@@ -1109,8 +1109,19 @@ async function uploadImageFile(fileToUpload, fileName) {
   try {
     const formData = new FormData();
     formData.append('file', fileToUpload, fileName);
+
+    // Retrieve active Supabase JWT Session Token
+    const authHeaders = {};
+    if (typeof supabaseClient !== 'undefined' && supabaseClient.auth) {
+      const { data: sessionData } = await supabaseClient.auth.getSession();
+      if (sessionData && sessionData.session && sessionData.session.access_token) {
+        authHeaders['Authorization'] = `Bearer ${sessionData.session.access_token}`;
+      }
+    }
+
     const res = await fetch('/api/upload', {
       method: 'POST',
+      headers: authHeaders,
       body: formData
     });
     if (res.ok) {
