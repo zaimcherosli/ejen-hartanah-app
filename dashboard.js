@@ -376,7 +376,7 @@ function setupEditFormHandler() {
       }
     }
 
-    const tenure = (document.getElementById('editTenure') && listing_type === 'For Sale') ? document.getElementById('editTenure').value : '';
+    const tenure = document.getElementById('editTenure') ? document.getElementById('editTenure').value : '';
     const power_supply_amp = document.getElementById('editPower') ? document.getElementById('editPower').value : '';
     const floor_loading_kn = document.getElementById('editFloor') ? document.getElementById('editFloor').value : '';
     
@@ -390,7 +390,7 @@ function setupEditFormHandler() {
     const land_area_sqft = landInputVal;
 
     const zoningVal = document.getElementById('editZoning') ? document.getElementById('editZoning').value : 'Industrial';
-    let fullZoning = (listing_type === 'For Sale' && tenure) ? `${tenure} | ${zoningVal}` : zoningVal;
+    let fullZoning = tenure ? `${tenure} | ${zoningVal}` : zoningVal;
     if (landUnitVal === 'acre') {
       fullZoning = `${fullZoning} [unit:acre]`;
     } else {
@@ -523,7 +523,7 @@ function setupFormHandler() {
     const category = document.getElementById('category').value;
     const listing_type = document.getElementById('listing_type').value;
     const property_type = document.getElementById('property_type').value;
-    const tenure = (document.getElementById('tenure') && listing_type === 'For Sale') ? document.getElementById('tenure').value : '';
+    const tenure = document.getElementById('tenure') ? document.getElementById('tenure').value : '';
     const asking_price = parseFloat(document.getElementById('asking_price').value);
     const power_supply_amp = document.getElementById('power_supply_amp').value;
 
@@ -538,7 +538,7 @@ function setupFormHandler() {
 
     const floor_loading_kn = document.getElementById('floor_loading_kn').value;
     const zoning = document.getElementById('zoning').value;
-    let fullZoning = (listing_type === 'For Sale' && tenure) ? `${tenure} | ${zoning}` : zoning;
+    let fullZoning = tenure ? `${tenure} | ${zoning}` : zoning;
     if (landUnitVal === 'acre') {
       fullZoning = `${fullZoning} [unit:acre]`;
     } else {
@@ -1055,48 +1055,23 @@ async function loadActivityLogs() {
   }
 }
 
-// Dynamic Land Tenure Hide/Show Toggles
+// Dynamic Land Tenure Visibility
 function setupTenureToggles() {
-  const listingTypeSelect = document.getElementById('listing_type');
   const tenureWrapper = document.getElementById('tenureWrapper');
-
-  function updateAddTenureVisibility() {
-    if (!listingTypeSelect || !tenureWrapper) return;
-    if (listingTypeSelect.value === 'For Rent') {
-      tenureWrapper.style.display = 'none';
-    } else {
-      tenureWrapper.style.display = 'block';
-    }
+  if (tenureWrapper) {
+    tenureWrapper.style.display = 'block';
   }
 
-  if (listingTypeSelect) {
-    listingTypeSelect.addEventListener('change', updateAddTenureVisibility);
-    updateAddTenureVisibility();
-  }
-
-  const editListingTypeSelect = document.getElementById('editListingType');
   const editTenureWrapper = document.getElementById('editTenureWrapper');
-
-  function updateEditTenureVisibility() {
-    if (!editListingTypeSelect || !editTenureWrapper) return;
-    if (editListingTypeSelect.value === 'For Rent') {
-      editTenureWrapper.style.display = 'none';
-    } else {
-      editTenureWrapper.style.display = 'block';
-    }
-  }
-
-  if (editListingTypeSelect) {
-    editListingTypeSelect.addEventListener('change', updateEditTenureVisibility);
-    updateEditTenureVisibility();
+  if (editTenureWrapper) {
+    editTenureWrapper.style.display = 'block';
   }
 }
 
 window.updateEditTenureVisibility = function() {
-  const editListingTypeSelect = document.getElementById('editListingType');
   const editTenureWrapper = document.getElementById('editTenureWrapper');
-  if (editListingTypeSelect && editTenureWrapper) {
-    editTenureWrapper.style.display = editListingTypeSelect.value === 'For Rent' ? 'none' : 'block';
+  if (editTenureWrapper) {
+    editTenureWrapper.style.display = 'block';
   }
 };
 
