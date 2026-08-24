@@ -257,6 +257,41 @@ window.copyArticleLink = function() {
   alert("Pautan artikel telah disalin ke clipboard! 📋");
 };
 
+function renderCategoryPills() {
+  const pillContainer = document.querySelector(".category-pills");
+  if (!pillContainer) return;
+
+  const defaultCats = ["Panduan Industri", "Tips Komersial", "Pelaburan Tanah", "Laporan Pasaran"];
+  const dynamicCats = [];
+  defaultCats.forEach(function(c) { dynamicCats.push(c); });
+
+  allArticles.forEach(function(a) {
+    if (a.category && a.category.trim()) {
+      const exists = dynamicCats.some(function(dc) { return dc.toLowerCase() === a.category.trim().toLowerCase(); });
+      if (!exists) {
+        dynamicCats.push(a.category.trim());
+      }
+    }
+  });
+
+  let html = '<button type="button" class="category-pill ' + (activeCategory === 'ALL' ? 'active' : '') + '" data-cat="ALL">SEMUA TOPIK</button>';
+  dynamicCats.forEach(function(cat) {
+    const isActive = (activeCategory.toLowerCase() === cat.toLowerCase()) ? 'active' : '';
+    html += '<button type="button" class="category-pill ' + isActive + '" data-cat="' + cat + '">' + cat.toUpperCase() + '</button>';
+  });
+
+  pillContainer.innerHTML = html;
+
+  pillContainer.querySelectorAll(".category-pill").forEach(function(pill) {
+    pill.addEventListener("click", function() {
+      pillContainer.querySelectorAll(".category-pill").forEach(function(p) { p.classList.remove("active"); });
+      pill.classList.add("active");
+      activeCategory = pill.getAttribute("data-cat") || "ALL";
+      renderBlogArchive();
+    });
+  });
+}
+
 function setupBlogControls() {
   const searchInput = document.getElementById("blogSearchInput");
   if (searchInput) {
@@ -265,16 +300,6 @@ function setupBlogControls() {
       renderBlogArchive();
     });
   }
-
-  const pills = document.querySelectorAll(".category-pill");
-  pills.forEach(function(pill) {
-    pill.addEventListener("click", function() {
-      pills.forEach(function(p) { p.classList.remove("active"); });
-      pill.classList.add("active");
-      activeCategory = pill.getAttribute("data-cat") || "ALL";
-      renderBlogArchive();
-    });
-  });
 
   window.addEventListener("popstate", function() {
     const slug = getRequestedSlug();
@@ -289,6 +314,7 @@ function setupBlogControls() {
 document.addEventListener("DOMContentLoaded", async function() {
   setupBlogControls();
   await fetchArticles();
+  renderCategoryPills();
 
   const slug = getRequestedSlug();
   if (slug) {

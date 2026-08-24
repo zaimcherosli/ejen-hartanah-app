@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -109,12 +109,16 @@
           <div class="form-2col">
             <div>
               <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">CATEGORY *</label>
-              <select id="articleCategory" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+              <select id="articleCategory" onchange="toggleCustomCategoryInput('add')" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
                 <option value="Panduan Industri">Panduan Industri</option>
                 <option value="Tips Komersial">Tips Komersial</option>
                 <option value="Pelaburan Tanah">Pelaburan Tanah</option>
                 <option value="Laporan Pasaran">Laporan Pasaran</option>
+                <option value="__CUSTOM__">+ Tambah Kategori Baharu...</option>
               </select>
+              <div id="customCategoryWrapper" style="display: none; margin-top: 0.45rem;">
+                <input type="text" id="articleCustomCategory" placeholder="Taip nama kategori baharu anda..." style="width: 100%; padding: 0.55rem; border: 1.5px solid var(--cem-navy); border-radius: 6px; font-size: 0.85rem; background: #f0f9ff;">
+              </div>
             </div>
             <div>
               <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ESTIMATED READING TIME</label>
@@ -183,12 +187,16 @@
         <div class="form-2col">
           <div>
             <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">CATEGORY *</label>
-            <select id="editArticleCategory" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+            <select id="editArticleCategory" onchange="toggleCustomCategoryInput('edit')" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
               <option value="Panduan Industri">Panduan Industri</option>
               <option value="Tips Komersial">Tips Komersial</option>
               <option value="Pelaburan Tanah">Pelaburan Tanah</option>
               <option value="Laporan Pasaran">Laporan Pasaran</option>
+              <option value="__CUSTOM__">+ Tambah Kategori Baharu...</option>
             </select>
+            <div id="editCustomCategoryWrapper" style="display: none; margin-top: 0.45rem;">
+              <input type="text" id="editArticleCustomCategory" placeholder="Taip nama kategori baharu anda..." style="width: 100%; padding: 0.55rem; border: 1.5px solid var(--cem-navy); border-radius: 6px; font-size: 0.85rem; background: #f0f9ff;">
+            </div>
           </div>
           <div>
             <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ESTIMATED READING TIME</label>
@@ -239,9 +247,38 @@
     </p>
   </footer>
 
-  <script src="/config.js?v=1.9.4"></script>
-  <script src="/dashboard.js?v=28"></script>
+  <script src="/config.js?v=1.9.5"></script>
+  <script src="/dashboard.js?v=29"></script>
   <script>
+    function toggleCustomCategoryInput(mode) {
+      if (mode === 'add') {
+        const sel = document.getElementById('articleCategory');
+        const wrap = document.getElementById('customCategoryWrapper');
+        const input = document.getElementById('articleCustomCategory');
+        if (sel && wrap) {
+          if (sel.value === '__CUSTOM__') {
+            wrap.style.display = 'block';
+            if (input) input.focus();
+          } else {
+            wrap.style.display = 'none';
+            if (input) input.value = '';
+          }
+        }
+      } else if (mode === 'edit') {
+        const sel = document.getElementById('editArticleCategory');
+        const wrap = document.getElementById('editCustomCategoryWrapper');
+        const input = document.getElementById('editArticleCustomCategory');
+        if (sel && wrap) {
+          if (sel.value === '__CUSTOM__') {
+            wrap.style.display = 'block';
+            if (input) input.focus();
+          } else {
+            wrap.style.display = 'none';
+            if (input) input.value = '';
+          }
+        }
+      }
+    }
     function togglePortalMobileMenu(e) {
       if (e) e.stopPropagation();
       const drawer = document.getElementById('portalMobileDrawer');

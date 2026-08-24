@@ -1264,7 +1264,24 @@ function setupArticleHandlers() {
       try {
         const title = document.getElementById('articleTitle').value.trim();
         const slug = generateArticleSlug(title);
-        const category = document.getElementById('articleCategory').value;
+        let category = document.getElementById('articleCategory').value;
+        if (category === '__CUSTOM__') {
+          const customCat = (document.getElementById('articleCustomCategory')?.value || '').trim();
+          if (!customCat) {
+            if (alertBox) {
+              alertBox.style.display = 'block';
+              alertBox.style.background = '#fee2e2';
+              alertBox.style.color = '#b91c1c';
+              alertBox.innerText = 'Sila taip nama kategori baharu anda.';
+            }
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.innerText = 'Publish Article';
+            }
+            return;
+          }
+          category = customCat;
+        }
         const excerpt = document.getElementById('articleExcerpt').value.trim();
         const content = document.getElementById('articleContent').value.trim();
         const readingTime = document.getElementById('articleReadingTime').value.trim() || '4 min read';
@@ -1309,6 +1326,8 @@ function setupArticleHandlers() {
         }
 
         addArticleForm.reset();
+        const customWrap = document.getElementById('customCategoryWrapper');
+        if (customWrap) customWrap.style.display = 'none';
         loadAdminArticles();
 
       } catch (err) {
@@ -1334,7 +1353,15 @@ function setupArticleHandlers() {
       e.preventDefault();
       const id = document.getElementById('editArticleId').value;
       const title = document.getElementById('editArticleTitle').value.trim();
-      const category = document.getElementById('editArticleCategory').value;
+      let category = document.getElementById('editArticleCategory').value;
+      if (category === '__CUSTOM__') {
+        const customCat = (document.getElementById('editArticleCustomCategory')?.value || '').trim();
+        if (!customCat) {
+          alert('Sila taip nama kategori baharu anda.');
+          return;
+        }
+        category = customCat;
+      }
       const excerpt = document.getElementById('editArticleExcerpt').value.trim();
       const content = document.getElementById('editArticleContent').value.trim();
       const readingTime = document.getElementById('editArticleReadingTime').value.trim() || '4 min read';
@@ -1393,7 +1420,24 @@ window.openEditArticleModal = function(id) {
 
   document.getElementById('editArticleId').value = article.id;
   document.getElementById('editArticleTitle').value = article.title;
-  document.getElementById('editArticleCategory').value = article.category;
+  
+  const catSel = document.getElementById('editArticleCategory');
+  const catCustomWrap = document.getElementById('editCustomCategoryWrapper');
+  const catCustomInput = document.getElementById('editArticleCustomCategory');
+
+  const defaultOptions = ['Panduan Industri', 'Tips Komersial', 'Pelaburan Tanah', 'Laporan Pasaran'];
+  if (catSel) {
+    if (defaultOptions.includes(article.category)) {
+      catSel.value = article.category;
+      if (catCustomWrap) catCustomWrap.style.display = 'none';
+      if (catCustomInput) catCustomInput.value = '';
+    } else {
+      catSel.value = '__CUSTOM__';
+      if (catCustomWrap) catCustomWrap.style.display = 'block';
+      if (catCustomInput) catCustomInput.value = article.category || '';
+    }
+  }
+
   document.getElementById('editArticleExcerpt').value = article.excerpt || '';
   document.getElementById('editArticleContent').value = article.content || '';
   document.getElementById('editArticleReadingTime').value = article.reading_time || '4 min read';
