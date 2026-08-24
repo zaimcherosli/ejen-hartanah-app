@@ -1,8 +1,9 @@
 // Service Worker for Corporate Estate Malaysia PWA & Push Notifications
-const CACHE_NAME = 'cem-pwa-v15';
+const CACHE_NAME = 'cem-pwa-v16';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
+  '/blog.html',
   '/style.css?v=48',
   '/logo.png',
   '/pwa-icon-192.png',

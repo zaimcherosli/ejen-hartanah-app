@@ -1130,3 +1130,298 @@ async function uploadImageFile(fileToUpload, fileName) {
 
   return publicUrlData ? publicUrlData.publicUrl : null;
 }
+
+
+// ==========================================
+// BLOG & ARTICLES MANAGEMENT ENGINE (v1.9.0)
+// ==========================================
+
+let adminArticles = [];
+
+window.switchPortalTab = function(tabName) {
+  const tabListingsBtn = document.getElementById('tabListingsBtn');
+  const tabBlogBtn = document.getElementById('tabBlogBtn');
+  const listingsSec = document.getElementById('portalListingsSection');
+  const blogSec = document.getElementById('portalBlogSection');
+
+  if (tabName === 'blog') {
+    if (tabListingsBtn) {
+      tabListingsBtn.style.background = 'white';
+      tabListingsBtn.style.color = 'var(--cem-navy)';
+    }
+    if (tabBlogBtn) {
+      tabBlogBtn.style.background = 'var(--cem-navy)';
+      tabBlogBtn.style.color = 'white';
+    }
+    if (listingsSec) listingsSec.style.display = 'none';
+    if (blogSec) blogSec.style.display = 'block';
+    loadAdminArticles();
+  } else {
+    if (tabBlogBtn) {
+      tabBlogBtn.style.background = 'white';
+      tabBlogBtn.style.color = 'var(--cem-navy)';
+    }
+    if (tabListingsBtn) {
+      tabListingsBtn.style.background = 'var(--cem-navy)';
+      tabListingsBtn.style.color = 'white';
+    }
+    if (blogSec) blogSec.style.display = 'none';
+    if (listingsSec) listingsSec.style.display = 'block';
+  }
+};
+
+async function loadAdminArticles() {
+  const container = document.getElementById('adminArticlesList');
+  const badge = document.getElementById('articlesCountBadge');
+  if (!container) return;
+
+  container.innerHTML = '<div style="padding: 1.5rem; text-align: center; color: var(--text-muted);">Loading articles...</div>';
+
+  try {
+    if (typeof supabaseClient !== 'undefined') {
+      const { data, error } = await supabaseClient
+        .from('articles')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (!error && data) {
+        adminArticles = data;
+      }
+    }
+  } catch (err) {
+    console.warn('Error loading admin articles:', err);
+  }
+
+  if (badge) badge.innerText = adminArticles.length;
+
+  if (adminArticles.length === 0) {
+    container.innerHTML = `
+      <div style="padding: 2rem; text-align: center; color: var(--text-muted);">
+        <p style="font-weight: 700;">Belum ada artikel yang dicipta.</p>
+        <small>Gunakan borang di sebelah kiri untuk menerbitkan panduan pertama anda.</small>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = `
+    <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+      ${adminArticles.map(item => {
+        const coverImg = item.cover_image || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=300&q=80';
+        const isPublished = item.status === 'Published';
+        const statusBadge = isPublished 
+          ? '<span style="background: #dcfce7; color: #166534; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.72rem; font-weight: 800;">PUBLISHED</span>'
+          : '<span style="background: #f1f5f9; color: #475569; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.72rem; font-weight: 800;">DRAFT</span>';
+
+        return `
+          <div style="display: flex; gap: 0.85rem; padding: 0.85rem; background: white; border: 1px solid var(--border); border-radius: 8px; align-items: center;">
+            <img src="${coverImg}" alt="${item.title}" style="width: 70px; height: 60px; object-fit: cover; border-radius: 6px;">
+            <div style="flex: 1; min-width: 0;">
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                ${statusBadge}
+                <span style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted);">${item.category}</span>
+                <span style="font-size: 0.72rem; color: var(--text-muted);">• 👁️ ${item.views_count || 0} views</span>
+              </div>
+              <h4 style="font-size: 0.88rem; font-weight: 800; color: var(--cem-navy); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.title}</h4>
+            </div>
+            <div style="display: flex; gap: 0.4rem;">
+              <a href="/blog/${encodeURIComponent(item.slug)}" target="_blank" title="Preview" style="padding: 0.4rem 0.6rem; background: #e0f2fe; color: #0369a1; border-radius: 6px; font-size: 0.75rem; text-decoration: none; font-weight: 700;">🌐 View</a>
+              <button type="button" onclick="openEditArticleModal('${item.id}')" title="Edit" style="padding: 0.4rem 0.6rem; background: #fef3c7; color: #92400e; border: none; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 700;">✏️ Edit</button>
+              <button type="button" onclick="handleDeleteArticle('${item.id}')" title="Delete" style="padding: 0.4rem 0.6rem; background: #fee2e2; color: #b91c1c; border: none; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 700;">🗑️</button>
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+function generateArticleSlug(text) {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-');
+}
+
+function setupArticleHandlers() {
+  const addArticleForm = document.getElementById('addArticleForm');
+  if (addArticleForm) {
+    addArticleForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const alertBox = document.getElementById('articleFormAlert');
+      const submitBtn = document.getElementById('btnSaveArticle');
+
+      if (alertBox) alertBox.style.display = 'none';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = 'Publishing Article...';
+      }
+
+      try {
+        const title = document.getElementById('articleTitle').value.trim();
+        const slug = generateArticleSlug(title);
+        const category = document.getElementById('articleCategory').value;
+        const excerpt = document.getElementById('articleExcerpt').value.trim();
+        const content = document.getElementById('articleContent').value.trim();
+        const readingTime = document.getElementById('articleReadingTime').value.trim() || '4 min read';
+        const status = document.getElementById('articleStatus').value;
+        const coverFileInput = document.getElementById('articleCoverInput');
+
+        let coverUrl = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80';
+
+        if (coverFileInput && coverFileInput.files && coverFileInput.files[0]) {
+          const file = coverFileInput.files[0];
+          const fileName = `article_${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${file.name.split('.').pop()}`;
+          const uploadedUrl = await uploadImageFile(file, fileName);
+          if (uploadedUrl) coverUrl = uploadedUrl;
+        }
+
+        const newArticle = {
+          title,
+          slug,
+          category,
+          cover_image: coverUrl,
+          excerpt,
+          content,
+          author_name: 'WanAzemi',
+          author_role: 'Real Estate Negotiator (PEA 3949)',
+          reading_time: readingTime,
+          status,
+          views_count: 0
+        };
+
+        const { data, error } = await supabaseClient
+          .from('articles')
+          .insert([newArticle])
+          .select();
+
+        if (error) throw error;
+
+        if (alertBox) {
+          alertBox.style.display = 'block';
+          alertBox.style.background = '#dcfce7';
+          alertBox.style.color = '#166534';
+          alertBox.innerText = '✅ Artikel berjaya diterbitkan!';
+        }
+
+        addArticleForm.reset();
+        loadAdminArticles();
+
+      } catch (err) {
+        console.error('Save article error:', err);
+        if (alertBox) {
+          alertBox.style.display = 'block';
+          alertBox.style.background = '#fee2e2';
+          alertBox.style.color = '#b91c1c';
+          alertBox.innerText = `❌ Ralat menyimpan artikel: ${err.message || 'Sila cuba lagi'}`;
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerText = 'Publish Article';
+        }
+      }
+    });
+  }
+
+  const editArticleForm = document.getElementById('editArticleForm');
+  if (editArticleForm) {
+    editArticleForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('editArticleId').value;
+      const title = document.getElementById('editArticleTitle').value.trim();
+      const category = document.getElementById('editArticleCategory').value;
+      const excerpt = document.getElementById('editArticleExcerpt').value.trim();
+      const content = document.getElementById('editArticleContent').value.trim();
+      const readingTime = document.getElementById('editArticleReadingTime').value.trim() || '4 min read';
+      const status = document.getElementById('editArticleStatus').value;
+      const coverFileInput = document.getElementById('editArticleCoverInput');
+
+      const submitBtn = document.getElementById('btnUpdateArticle');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = 'Updating...';
+      }
+
+      try {
+        const updatePayload = {
+          title,
+          category,
+          excerpt,
+          content,
+          reading_time: readingTime,
+          status,
+          updated_at: new Date().toISOString()
+        };
+
+        if (coverFileInput && coverFileInput.files && coverFileInput.files[0]) {
+          const file = coverFileInput.files[0];
+          const fileName = `article_${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${file.name.split('.').pop()}`;
+          const uploadedUrl = await uploadImageFile(file, fileName);
+          if (uploadedUrl) updatePayload.cover_image = uploadedUrl;
+        }
+
+        const { error } = await supabaseClient
+          .from('articles')
+          .update(updatePayload)
+          .eq('id', id);
+
+        if (error) throw error;
+
+        closeEditArticleModal();
+        loadAdminArticles();
+        alert('Artikel berjaya dikemaskini! ✅');
+      } catch (err) {
+        alert(`Ralat kemaskini: ${err.message}`);
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerText = 'Save Changes';
+        }
+      }
+    });
+  }
+}
+
+window.openEditArticleModal = function(id) {
+  const article = adminArticles.find(a => a.id === id);
+  if (!article) return;
+
+  document.getElementById('editArticleId').value = article.id;
+  document.getElementById('editArticleTitle').value = article.title;
+  document.getElementById('editArticleCategory').value = article.category;
+  document.getElementById('editArticleExcerpt').value = article.excerpt || '';
+  document.getElementById('editArticleContent').value = article.content || '';
+  document.getElementById('editArticleReadingTime').value = article.reading_time || '4 min read';
+  document.getElementById('editArticleStatus').value = article.status || 'Published';
+
+  const modal = document.getElementById('editArticleModal');
+  if (modal) modal.style.display = 'flex';
+};
+
+window.closeEditArticleModal = function() {
+  const modal = document.getElementById('editArticleModal');
+  if (modal) modal.style.display = 'none';
+};
+
+window.handleDeleteArticle = async function(id) {
+  if (!confirm('Adakah anda pasti ingin memadamkan artikel ini?')) return;
+  try {
+    const { error } = await supabaseClient
+      .from('articles')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+    loadAdminArticles();
+  } catch (err) {
+    alert(`Gagal memadam artikel: ${err.message}`);
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  setupArticleHandlers();
+});

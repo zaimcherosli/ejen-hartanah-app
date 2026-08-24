@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://js.sentry-cdn.com/ab32fc171c3d97f3764a4402a80afc77.min.js" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Blog & Panduan Hartanah Industri | Corporate Estate Malaysia</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a192f">
+  <meta name="description" content="Koleksi panduan, tips pelaburan, dan analisis pasaran hartanah industri, kilang, gudang, shoplot, dan tanah pembangunan di Selangor dan Malaysia.">
+  <meta name="keywords" content="Panduan Beli Kilang, Tips Sewa Gudang, Tanah Pembangunan Selangor, Real Estate Malaysia Blog, WanAzemi Property Guide">
+  <meta name="author" content="Corporate Estate Malaysia">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://corporateestatemalaysia.com/blog.html">
+  <meta property="og:title" content="Blog & Panduan Hartanah Industri | Corporate Estate Malaysia">
+  <meta property="og:description" content="Koleksi panduan, tips pelaburan, dan analisis pasaran hartanah industri, kilang, gudang, dan tanah pembangunan.">
+  <meta property="og:image" content="https://corporateestatemalaysia.com/logo.png">
+
+  <!-- Schema.org JSON-LD Structured Data for Blog -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Corporate Estate Malaysia Knowledge Hub",
+    "url": "https://corporateestatemalaysia.com/blog.html",
+    "description": "Panduan dan tips hartanah industri, kilang, gudang dan tanah di Malaysia.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Corporate Estate Malaysia",
+      "logo": "https://corporateestatemalaysia.com/logo.png"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=48">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Clean White Navigation Header -->
+  <nav class="navbar">
+    <a href="index.html" class="logo-wrap">
+      <img src="logo.png" alt="Corporate Estate Malaysia Logo" class="logo-img">
+      <div class="logo-text">
+        CORPORATE ESTATE <span>MALAYSIA</span>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation Links -->
+    <div class="nav-links">
+      <a href="index.html">HOME</a>
+      <a href="listings.html">VIEW LISTINGS</a>
+      <a href="blog.html" style="color: var(--cem-red); border-bottom: 2px solid var(--cem-red);">BLOG & GUIDES</a>
+      <a href="about.html">ABOUT US</a>
+      <a href="services.html">OUR SERVICES</a>
+      <a href="agents.html">AGENTS DIRECTORY</a>
+    </div>
+
+    <!-- Mobile Nav Toggle -->
+    <div class="mobile-nav-controls">
+      <button type="button" class="mobile-menu-btn" onclick="toggleMobileMenu(event)" aria-label="Toggle Menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- Mobile Collapsible Menu Drawer -->
+  <div id="mobileDrawer" class="mobile-menu-drawer">
+    <a href="index.html" onclick="toggleMobileMenu(event)">Home</a>
+    <a href="listings.html" onclick="toggleMobileMenu(event)">View Property Listings</a>
+    <a href="blog.html" onclick="toggleMobileMenu(event)" style="color: var(--cem-red); font-weight: 800;">Blog & Guides</a>
+    <a href="about.html" onclick="toggleMobileMenu(event)">About Us</a>
+    <a href="services.html" onclick="toggleMobileMenu(event)">Our Services</a>
+    <a href="agents.html" onclick="toggleMobileMenu(event)">Agents Directory</a>
+    <a href="https://wa.me/60173569452" target="_blank" style="color: #25d366;">WhatsApp Us Directly</a>
+  </div>
+
+  <!-- ARCHIVE VIEW (LIST OF ARTICLES) -->
+  <main id="blogArchiveView">
+    <section class="blog-hero">
+      <h1>Blog & Panduan Hartanah Korporat</h1>
+      <p>Panduan teknikal, analisis pasaran, dan tips pelaburan hartanah industri, kilang, gudang & tanah pembangunan di Malaysia.</p>
+    </section>
+
+    <!-- Search & Category Filter Bar -->
+    <div class="blog-filter-bar">
+      <div class="blog-search-box">
+        <span>🔍</span>
+        <input type="text" id="blogSearchInput" placeholder="Cari topik atau panduan (contoh: kilang, power supply, leasehold, tanah)...">
+      </div>
+
+      <div class="category-pills">
+        <button type="button" class="category-pill active" data-cat="ALL">SEMUA TOPIK</button>
+        <button type="button" class="category-pill" data-cat="Panduan Industri">PANDUAN INDUSTRI</button>
+        <button type="button" class="category-pill" data-cat="Tips Komersial">TIPS KOMERSIAL</button>
+        <button type="button" class="category-pill" data-cat="Pelaburan Tanah">PELABURAN TANAH</button>
+        <button type="button" class="category-pill" data-cat="Laporan Pasaran">LAPORAN PASARAN</button>
+      </div>
+    </div>
+
+    <!-- Articles Grid -->
+    <section id="blogGrid" class="blog-grid"></section>
+
+    <!-- Empty State -->
+    <div id="blogEmptyState" style="display: none; text-align: center; padding: 4rem 1.5rem;">
+      <p style="font-size: 1.1rem; font-weight: 700; color: var(--text-muted);">Tiada artikel dijumpai untuk carian anda.</p>
+      <button type="button" onclick="document.getElementById('blogSearchInput').value=''; currentSearchTerm=''; activeCategory='ALL'; renderBlogArchive();" class="btn-primary" style="margin-top: 1rem; padding: 0.6rem 1.25rem;">Set Semula Carian</button>
+    </div>
+  </main>
+
+  <!-- SINGLE ARTICLE READER VIEW -->
+  <main id="blogReaderView" style="display: none;">
+    <article id="articleContentContainer" class="article-container"></article>
+  </main>
+
+  <!-- Lead Capture Banner -->
+  <section class="lead-box-container" style="max-width: 1200px; margin: 0 auto 3rem auto;">
+    <div class="dash-card" style="background: linear-gradient(135deg, #0a192f, #1e293b); color: white; text-align: center; padding: 2.5rem 1.5rem; border-radius: 12px;">
+      <h2 style="font-size: 1.6rem; font-weight: 900; margin-bottom: 0.6rem; color: white;">Ingin Menjual, Menyewa, atau Membeli Hartanah Korporat?</h2>
+      <p style="color: #cbd5e1; max-width: 650px; margin: 0 auto 1.5rem auto; font-size: 0.95rem;">Dapatkan khidmat nasihat penilaian dan pemasaran hartanah industri & komersial bersama pasukan berpengalaman Corporate Estate Malaysia.</p>
+      <a href="https://wa.me/60173569452?text=Hello%20WanAzemi,%20saya%20ingin%20dapatkan%20konsultasi%20hartanah%20korporat" target="_blank" class="btn-primary" style="background: #25d366; color: white; text-decoration: none; padding: 0.75rem 1.75rem; border-radius: 50px; font-weight: 800; display: inline-flex; align-items: center; gap: 0.5rem;">
+        <span>💬</span> Hubungi Ejen di WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <!-- Professional Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="logo-text" style="color: white; margin-bottom: 0.75rem;">
+          CORPORATE ESTATE <span style="color: var(--cem-red);">MALAYSIA</span>
+        </div>
+        <p style="font-size: 0.85rem; line-height: 1.6; color: #94a3b8;">
+          Leading Commercial & Industrial Real Estate Agency in Malaysia. Specializing in factories, warehouses, shoplots, and land acquisitions.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4 style="color: white; font-size: 0.95rem; margin-bottom: 0.75rem;">QUICK LINKS</h4>
+        <ul style="list-style: none; padding: 0; font-size: 0.85rem; line-height: 2;">
+          <li><a href="index.html" style="color: #94a3b8; text-decoration: none;">Home</a></li>
+          <li><a href="listings.html" style="color: #94a3b8; text-decoration: none;">View Property Listings</a></li>
+          <li><a href="blog.html" style="color: #94a3b8; text-decoration: none;">Blog & Guides</a></li>
+          <li><a href="about.html" style="color: #94a3b8; text-decoration: none;">About Us</a></li>
+          <li><a href="services.html" style="color: #94a3b8; text-decoration: none;">Our Services</a></li>
+          <li><a href="agents.html" style="color: #94a3b8; text-decoration: none;">Agents Directory</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 style="color: white; font-size: 0.95rem; margin-bottom: 0.75rem;">CONTACT AGENCY</h4>
+        <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.8;">
+          📍 Petaling Jaya / Shah Alam, Selangor<br>
+          📞 <a href="tel:+60173569452" style="color: #94a3b8; text-decoration: none;">+60 17-356 9452</a><br>
+          💬 <a href="https://wa.me/60173569452" target="_blank" style="color: #25d366; text-decoration: none;">WhatsApp Agent Direct</a>
+        </p>
+      </div>
+    </div>
+
+    <p style="text-align: center; margin-top: 2rem; font-size: 0.75rem; color: #64748b; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem;">
+      &copy; 2026 Corporate Estate Malaysia. All rights reserved. • Empowered by Enterprise Edge Cloud.
+    </p>
+  </footer>
+
+  <script src="config.js?v=1.9.0"></script>
+  <script src="blog.js?v=1"></script>
+  <script src="/pwa.js"></script>
+  <script>
+    function toggleMobileMenu(e) {
+      if (e) e.stopPropagation();
+      const drawer = document.getElementById('mobileDrawer');
+      if (drawer) drawer.classList.toggle('open');
+    }
+  </script>
+</body>
+</html>

@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=43">
+  <link rel="stylesheet" href="style.css?v=48">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     @media (max-width: 640px) {
@@ -83,6 +83,14 @@
   </div>
 
   <main class="container" style="padding-top: 1.5rem; padding-bottom: 3.5rem;">
+    <!-- Portal Tab Navigation -->
+    <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border); padding-bottom: 0.75rem;">
+      <button type="button" id="tabListingsBtn" class="category-pill" style="background: var(--cem-navy); color: white;" onclick="switchPortalTab('listings')">🏢 Property Listings (<span id="listingsCountBadge">0</span>)</button>
+      <button type="button" id="tabBlogBtn" class="category-pill" style="background: white; color: var(--cem-navy);" onclick="switchPortalTab('blog')">✍️ Blog &amp; Guides (<span id="articlesCountBadge">0</span>)</button>
+    </div>
+
+    <!-- 1. LISTINGS SECTION -->
+    <div id="portalListingsSection">
     <div class="section-title" style="margin-bottom: 1.25rem;">
       <h2 style="font-size: 1.5rem; font-weight: 900; color: var(--cem-navy);">Agent Listing &amp; Inventory Management</h2>
       <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.25rem;">Add new property listings, update active inventory, or remove completed property assets.</p>
@@ -307,6 +315,83 @@
 
     </div>
 
+      </div> <!-- End portalListingsSection -->
+
+    <!-- 2. BLOG & ARTICLES SECTION -->
+    <div id="portalBlogSection" style="display: none;">
+      <div class="section-title" style="margin-bottom: 1.25rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 900; color: var(--cem-navy);">Corporate Blog &amp; Knowledge Hub</h2>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.25rem;">Write and publish authoritative industrial real estate guides, market reports, and property insights for Google SEO and client education.</p>
+      </div>
+
+      <div class="dashboard-grid-container">
+        <!-- Add Article Form Card -->
+        <div class="dash-card">
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-red); margin-bottom: 1rem;">+ Write New Article</h3>
+          
+          <form id="addArticleForm">
+            <div id="articleFormAlert" style="display: none; padding: 0.75rem; border-radius: 6px; font-size: 0.82rem; font-weight: 700; margin-bottom: 1rem;"></div>
+
+            <div style="margin-bottom: 0.85rem;">
+              <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ARTICLE TITLE *</label>
+              <input type="text" id="articleTitle" placeholder="e.g. Panduan Memilih Kilang di Shah Alam 2026" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+            </div>
+
+            <div class="form-2col">
+              <div>
+                <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">CATEGORY *</label>
+                <select id="articleCategory" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+                  <option value="Panduan Industri">Panduan Industri</option>
+                  <option value="Tips Komersial">Tips Komersial</option>
+                  <option value="Pelaburan Tanah">Pelaburan Tanah</option>
+                  <option value="Laporan Pasaran">Laporan Pasaran</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ESTIMATED READING TIME</label>
+                <input type="text" id="articleReadingTime" placeholder="e.g. 5 min read" value="4 min read" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+              </div>
+            </div>
+
+            <div style="margin-bottom: 0.85rem;">
+              <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">COVER IMAGE (Optional - Upload to R2)</label>
+              <input type="file" id="articleCoverInput" accept="image/*" style="width: 100%; font-size: 0.8rem; background: white; padding: 0.4rem; border-radius: 4px; border: 1px solid var(--border);">
+            </div>
+
+            <div style="margin-bottom: 0.85rem;">
+              <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">SHORT EXCERPT (1-2 Sentences for Google Search) *</label>
+              <textarea id="articleExcerpt" rows="2" placeholder="Ringkasan padat tentang apa yang dibincangkan dalam artikel ini..." required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; line-height: 1.4;"></textarea>
+            </div>
+
+            <div style="margin-bottom: 0.85rem;">
+              <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ARTICLE CONTENT (HTML / Formatted Text) *</label>
+              <textarea id="articleContent" rows="10" placeholder="Tulis isi kandungan artikel di sini. Boleh guna <h2>, <h3>, <p>, <ul>, <li>..." required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; line-height: 1.5; font-family: monospace;"></textarea>
+            </div>
+
+            <div style="margin-bottom: 1.25rem;">
+              <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">STATUS *</label>
+              <select id="articleStatus" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+                <option value="Published">Published (Tersedia untuk Awam)</option>
+                <option value="Draft">Draft (Simpan Sementara)</option>
+              </select>
+            </div>
+
+            <button type="submit" id="btnSaveArticle" class="btn-show-listings" style="width: 100%; height: 44px; font-size: 0.9rem;">PUBLISH ARTICLE</button>
+          </form>
+        </div>
+
+        <!-- Articles List Card -->
+        <div class="dash-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-navy); margin: 0;">Published Articles &amp; Guides</h3>
+            <a href="/blog.html" target="_blank" style="color: var(--cem-red); font-weight: 800; font-size: 0.82rem; text-decoration: none;">🌐 Live Blog Page →</a>
+          </div>
+          <div id="adminArticlesList">
+            <div style="text-align: center; padding: 1.5rem; color: var(--text-muted);">Loading articles...</div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- End portalBlogSection -->
   </main>
 
   <!-- Edit & Preview Listing Modal View -->
@@ -520,9 +605,9 @@
     </p>
   </footer>
 
-  <script src="config.js?v=1.8.3"></script>
+  <script src="config.js?v=1.9.0"></script>
   <script src="image-watermark.js?v=3"></script>
-  <script src="dashboard.js?v=26"></script>
+  <script src="dashboard.js?v=27"></script>
   <script>
     function togglePortalMobileMenu(e) {
       if (e) e.stopPropagation();
@@ -537,5 +622,71 @@
     }
   </script>
   <script src="/pwa.js"></script>
+
+  <!-- Edit Article Modal -->
+  <div id="editArticleModal" class="modal-overlay" onclick="if(event.target===this) closeEditArticleModal()">
+    <div class="modal-content" style="max-width: 680px;">
+      <button class="modal-close" onclick="closeEditArticleModal()">&times;</button>
+      
+      <div style="margin-bottom: 1.25rem;">
+        <span style="background: var(--cem-navy); color: white; font-size: 0.72rem; font-weight: 800; padding: 0.25rem 0.6rem; border-radius: 4px; text-transform: uppercase;">EDIT ARTICLE</span>
+        <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); margin-top: 0.5rem;">Kemaskini Artikel Blog</h2>
+      </div>
+
+      <form id="editArticleForm">
+        <input type="hidden" id="editArticleId">
+
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ARTICLE TITLE *</label>
+          <input type="text" id="editArticleTitle" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+        </div>
+
+        <div class="form-2col">
+          <div>
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">CATEGORY *</label>
+            <select id="editArticleCategory" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+              <option value="Panduan Industri">Panduan Industri</option>
+              <option value="Tips Komersial">Tips Komersial</option>
+              <option value="Pelaburan Tanah">Pelaburan Tanah</option>
+              <option value="Laporan Pasaran">Laporan Pasaran</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ESTIMATED READING TIME</label>
+            <input type="text" id="editArticleReadingTime" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem;">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">NEW COVER IMAGE (Optional)</label>
+          <input type="file" id="editArticleCoverInput" accept="image/*" style="width: 100%; font-size: 0.8rem; background: white; padding: 0.4rem; border-radius: 4px; border: 1px solid var(--border);">
+        </div>
+
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">SHORT EXCERPT *</label>
+          <textarea id="editArticleExcerpt" rows="2" required style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; line-height: 1.4;"></textarea>
+        </div>
+
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ARTICLE CONTENT *</label>
+          <textarea id="editArticleContent" rows="10" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; line-height: 1.5; font-family: monospace;"></textarea>
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <label style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">STATUS *</label>
+          <select id="editArticleStatus" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; background: white;">
+            <option value="Published">Published</option>
+            <option value="Draft">Draft</option>
+          </select>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem;">
+          <button type="submit" id="btnUpdateArticle" class="btn-show-listings" style="flex: 1; height: 44px; font-size: 0.88rem;">SAVE &amp; UPDATE ARTICLE</button>
+          <button type="button" onclick="closeEditArticleModal()" style="padding: 0 1.25rem; background: #e2e8f0; color: var(--text-main); border: none; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer;">CANCEL</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
 </body>
 </html>
