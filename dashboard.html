@@ -61,30 +61,34 @@
     <div style="padding: 0.65rem 0.85rem; background: #f1f5f9; border-radius: 6px; font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
       Logged in: <strong id="mobileAgentEmail" style="color: var(--cem-red);">...</strong>
     </div>
-    <a href="/dashboard" style="background: var(--cem-navy); color: white !important;">👥 Agent Approvals &amp; Audit Log</a>
-    <a href="/agent-listing-management" style="color: var(--cem-navy);">🏠 Listing Management</a>
-    <a href="index.html" target="_blank" style="color: var(--cem-navy);">🌐 Preview Live Main Site</a>
-    <a href="javascript:void(0)" onclick="handlePortalLogout()" style="color: var(--cem-red); background: #fee2e2; border-color: #fca5a5;">🚪 Logout Portal</a>
+    <a href="/dashboard" style="background: var(--cem-navy); color: white !important;">Agent Approvals &amp; Audit Log</a>
+    <a href="/agent-listing-management" style="color: var(--cem-navy);">Listing Management</a>
+    <a href="/agent-blog-management" style="color: var(--cem-navy);">Blog &amp; Guides Management</a>
+    <a href="/index.html" target="_blank" style="color: var(--cem-navy);">Preview Live Main Site</a>
+    <a href="javascript:void(0)" onclick="handlePortalLogout()" style="color: var(--cem-red); background: #fee2e2; border-color: #fca5a5;">Logout Portal</a>
   </div>
 
   <!-- Agent Portal Desktop Sub-Navigation Tab Bar -->
   <div class="portal-sub-navbar" style="background: #ffffff; border-bottom: 2px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
     <div class="container" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 0.75rem; padding-bottom: 0.75rem;">
-      <div style="display: flex; gap: 0.5rem;">
-        <a href="/dashboard" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; background: var(--cem-navy); color: white; border: 1px solid var(--cem-navy);">
-          👥 Agent Approvals &amp; Audit Log
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <a href="/dashboard" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; background: var(--cem-navy); color: white; border: 1px solid var(--cem-navy);">
+          Agent Approvals &amp; Audit Log
         </a>
-        <a href="/agent-listing-management" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border);">
-          🏠 Listing Management
+        <a href="/agent-listing-management" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border);">
+          Listing Management
+        </a>
+        <a href="/agent-blog-management" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border);">
+          Blog &amp; Guides Management
         </a>
       </div>
-      <a href="index.html" target="_blank" style="color: var(--cem-red); font-weight: 800; font-size: 0.85rem; text-decoration: none;">🌐 Preview Live Main Site →</a>
+      <a href="/index.html" target="_blank" style="color: var(--cem-red); font-weight: 800; font-size: 0.85rem; text-decoration: none; white-space: nowrap;">Preview Live Main Site →</a>
     </div>
   </div>
 
   <main class="container" style="padding-top: 1.25rem; padding-bottom: 3.5rem;">
     <div style="margin-bottom: 1.25rem;">
-      <h2 style="font-size: 1.25rem; font-weight: 900; color: var(--cem-navy); line-height: 1.3; margin-bottom: 0.3rem;">Agent Approvals &amp; Audit Log</h2>
+      <h2 style="font-size: clamp(1.2rem, 3.5vw, 1.4rem); font-weight: 900; color: var(--cem-navy); line-height: 1.3; margin-bottom: 0.3rem;">Agent Approvals &amp; Audit Log</h2>
       <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">Review &amp; approve agent registrations, track real-time activity audit logs.</p>
     </div>
 
@@ -95,13 +99,13 @@
       <div style="border-bottom: 2px solid var(--border); padding-bottom: 0.75rem; margin-bottom: 1rem;">
         <div class="admin-tab-group" style="display: flex; align-items: center; background: #f1f5f9; padding: 0.25rem; border-radius: 8px; gap: 0.25rem; width: 100%;">
           <button id="adminTabApprovalsBtn" type="button" onclick="switchAdminTab('approvals')" style="flex: 1; padding: 0.45rem 0.4rem; background: var(--cem-navy); color: white; border: none; border-radius: 6px; font-weight: 800; font-size: 0.76rem; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.15s;">
-            👥 Agent Approvals
+            Agent Approvals
           </button>
           <button id="adminTabLogsBtn" type="button" onclick="switchAdminTab('logs')" style="flex: 1; padding: 0.45rem 0.4rem; background: transparent; color: var(--text-main); border: none; border-radius: 6px; font-weight: 800; font-size: 0.76rem; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.15s;">
-            📜 Audit Log
+            Audit Log
           </button>
           <button type="button" onclick="refreshCurrentAdminTab()" title="Refresh Data" style="padding: 0.45rem 0.6rem; background: white; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" aria-label="Refresh">
-            🔄
+            Refresh
           </button>
         </div>
       </div>
@@ -126,7 +130,7 @@
 
     <!-- Quick Navigation Banner to Listing Management -->
     <div class="dash-card" style="background: #ffffff; border: 1px solid var(--border); border-top: 4px solid var(--cem-red); padding: 1.5rem; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
-      <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.4rem;">🏠 Looking to Manage Property Listings &amp; Inventory?</h3>
+      <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.4rem;">Looking to Manage Property Listings &amp; Inventory?</h3>
       <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.15rem; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">
         Add new property listings, edit active inventory details, upload watermarked photos, or delete completed deals in the dedicated Listing Management section.
       </p>
@@ -137,10 +141,10 @@
 
   </main>
 
-  <!-- Pure White Footer -->
+  <!-- Standard Website Footer -->
   <footer style="background: #ffffff; color: var(--text-muted); text-align: center; padding: 2.25rem 1rem; margin-top: auto; font-size: 0.85rem; border-top: 1px solid var(--border);">
     <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-      <img src="logo.png" style="height: 36px; width: auto; background: transparent; padding: 0;">
+      <img src="/logo.png" alt="Logo" style="height: 36px; width: auto; background: transparent; padding: 0;">
       <strong style="color: var(--cem-navy); font-size: 1rem;">CORPORATE ESTATE MALAYSIA</strong>
     </div>
     <p>© 2026 Corporate Estate Malaysia. Leading Real Estate Industrial - Commercial - Land. All Rights Reserved.</p>
@@ -149,20 +153,23 @@
     </p>
   </footer>
 
-  <script src="config.js?v=1.9.0"></script>
-  <script src="image-watermark.js?v=2"></script>
-  <script src="dashboard.js?v=27"></script>
+  <script src="/config.js?v=1.9.4"></script>
+  <script src="/image-watermark.js?v=3"></script>
+  <script src="/dashboard.js?v=28"></script>
   <script>
     function togglePortalMobileMenu(e) {
       if (e) e.stopPropagation();
       const drawer = document.getElementById('portalMobileDrawer');
-      if (drawer) drawer.classList.toggle('active');
+      if (drawer) {
+        drawer.classList.toggle('active');
+        drawer.classList.toggle('open');
+      }
     }
     async function handlePortalLogout() {
       if (typeof supabaseClient !== 'undefined') {
         await supabaseClient.auth.signOut();
       }
-      window.location.href = 'login.html';
+      window.location.href = '/login.html';
     }
   </script>
   <script src="/pwa.js"></script>

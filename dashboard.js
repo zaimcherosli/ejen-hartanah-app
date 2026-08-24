@@ -158,7 +158,7 @@ async function loadAgentListings() {
             <td style="padding: 0.65rem 0.5rem; vertical-align: middle; max-width: 260px;">
               <strong style="color: var(--text-main); font-size: 0.85rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.35; margin-bottom: 0.2rem;">${item.title}</strong>
               <div style="display: flex; align-items: center; gap: 0.3rem; flex-wrap: wrap; margin-top: 0.15rem;">
-                <span style="font-size: 0.73rem; color: var(--text-muted); white-space: nowrap;">📍 ${item.location}</span>
+                <span style="font-size: 0.73rem; color: var(--text-muted); white-space: nowrap;">${item.location}</span>
               </div>
               <div style="margin-top: 0.2rem;">
                 <span style="${typeBadgeStyle} padding: 0.12rem 0.45rem; border-radius: 4px; font-weight: 800; font-size: 0.67rem; text-transform: uppercase; display: inline-block;">${item.listing_type || 'For Rent'}</span>
@@ -172,7 +172,7 @@ async function loadAgentListings() {
             </td>
             <td style="padding: 0.65rem 0.5rem; text-align: center; vertical-align: middle;">
               <button onclick="event.stopPropagation(); deleteListing('${item.id}')" title="Delete Listing" style="background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; width: 34px; height: 34px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s;">
-                🗑️
+                Delete
               </button>
             </td>
           </tr>
@@ -196,7 +196,7 @@ async function loadAgentListings() {
             
             <div class="inv-card-details">
               <div class="inv-card-title">${item.title}</div>
-              <div class="inv-card-sub">📍 ${item.location}</div>
+              <div class="inv-card-sub">${item.location}</div>
               <div style="margin-top: 0.2rem;">
                 <span style="${typeBadgeStyle} padding: 0.1rem 0.4rem; border-radius: 3px; font-weight: 800; font-size: 0.65rem; text-transform: uppercase; display: inline-block;">${item.listing_type || 'For Rent'}</span>
               </div>
@@ -205,7 +205,7 @@ async function loadAgentListings() {
 
             <!-- Top-Right: Status Badge, Bottom-Right: Trash Icon (Level with Price) -->
             <span class="inv-card-badge">${item.status}</span>
-            <button onclick="event.stopPropagation(); deleteListing('${item.id}')" class="inv-card-delete" title="Delete Listing">🗑️</button>
+            <button onclick="event.stopPropagation(); deleteListing('${item.id}')" class="inv-card-delete" title="Delete Listing">Delete</button>
           </div>
         `;
       }).join('');
@@ -729,18 +729,18 @@ async function loadAgentApprovals() {
                   <td style="padding: 0.85rem 1rem; color: var(--text-main); font-weight: 500;">${u.email}</td>
                   <td style="padding: 0.85rem 1rem; white-space: nowrap;">
                     <span style="padding: 0.3rem 0.7rem; border-radius: 20px; font-weight: 800; font-size: 0.75rem; background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder}; display: inline-flex; align-items: center; gap: 0.25rem;">
-                      ${status === 'Pending' ? '⏳' : status === 'Approved' ? '✅' : '❌'} ${status}
+                      ${status}
                     </span>
                   </td>
                   <td style="padding: 0.85rem 1rem; text-align: center; white-space: nowrap;">
                     <div style="display: inline-flex; gap: 0.35rem; align-items: center;">
                       ${status === 'Pending' ? `
-                        <button type="button" onclick="approveAgent('${u.id}', '${u.email}')" style="padding: 0.45rem 0.85rem; background: #10b981; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; box-shadow: 0 1px 3px rgba(16,185,129,0.3); display: inline-flex; align-items: center; gap: 0.25rem;">✅ Approve</button>
-                        <button type="button" onclick="rejectAgent('${u.id}', '${u.email}')" style="padding: 0.45rem 0.85rem; background: #ef4444; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; box-shadow: 0 1px 3px rgba(239,68,68,0.3); display: inline-flex; align-items: center; gap: 0.25rem;">❌ Reject</button>
+                        <button type="button" onclick="approveAgent('${u.id}', '${u.email}')" style="padding: 0.45rem 0.85rem; background: #10b981; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; box-shadow: 0 1px 3px rgba(16,185,129,0.3); display: inline-flex; align-items: center; gap: 0.25rem;">Approve</button>
+                        <button type="button" onclick="rejectAgent('${u.id}', '${u.email}')" style="padding: 0.45rem 0.85rem; background: #ef4444; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; box-shadow: 0 1px 3px rgba(239,68,68,0.3); display: inline-flex; align-items: center; gap: 0.25rem;">Reject</button>
                       ` : `
                         <span style="color: var(--text-muted); font-size: 0.78rem; font-weight: 600; background: #f8fafc; padding: 0.3rem 0.6rem; border-radius: 4px; border: 1px solid #e2e8f0;">Active / ${status}</span>
                       `}
-                      <button type="button" onclick="deleteAgentProfile('${u.id}', '${u.email}')" title="Delete agent profile from system" style="padding: 0.45rem 0.6rem; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;" aria-label="Delete">🗑️</button>
+                      <button type="button" onclick="deleteAgentProfile('${u.id}', '${u.email}')" title="Delete agent profile from system" style="padding: 0.45rem 0.6rem; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;" aria-label="Delete">Delete</button>
                     </div>
                   </td>
                 </tr>
@@ -770,7 +770,7 @@ async function loadAgentApprovals() {
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; gap: 0.5rem;">
                 <div style="font-weight: 800; color: var(--cem-navy); font-size: 0.95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${name}</div>
                 <span style="padding: 0.2rem 0.55rem; border-radius: 20px; font-weight: 800; font-size: 0.7rem; background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder}; white-space: nowrap;">
-                  ${status === 'Pending' ? '⏳' : status === 'Approved' ? '✅' : '❌'} ${status}
+                  ${status}
                 </span>
               </div>
 
@@ -790,13 +790,13 @@ async function loadAgentApprovals() {
               <div style="display: flex; gap: 0.4rem; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; justify-content: space-between; align-items: center;">
                 ${status === 'Pending' ? `
                   <div style="display: flex; gap: 0.35rem; flex: 1;">
-                    <button type="button" onclick="approveAgent('${u.id}', '${u.email}')" style="flex: 1; padding: 0.45rem; background: #10b981; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.75rem; cursor: pointer; text-align: center;">✅ Approve</button>
-                    <button type="button" onclick="rejectAgent('${u.id}', '${u.email}')" style="flex: 1; padding: 0.45rem; background: #ef4444; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.75rem; cursor: pointer; text-align: center;">❌ Reject</button>
+                    <button type="button" onclick="approveAgent('${u.id}', '${u.email}')" style="flex: 1; padding: 0.45rem; background: #10b981; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.75rem; cursor: pointer; text-align: center;">Approve</button>
+                    <button type="button" onclick="rejectAgent('${u.id}', '${u.email}')" style="flex: 1; padding: 0.45rem; background: #ef4444; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.75rem; cursor: pointer; text-align: center;">Reject</button>
                   </div>
                 ` : `
                   <span style="color: var(--text-muted); font-size: 0.72rem; font-weight: 700; background: #f8fafc; padding: 0.25rem 0.5rem; border-radius: 4px; border: 1px solid #e2e8f0;">Active / ${status}</span>
                 `}
-                <button type="button" onclick="deleteAgentProfile('${u.id}', '${u.email}')" title="Memadam profil ejen" style="padding: 0.35rem 0.65rem; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">🗑️</button>
+                <button type="button" onclick="deleteAgentProfile('${u.id}', '${u.email}')" title="Memadam profil ejen" style="padding: 0.35rem 0.65rem; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">Delete</button>
               </div>
             </div>
           `;
@@ -823,7 +823,7 @@ async function approveAgent(userId, email) {
     if (error) {
       alert('Failed to approve: ' + error.message);
     } else {
-      alert(`🎉 Agent account (${email}) HAS BEEN APPROVED! The agent can now log in to the portal.`);
+      alert(`Agent account (${email}) HAS BEEN APPROVED! The agent can now log in to the portal.`);
       await logActivity('APPROVE_AGENT', `Approved agent account registration (${email})`, userId);
       loadAgentApprovals();
       loadActivityLogs();
@@ -1042,7 +1042,7 @@ async function loadActivityLogs() {
               </div>
               <div style="font-weight: 700; color: var(--cem-navy); font-size: 0.82rem; margin-bottom: 0.25rem; word-break: break-word; overflow-wrap: anywhere;">${log.user_email}</div>
               <div style="font-size: 0.8rem; color: var(--text-main); line-height: 1.35; margin-bottom: 0.35rem; word-break: break-word; overflow-wrap: anywhere;">${log.details}</div>
-              <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600; text-align: right; border-top: 1px dashed #f1f5f9; padding-top: 0.35rem; margin-top: 0.35rem;">🕒 ${dt}</div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600; text-align: right; border-top: 1px dashed #f1f5f9; padding-top: 0.35rem; margin-top: 0.35rem;">${dt}</div>
             </div>
           `;
         }).join('')}
@@ -1220,14 +1220,14 @@ async function loadAdminArticles() {
               <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
                 ${statusBadge}
                 <span style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted);">${item.category}</span>
-                <span style="font-size: 0.72rem; color: var(--text-muted);">• 👁️ ${item.views_count || 0} views</span>
+                <span style="font-size: 0.72rem; color: var(--text-muted);">• ${item.views_count || 0} views</span>
               </div>
               <h4 style="font-size: 0.88rem; font-weight: 800; color: var(--cem-navy); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.title}</h4>
             </div>
             <div style="display: flex; gap: 0.4rem;">
-              <a href="/blog/${encodeURIComponent(item.slug)}" target="_blank" title="Preview" style="padding: 0.4rem 0.6rem; background: #e0f2fe; color: #0369a1; border-radius: 6px; font-size: 0.75rem; text-decoration: none; font-weight: 700;">🌐 View</a>
-              <button type="button" onclick="openEditArticleModal('${item.id}')" title="Edit" style="padding: 0.4rem 0.6rem; background: #fef3c7; color: #92400e; border: none; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 700;">✏️ Edit</button>
-              <button type="button" onclick="handleDeleteArticle('${item.id}')" title="Delete" style="padding: 0.4rem 0.6rem; background: #fee2e2; color: #b91c1c; border: none; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 700;">🗑️</button>
+              <a href="/blog/${encodeURIComponent(item.slug)}" target="_blank" title="Preview" style="padding: 0.4rem 0.6rem; background: #e0f2fe; color: #0369a1; border-radius: 6px; font-size: 0.75rem; text-decoration: none; font-weight: 700;">View</a>
+              <button type="button" onclick="openEditArticleModal('${item.id}')" title="Edit" style="padding: 0.4rem 0.6rem; background: #fef3c7; color: #92400e; border: none; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 700;">Edit</button>
+              <button type="button" onclick="handleDeleteArticle('${item.id}')" title="Delete" style="padding: 0.4rem 0.6rem; background: #fee2e2; color: #b91c1c; border: none; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 700;">Delete</button>
             </div>
           </div>
         `;
@@ -1241,12 +1241,13 @@ function generateArticleSlug(text) {
     .toString()
     .toLowerCase()
     .trim()
-    .replace(/s+/g, '-')
+    .replace(/\s+/g, '-')
     .replace(/[^\w\-]+/g, '')
     .replace(/\-\-+/g, '-');
 }
 
 function setupArticleHandlers() {
+  loadAdminArticles();
   const addArticleForm = document.getElementById('addArticleForm');
   if (addArticleForm) {
     addArticleForm.addEventListener('submit', async (e) => {
@@ -1304,7 +1305,7 @@ function setupArticleHandlers() {
           alertBox.style.display = 'block';
           alertBox.style.background = '#dcfce7';
           alertBox.style.color = '#166534';
-          alertBox.innerText = '✅ Artikel berjaya diterbitkan!';
+          alertBox.innerText = 'Artikel berjaya diterbitkan!';
         }
 
         addArticleForm.reset();
@@ -1316,7 +1317,7 @@ function setupArticleHandlers() {
           alertBox.style.display = 'block';
           alertBox.style.background = '#fee2e2';
           alertBox.style.color = '#b91c1c';
-          alertBox.innerText = `❌ Ralat menyimpan artikel: ${err.message || 'Sila cuba lagi'}`;
+          alertBox.innerText = `Ralat menyimpan artikel: ${err.message || 'Sila cuba lagi'}`;
         }
       } finally {
         if (submitBtn) {
@@ -1373,7 +1374,7 @@ function setupArticleHandlers() {
 
         closeEditArticleModal();
         loadAdminArticles();
-        alert('Artikel berjaya dikemaskini! ✅');
+        alert('Artikel berjaya dikemaskini!');
       } catch (err) {
         alert(`Ralat kemaskini: ${err.message}`);
       } finally {

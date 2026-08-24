@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Corporate Estate Malaysia - Blog & Knowledge Hub Engine (v1.9.1)
  */
 
@@ -143,9 +143,9 @@ function renderBlogArchive() {
           '</div>' +
           '<div class="blog-card-body">' +
             '<div class="blog-card-meta">' +
-              '<span>📅 ' + dateStr + '</span>' +
+              '<span>' + dateStr + '</span>' +
               '<span>•</span>' +
-              '<span>⏱️ ' + readTime + '</span>' +
+              '<span>' + readTime + '</span>' +
             '</div>' +
             '<h3 class="blog-card-title">' + item.title + '</h3>' +
             '<p class="blog-card-excerpt">' + (item.excerpt || "") + '</p>' +
@@ -205,7 +205,7 @@ function renderSingleArticle(slug) {
         '<img src="/agent-wanazemi.png" alt="' + author + '" class="author-avatar" onerror="this.src=\'/logo.png\'">' +
         '<div class="author-info">' +
           '<span class="author-name">' + author + '</span>' +
-          '<span class="author-meta">' + authorRole + ' • ' + dateStr + ' • ⏱️ ' + readTime + '</span>' +
+          '<span class="author-meta">' + authorRole + ' • ' + dateStr + ' • ' + readTime + '</span>' +
         '</div>' +
       '</div>' +
 
@@ -230,7 +230,7 @@ function renderSingleArticle(slug) {
         '<a href="' + waShareUrl + '" target="_blank" class="share-btn" style="background: #25d366;">' + WHATSAPP_ICON_SVG + ' WhatsApp</a>' +
         '<a href="' + linkedinShareUrl + '" target="_blank" class="share-btn" style="background: #0077b5;">LinkedIn</a>' +
         '<a href="' + fbShareUrl + '" target="_blank" class="share-btn" style="background: #1877f2;">Facebook</a>' +
-        '<button onclick="copyArticleLink()" class="share-btn" style="background: var(--cem-navy);">📋 Salin Pautan</button>' +
+        '<button onclick="copyArticleLink()" class="share-btn" style="background: var(--cem-navy);">Salin Pautan</button>' +
       '</div>';
   }
 
