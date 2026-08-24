@@ -201,7 +201,7 @@ function renderSingleArticle(slug) {
       <h1 class="article-title">${article.title}</h1>
 
       <div class="article-author-bar">
-        <img src="agent-wanazemi.png" alt="${author}" class="author-avatar" onerror="this.src='logo.png'">
+        <img src="/agent-wanazemi.png" alt="${author}" class="author-avatar" onerror="this.src='/logo.png'">
         <div class="author-info">
           <span class="author-name">${author}</span>
           <span class="author-meta">${authorRole} • ${dateStr} • ⏱️ ${readTime}</span>
