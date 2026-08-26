@@ -7,7 +7,70 @@ const ITEMS_PER_PAGE = 10;
 document.addEventListener('DOMContentLoaded', () => {
   fetchListings();
   setupFilterListeners();
+  initStatsCounter();
 });
+
+// Animated Number Counter on Scroll (Counts up smoothly from 0)
+function initStatsCounter() {
+  const statsSection = document.getElementById('statsSection') || document.querySelector('.stats-section');
+  if (!statsSection) return;
+
+  const counterElements = statsSection.querySelectorAll('.stat-number');
+  if (!counterElements || counterElements.length === 0) return;
+
+  let hasAnimated = false;
+
+  const animateCounters = () => {
+    if (hasAnimated) return;
+    hasAnimated = true;
+
+    const duration = 1800;
+    const startTime = performance.now();
+
+    const items = Array.from(counterElements).map(el => {
+      const targetVal = parseFloat(el.getAttribute('data-target')) || 0;
+      const prefix = el.getAttribute('data-prefix') || '';
+      const suffix = el.getAttribute('data-suffix') || '';
+      return { el, targetVal, prefix, suffix };
+    });
+
+    function step(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+
+      items.forEach(({ el, targetVal, prefix, suffix }) => {
+        const currentVal = Math.round(ease * targetVal);
+        el.textContent = `${prefix}${currentVal}${suffix}`;
+      });
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        items.forEach(({ el, targetVal, prefix, suffix }) => {
+          el.textContent = `${prefix}${targetVal}${suffix}`;
+        });
+      }
+    }
+
+    requestAnimationFrame(step);
+  };
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    observer.observe(statsSection);
+  } else {
+    animateCounters();
+  }
+}
 
 // Helper: Convert Title to Clean Human-Friendly URL Slug
 function createSlug(title) {

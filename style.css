@@ -406,7 +406,7 @@ body {
 .stats-section {
   background: var(--cem-navy);
   color: #ffffff;
-  padding: 2.5rem 1.5rem;
+  padding: 2.75rem 1.5rem;
   overflow: hidden;
   position: relative;
   border-top: 3px solid var(--cem-orange);
@@ -424,55 +424,35 @@ body {
 
 .stat-card {
   padding: 0.75rem 1rem;
-  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .stat-number {
-  font-size: 2.4rem;
+  font-size: clamp(2.2rem, 5vw, 2.75rem);
   font-weight: 900;
   color: var(--cem-orange);
-  line-height: 1;
+  line-height: 1.1;
   margin-bottom: 0.35rem;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }
 
 .stat-label {
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: #e2e8f0;
-  white-space: nowrap;
+  line-height: 1.3;
 }
 
 .stat-sub {
   font-size: 0.78rem;
   color: #94a3b8;
-  margin-top: 0.2rem;
-  white-space: nowrap;
-}
-
-/* ⚡ NON-DESKTOP HORIZONTAL AUTO-SCROLLING MARQUEE (LEFT TO RIGHT / KIRI KE KANAN) */
-.stats-mobile-marquee-wrapper {
-  display: none;
-  overflow: hidden;
-  user-select: none;
-  position: relative;
-}
-
-.stats-mobile-marquee-content {
-  display: flex;
-  flex-shrink: 0;
-  gap: 3rem;
-  align-items: center;
-  animation: scroll-stats-left-to-right 16s linear infinite;
-}
-
-.stats-mobile-marquee-wrapper:hover .stats-mobile-marquee-content {
-  animation-play-state: paused;
-}
-
-@keyframes scroll-stats-left-to-right {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0%); }
+  margin-top: 0.25rem;
+  line-height: 1.3;
 }
 
 /* Core Industrial Services Grid */
@@ -996,16 +976,8 @@ body:has(.modal-overlay.active) .floating-wa-btn,
     display: flex;
   }
 
-  .stats-grid {
-    display: none !important;
-  }
-
-  .stats-mobile-marquee-wrapper {
-    display: flex !important;
-  }
-
   .stats-section {
-    padding: 1.75rem 0;
+    padding: 2.25rem 1rem;
   }
 
   /* Dashboard Grid Stack on Mobile & Tablets */
@@ -1021,6 +993,10 @@ body:has(.modal-overlay.active) .floating-wa-btn,
 }
 
 @media (max-width: 900px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.75rem 1rem !important;
+  }
   .filter-grid-row {
     grid-template-columns: 1fr 1fr;
   }
@@ -1054,6 +1030,29 @@ body:has(.modal-overlay.active) .floating-wa-btn,
   .container {
     padding-left: 0.75rem !important;
     padding-right: 0.75rem !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem 0.75rem !important;
+  }
+
+  .stat-card {
+    padding: 0.35rem 0.2rem !important;
+  }
+
+  .stat-number {
+    font-size: 1.95rem !important;
+  }
+
+  .stat-label {
+    font-size: 0.82rem !important;
+    white-space: normal !important;
+  }
+
+  .stat-sub {
+    font-size: 0.72rem !important;
+    white-space: normal !important;
   }
 
   .dash-card {
