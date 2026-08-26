@@ -310,22 +310,22 @@ body {
 
 /* ⚡ INFINITE AUTO-SCROLLING CORPORATE CLIENT LOGO CAROUSEL */
 .client-logo-section {
-  background: var(--bg-subtle);
+  background: #ffffff;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  padding: 2.5rem 0;
+  padding: 2.25rem 0;
   overflow: hidden;
   position: relative;
 }
 
 .client-logo-title {
   text-align: center;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 800;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
   padding: 0 1rem;
 }
 
@@ -335,17 +335,19 @@ body {
   user-select: none;
   position: relative;
   gap: 3.5rem;
+  mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
 }
 
 .marquee-content {
   display: flex;
   flex-shrink: 0;
-  gap: 3.5rem;
-  padding-right: 3.5rem;
+  gap: 4rem;
+  padding-right: 4rem;
   align-items: center;
   justify-content: space-around;
   min-width: 100%;
-  animation: scroll-marquee 28s linear infinite;
+  animation: scroll-marquee 50s linear infinite;
 }
 
 .marquee-wrapper:hover .marquee-content {
@@ -356,31 +358,36 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 64px;
-  min-width: 150px;
-  padding: 0.6rem 1.25rem;
-  background: #ffffff;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  transition: transform 0.2s, box-shadow 0.2s;
+  height: 52px;
+  min-width: 130px;
+  padding: 0.25rem 0.5rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
 .logo-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: scale(1.06);
+  box-shadow: none;
 }
 
 .logo-item img, .client-logo-img {
-  max-height: 42px;
-  max-width: 135px;
+  max-height: 44px;
+  max-width: 140px;
+  width: auto;
+  height: auto;
   object-fit: contain;
-  filter: contrast(102%);
-  transition: transform 0.2s;
+  filter: contrast(100%);
+  opacity: 0.92;
+  transition: transform 0.25s ease, opacity 0.25s ease, filter 0.25s ease;
 }
 
 .logo-item:hover img, .logo-item:hover .client-logo-img {
-  transform: scale(1.04);
+  transform: scale(1.06);
+  filter: contrast(105%);
+  opacity: 1;
 }
 
 .logo-text {
