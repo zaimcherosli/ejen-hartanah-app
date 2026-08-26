@@ -1033,26 +1033,34 @@ body:has(.modal-overlay.active) .floating-wa-btn,
   }
 
   .stats-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 1.5rem 0.75rem !important;
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+    max-width: 360px;
+    margin: 0 auto;
   }
 
   .stat-card {
-    padding: 0.35rem 0.2rem !important;
+    padding: 1rem 0.75rem !important;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
   }
 
   .stat-number {
-    font-size: 1.95rem !important;
+    font-size: 2.25rem !important;
+    margin-bottom: 0.25rem !important;
   }
 
   .stat-label {
-    font-size: 0.82rem !important;
+    font-size: 0.95rem !important;
     white-space: normal !important;
+    font-weight: 800 !important;
   }
 
   .stat-sub {
-    font-size: 0.72rem !important;
+    font-size: 0.8rem !important;
     white-space: normal !important;
+    color: #94a3b8 !important;
   }
 
   .dash-card {
