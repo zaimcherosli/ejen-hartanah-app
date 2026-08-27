@@ -1,5 +1,2 @@
-# Cloudflare Pages Clean Sub-Path Rewrite Rule for Real Estate Listings, Agents & Blog
-/listings/* /listings.html 200
-/agents/wanazemi /agent-wanazemi.html 200
-/blog/* /blog.html 200
+# Cloudflare Pages Routing handled via Edge Functions in functions/ directory
 

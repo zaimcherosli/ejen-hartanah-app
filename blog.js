@@ -160,13 +160,33 @@ function renderBlogArchive() {
   }
 }
 
-function renderSingleArticle(slug) {
+async function renderSingleArticle(slug) {
   const archiveView = document.getElementById("blogArchiveView");
   const readerView = document.getElementById("blogReaderView");
   const container = document.getElementById("articleContentContainer");
 
-  const article = allArticles.find(function(a) { return a.slug === slug; });
+  let article = allArticles.find(function(a) { 
+    return (a.slug || "").toLowerCase() === (slug || "").toLowerCase(); 
+  });
+
+  // Direct fetch fallback from Supabase if not in memory
+  if (!article && typeof supabaseClient !== "undefined") {
+    try {
+      const { data, error } = await supabaseClient
+        .from("articles")
+        .select("*")
+        .eq("slug", slug)
+        .single();
+      if (!error && data) {
+        article = data;
+      }
+    } catch (e) {
+      console.warn("Direct article slug fetch warning:", e);
+    }
+  }
+
   if (!article) {
+    console.warn("Article not found for slug:", slug);
     renderBlogArchive();
     return;
   }
