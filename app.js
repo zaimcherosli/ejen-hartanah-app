@@ -2,7 +2,7 @@
 let allListings = [];
 let currentFilteredListings = [];
 let currentPage = 1;
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 12;
 
 document.addEventListener('DOMContentLoaded', () => {
   fetchListings();
@@ -418,7 +418,7 @@ function setupFilterListeners() {
   }
 }
 
-// ⚡ Pagination Core Functions (10 items per page)
+// Pagination Core Functions (12 items per page for perfect 3-column grid symmetry)
 function setFilteredListings(list) {
   currentFilteredListings = list || [];
   currentPage = 1;
