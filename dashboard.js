@@ -709,7 +709,17 @@ async function loadAgentApprovals() {
               const wa = u.whatsapp_number || '-';
               const ren = u.ren_number || '-';
               const status = u.status || 'Pending';
-              const avatarUrl = u.avatar_url || u.photo_url || '/logo.png';
+              
+              let avatarUrl = u.avatar_url || u.photo_url;
+              if (!avatarUrl || avatarUrl.includes('logo.png')) {
+                if (u.email === 'ecahjaz@gmail.com' || (name && name.toLowerCase().includes('aisyah'))) {
+                  avatarUrl = '/agents/aisyah.png';
+                } else if (u.email && u.email.includes('wanazemi')) {
+                  avatarUrl = '/agents/wanazemi.png';
+                } else {
+                  avatarUrl = '/logo.png';
+                }
+              }
 
               let badgeBg = '#d1fae5'; let badgeColor = '#047857'; let badgeBorder = '#a7f3d0';
               if (status === 'Pending') { badgeBg = '#fef3c7'; badgeColor = '#b45309'; badgeBorder = '#fde68a'; }
@@ -763,7 +773,17 @@ async function loadAgentApprovals() {
           const wa = u.whatsapp_number || '-';
           const ren = u.ren_number || '-';
           const status = u.status || 'Pending';
-          const avatarUrl = u.avatar_url || u.photo_url || '/logo.png';
+          
+          let avatarUrl = u.avatar_url || u.photo_url;
+          if (!avatarUrl || avatarUrl.includes('logo.png')) {
+            if (u.email === 'ecahjaz@gmail.com' || (name && name.toLowerCase().includes('aisyah'))) {
+              avatarUrl = '/agents/aisyah.png';
+            } else if (u.email && u.email.includes('wanazemi')) {
+              avatarUrl = '/agents/wanazemi.png';
+            } else {
+              avatarUrl = '/logo.png';
+            }
+          }
 
           let badgeBg = '#d1fae5'; let badgeColor = '#047857'; let badgeBorder = '#a7f3d0';
           if (status === 'Pending') { badgeBg = '#fef3c7'; badgeColor = '#b45309'; badgeBorder = '#fde68a'; }
