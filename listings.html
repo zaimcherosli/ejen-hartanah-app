@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=53">
+  <link rel="stylesheet" href="style.css?v=60">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -128,8 +128,8 @@
       <div class="loading-spinner" style="text-align: center; color: var(--text-muted); padding: 2rem;">Fetching property listings...</div>
     </div>
 
-    <!-- Pagination Controls -->
-    <div id="paginationContainer" style="display: flex; justify-content: center; align-items: center; gap: 0.4rem; margin-top: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap;"></div>
+    <!-- Pagination Controls (Single-Row Sliding Window) -->
+    <div id="paginationContainer" class="pagination-wrap"></div>
   </main>
 
   <!-- PURE TRANSPARENT FLOATING WHATSAPP BUTTON -->
@@ -157,9 +157,9 @@
     </div>
   </div>
 
-  <script src="config.js?v=2.2.0"></script>
+  <script src="config.js?v=2.3.4"></script>
   <script src="analytics.js?v=1"></script>
-  <script src="app.js?v=12"></script>
+  <script src="app.js?v=13"></script>
   <script>
     function toggleMobileMenu(e) {
       if (e) e.stopPropagation();

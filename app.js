@@ -451,27 +451,33 @@ function renderPaginationControls(totalPages) {
 
   let html = '';
 
-  // Prev Button
+  // Prev Button (‹)
   if (currentPage > 1) {
-    html += `<button type="button" onclick="goToPage(${currentPage - 1})" class="pagination-btn">‹ Prev</button>`;
+    html += `<button type="button" onclick="goToPage(${currentPage - 1})" class="pagination-btn pagination-btn-nav" aria-label="Previous Page" title="Previous Page">‹</button>`;
   } else {
-    html += `<button type="button" disabled class="pagination-btn disabled" style="opacity: 0.4; cursor: not-allowed;">‹ Prev</button>`;
+    html += `<button type="button" disabled class="pagination-btn pagination-btn-nav disabled" aria-label="Previous Page" title="Previous Page">‹</button>`;
   }
 
-  // Numbered Buttons
-  for (let i = 1; i <= totalPages; i++) {
+  // 3-Page Sliding Window Calculation (e.g. 1, 2, 3 -> press › -> 2, 3, 4 -> press › -> 3, 4, 5)
+  const maxVisible = 3;
+  let startPage = Math.max(1, currentPage - 1);
+  let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+
+  if (endPage - startPage + 1 < maxVisible) {
+    startPage = Math.max(1, endPage - maxVisible + 1);
+  }
+
+  // Numbered Page Buttons
+  for (let i = startPage; i <= endPage; i++) {
     const isCurrent = i === currentPage;
-    const activeStyle = isCurrent 
-      ? 'background: var(--cem-navy); color: #ffffff; font-weight: 800; border-color: var(--cem-navy); shadow: 0 2px 6px rgba(0,0,0,0.15);' 
-      : 'background: #ffffff; color: var(--text-main); font-weight: 600; cursor: pointer;';
-    html += `<button type="button" onclick="goToPage(${i})" class="pagination-btn ${isCurrent ? 'active' : ''}" style="${activeStyle}">${i}</button>`;
+    html += `<button type="button" onclick="goToPage(${i})" class="pagination-btn ${isCurrent ? 'active' : ''}" aria-label="Page ${i}" ${isCurrent ? 'aria-current="page"' : ''}>${i}</button>`;
   }
 
-  // Next Button
+  // Next Button (›)
   if (currentPage < totalPages) {
-    html += `<button type="button" onclick="goToPage(${currentPage + 1})" class="pagination-btn">Next ›</button>`;
+    html += `<button type="button" onclick="goToPage(${currentPage + 1})" class="pagination-btn pagination-btn-nav" aria-label="Next Page" title="Next Page">›</button>`;
   } else {
-    html += `<button type="button" disabled class="pagination-btn disabled" style="opacity: 0.4; cursor: not-allowed;">Next ›</button>`;
+    html += `<button type="button" disabled class="pagination-btn pagination-btn-nav disabled" aria-label="Next Page" title="Next Page">›</button>`;
   }
 
   paginationContainer.innerHTML = html;
