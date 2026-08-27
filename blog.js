@@ -219,12 +219,16 @@ async function renderSingleArticle(slug) {
 
       '<h1 class="article-title">' + article.title + '</h1>' +
 
-      '<div class="article-meta-bar" style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.85rem; font-weight: 600; margin-bottom: 1.25rem;">' +
-        '<span style="color: var(--cem-navy); font-weight: 800;">Corporate Estate Malaysia</span>' +
-        '<span>•</span>' +
-        '<span>' + dateStr + '</span>' +
-        '<span>•</span>' +
-        '<span>' + readTime + '</span>' +
+      '<div class="article-meta-bar">' +
+        '<div class="meta-brand">' +
+          '<span class="meta-brand-badge">CEM</span>' +
+          '<span>Corporate Estate Malaysia</span>' +
+        '</div>' +
+        '<div class="meta-details">' +
+          '<span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' + dateStr + '</span>' +
+          '<span class="meta-dot">•</span>' +
+          '<span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' + readTime + '</span>' +
+        '</div>' +
       '</div>' +
 
       '<img src="' + coverImg + '" alt="' + article.title + '" class="article-cover">' +
