@@ -772,26 +772,25 @@ async function loadAgentApprovals() {
           const cleanWa = wa.replace(/[^0-9]/g, '');
 
           return `
-            <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 0.85rem 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; gap: 0.5rem;">
-                <div style="display: flex; align-items: center; gap: 0.65rem; min-width: 0;">
-                  <img src="${avatarUrl}" alt="${name}" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1.5px solid #cbd5e1; flex-shrink: 0;" onerror="this.src='/logo.png'">
-                  <div style="font-weight: 800; color: var(--cem-navy); font-size: 0.95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${name}</div>
+            <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03); margin-bottom: 0.75rem;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 0.75rem;">
+                <div style="display: flex; align-items: center; gap: 0.65rem; flex: 1; min-width: 0;">
+                  <img src="${avatarUrl}" alt="${name}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 1.5px solid #cbd5e1; flex-shrink: 0;" onerror="this.src='/logo.png'">
+                  <div style="min-width: 0; flex: 1;">
+                    <div style="font-weight: 800; color: var(--cem-navy); font-size: 0.95rem; line-height: 1.3; word-break: break-word; white-space: normal;">${name}</div>
+                    <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600; margin-top: 0.15rem; word-break: break-all;">${u.email}</div>
+                  </div>
                 </div>
-                <span style="padding: 0.2rem 0.55rem; border-radius: 20px; font-weight: 800; font-size: 0.7rem; background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder}; white-space: nowrap;">
+                <span style="padding: 0.25rem 0.6rem; border-radius: 20px; font-weight: 800; font-size: 0.72rem; background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder}; white-space: nowrap; flex-shrink: 0;">
                   ${status}
                 </span>
               </div>
 
-              <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600; margin-bottom: 0.6rem; word-break: break-all;">
-                ${u.email}
-              </div>
-
-              <div style="display: flex; gap: 0.4rem; margin-bottom: 0.75rem; align-items: center;">
+              <div style="display: flex; gap: 0.4rem; margin: 0.65rem 0 0.85rem 0; align-items: center; flex-wrap: wrap;">
                 <a href="https://wa.me/${cleanWa.startsWith('60') ? cleanWa : '60' + cleanWa}" target="_blank" style="color: #16a34a; text-decoration: none; display: inline-flex; align-items: center; gap: 0.25rem; background: #f0fdf4; padding: 0.25rem 0.55rem; border-radius: 6px; border: 1px solid #bbf7d0; font-size: 0.75rem; font-weight: 700;">
                   ${wa}
                 </a>
-                <span style="background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700; color: var(--text-muted);">
+                <span style="background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.72rem; font-weight: 700; color: var(--text-muted); border: 1px solid #e2e8f0;">
                   ${ren}
                 </span>
               </div>
