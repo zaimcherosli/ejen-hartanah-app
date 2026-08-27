@@ -180,8 +180,6 @@ function renderSingleArticle(slug) {
   const coverImg = article.cover_image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80";
   const dateStr = formatDate(article.created_at);
   const readTime = article.reading_time || "4 min read";
-  const author = article.author_name || "WanAzemi";
-  const authorRole = article.author_role || "Real Estate Negotiator (PEA 3949)";
 
   const currentUrl = encodeURIComponent(window.location.href);
   const shareTitle = encodeURIComponent(article.title);
@@ -189,7 +187,7 @@ function renderSingleArticle(slug) {
   const fbShareUrl = "https://www.facebook.com/sharer/sharer.php?u=" + currentUrl;
   const linkedinShareUrl = "https://www.linkedin.com/sharing/share-offsite/?url=" + currentUrl;
 
-  const waConsultUrl = "https://wa.me/60173569452?text=" + encodeURIComponent('Hello WanAzemi, saya baru membaca artikel: "' + article.title + '". Boleh saya dapatkan khidmat nasihat hartanah korporat?');
+  const waConsultUrl = "https://wa.me/60173569452?text=" + encodeURIComponent('Hello Corporate Estate Malaysia, saya baru membaca artikel: "' + article.title + '". Boleh saya dapatkan khidmat nasihat hartanah korporat?');
 
   if (container) {
     container.innerHTML = 
@@ -201,12 +199,12 @@ function renderSingleArticle(slug) {
 
       '<h1 class="article-title">' + article.title + '</h1>' +
 
-      '<div class="article-author-bar">' +
-        '<img src="/agent-wanazemi.png" alt="' + author + '" class="author-avatar" onerror="this.src=\'/logo.png\'">' +
-        '<div class="author-info">' +
-          '<span class="author-name">' + author + '</span>' +
-          '<span class="author-meta">' + authorRole + ' • ' + dateStr + ' • ' + readTime + '</span>' +
-        '</div>' +
+      '<div class="article-meta-bar" style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.85rem; font-weight: 600; margin-bottom: 1.25rem;">' +
+        '<span style="color: var(--cem-navy); font-weight: 800;">Corporate Estate Malaysia</span>' +
+        '<span>•</span>' +
+        '<span>' + dateStr + '</span>' +
+        '<span>•</span>' +
+        '<span>' + readTime + '</span>' +
       '</div>' +
 
       '<img src="' + coverImg + '" alt="' + article.title + '" class="article-cover">' +

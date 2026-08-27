@@ -1369,8 +1369,8 @@ function setupArticleHandlers() {
           cover_image: coverUrl,
           excerpt,
           content,
-          author_name: 'WanAzemi',
-          author_role: 'Real Estate Negotiator (PEA 3949)',
+          author_name: 'Corporate Estate Malaysia',
+          author_role: 'Editorial Team',
           reading_time: readingTime,
           status,
           views_count: 0
