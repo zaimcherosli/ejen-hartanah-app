@@ -1617,49 +1617,113 @@ body:has(.modal-overlay.active) .floating-wa-btn,
   background: linear-gradient(135deg, #0a192f, #1e293b);
   color: white;
   border-radius: 12px;
-  padding: 2rem;
+  padding: 1.75rem 1.25rem;
   text-align: center;
-  margin: 3rem 0;
+  margin: 2.5rem 0;
+  box-shadow: 0 4px 20px rgba(10, 25, 47, 0.08);
 }
 
 .article-cta-box h3 {
-  font-size: 1.35rem;
+  font-size: clamp(1.05rem, 3.5vw, 1.25rem);
   font-weight: 800;
   color: white;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
+  line-height: 1.35;
 }
 
 .article-cta-box p {
   color: #cbd5e1;
-  font-size: 0.95rem;
-  margin-bottom: 1.25rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  max-width: 540px;
+  margin: 0 auto 1.15rem auto;
 }
 
-.article-share-bar {
-  display: flex;
+.article-cta-btn {
+  display: inline-flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin: 2rem 0;
+  justify-content: center;
+  gap: 0.45rem;
+  background: #25d366;
+  color: white;
+  font-size: 0.86rem;
+  font-weight: 800;
+  padding: 0.6rem 1.35rem;
+  border-radius: 50px;
+  text-decoration: none;
+  box-shadow: 0 3px 12px rgba(37, 211, 102, 0.3);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.article-cta-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+/* Modern Symmetrical Social Share Section */
+.article-share-section {
+  margin: 2rem 0 3rem 0;
   padding-top: 1.5rem;
   border-top: 1px solid var(--border);
 }
 
-.share-btn {
-  padding: 0.55rem 1.1rem;
-  border-radius: 6px;
+.share-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 800;
   font-size: 0.85rem;
+  color: var(--cem-navy);
+  margin-bottom: 0.75rem;
+}
+
+.article-share-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.share-btn {
+  padding: 0.55rem 0.5rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
   font-weight: 700;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
   color: white;
   cursor: pointer;
   border: none;
-  transition: opacity 0.2s ease;
+  transition: transform 0.15s ease, opacity 0.2s ease;
+  white-space: nowrap;
 }
 
 .share-btn:hover {
-  opacity: 0.9;
+  transform: translateY(-1.5px);
+  opacity: 0.92;
+}
+
+.share-btn.share-wa {
+  background: #25d366;
+}
+
+.share-btn.share-fb {
+  background: #1877f2;
+}
+
+.share-btn.share-li {
+  background: #0077b5;
+}
+
+.share-btn.share-copy {
+  background: var(--cem-navy);
+}
+
+@media (max-width: 640px) {
+  .article-share-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
 }

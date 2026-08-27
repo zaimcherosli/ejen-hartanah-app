@@ -235,20 +235,25 @@ async function renderSingleArticle(slug) {
 
       '<!-- Lead Capture CTA Box -->' +
       '<div class="article-cta-box">' +
-        '<h3 style="color: white; margin-bottom: 0.5rem;">Mencari Hartanah Industri, Komersial atau Tanah di Selangor?</h3>' +
-        '<p style="color: #cbd5e1; margin-bottom: 1.25rem;">Pasukan pakar Corporate Estate Malaysia sedia membantu anda mencari premis perniagaan yang tepat dengan spesifikasi teknikal lengkap.</p>' +
-        '<a href="' + waConsultUrl + '" target="_blank" class="btn-primary" style="background: #25d366; color: white; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem 1.75rem; border-radius: 50px; font-weight: 800; text-decoration: none; box-shadow: 0 4px 15px rgba(37,211,102,0.35);">' +
-          WHATSAPP_ICON_SVG + ' Dapatkan Khidmat Nasihat Percuma' +
+        '<h3>Mencari Hartanah Industri, Komersial atau Tanah di Selangor?</h3>' +
+        '<p>Pasukan pakar Corporate Estate Malaysia sedia membantu anda mencari premis perniagaan yang tepat dengan spesifikasi teknikal lengkap.</p>' +
+        '<a href="' + waConsultUrl + '" target="_blank" class="article-cta-btn">' +
+          WHATSAPP_ICON_SVG + ' Dapatkan Khidmat Nasihat' +
         '</a>' +
       '</div>' +
 
       '<!-- Social Share Bar -->' +
-      '<div class="article-share-bar">' +
-        '<span style="font-weight: 800; font-size: 0.9rem; color: var(--cem-navy);">Kongsi Artikel Ini:</span>' +
-        '<a href="' + waShareUrl + '" target="_blank" class="share-btn" style="background: #25d366;">' + WHATSAPP_ICON_SVG + ' WhatsApp</a>' +
-        '<a href="' + linkedinShareUrl + '" target="_blank" class="share-btn" style="background: #0077b5;">LinkedIn</a>' +
-        '<a href="' + fbShareUrl + '" target="_blank" class="share-btn" style="background: #1877f2;">Facebook</a>' +
-        '<button onclick="copyArticleLink()" class="share-btn" style="background: var(--cem-navy);">Salin Pautan</button>' +
+      '<div class="article-share-section">' +
+        '<div class="share-title">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>' +
+          '<span>Kongsi Artikel Ini:</span>' +
+        '</div>' +
+        '<div class="article-share-grid">' +
+          '<a href="' + waShareUrl + '" target="_blank" class="share-btn share-wa">' + WHATSAPP_ICON_SVG + ' WhatsApp</a>' +
+          '<a href="' + fbShareUrl + '" target="_blank" class="share-btn share-fb"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> Facebook</a>' +
+          '<a href="' + linkedinShareUrl + '" target="_blank" class="share-btn share-li"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg> LinkedIn</a>' +
+          '<button type="button" onclick="copyArticleLink()" class="share-btn share-copy"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Salin Pautan</button>' +
+        '</div>' +
       '</div>';
   }
 
