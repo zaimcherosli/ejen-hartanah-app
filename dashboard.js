@@ -1193,6 +1193,7 @@ async function loadTrafficAnalyticsPage() {
     const stats = data.stats || {};
     const dev = stats.device_breakdown || { mobile_pct: 0, desktop_pct: 0, tablet_pct: 0 };
     const topPages = stats.top_pages || [];
+    const topCountries = stats.top_countries || [];
     const topArticles = stats.top_articles || [];
     const recent = stats.recent_activities || [];
 
@@ -1241,7 +1242,7 @@ async function loadTrafficAnalyticsPage() {
       <!-- Breakdown Grids (2 Columns) -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
         
-        <!-- Left Box: Top Visited Pages & Top Articles -->
+        <!-- Left Box: Top Visited Pages, Articles & Countries -->
         <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
           <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.85rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);">Top Content &amp; Visited Pages</h4>
           
@@ -1259,7 +1260,7 @@ async function loadTrafficAnalyticsPage() {
             `}
           </div>
 
-          <div>
+          <div style="margin-bottom: 1.25rem;">
             <div style="font-size: 0.74rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem;">Most Visited Page Paths</div>
             ${topPages.length === 0 ? '<div style="font-size: 0.8rem; color: var(--text-muted);">No page visits recorded yet.</div>' : `
               <div style="display: flex; flex-direction: column; gap: 0.4rem;">
@@ -1284,6 +1285,27 @@ async function loadTrafficAnalyticsPage() {
               </div>
             `}
           </div>
+
+          <!-- Top Visitor Countries -->
+          <div style="padding-top: 1rem; border-top: 1px solid var(--border);">
+            <div style="font-size: 0.74rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem;">Top Visitor Countries</div>
+            ${topCountries.length === 0 ? '<div style="font-size: 0.8rem; color: var(--text-muted);">No country data recorded yet.</div>' : `
+              <div style="display: flex; flex-direction: column; gap: 0.45rem;">
+                ${topCountries.map(c => `
+                  <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 6px; padding: 0.45rem 0.65rem; font-size: 0.8rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                      <span style="font-weight: 700; color: var(--cem-navy);">${c.country}</span>
+                      <span style="font-weight: 800; color: var(--text-main); font-size: 0.75rem;">${c.count} visits (${c.pct}%)</span>
+                    </div>
+                    <div style="width: 100%; height: 5px; background: #e2e8f0; border-radius: 3px; overflow: hidden;">
+                      <div style="width: ${c.pct}%; height: 100%; background: var(--cem-navy); border-radius: 3px;"></div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            `}
+          </div>
+
         </div>
 
         <!-- Right Box: Recent Traffic & Leads Activity Feed -->
@@ -1291,7 +1313,7 @@ async function loadTrafficAnalyticsPage() {
           <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.85rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);">Live Inquiries &amp; Activity Stream</h4>
           
           ${recent.length === 0 ? '<div style="font-size: 0.8rem; color: var(--text-muted);">No recent visitor activity recorded yet. Browse the website to begin real-time tracking.</div>' : `
-            <div style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 320px; overflow-y: auto; padding-right: 0.25rem;">
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 460px; overflow-y: auto; padding-right: 0.25rem;">
               ${recent.map(act => {
                 const dt = new Date(act.created_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
                 const isWa = act.type.includes('WHATSAPP');
@@ -1300,11 +1322,14 @@ async function loadTrafficAnalyticsPage() {
                 const label = isWa ? 'WhatsApp Inquiry' : 'Page Visit';
 
                 return `
-                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0.65rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.78rem; gap: 0.5rem;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.55rem 0.65rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.78rem; gap: 0.5rem;">
                     <div style="min-width: 0; flex: 1;">
-                      <div style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.15rem;">
+                      <div style="display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.2rem; flex-wrap: wrap;">
                         <span style="font-weight: 800; font-size: 0.7rem; background: ${badgeBg}; color: ${badgeColor}; padding: 0.1rem 0.4rem; border-radius: 4px;">${label}</span>
                         <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: capitalize;">${act.device || 'desktop'}</span>
+                        <span style="font-size: 0.7rem; color: #0284c7; font-weight: 700; background: #e0f2fe; padding: 0.08rem 0.35rem; border-radius: 4px;">
+                          ${act.country || 'Malaysia'}${act.city ? ' • ' + act.city : ''}
+                        </span>
                       </div>
                       <div style="font-weight: 600; color: var(--cem-navy); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                         ${act.target_title || act.title || act.path}

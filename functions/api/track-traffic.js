@@ -37,6 +37,11 @@ export async function onRequestPost(context) {
       });
     }
 
+    // Geolocation from Cloudflare Edge Headers
+    const country = context.request.headers.get('cf-ipcountry') || (context.request.cf && context.request.cf.country) || 'MY';
+    const city = (context.request.cf && context.request.cf.city) || '';
+    const region = (context.request.cf && context.request.cf.region) || '';
+
     const actionType = `TRAFFIC_${event_type.toUpperCase()}`;
     const details = JSON.stringify({
       path: page_path,
@@ -45,6 +50,9 @@ export async function onRequestPost(context) {
       target_title: target_title,
       referrer: referrer,
       device: device_type,
+      country: country,
+      city: city,
+      region: region,
       user_agent: userAgent.substring(0, 150)
     });
 

@@ -52,8 +52,36 @@ export async function onRequestGet() {
     let todayWhatsappClicks = 0;
 
     const pageCountMap = {};
+    const countryCountMap = {};
     const deviceCountMap = { mobile: 0, desktop: 0, tablet: 0 };
     const recentActivities = [];
+
+    const COUNTRY_NAMES = {
+      'MY': 'Malaysia',
+      'SG': 'Singapore',
+      'ID': 'Indonesia',
+      'TH': 'Thailand',
+      'VN': 'Vietnam',
+      'PH': 'Philippines',
+      'BN': 'Brunei',
+      'CN': 'China',
+      'HK': 'Hong Kong',
+      'TW': 'Taiwan',
+      'JP': 'Japan',
+      'KR': 'South Korea',
+      'IN': 'India',
+      'AU': 'Australia',
+      'NZ': 'New Zealand',
+      'US': 'United States',
+      'GB': 'United Kingdom',
+      'DE': 'Germany',
+      'FR': 'France',
+      'NL': 'Netherlands',
+      'AE': 'United Arab Emirates',
+      'SA': 'Saudi Arabia',
+      'QA': 'Qatar',
+      'CA': 'Canada'
+    };
 
     for (const item of events) {
       const sessionId = item.user_email || 'anon';
@@ -76,6 +104,12 @@ export async function onRequestGet() {
       const path = parsedDetails.path || item.target_id || '/';
       const title = parsedDetails.title || path;
       const device = (parsedDetails.device || 'desktop').toLowerCase();
+      
+      const rawCountry = (parsedDetails.country || 'MY').toUpperCase().trim();
+      const countryName = COUNTRY_NAMES[rawCountry] || rawCountry;
+      const city = parsedDetails.city || '';
+
+      countryCountMap[countryName] = (countryCountMap[countryName] || 0) + 1;
 
       if (device.includes('mob')) deviceCountMap.mobile++;
       else if (device.includes('tab')) deviceCountMap.tablet++;
@@ -92,13 +126,16 @@ export async function onRequestGet() {
         if (isToday) todayWhatsappClicks++;
       }
 
-      if (recentActivities.length < 12) {
+      if (recentActivities.length < 15) {
         recentActivities.push({
           type: action.replace('TRAFFIC_', ''),
           path: path,
           title: title,
           target_title: parsedDetails.target_title || '',
           device: device,
+          country: countryName,
+          country_code: rawCountry,
+          city: city,
           created_at: createdAt
         });
       }
@@ -107,6 +144,17 @@ export async function onRequestGet() {
     // Top Pages
     const topPages = Object.entries(pageCountMap)
       .map(([path, count]) => ({ path, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 6);
+
+    // Top Countries Breakdown
+    const totalCountryHits = Object.values(countryCountMap).reduce((a, b) => a + b, 0) || 1;
+    const topCountries = Object.entries(countryCountMap)
+      .map(([country, count]) => ({
+        country,
+        count,
+        pct: Math.round((count / totalCountryHits) * 100)
+      }))
       .sort((a, b) => b.count - a.count)
       .slice(0, 6);
 
@@ -131,6 +179,7 @@ export async function onRequestGet() {
         total_whatsapp_clicks: totalWhatsappClicks,
         today_whatsapp_clicks: todayWhatsappClicks,
         top_pages: topPages,
+        top_countries: topCountries,
         top_articles: topArticles,
         device_breakdown: deviceBreakdown,
         recent_activities: recentActivities,
