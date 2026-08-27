@@ -261,8 +261,19 @@ async function renderSingleArticle(slug) {
       '</div>';
   }
 
-  if (typeof supabaseClient !== "undefined" && article.id && !article.id.startsWith("art-")) {
-    supabaseClient.rpc("increment_article_views", { article_id: article.id }).catch(function() {});
+  // Real-Time Article View Tracking Engine
+  try {
+    const slugKey = article.slug || slug;
+    if (slugKey && !sessionStorage.getItem('cem_viewed_' + slugKey)) {
+      sessionStorage.setItem('cem_viewed_' + slugKey, '1');
+      fetch('/api/track-view', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug: slugKey, article_id: article.id })
+      }).catch(function(e) { console.warn('Track view error:', e); });
+    }
+  } catch (err) {
+    console.warn('View tracking exception:', err);
   }
 }
 
