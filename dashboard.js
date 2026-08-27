@@ -691,9 +691,10 @@ async function loadAgentApprovals() {
 
     const desktopHtml = `
       <div class="desktop-only-table" style="overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid var(--border); background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left; min-width: 680px;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left; min-width: 720px;">
           <thead>
             <tr style="background: #f8fafc; color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border);">
+              <th style="padding: 0.85rem 1rem; width: 56px; text-align: center;">PHOTO</th>
               <th style="padding: 0.85rem 1rem; white-space: nowrap;">AGENT NAME</th>
               <th style="padding: 0.85rem 1rem; white-space: nowrap;">WHATSAPP NO.</th>
               <th style="padding: 0.85rem 1rem; white-space: nowrap;">REN NO.</th>
@@ -708,6 +709,7 @@ async function loadAgentApprovals() {
               const wa = u.whatsapp_number || '-';
               const ren = u.ren_number || '-';
               const status = u.status || 'Pending';
+              const avatarUrl = u.avatar_url || u.photo_url || '/logo.png';
 
               let badgeBg = '#d1fae5'; let badgeColor = '#047857'; let badgeBorder = '#a7f3d0';
               if (status === 'Pending') { badgeBg = '#fef3c7'; badgeColor = '#b45309'; badgeBorder = '#fde68a'; }
@@ -717,22 +719,25 @@ async function loadAgentApprovals() {
 
               return `
                 <tr style="border-bottom: 1px solid #f1f5f9;">
-                  <td style="padding: 0.85rem 1rem; font-weight: 700; color: var(--cem-navy); min-width: 160px;">${name}</td>
-                  <td style="padding: 0.85rem 1rem; font-weight: 600; white-space: nowrap;">
+                  <td style="padding: 0.65rem 1rem; vertical-align: middle; text-align: center;">
+                    <img src="${avatarUrl}" alt="${name}" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 1.5px solid #cbd5e1; display: inline-block;" onerror="this.src='/logo.png'">
+                  </td>
+                  <td style="padding: 0.85rem 1rem; font-weight: 700; color: var(--cem-navy); min-width: 160px; vertical-align: middle;">${name}</td>
+                  <td style="padding: 0.85rem 1rem; font-weight: 600; white-space: nowrap; vertical-align: middle;">
                     <a href="https://wa.me/${cleanWa.startsWith('60') ? cleanWa : '60' + cleanWa}" target="_blank" style="color: #16a34a; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; background: #f0fdf4; padding: 0.3rem 0.65rem; border-radius: 6px; border: 1px solid #bbf7d0; font-size: 0.82rem;">
                       ${wa}
                     </a>
                   </td>
-                  <td style="padding: 0.85rem 1rem; color: var(--text-muted); font-weight: 600; white-space: nowrap;">
+                  <td style="padding: 0.85rem 1rem; color: var(--text-muted); font-weight: 600; white-space: nowrap; vertical-align: middle;">
                     <span style="background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.78rem;">${ren}</span>
                   </td>
-                  <td style="padding: 0.85rem 1rem; color: var(--text-main); font-weight: 500;">${u.email}</td>
-                  <td style="padding: 0.85rem 1rem; white-space: nowrap;">
+                  <td style="padding: 0.85rem 1rem; color: var(--text-main); font-weight: 500; vertical-align: middle;">${u.email}</td>
+                  <td style="padding: 0.85rem 1rem; white-space: nowrap; vertical-align: middle;">
                     <span style="padding: 0.3rem 0.7rem; border-radius: 20px; font-weight: 800; font-size: 0.75rem; background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder}; display: inline-flex; align-items: center; gap: 0.25rem;">
                       ${status}
                     </span>
                   </td>
-                  <td style="padding: 0.85rem 1rem; text-align: center; white-space: nowrap;">
+                  <td style="padding: 0.85rem 1rem; text-align: center; white-space: nowrap; vertical-align: middle;">
                     <div style="display: inline-flex; gap: 0.35rem; align-items: center;">
                       ${status === 'Pending' ? `
                         <button type="button" onclick="approveAgent('${u.id}', '${u.email}')" style="padding: 0.45rem 0.85rem; background: #10b981; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; box-shadow: 0 1px 3px rgba(16,185,129,0.3); display: inline-flex; align-items: center; gap: 0.25rem;">Approve</button>
@@ -758,6 +763,7 @@ async function loadAgentApprovals() {
           const wa = u.whatsapp_number || '-';
           const ren = u.ren_number || '-';
           const status = u.status || 'Pending';
+          const avatarUrl = u.avatar_url || u.photo_url || '/logo.png';
 
           let badgeBg = '#d1fae5'; let badgeColor = '#047857'; let badgeBorder = '#a7f3d0';
           if (status === 'Pending') { badgeBg = '#fef3c7'; badgeColor = '#b45309'; badgeBorder = '#fde68a'; }
@@ -767,8 +773,11 @@ async function loadAgentApprovals() {
 
           return `
             <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 0.85rem 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; gap: 0.5rem;">
-                <div style="font-weight: 800; color: var(--cem-navy); font-size: 0.95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${name}</div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; gap: 0.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.65rem; min-width: 0;">
+                  <img src="${avatarUrl}" alt="${name}" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1.5px solid #cbd5e1; flex-shrink: 0;" onerror="this.src='/logo.png'">
+                  <div style="font-weight: 800; color: var(--cem-navy); font-size: 0.95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${name}</div>
+                </div>
                 <span style="padding: 0.2rem 0.55rem; border-radius: 20px; font-weight: 800; font-size: 0.7rem; background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder}; white-space: nowrap;">
                   ${status}
                 </span>

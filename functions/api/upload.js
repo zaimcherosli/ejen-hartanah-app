@@ -117,9 +117,12 @@ export async function onRequestPost(context) {
     });
   }
 
-  // C. Authenticated Agent Session / JWT Check
+  // C. Authenticated Agent Session / JWT Check OR Authorized Registration Upload
+  const uploadPurpose = request.headers.get('x-upload-purpose') || '';
+  const isRegistrationUpload = uploadPurpose === 'agent-registration';
+
   const authenticatedAgent = await verifyAgentSession(request);
-  if (!authenticatedAgent) {
+  if (!authenticatedAgent && !isRegistrationUpload) {
     return new Response(JSON.stringify({ error: 'Unauthorized: Active Supabase agent session token required' }), {
       status: 401,
       headers: { 'Content-Type': 'application/json' }
