@@ -702,6 +702,8 @@ async function loadAgentApprovals() {
       }
     }
 
+    currentLoadedAgents = profiles || [];
+
     if (!profiles || profiles.length === 0) {
       container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">Tiada pendaftaran ejen baharu dijumpai.</span>';
       return;
@@ -768,11 +770,12 @@ async function loadAgentApprovals() {
                   <td style="padding: 0.85rem 1rem; text-align: center; white-space: nowrap; vertical-align: middle;">
                     <div style="display: inline-flex; gap: 0.35rem; align-items: center;">
                       ${status === 'Pending' ? `
-                        <button type="button" onclick="approveAgent('${u.id}', '${u.email}')" style="padding: 0.45rem 0.85rem; background: #10b981; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; box-shadow: 0 1px 3px rgba(16,185,129,0.3); display: inline-flex; align-items: center; gap: 0.25rem;">Approve</button>
-                        <button type="button" onclick="rejectAgent('${u.id}', '${u.email}')" style="padding: 0.45rem 0.85rem; background: #ef4444; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; box-shadow: 0 1px 3px rgba(239,68,68,0.3); display: inline-flex; align-items: center; gap: 0.25rem;">Reject</button>
+                        <button type="button" onclick="approveAgent('${u.id}', '${u.email}')" style="padding: 0.45rem 0.75rem; background: #10b981; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; box-shadow: 0 1px 3px rgba(16,185,129,0.3); display: inline-flex; align-items: center; gap: 0.25rem;">Approve</button>
+                        <button type="button" onclick="rejectAgent('${u.id}', '${u.email}')" style="padding: 0.45rem 0.75rem; background: #ef4444; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; box-shadow: 0 1px 3px rgba(239,68,68,0.3); display: inline-flex; align-items: center; gap: 0.25rem;">Reject</button>
                       ` : `
                         <span style="color: var(--text-muted); font-size: 0.78rem; font-weight: 600; background: #f8fafc; padding: 0.3rem 0.6rem; border-radius: 4px; border: 1px solid #e2e8f0;">Active / ${status}</span>
                       `}
+                      <button type="button" onclick="openEditAgentModal('${u.id}')" title="Edit profil ejen & gambar" style="padding: 0.45rem 0.65rem; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;">Edit</button>
                       <button type="button" onclick="deleteAgentProfile('${u.id}', '${u.email}')" title="Delete agent profile from system" style="padding: 0.45rem 0.6rem; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;" aria-label="Delete">Delete</button>
                     </div>
                   </td>
@@ -831,7 +834,7 @@ async function loadAgentApprovals() {
               </div>
 
               <!-- Bottom Status & Actions -->
-              <div style="display: flex; gap: 0.4rem; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; justify-content: space-between; align-items: center;">
+              <div style="display: flex; gap: 0.4rem; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; justify-content: space-between; align-items: center; flex-wrap: wrap;">
                 ${status === 'Pending' ? `
                   <div style="display: flex; gap: 0.35rem; flex: 1;">
                     <button type="button" onclick="approveAgent('${u.id}', '${u.email}')" style="flex: 1; padding: 0.45rem; background: #10b981; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.75rem; cursor: pointer; text-align: center;">Approve</button>
@@ -840,7 +843,10 @@ async function loadAgentApprovals() {
                 ` : `
                   <span style="color: ${badgeColor}; font-size: 0.75rem; font-weight: 800; background: ${badgeBg}; padding: 0.3rem 0.65rem; border-radius: 6px; border: 1px solid ${badgeBorder}; display: inline-flex; align-items: center; gap: 0.25rem;">Active / ${status}</span>
                 `}
-                <button type="button" onclick="deleteAgentProfile('${u.id}', '${u.email}')" title="Memadam profil ejen" style="padding: 0.35rem 0.65rem; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">Delete</button>
+                <div style="display: inline-flex; gap: 0.35rem; align-items: center;">
+                  <button type="button" onclick="openEditAgentModal('${u.id}')" title="Edit profil ejen" style="padding: 0.35rem 0.65rem; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.2rem;">Edit</button>
+                  <button type="button" onclick="deleteAgentProfile('${u.id}', '${u.email}')" title="Memadam profil ejen" style="padding: 0.35rem 0.65rem; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 6px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">Delete</button>
+                </div>
               </div>
             </div>
           `;
@@ -946,6 +952,165 @@ async function deleteAgentProfile(userId, email) {
     console.error('deleteAgentProfile error:', err);
     alert('Ralat pemadaman: ' + err.message);
   }
+}
+
+// Open Edit Agent Profile Modal (SuperAdmin)
+function openEditAgentModal(userId) {
+  const agent = (currentLoadedAgents || []).find(x => x.id === userId);
+  if (!agent) {
+    alert('Profil ejen tidak dijumpai.');
+    return;
+  }
+
+  const alertBox = document.getElementById('editAgentAlert');
+  if (alertBox) alertBox.style.display = 'none';
+
+  if (document.getElementById('editAgentUserId')) document.getElementById('editAgentUserId').value = agent.id;
+  if (document.getElementById('editAgentName')) document.getElementById('editAgentName').value = agent.full_name || '';
+  if (document.getElementById('editAgentEmail')) document.getElementById('editAgentEmail').value = agent.email || '';
+  if (document.getElementById('editAgentWhatsapp')) document.getElementById('editAgentWhatsapp').value = agent.whatsapp_number || '';
+  if (document.getElementById('editAgentRen')) document.getElementById('editAgentRen').value = agent.ren_number || '';
+  if (document.getElementById('editAgentStatus')) document.getElementById('editAgentStatus').value = agent.status || 'Approved';
+
+  let photo = agent.avatar_url || agent.photo_url || '/logo.png';
+  if (agent.email === 'ecahjaz@gmail.com' || (agent.full_name && agent.full_name.toLowerCase().includes('aisyah'))) {
+    if (!photo || photo.includes('logo.png')) photo = '/agents/aisyah.png';
+  } else if (agent.email && agent.email.includes('wanazemi')) {
+    if (!photo || photo.includes('logo.png')) photo = '/agents/wanazemi.png';
+  }
+
+  if (document.getElementById('editAgentPhotoUrl')) document.getElementById('editAgentPhotoUrl').value = photo;
+  if (document.getElementById('editAgentPhotoPreview')) document.getElementById('editAgentPhotoPreview').src = photo;
+
+  const modal = document.getElementById('editAgentModal');
+  if (modal) modal.classList.add('active');
+}
+
+function closeEditAgentModal() {
+  const modal = document.getElementById('editAgentModal');
+  if (modal) modal.classList.remove('active');
+}
+
+async function handleAgentPhotoSelect(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  const alertBox = document.getElementById('editAgentAlert');
+  if (alertBox) {
+    alertBox.style.display = 'block';
+    alertBox.style.background = '#fef3c7';
+    alertBox.style.color = '#b45309';
+    alertBox.innerText = 'Memampatkan & memuat naik gambar ejen ke Cloudflare R2...';
+  }
+
+  try {
+    const compressed = await compressImage(file);
+    const fileName = `agent_${Date.now()}_${Math.random().toString(36).substring(2, 7)}.jpg`;
+    const publicUrl = await uploadImageFile(compressed, fileName);
+
+    if (publicUrl) {
+      if (document.getElementById('editAgentPhotoUrl')) document.getElementById('editAgentPhotoUrl').value = publicUrl;
+      if (document.getElementById('editAgentPhotoPreview')) document.getElementById('editAgentPhotoPreview').src = publicUrl;
+      if (alertBox) {
+        alertBox.style.background = '#dcfce7';
+        alertBox.style.color = '#166534';
+        alertBox.innerText = 'Gambar profil berjaya dimuat naik!';
+      }
+    } else {
+      throw new Error('Gagal memuat naik gambar.');
+    }
+  } catch (err) {
+    console.error('handleAgentPhotoSelect error:', err);
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = '#fee2e2';
+      alertBox.style.color = '#b91c1c';
+      alertBox.innerText = 'Ralat muat naik gambar: ' + err.message;
+    }
+  }
+}
+
+function setupEditAgentFormHandler() {
+  const form = document.getElementById('editAgentForm');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const alertBox = document.getElementById('editAgentAlert');
+    const submitBtn = document.getElementById('btnSaveAgent');
+
+    const userId = document.getElementById('editAgentUserId').value;
+    const fullName = document.getElementById('editAgentName').value.trim();
+    const email = document.getElementById('editAgentEmail').value.trim();
+    const whatsapp = document.getElementById('editAgentWhatsapp').value.trim();
+    const ren = document.getElementById('editAgentRen').value.trim();
+    const status = document.getElementById('editAgentStatus').value;
+    const photoUrl = document.getElementById('editAgentPhotoUrl').value;
+
+    if (alertBox) alertBox.style.display = 'none';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Menyimpan Perubahan...';
+    }
+
+    try {
+      // 1. Send update via Cloudflare Pages Function API
+      const apiRes = await fetch('/api/admin-agents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'update',
+          userId: userId,
+          email: email,
+          full_name: fullName,
+          whatsapp_number: whatsapp,
+          ren_number: ren,
+          status: status,
+          photo_url: photoUrl
+        })
+      });
+
+      if (!apiRes.ok) {
+        const errJson = await apiRes.json().catch(() => ({}));
+        throw new Error(errJson.error || 'API update failed');
+      }
+
+      // 2. Direct fallback update to agent_profiles table in Supabase
+      if (typeof supabaseClient !== 'undefined') {
+        await supabaseClient
+          .from('agent_profiles')
+          .update({
+            full_name: fullName,
+            whatsapp_number: whatsapp,
+            ren_number: ren,
+            status: status,
+            avatar_url: photoUrl,
+            photo_url: photoUrl
+          })
+          .eq('id', userId);
+      }
+
+      await logActivity('EDIT_AGENT', `Mengemaskini profil ejen (${fullName} - ${email})`, userId);
+
+      closeEditAgentModal();
+      alert(`Profil ejen ${fullName} berjaya dikemaskini!`);
+      loadAgentApprovals();
+      loadActivityLogs();
+    } catch (err) {
+      console.error('Update agent error:', err);
+      if (alertBox) {
+        alertBox.style.display = 'block';
+        alertBox.style.background = '#fee2e2';
+        alertBox.style.color = '#b91c1c';
+        alertBox.innerText = 'Ralat kemaskini: ' + err.message;
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'SIMPAN PERUBAHAN';
+      }
+    }
+  });
 }
 
 // Helper: Log Activity to activity_logs Table
@@ -1144,6 +1309,7 @@ window.updateEditTenureVisibility = function() {
 
 document.addEventListener('DOMContentLoaded', () => {
   setupTenureToggles();
+  setupEditAgentFormHandler();
 });
 
 // Helper: Upload Image to Cloudflare R2 Edge Function with Supabase Storage Fallback

@@ -1,4 +1,4 @@
-﻿// Cloudflare Pages Function for Real-time SuperAdmin Agent Approvals & Auth Sync
+// Cloudflare Pages Function for Real-time SuperAdmin Agent Approvals & Auth Sync
 const SUPABASE_URL = 'https://csrzhidtzqxfbapsenhu.supabase.co';
 const SUPABASE_SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzcnpoaWR0enF4ZmJhcHNlbmh1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NTQ5Mzc5NiwiZXhwIjoyMTAxMDY5Nzk2fQ.P4ZBaDNqRw0hMA3wVkkk-0xIhzhp0uPlF9fCf1elKuM';
 
@@ -165,6 +165,58 @@ export async function onRequestPost(context) {
       });
 
       return new Response(JSON.stringify({ success: true, status: newStatus }), {
+        headers: corsHeaders()
+      });
+    }
+
+    if (action === 'update') {
+      const { full_name, whatsapp_number, ren_number, status, photo_url } = body;
+
+      // 1. Update agent_profiles table
+      const profileUpdates = {};
+      if (full_name !== undefined) profileUpdates.full_name = full_name;
+      if (whatsapp_number !== undefined) profileUpdates.whatsapp_number = whatsapp_number;
+      if (ren_number !== undefined) profileUpdates.ren_number = ren_number;
+      if (status !== undefined) profileUpdates.status = status;
+      if (photo_url !== undefined) {
+        profileUpdates.avatar_url = photo_url;
+        profileUpdates.photo_url = photo_url;
+      }
+
+      await fetch(`${SUPABASE_URL}/rest/v1/agent_profiles?id=eq.${userId}`, {
+        method: 'PATCH',
+        headers: {
+          'apikey': SUPABASE_SERVICE_ROLE_KEY,
+          'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(profileUpdates)
+      });
+
+      // 2. Update Supabase Auth user_metadata
+      const metaUpdates = {};
+      if (full_name !== undefined) metaUpdates.full_name = full_name;
+      if (whatsapp_number !== undefined) metaUpdates.whatsapp_number = whatsapp_number;
+      if (ren_number !== undefined) metaUpdates.ren_number = ren_number;
+      if (status !== undefined) metaUpdates.status = status;
+      if (photo_url !== undefined) {
+        metaUpdates.photo_url = photo_url;
+        metaUpdates.avatar_url = photo_url;
+      }
+
+      await fetch(`${SUPABASE_URL}/auth/v1/admin/users/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'apikey': SUPABASE_SERVICE_ROLE_KEY,
+          'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_metadata: metaUpdates
+        })
+      });
+
+      return new Response(JSON.stringify({ success: true, updated: true }), {
         headers: corsHeaders()
       });
     }
