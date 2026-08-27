@@ -292,7 +292,7 @@ window.backToArchive = function(e) {
 
 window.copyArticleLink = function() {
   navigator.clipboard.writeText(window.location.href);
-  alert("Pautan artikel telah disalin ke clipboard! 📋");
+  alert("Pautan artikel telah disalin ke clipboard!");
 };
 
 function renderCategoryPills() {

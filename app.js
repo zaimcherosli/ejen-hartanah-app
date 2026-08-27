@@ -110,7 +110,7 @@ function copyShareLink(id, title) {
   
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(shareUrl).then(() => {
-      alert(`🔗 Pautan WhatsApp rasmi untuk "${title}" telah berjaya disalin!\n\n${shareUrl}\n\nAnda boleh paste terus di WhatsApp.`);
+      alert(`Pautan WhatsApp rasmi untuk "${title}" telah berjaya disalin!\n\n${shareUrl}\n\nAnda boleh paste terus di WhatsApp.`);
     }).catch(err => {
       fallbackCopyText(shareUrl);
     });
@@ -126,7 +126,7 @@ function fallbackCopyText(text) {
   textArea.select();
   document.execCommand("copy");
   document.body.removeChild(textArea);
-  alert(`🔗 Pautan listing telah disalin!\n\n${text}`);
+  alert(`Pautan listing telah disalin!\n\n${text}`);
 }
 
 // Fetch listings from Supabase
@@ -207,10 +207,9 @@ function renderListings(listings) {
   if (listings.length === 0) {
     container.innerHTML = `
       <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 3rem 1.5rem; background: #ffffff; border: 1px solid var(--border-strong); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin: 1rem 0;">
-        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔍</div>
         <h3 style="font-size: 1.1rem; color: var(--cem-navy); margin-bottom: 0.35rem; font-weight: 800;">Tiada Hartanah Ditemui / No Listings Found</h3>
         <p style="font-size: 0.88rem; color: var(--text-muted); max-width: 460px; margin: 0 auto 1.25rem auto; line-height: 1.4;">Tiada padanan hartanah ditemui untuk kriteria carian anda. Sila cuba tukar kata kunci atau set semula beberapa tapisan.</p>
-        <button onclick="resetAllFilters()" style="padding: 0.65rem 1.35rem; background: var(--cem-red); color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: transform 0.15s;">🔄 Reset Carian / Clear Filters</button>
+        <button onclick="resetAllFilters()" style="padding: 0.65rem 1.35rem; background: var(--cem-red); color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: transform 0.15s;">Reset Carian / Clear Filters</button>
       </div>
     `;
     return;
@@ -326,7 +325,7 @@ function renderListings(listings) {
         <div class="card-body">
           <div class="card-price">${formattedPrice}</div>
           <h3 class="card-title" onclick="openModal('${item.id}')" style="cursor: pointer;">${item.title}</h3>
-          <div class="card-location">📍 ${item.location} • <strong style="color: var(--cem-navy);">${tenureVal}</strong></div>
+          <div class="card-location">${item.location} • <strong style="color: var(--cem-navy);">${tenureVal}</strong></div>
           
           ${specGridHtml}
 
@@ -582,7 +581,7 @@ function openModal(id, updateHistory = true) {
 
       ${item.youtube_url ? `
       <div style="margin-bottom: 1.5rem;">
-        <h4 style="margin-bottom: 0.75rem; font-size: 1rem; color: var(--text-main);">📹 Property Video Walkthrough:</h4>
+        <h4 style="margin-bottom: 0.75rem; font-size: 1rem; color: var(--text-main);">Property Video Walkthrough:</h4>
         <div style="position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
           <iframe
             src="${item.youtube_url.replace('watch?v=', 'embed/').replace('youtu.be/', 'www.youtube.com/embed/')}"
@@ -594,7 +593,7 @@ function openModal(id, updateHistory = true) {
           </iframe>
         </div>
         <a href="${item.youtube_url}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.5rem; font-size: 0.8rem; color: #dc2626; font-weight: 600; text-decoration: none;">
-          ▶ Watch on YouTube
+          Watch on YouTube
         </a>
       </div>
       ` : ''}
@@ -605,7 +604,7 @@ function openModal(id, updateHistory = true) {
         </a>
       </div>
       <button onclick="copyShareLink('${item.id}', '${safeTitle}')" class="btn-detail" style="padding: 0.7rem 1rem; font-weight: 700; background: var(--bg-subtle); width: 100%; margin-top: 0.5rem; text-align: center;">
-        🔗 Copy Direct Share Link
+        Copy Direct Share Link
       </button>
     `;
   }

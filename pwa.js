@@ -116,7 +116,7 @@
         if (navigator.serviceWorker && navigator.serviceWorker.ready) {
           navigator.serviceWorker.ready.then((reg) => {
             reg.showNotification('Corporate Estate Malaysia', {
-              body: '🎉 Notifikasi CEM Berjaya Diberdayakan! Anda akan menerima kemaskini terus ke peranti.',
+              body: 'Notifikasi CEM Berjaya Diberdayakan! Anda akan menerima kemaskini terus ke peranti.',
               icon: '/logo.png',
               badge: '/logo.png'
             });

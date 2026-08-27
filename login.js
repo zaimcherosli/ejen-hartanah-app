@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (status === 'Pending') {
             await supabaseClient.auth.signOut();
             showAlert(`
-              ⚠️ <strong>Akaun Belum Diluluskan!</strong><br>
+              <strong>Akaun Belum Diluluskan!</strong><br>
               Akaun ejen anda (<strong>${email}</strong>) masih dalam proses semakan <strong>Pending Approval</strong>.<br>
               Sila maklumkan kepada <strong>SuperAdmin</strong> untuk kelulusan akaun anda.
             `, true);
@@ -77,14 +77,14 @@ document.addEventListener('DOMContentLoaded', () => {
           if (status === 'Rejected') {
             await supabaseClient.auth.signOut();
             showAlert(`
-              ❌ <strong>Pendaftaran Tidak Diluluskan</strong><br>
+              <strong>Pendaftaran Tidak Diluluskan</strong><br>
               Permohonan akaun ejen bagi emel ini tidak diluluskan. Sila hubungi IT Admin.
             `, true);
             return;
           }
 
           // Approved / Active User -> Proceed to Dashboard
-          showAlert('✅ Log masuk berjaya! Mengalih ke Dashboard...', false);
+          showAlert('Log masuk berjaya! Mengalih ke Dashboard...', false);
           setTimeout(() => {
             window.location.href = 'dashboard.html';
           }, 600);
@@ -113,7 +113,7 @@ async function handleForgotPassword() {
     if (error) {
       alert('Gagal menghantar emel reset kata laluan: ' + error.message);
     } else {
-      alert(`🎉 Pautan penetapan semula kata laluan telah dihantar ke emel (${targetEmail}). Sila semak inbox atau folder Spam anda.`);
+      alert(`Pautan penetapan semula kata laluan telah dihantar ke emel (${targetEmail}). Sila semak inbox atau folder Spam anda.`);
     }
   } catch (err) {
     alert('Ralat: ' + err.message);

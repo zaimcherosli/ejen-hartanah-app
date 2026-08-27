@@ -95,13 +95,13 @@
       <!-- Executive Overview -->
       <div class="card-pad" style="background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
         <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.4rem;">
-          📋 Executive Profile &amp; Overview
+          Executive Profile &amp; Overview
         </h3>
         <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 1rem;">
           10+ years in industrial &amp; commercial property transactions across Peninsular Malaysia and few in Sabah &amp; Sarawak. Successfully negotiated over <strong>RM 100+ million</strong> in total property value for corporate clients including multinational tenants and local SME operators.
         </p>
         <div style="border-top: 1px solid #f1f5f9; padding-top: 0.85rem;">
-          <h4 style="font-size: 0.75rem; font-weight: 800; color: var(--cem-navy); text-transform: uppercase; margin-bottom: 0.5rem;">🏆 Career Highlights</h4>
+          <h4 style="font-size: 0.75rem; font-weight: 800; color: var(--cem-navy); text-transform: uppercase; margin-bottom: 0.5rem;">Career Highlights</h4>
           <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.85rem; color: var(--text-main); line-height: 1.65;">
             <li>RM 100M+ cumulative transaction volume</li>
             <li>Specialist in Built-to-Suit (BTS) factories &amp; warehouses</li>
@@ -113,7 +113,7 @@
       <!-- Specializations & Coverage Areas -->
       <div class="card-pad" style="background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
         <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.4rem;">
-          🏭 Key Specializations
+          Key Specializations
         </h3>
         <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem;">
           <span style="padding: 0.35rem 0.65rem; background: #e0f2fe; color: #0369a1; font-size: 0.78rem; font-weight: 700; border-radius: 6px;">Industrial Factory &amp; Warehouse (Sale &amp; Lease)</span>
@@ -122,7 +122,7 @@
           <span style="padding: 0.35rem 0.65rem; background: #e0f2fe; color: #0369a1; font-size: 0.78rem; font-weight: 700; border-radius: 6px;">Commercial Building &amp; Shoplot</span>
         </div>
 
-        <h4 style="font-size: 0.75rem; font-weight: 800; color: var(--cem-navy); text-transform: uppercase; margin-bottom: 0.5rem;">📍 Core Coverage Areas</h4>
+        <h4 style="font-size: 0.75rem; font-weight: 800; color: var(--cem-navy); text-transform: uppercase; margin-bottom: 0.5rem;">Core Coverage Areas</h4>
         <div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
           <span style="padding: 0.25rem 0.55rem; background: #f0fdf4; color: #166534; font-size: 0.78rem; font-weight: 600; border-radius: 4px; border: 1px solid #bbf7d0;">Shah Alam</span>
           <span style="padding: 0.25rem 0.55rem; background: #f0fdf4; color: #166534; font-size: 0.78rem; font-weight: 600; border-radius: 4px; border: 1px solid #bbf7d0;">Klang</span>
@@ -141,7 +141,7 @@
       
       <div style="text-align: center; max-width: 680px; margin: 0 auto 1.75rem auto;">
         <span class="owners-badge" style="background: #fef2f2; color: var(--cem-red); border: 1px solid #fca5a5; font-size: 0.75rem; font-weight: 800; padding: 0.3rem 0.75rem; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; display: inline-block;">
-          🏢 FOR PROPERTY OWNERS &amp; LANDLORDS
+          FOR PROPERTY OWNERS &amp; LANDLORDS
         </span>
         <h2 style="font-size: 1.65rem; font-weight: 900; color: var(--cem-navy); margin: 0.6rem 0 0.35rem 0;">
           Owners Are Welcome To List With Us
@@ -192,7 +192,7 @@
         </div>
 
         <button type="submit" id="btnSubmitOwner" style="width: 100%; padding: 0.9rem 1.5rem; background: var(--cem-navy); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: background 0.15s; box-shadow: 0 4px 12px rgba(10,25,47,0.25);">
-          📩 Submit Property Listing Registration
+          Submit Property Listing Registration
         </button>
 
       </form>
@@ -257,7 +257,7 @@ Recipient: WanAzemi & Corporate Estate Malaysia SuperAdmin`;
       
       // 2. Prepare WhatsApp message to WanAzemi (017-356 9452)
       const cleanPhone = '60173569452';
-      const waMessage = `*NEW PROPERTY LISTING REGISTRATION (OWNERS ARE WELCOME TO LIST)*\n\n👤 *Owner:* ${name}\n📱 *Tel:* ${phone}\n✉️ *Email:* ${email}\n🏢 *Property Type:* ${type}\n📍 *Location:* ${location}\n\n📝 *Notes/Remarks:* ${details}`;
+      const waMessage = `*NEW PROPERTY LISTING REGISTRATION (OWNERS ARE WELCOME TO LIST)*\n\n*Owner:* ${name}\n*Tel:* ${phone}\n*Email:* ${email}\n*Property Type:* ${type}\n*Location:* ${location}\n\n*Notes/Remarks:* ${details}`;
       const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(waMessage)}`;
 
       // Execute mailto notification
