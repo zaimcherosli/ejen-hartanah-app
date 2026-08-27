@@ -212,9 +212,9 @@ async function renderSingleArticle(slug) {
   if (container) {
     container.innerHTML = 
       '<div class="article-breadcrumb">' +
-        '<a href="/blog.html" onclick="backToArchive(event)">← Kembali ke Blog & Panduan</a>' +
-        '<span>/</span>' +
-        '<span style="color: var(--cem-red); font-weight: 700;">' + article.category + '</span>' +
+        '<a href="/blog.html" onclick="backToArchive(event)">← Kembali ke Blog</a>' +
+        '<span class="breadcrumb-sep">•</span>' +
+        '<span class="breadcrumb-cat">' + article.category + '</span>' +
       '</div>' +
 
       '<h1 class="article-title">' + article.title + '</h1>' +
