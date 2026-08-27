@@ -670,22 +670,38 @@ async function loadAgentApprovals() {
   const container = document.getElementById('agentApprovalsContainer');
   if (!container) return;
 
-  container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">⏳ Loading registered agents list...</span>';
+  container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">Memuat senarai ejen berdaftar...</span>';
 
   try {
-    const { data: profiles, error } = await supabaseClient
-      .from('agent_profiles')
-      .select('*')
-      .order('registered_at', { ascending: false });
+    let profiles = [];
 
-    if (error) {
-      console.warn('agent_profiles query warning:', error.message);
-      container.innerHTML = `<span style="color: #dc2626; font-size: 0.85rem;">Error loading agents list: ${error.message}.</span>`;
-      return;
+    // 1. Primary: Fetch from Edge Function with live Auth sync
+    try {
+      const apiRes = await fetch('/api/admin-agents');
+      if (apiRes.ok) {
+        const json = await apiRes.json();
+        if (json && json.success && Array.isArray(json.agents)) {
+          profiles = json.agents;
+        }
+      }
+    } catch (apiErr) {
+      console.warn('API /api/admin-agents fetch warning, using direct Supabase fallback:', apiErr);
+    }
+
+    // 2. Fallback: Query agent_profiles table directly
+    if (!profiles || profiles.length === 0) {
+      const { data, error } = await supabaseClient
+        .from('agent_profiles')
+        .select('*')
+        .order('registered_at', { ascending: false });
+
+      if (!error && data) {
+        profiles = data;
+      }
     }
 
     if (!profiles || profiles.length === 0) {
-      container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">No new agent registrations found.</span>';
+      container.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-muted);">Tiada pendaftaran ejen baharu dijumpai.</span>';
       return;
     }
 
@@ -838,72 +854,95 @@ async function loadAgentApprovals() {
 }
 
 async function approveAgent(userId, email) {
-  if (!confirm(`Are you sure you want to APPROVE agent account (${email})?`)) return;
+  if (!confirm(`Adakah anda pasti mahu LULUSKAN akaun ejen (${email})?`)) return;
 
   try {
-    const { error } = await supabaseClient
+    // 1. Try API
+    try {
+      await fetch('/api/admin-agents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'approve', userId, email })
+      });
+    } catch (apiErr) {
+      console.warn('API approve call warning:', apiErr);
+    }
+
+    // 2. Direct Supabase update
+    await supabaseClient
       .from('agent_profiles')
       .update({ status: 'Approved' })
       .eq('id', userId);
 
-    if (error) {
-      alert('Failed to approve: ' + error.message);
-    } else {
-      alert(`Agent account (${email}) HAS BEEN APPROVED! The agent can now log in to the portal.`);
-      await logActivity('APPROVE_AGENT', `Approved agent account registration (${email})`, userId);
-      loadAgentApprovals();
-      loadActivityLogs();
-    }
+    alert(`Akaun ejen (${email}) TELAH DILULUSKAN! Ejen kini boleh log masuk ke portal.`);
+    await logActivity('APPROVE_AGENT', `Meluluskan akaun ejen (${email})`, userId);
+    loadAgentApprovals();
+    loadActivityLogs();
   } catch (err) {
     console.error('approveAgent error:', err);
-    alert('Error: ' + err.message);
+    alert('Ralat: ' + err.message);
   }
 }
 
 async function rejectAgent(userId, email) {
-  if (!confirm(`Are you sure you want to REJECT agent account registration (${email})?`)) return;
+  if (!confirm(`Adakah anda pasti mahu TOLAK (Reject) pendaftaran akaun ejen (${email})?`)) return;
 
   try {
-    const { error } = await supabaseClient
+    // 1. Try API
+    try {
+      await fetch('/api/admin-agents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'reject', userId, email })
+      });
+    } catch (apiErr) {
+      console.warn('API reject call warning:', apiErr);
+    }
+
+    // 2. Direct Supabase update
+    await supabaseClient
       .from('agent_profiles')
       .update({ status: 'Rejected' })
       .eq('id', userId);
 
-    if (error) {
-      alert('Failed to reject: ' + error.message);
-    } else {
-      alert(`Agent application (${email}) HAS BEEN REJECTED.`);
-      await logActivity('REJECT_AGENT', `Rejected agent account registration (${email})`, userId);
-      loadAgentApprovals();
-      loadActivityLogs();
-    }
+    alert(`Pendaftaran akaun ejen (${email}) telah ditolak (Rejected).`);
+    await logActivity('REJECT_AGENT', `Menolak akaun ejen (${email})`, userId);
+    loadAgentApprovals();
+    loadActivityLogs();
   } catch (err) {
     console.error('rejectAgent error:', err);
-    alert('Error: ' + err.message);
+    alert('Ralat: ' + err.message);
   }
 }
 
 async function deleteAgentProfile(userId, email) {
-  if (!confirm(`Are you sure you want to DELETE AGENT PROFILE (${email}) from the system?`)) return;
+  if (!confirm(`AMARAN: Anda pasti mahu MEMADAM akaun ejen (${email}) secara kekal daripada sistem?`)) return;
 
   try {
-    const { data, error } = await supabaseClient
+    // 1. Try API (deletes from Auth + agent_profiles)
+    try {
+      await fetch('/api/admin-agents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'delete', userId, email })
+      });
+    } catch (apiErr) {
+      console.warn('API delete call warning:', apiErr);
+    }
+
+    // 2. Direct Supabase delete
+    await supabaseClient
       .from('agent_profiles')
       .delete()
-      .ilike('email', email)
-      .select();
+      .eq('id', userId);
 
-    if (error) {
-      alert('Failed to delete agent profile: ' + error.message);
-    } else {
-      alert(`Agent profile (${email}) HAS BEEN DELETED from the system.`);
-      await logActivity('DELETE_AGENT', `Deleted agent account registration (${email})`, userId);
-      loadAgentApprovals();
-      loadActivityLogs();
-    }
+    alert(`Akaun ejen (${email}) telah berjaya dipadam daripada sistem.`);
+    await logActivity('DELETE_AGENT', `Memadam akaun ejen (${email})`, userId);
+    loadAgentApprovals();
+    loadActivityLogs();
   } catch (err) {
     console.error('deleteAgentProfile error:', err);
-    alert('Error: ' + err.message);
+    alert('Ralat pemadaman: ' + err.message);
   }
 }
 

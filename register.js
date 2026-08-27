@@ -219,8 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
               full_name: fullName,
               whatsapp_number: whatsapp,
               ren_number: renNumber,
-              photo_url: photoUrl,
-              avatar_url: photoUrl,
               email: email,
               status: 'Pending',
               registered_at: new Date().toISOString()
