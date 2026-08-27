@@ -1263,12 +1263,24 @@ async function loadTrafficAnalyticsPage() {
             <div style="font-size: 0.74rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem;">Most Visited Page Paths</div>
             ${topPages.length === 0 ? '<div style="font-size: 0.8rem; color: var(--text-muted);">No page visits recorded yet.</div>' : `
               <div style="display: flex; flex-direction: column; gap: 0.4rem;">
-                ${topPages.map(pg => `
-                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0.6rem; background: #f8fafc; border-radius: 6px; font-size: 0.8rem; gap: 0.5rem;">
-                    <span style="font-weight: 600; color: var(--text-main); font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;">${pg.path}</span>
-                    <span style="font-weight: 800; color: var(--cem-navy); background: #e2e8f0; padding: 0.15rem 0.45rem; border-radius: 4px; font-size: 0.72rem; white-space: nowrap;">${pg.count} hits</span>
-                  </div>
-                `).join('')}
+                ${topPages.map(pg => {
+                  let pathLabel = '';
+                  if (pg.path === '/' || pg.path === '/index.html') pathLabel = ' (Homepage / Main Page)';
+                  else if (pg.path === '/listings' || pg.path === '/listings.html') pathLabel = ' (Property Search)';
+                  else if (pg.path === '/about' || pg.path === '/about.html') pathLabel = ' (Corporate Profile)';
+                  else if (pg.path === '/services' || pg.path === '/services.html') pathLabel = ' (Corporate Services)';
+                  else if (pg.path === '/agents' || pg.path === '/agents.html') pathLabel = ' (Agent Directory)';
+                  else if (pg.path === '/blog' || pg.path === '/blog.html') pathLabel = ' (Knowledge Hub)';
+                  
+                  return `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0.6rem; background: #f8fafc; border-radius: 6px; font-size: 0.8rem; gap: 0.5rem;">
+                      <span style="font-weight: 600; color: var(--text-main); font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;">
+                        ${pg.path}<span style="font-family: inherit; font-size: 0.76rem; color: var(--text-muted); font-weight: 500;">${pathLabel}</span>
+                      </span>
+                      <span style="font-weight: 800; color: var(--cem-navy); background: #e2e8f0; padding: 0.15rem 0.45rem; border-radius: 4px; font-size: 0.72rem; white-space: nowrap;">${pg.count} hits</span>
+                    </div>
+                  `;
+                }).join('')}
               </div>
             `}
           </div>
