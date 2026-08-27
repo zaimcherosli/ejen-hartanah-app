@@ -1277,24 +1277,26 @@ async function loadAdminArticles() {
         const coverImg = item.cover_image || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=300&q=80';
         const isPublished = item.status === 'Published';
         const statusBadge = isPublished 
-          ? '<span style="background: #dcfce7; color: #166534; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.72rem; font-weight: 800;">PUBLISHED</span>'
-          : '<span style="background: #f1f5f9; color: #475569; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.72rem; font-weight: 800;">DRAFT</span>';
+          ? '<span style="background: #dcfce7; color: #166534; padding: 0.15rem 0.45rem; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">PUBLISHED</span>'
+          : '<span style="background: #f1f5f9; color: #475569; padding: 0.15rem 0.45rem; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">DRAFT</span>';
 
         return `
-          <div style="display: flex; gap: 0.85rem; padding: 0.85rem; background: white; border: 1px solid var(--border); border-radius: 8px; align-items: center;">
-            <img src="${coverImg}" alt="${item.title}" style="width: 70px; height: 60px; object-fit: cover; border-radius: 6px;">
-            <div style="flex: 1; min-width: 0;">
-              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                ${statusBadge}
-                <span style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted);">${item.category}</span>
-                <span style="font-size: 0.72rem; color: var(--text-muted);">• ${item.views_count || 0} views</span>
+          <div class="admin-article-card">
+            <div class="admin-article-main">
+              <img src="${coverImg}" alt="${item.title}" class="admin-article-thumb" onerror="this.src='/logo.png'">
+              <div class="admin-article-info">
+                <div class="admin-article-meta">
+                  ${statusBadge}
+                  <span class="admin-article-cat">${item.category}</span>
+                  <span class="admin-article-views">• ${item.views_count || 0} views</span>
+                </div>
+                <h4 class="admin-article-title">${item.title}</h4>
               </div>
-              <h4 style="font-size: 0.88rem; font-weight: 800; color: var(--cem-navy); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.title}</h4>
             </div>
-            <div style="display: flex; gap: 0.4rem; align-items: center;">
-              <a href="/blog/${encodeURIComponent(item.slug)}" target="_blank" title="Preview Article" style="padding: 0.4rem 0.6rem; background: #e0f2fe; color: #0369a1; border-radius: 6px; font-size: 0.75rem; text-decoration: none; font-weight: 700;">View</a>
-              <button type="button" onclick="openEditArticleModal('${item.id}')" title="Edit Article" style="padding: 0.4rem 0.6rem; background: #fef3c7; color: #92400e; border: none; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 700;">Edit</button>
-              <button type="button" onclick="handleDeleteArticle('${item.id}')" title="Delete Article" style="padding: 0.4rem 0.5rem; background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+            <div class="admin-article-actions">
+              <a href="/blog/${encodeURIComponent(item.slug)}" target="_blank" class="admin-act-btn btn-view" title="Preview Article">View</a>
+              <button type="button" onclick="openEditArticleModal('${item.id}')" class="admin-act-btn btn-edit" title="Edit Article">Edit</button>
+              <button type="button" onclick="handleDeleteArticle('${item.id}')" class="admin-act-btn btn-delete" title="Delete Article" aria-label="Delete">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
               </button>
             </div>
