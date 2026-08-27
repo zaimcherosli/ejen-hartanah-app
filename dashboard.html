@@ -97,14 +97,17 @@
       
       <!-- Executive Segmented Pill Control for Tabs -->
       <div style="border-bottom: 2px solid var(--border); padding-bottom: 0.75rem; margin-bottom: 1rem;">
-        <div class="admin-tab-group" style="display: flex; align-items: center; background: #f1f5f9; padding: 0.25rem; border-radius: 8px; gap: 0.25rem; width: 100%;">
-          <button id="adminTabApprovalsBtn" type="button" onclick="switchAdminTab('approvals')" style="flex: 1; padding: 0.45rem 0.4rem; background: var(--cem-navy); color: white; border: none; border-radius: 6px; font-weight: 800; font-size: 0.76rem; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.15s;">
+        <div class="admin-tab-group" style="display: flex; align-items: center; background: #f1f5f9; padding: 0.25rem; border-radius: 8px; gap: 0.25rem; width: 100%; flex-wrap: wrap;">
+          <button id="adminTabApprovalsBtn" type="button" onclick="switchAdminTab('approvals')" style="flex: 1; min-width: 110px; padding: 0.5rem 0.4rem; background: var(--cem-navy); color: white; border: none; border-radius: 6px; font-weight: 800; font-size: 0.76rem; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.15s;">
             Agent Approvals
           </button>
-          <button id="adminTabLogsBtn" type="button" onclick="switchAdminTab('logs')" style="flex: 1; padding: 0.45rem 0.4rem; background: transparent; color: var(--text-main); border: none; border-radius: 6px; font-weight: 800; font-size: 0.76rem; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.15s;">
+          <button id="adminTabAnalyticsBtn" type="button" onclick="switchAdminTab('analytics')" style="flex: 1; min-width: 140px; padding: 0.5rem 0.4rem; background: transparent; color: var(--text-main); border: none; border-radius: 6px; font-weight: 800; font-size: 0.76rem; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.15s;">
+            Traffic &amp; Leads Analytics
+          </button>
+          <button id="adminTabLogsBtn" type="button" onclick="switchAdminTab('logs')" style="flex: 1; min-width: 90px; padding: 0.5rem 0.4rem; background: transparent; color: var(--text-main); border: none; border-radius: 6px; font-weight: 800; font-size: 0.76rem; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.15s;">
             Audit Log
           </button>
-          <button type="button" onclick="refreshCurrentAdminTab()" title="Refresh Data" style="padding: 0.45rem 0.6rem; background: white; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" aria-label="Refresh">
+          <button type="button" onclick="refreshCurrentAdminTab()" title="Refresh Data" style="padding: 0.5rem 0.65rem; background: white; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.8rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" aria-label="Refresh">
             Refresh
           </button>
         </div>
@@ -118,7 +121,15 @@
         </div>
       </div>
 
-      <!-- Tab Content 2: Activity Logs -->
+      <!-- Tab Content 2: Traffic & Leads Analytics -->
+      <div id="adminTabAnalyticsContent" style="display: none;">
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.85rem;">Statistik pelawat masa nyata, paparan halaman, dan pertanyaan WhatsApp yang diterima dari laman web.</p>
+        <div id="trafficAnalyticsContainer">
+          <!-- Rendered dynamically by dashboard.js -->
+        </div>
+      </div>
+
+      <!-- Tab Content 3: Activity Logs -->
       <div id="adminTabLogsContent" style="display: none;">
         <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.85rem;">Track real-time activity for added, updated, and deleted agent listings and approvals.</p>
         <div id="activityLogsContainer">

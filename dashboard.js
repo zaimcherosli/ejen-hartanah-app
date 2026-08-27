@@ -1131,8 +1131,11 @@ async function logActivity(actionType, details, targetId = null) {
 
 function refreshCurrentAdminTab() {
   const approvalsContent = document.getElementById('adminTabApprovalsContent');
+  const analyticsContent = document.getElementById('adminTabAnalyticsContent');
   if (approvalsContent && approvalsContent.style.display !== 'none') {
     loadAgentApprovals();
+  } else if (analyticsContent && analyticsContent.style.display !== 'none') {
+    loadTrafficAnalytics();
   } else {
     loadActivityLogs();
   }
@@ -1141,44 +1144,176 @@ function refreshCurrentAdminTab() {
 // SuperAdmin Executive Tab Switcher
 function switchAdminTab(tab) {
   const approvalsBtn = document.getElementById('adminTabApprovalsBtn');
+  const analyticsBtn = document.getElementById('adminTabAnalyticsBtn');
   const logsBtn = document.getElementById('adminTabLogsBtn');
+  
   const approvalsContent = document.getElementById('adminTabApprovalsContent');
+  const analyticsContent = document.getElementById('adminTabAnalyticsContent');
   const logsContent = document.getElementById('adminTabLogsContent');
-  const refreshApprovals = document.getElementById('btnRefreshApprovals');
-  const refreshLogs = document.getElementById('btnRefreshLogs');
 
   if (!approvalsBtn || !logsBtn || !approvalsContent || !logsContent) return;
+
+  // Reset all buttons
+  [approvalsBtn, analyticsBtn, logsBtn].forEach(btn => {
+    if (btn) {
+      btn.style.background = 'transparent';
+      btn.style.color = 'var(--text-main)';
+      btn.style.border = 'none';
+    }
+  });
+
+  // Hide all contents
+  if (approvalsContent) approvalsContent.style.display = 'none';
+  if (analyticsContent) analyticsContent.style.display = 'none';
+  if (logsContent) logsContent.style.display = 'none';
 
   if (tab === 'approvals') {
     approvalsBtn.style.background = 'var(--cem-navy)';
     approvalsBtn.style.color = 'white';
-    approvalsBtn.style.border = 'none';
-
-    logsBtn.style.background = 'transparent';
-    logsBtn.style.color = 'var(--text-main)';
-    logsBtn.style.border = 'none';
-
-    approvalsContent.style.display = 'block';
-    logsContent.style.display = 'none';
-
-    if (refreshApprovals) refreshApprovals.style.display = 'inline-block';
-    if (refreshLogs) refreshLogs.style.display = 'none';
+    if (approvalsContent) approvalsContent.style.display = 'block';
+    loadAgentApprovals();
+  } else if (tab === 'analytics') {
+    if (analyticsBtn) {
+      analyticsBtn.style.background = 'var(--cem-navy)';
+      analyticsBtn.style.color = 'white';
+    }
+    if (analyticsContent) analyticsContent.style.display = 'block';
+    loadTrafficAnalytics();
   } else {
     logsBtn.style.background = 'var(--cem-navy)';
     logsBtn.style.color = 'white';
-    logsBtn.style.border = 'none';
-
-    approvalsBtn.style.background = 'transparent';
-    approvalsBtn.style.color = 'var(--text-main)';
-    approvalsBtn.style.border = 'none';
-
-    logsContent.style.display = 'block';
-    approvalsContent.style.display = 'none';
-
-    if (refreshLogs) refreshLogs.style.display = 'inline-block';
-    if (refreshApprovals) refreshApprovals.style.display = 'none';
-
+    if (logsContent) logsContent.style.display = 'block';
     loadActivityLogs();
+  }
+}
+
+// SuperAdmin Live Website Traffic & Leads Analytics Function
+async function loadTrafficAnalytics() {
+  const container = document.getElementById('trafficAnalyticsContainer');
+  if (!container) return;
+
+  container.innerHTML = '<div style="padding: 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">Memuatkan data statistik trafik masa nyata...</div>';
+
+  try {
+    const res = await fetch('/api/traffic-stats');
+    if (!res.ok) {
+      throw new Error('Gagal memuatkan data analitik pelayan.');
+    }
+
+    const data = await res.json();
+    const stats = data.stats || {};
+    const dev = stats.device_breakdown || { mobile_pct: 0, desktop_pct: 0, tablet_pct: 0 };
+    const topPages = stats.top_pages || [];
+    const topArticles = stats.top_articles || [];
+    const recent = stats.recent_activities || [];
+
+    const html = `
+      <!-- Metric Stats Cards (4 Columns) -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+        
+        <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.15rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03); border-top: 3px solid var(--cem-navy);">
+          <div style="font-size: 0.76rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem;">Jumlah Pelawat (Visitors)</div>
+          <div style="font-size: 1.85rem; font-weight: 900; color: var(--cem-navy); line-height: 1.1; margin-bottom: 0.35rem;">${stats.total_visitors || 0}</div>
+          <div style="font-size: 0.76rem; color: #16a34a; font-weight: 700; background: #f0fdf4; display: inline-block; padding: 0.15rem 0.45rem; border-radius: 4px;">Hari ini: +${stats.today_visitors || 0} pelawat aktif</div>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.15rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03); border-top: 3px solid #0284c7;">
+          <div style="font-size: 0.76rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem;">Paparan Halaman (Pageviews)</div>
+          <div style="font-size: 1.85rem; font-weight: 900; color: #0284c7; line-height: 1.1; margin-bottom: 0.35rem;">${stats.total_pageviews || 0}</div>
+          <div style="font-size: 0.76rem; color: #0284c7; font-weight: 700; background: #f0f9ff; display: inline-block; padding: 0.15rem 0.45rem; border-radius: 4px;">Hari ini: +${stats.today_pageviews || 0} paparan</div>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.15rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03); border-top: 3px solid #16a34a;">
+          <div style="font-size: 0.76rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem;">Pertanyaan WhatsApp (Leads)</div>
+          <div style="font-size: 1.85rem; font-weight: 900; color: #16a34a; line-height: 1.1; margin-bottom: 0.35rem;">${stats.total_whatsapp_clicks || 0}</div>
+          <div style="font-size: 0.76rem; color: #16a34a; font-weight: 700; background: #f0fdf4; display: inline-block; padding: 0.15rem 0.45rem; border-radius: 4px;">Hari ini: +${stats.today_whatsapp_clicks || 0} klik mesej</div>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.15rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03); border-top: 3px solid var(--cem-red);">
+          <div style="font-size: 0.76rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem;">Pecahan Peranti Pelawat</div>
+          <div style="font-size: 1.1rem; font-weight: 900; color: var(--cem-navy); line-height: 1.3; margin-top: 0.2rem; margin-bottom: 0.35rem;">
+            Mobile: ${dev.mobile_pct}% <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">| Desktop: ${dev.desktop_pct}%</span>
+          </div>
+          <div style="font-size: 0.74rem; color: var(--text-muted); font-weight: 600;">Tablet: ${dev.tablet_pct}%</div>
+        </div>
+
+      </div>
+
+      <!-- Breakdown Grids (2 Columns) -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+        
+        <!-- Left Box: Top Visited Pages & Top Articles -->
+        <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+          <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.85rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);">Halaman &amp; Panduan Paling Kerap Dibaca</h4>
+          
+          <div style="margin-bottom: 1.25rem;">
+            <div style="font-size: 0.76rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.5rem;">Artikel Blog Terhangat</div>
+            ${topArticles.length === 0 ? '<div style="font-size: 0.8rem; color: var(--text-muted);">Belum ada bacaan artikel direkodkan.</div>' : `
+              <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                ${topArticles.map(art => `
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0.6rem; background: #f8fafc; border-radius: 6px; font-size: 0.8rem; gap: 0.5rem;">
+                    <span style="font-weight: 700; color: var(--cem-navy); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;">${art.title}</span>
+                    <span style="font-weight: 800; color: var(--cem-red); background: #fee2e2; padding: 0.15rem 0.45rem; border-radius: 4px; font-size: 0.72rem; white-space: nowrap;">${art.views_count || 0} views</span>
+                  </div>
+                `).join('')}
+              </div>
+            `}
+          </div>
+
+          <div>
+            <div style="font-size: 0.76rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.5rem;">Laluan Halaman Paling Kerap Dikunjungi</div>
+            ${topPages.length === 0 ? '<div style="font-size: 0.8rem; color: var(--text-muted);">Belum ada trafik halaman.</div>' : `
+              <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                ${topPages.map(pg => `
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0.6rem; background: #f8fafc; border-radius: 6px; font-size: 0.8rem; gap: 0.5rem;">
+                    <span style="font-weight: 600; color: var(--text-main); font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;">${pg.path}</span>
+                    <span style="font-weight: 800; color: var(--cem-navy); background: #e2e8f0; padding: 0.15rem 0.45rem; border-radius: 4px; font-size: 0.72rem; white-space: nowrap;">${pg.count} hits</span>
+                  </div>
+                `).join('')}
+              </div>
+            `}
+          </div>
+        </div>
+
+        <!-- Right Box: Recent Traffic & Leads Activity Feed -->
+        <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+          <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.85rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);">Aliran Aktiviti &amp; Prospek Terkini (Live Stream)</h4>
+          
+          ${recent.length === 0 ? '<div style="font-size: 0.8rem; color: var(--text-muted);">Belum ada aktiviti direkodkan. Lawat website untuk memulakan penjejakan masa nyata.</div>' : `
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 320px; overflow-y: auto; padding-right: 0.25rem;">
+              ${recent.map(act => {
+                const dt = new Date(act.created_at).toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                const isWa = act.type.includes('WHATSAPP');
+                const badgeBg = isWa ? '#dcfce7' : '#eff6ff';
+                const badgeColor = isWa ? '#166534' : '#1e40af';
+                const label = isWa ? 'WhatsApp Click' : 'Page Visit';
+
+                return `
+                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0.65rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.78rem; gap: 0.5rem;">
+                    <div style="min-width: 0; flex: 1;">
+                      <div style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.15rem;">
+                        <span style="font-weight: 800; font-size: 0.7rem; background: ${badgeBg}; color: ${badgeColor}; padding: 0.1rem 0.4rem; border-radius: 4px;">${label}</span>
+                        <span style="font-size: 0.72rem; color: var(--text-muted);">${act.device || 'desktop'}</span>
+                      </div>
+                      <div style="font-weight: 600; color: var(--cem-navy); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        ${act.target_title || act.title || act.path}
+                      </div>
+                    </div>
+                    <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600; white-space: nowrap;">${dt}</div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          `}
+        </div>
+
+      </div>
+    `;
+
+    container.innerHTML = html;
+  } catch (err) {
+    console.error('loadTrafficAnalytics error:', err);
+    container.innerHTML = `<div style="padding: 1.5rem; text-align: center; color: #dc2626; font-size: 0.85rem;">Ralat memuatkan statistik: ${err.message}</div>`;
   }
 }
 
