@@ -17,6 +17,10 @@ CREATE TABLE IF NOT EXISTS public.articles (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Ensure agent_profiles has avatar_url and photo_url columns
+ALTER TABLE IF EXISTS public.agent_profiles ADD COLUMN IF NOT EXISTS avatar_url TEXT;
+ALTER TABLE IF EXISTS public.agent_profiles ADD COLUMN IF NOT EXISTS photo_url TEXT;
+
 CREATE INDEX IF NOT EXISTS idx_articles_slug ON public.articles(slug);
 CREATE INDEX IF NOT EXISTS idx_articles_status ON public.articles(status);
 CREATE INDEX IF NOT EXISTS idx_articles_category ON public.articles(category);
