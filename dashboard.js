@@ -171,8 +171,8 @@ async function loadAgentListings() {
               </span>
             </td>
             <td style="padding: 0.65rem 0.5rem; text-align: center; vertical-align: middle;">
-              <button onclick="event.stopPropagation(); deleteListing('${item.id}')" title="Delete Listing" style="background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; width: 34px; height: 34px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s;">
-                Delete
+              <button onclick="event.stopPropagation(); deleteListing('${item.id}')" title="Delete Listing" style="background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; width: 34px; height: 34px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
               </button>
             </td>
           </tr>
@@ -205,7 +205,9 @@ async function loadAgentListings() {
 
             <!-- Top-Right: Status Badge, Bottom-Right: Trash Icon (Level with Price) -->
             <span class="inv-card-badge">${item.status}</span>
-            <button onclick="event.stopPropagation(); deleteListing('${item.id}')" class="inv-card-delete" title="Delete Listing">Delete</button>
+            <button onclick="event.stopPropagation(); deleteListing('${item.id}')" class="inv-card-delete" title="Delete Listing">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+            </button>
           </div>
         `;
       }).join('');
@@ -1289,10 +1291,12 @@ async function loadAdminArticles() {
               </div>
               <h4 style="font-size: 0.88rem; font-weight: 800; color: var(--cem-navy); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.title}</h4>
             </div>
-            <div style="display: flex; gap: 0.4rem;">
-              <a href="/blog/${encodeURIComponent(item.slug)}" target="_blank" title="Preview" style="padding: 0.4rem 0.6rem; background: #e0f2fe; color: #0369a1; border-radius: 6px; font-size: 0.75rem; text-decoration: none; font-weight: 700;">View</a>
-              <button type="button" onclick="openEditArticleModal('${item.id}')" title="Edit" style="padding: 0.4rem 0.6rem; background: #fef3c7; color: #92400e; border: none; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 700;">Edit</button>
-              <button type="button" onclick="handleDeleteArticle('${item.id}')" title="Delete" style="padding: 0.4rem 0.6rem; background: #fee2e2; color: #b91c1c; border: none; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 700;">Delete</button>
+            <div style="display: flex; gap: 0.4rem; align-items: center;">
+              <a href="/blog/${encodeURIComponent(item.slug)}" target="_blank" title="Preview Article" style="padding: 0.4rem 0.6rem; background: #e0f2fe; color: #0369a1; border-radius: 6px; font-size: 0.75rem; text-decoration: none; font-weight: 700;">View</a>
+              <button type="button" onclick="openEditArticleModal('${item.id}')" title="Edit Article" style="padding: 0.4rem 0.6rem; background: #fef3c7; color: #92400e; border: none; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 700;">Edit</button>
+              <button type="button" onclick="handleDeleteArticle('${item.id}')" title="Delete Article" style="padding: 0.4rem 0.5rem; background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+              </button>
             </div>
           </div>
         `;
