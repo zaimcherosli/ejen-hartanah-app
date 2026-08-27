@@ -60,7 +60,7 @@ VALUES
     'Real Estate Negotiator (PEA 3949)',
     '5 min read',
     'Published',
-    148
+    0
 ),
 (
     'Perbezaan Freehold vs Leasehold Untuk Hartanah Komersial & Industri di Malaysia',
@@ -73,7 +73,7 @@ VALUES
     'Real Estate Negotiator (PEA 3949)',
     '4 min read',
     'Published',
-    112
+    0
 ),
 (
     'Cara Menilai Potensi Tanah Pembangunan (Development Land) di Kawasan Pinggir Bandar',
@@ -86,6 +86,6 @@ VALUES
     'Real Estate Negotiator (PEA 3949)',
     '6 min read',
     'Published',
-    95
+    0
 )
 ON CONFLICT (slug) DO NOTHING;
