@@ -451,7 +451,14 @@ function renderPaginationControls(totalPages) {
 
   let html = '';
 
-  // Prev Button (‹)
+  // First Page Button («) - Jump directly to Page 1
+  if (currentPage > 1) {
+    html += `<button type="button" onclick="goToPage(1)" class="pagination-btn pagination-btn-nav" aria-label="First Page" title="Go to First Page">«</button>`;
+  } else {
+    html += `<button type="button" disabled class="pagination-btn pagination-btn-nav disabled" aria-label="First Page" title="First Page">«</button>`;
+  }
+
+  // Prev Button (‹) - Step back 1 page
   if (currentPage > 1) {
     html += `<button type="button" onclick="goToPage(${currentPage - 1})" class="pagination-btn pagination-btn-nav" aria-label="Previous Page" title="Previous Page">‹</button>`;
   } else {
@@ -473,11 +480,18 @@ function renderPaginationControls(totalPages) {
     html += `<button type="button" onclick="goToPage(${i})" class="pagination-btn ${isCurrent ? 'active' : ''}" aria-label="Page ${i}" ${isCurrent ? 'aria-current="page"' : ''}>${i}</button>`;
   }
 
-  // Next Button (›)
+  // Next Button (›) - Step forward 1 page
   if (currentPage < totalPages) {
     html += `<button type="button" onclick="goToPage(${currentPage + 1})" class="pagination-btn pagination-btn-nav" aria-label="Next Page" title="Next Page">›</button>`;
   } else {
     html += `<button type="button" disabled class="pagination-btn pagination-btn-nav disabled" aria-label="Next Page" title="Next Page">›</button>`;
+  }
+
+  // Last Page Button (») - Jump directly to the last page
+  if (currentPage < totalPages) {
+    html += `<button type="button" onclick="goToPage(${totalPages})" class="pagination-btn pagination-btn-nav" aria-label="Last Page" title="Go to Last Page (${totalPages})">»</button>`;
+  } else {
+    html += `<button type="button" disabled class="pagination-btn pagination-btn-nav disabled" aria-label="Last Page" title="Last Page">»</button>`;
   }
 
   paginationContainer.innerHTML = html;
