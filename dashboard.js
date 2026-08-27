@@ -1192,12 +1192,12 @@ async function loadTrafficAnalytics() {
   const container = document.getElementById('trafficAnalyticsContainer');
   if (!container) return;
 
-  container.innerHTML = '<div style="padding: 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">Memuatkan data statistik trafik masa nyata...</div>';
+  container.innerHTML = '<div style="padding: 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;">Loading real-time analytics data...</div>';
 
   try {
     const res = await fetch('/api/traffic-stats');
     if (!res.ok) {
-      throw new Error('Gagal memuatkan data analitik pelayan.');
+      throw new Error('Failed to load server analytics data.');
     }
 
     const data = await res.json();
@@ -1212,29 +1212,39 @@ async function loadTrafficAnalytics() {
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
         
         <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.15rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03); border-top: 3px solid var(--cem-navy);">
-          <div style="font-size: 0.76rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem;">Jumlah Pelawat (Visitors)</div>
+          <div style="font-size: 0.74rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem;">Total Visitors</div>
           <div style="font-size: 1.85rem; font-weight: 900; color: var(--cem-navy); line-height: 1.1; margin-bottom: 0.35rem;">${stats.total_visitors || 0}</div>
-          <div style="font-size: 0.76rem; color: #16a34a; font-weight: 700; background: #f0fdf4; display: inline-block; padding: 0.15rem 0.45rem; border-radius: 4px;">Hari ini: +${stats.today_visitors || 0} pelawat aktif</div>
+          <div style="font-size: 0.76rem; color: #16a34a; font-weight: 700; background: #f0fdf4; display: inline-block; padding: 0.15rem 0.45rem; border-radius: 4px;">Today: +${stats.today_visitors || 0} active</div>
         </div>
 
         <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.15rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03); border-top: 3px solid #0284c7;">
-          <div style="font-size: 0.76rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem;">Paparan Halaman (Pageviews)</div>
+          <div style="font-size: 0.74rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem;">Total Pageviews</div>
           <div style="font-size: 1.85rem; font-weight: 900; color: #0284c7; line-height: 1.1; margin-bottom: 0.35rem;">${stats.total_pageviews || 0}</div>
-          <div style="font-size: 0.76rem; color: #0284c7; font-weight: 700; background: #f0f9ff; display: inline-block; padding: 0.15rem 0.45rem; border-radius: 4px;">Hari ini: +${stats.today_pageviews || 0} paparan</div>
+          <div style="font-size: 0.76rem; color: #0284c7; font-weight: 700; background: #f0f9ff; display: inline-block; padding: 0.15rem 0.45rem; border-radius: 4px;">Today: +${stats.today_pageviews || 0} views</div>
         </div>
 
         <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.15rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03); border-top: 3px solid #16a34a;">
-          <div style="font-size: 0.76rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem;">Pertanyaan WhatsApp (Leads)</div>
+          <div style="font-size: 0.74rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem;">WhatsApp Inquiries (Leads)</div>
           <div style="font-size: 1.85rem; font-weight: 900; color: #16a34a; line-height: 1.1; margin-bottom: 0.35rem;">${stats.total_whatsapp_clicks || 0}</div>
-          <div style="font-size: 0.76rem; color: #16a34a; font-weight: 700; background: #f0fdf4; display: inline-block; padding: 0.15rem 0.45rem; border-radius: 4px;">Hari ini: +${stats.today_whatsapp_clicks || 0} klik mesej</div>
+          <div style="font-size: 0.76rem; color: #16a34a; font-weight: 700; background: #f0fdf4; display: inline-block; padding: 0.15rem 0.45rem; border-radius: 4px;">Today: +${stats.today_whatsapp_clicks || 0} clicks</div>
         </div>
 
         <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.15rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03); border-top: 3px solid var(--cem-red);">
-          <div style="font-size: 0.76rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem;">Pecahan Peranti Pelawat</div>
-          <div style="font-size: 1.1rem; font-weight: 900; color: var(--cem-navy); line-height: 1.3; margin-top: 0.2rem; margin-bottom: 0.35rem;">
-            Mobile: ${dev.mobile_pct}% <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">| Desktop: ${dev.desktop_pct}%</span>
+          <div style="font-size: 0.74rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem;">Device Breakdown</div>
+          <div style="display: flex; gap: 0.35rem; align-items: center; margin-top: 0.45rem;">
+            <div style="background: #f8fafc; border: 1px solid var(--border); padding: 0.35rem 0.45rem; border-radius: 6px; flex: 1; text-align: center;">
+              <div style="font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Mobile</div>
+              <div style="font-size: 1.05rem; font-weight: 900; color: var(--cem-navy);">${dev.mobile_pct}%</div>
+            </div>
+            <div style="background: #f8fafc; border: 1px solid var(--border); padding: 0.35rem 0.45rem; border-radius: 6px; flex: 1; text-align: center;">
+              <div style="font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Desktop</div>
+              <div style="font-size: 1.05rem; font-weight: 900; color: var(--cem-navy);">${dev.desktop_pct}%</div>
+            </div>
+            <div style="background: #f8fafc; border: 1px solid var(--border); padding: 0.35rem 0.45rem; border-radius: 6px; flex: 1; text-align: center;">
+              <div style="font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Tablet</div>
+              <div style="font-size: 1.05rem; font-weight: 900; color: var(--cem-navy);">${dev.tablet_pct}%</div>
+            </div>
           </div>
-          <div style="font-size: 0.74rem; color: var(--text-muted); font-weight: 600;">Tablet: ${dev.tablet_pct}%</div>
         </div>
 
       </div>
@@ -1244,11 +1254,11 @@ async function loadTrafficAnalytics() {
         
         <!-- Left Box: Top Visited Pages & Top Articles -->
         <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-          <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.85rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);">Halaman &amp; Panduan Paling Kerap Dibaca</h4>
+          <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.85rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);">Top Content &amp; Visited Pages</h4>
           
           <div style="margin-bottom: 1.25rem;">
-            <div style="font-size: 0.76rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.5rem;">Artikel Blog Terhangat</div>
-            ${topArticles.length === 0 ? '<div style="font-size: 0.8rem; color: var(--text-muted);">Belum ada bacaan artikel direkodkan.</div>' : `
+            <div style="font-size: 0.74rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem;">Most Popular Blog Articles</div>
+            ${topArticles.length === 0 ? '<div style="font-size: 0.8rem; color: var(--text-muted);">No article reads recorded yet.</div>' : `
               <div style="display: flex; flex-direction: column; gap: 0.4rem;">
                 ${topArticles.map(art => `
                   <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0.6rem; background: #f8fafc; border-radius: 6px; font-size: 0.8rem; gap: 0.5rem;">
@@ -1261,8 +1271,8 @@ async function loadTrafficAnalytics() {
           </div>
 
           <div>
-            <div style="font-size: 0.76rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.5rem;">Laluan Halaman Paling Kerap Dikunjungi</div>
-            ${topPages.length === 0 ? '<div style="font-size: 0.8rem; color: var(--text-muted);">Belum ada trafik halaman.</div>' : `
+            <div style="font-size: 0.74rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem;">Most Visited Page Paths</div>
+            ${topPages.length === 0 ? '<div style="font-size: 0.8rem; color: var(--text-muted);">No page visits recorded yet.</div>' : `
               <div style="display: flex; flex-direction: column; gap: 0.4rem;">
                 ${topPages.map(pg => `
                   <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0.6rem; background: #f8fafc; border-radius: 6px; font-size: 0.8rem; gap: 0.5rem;">
@@ -1277,23 +1287,23 @@ async function loadTrafficAnalytics() {
 
         <!-- Right Box: Recent Traffic & Leads Activity Feed -->
         <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-          <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.85rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);">Aliran Aktiviti &amp; Prospek Terkini (Live Stream)</h4>
+          <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--cem-navy); margin-bottom: 0.85rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);">Live Inquiries &amp; Activity Stream</h4>
           
-          ${recent.length === 0 ? '<div style="font-size: 0.8rem; color: var(--text-muted);">Belum ada aktiviti direkodkan. Lawat website untuk memulakan penjejakan masa nyata.</div>' : `
+          ${recent.length === 0 ? '<div style="font-size: 0.8rem; color: var(--text-muted);">No recent visitor activity recorded yet. Browse the website to begin real-time tracking.</div>' : `
             <div style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 320px; overflow-y: auto; padding-right: 0.25rem;">
               ${recent.map(act => {
-                const dt = new Date(act.created_at).toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                const dt = new Date(act.created_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
                 const isWa = act.type.includes('WHATSAPP');
                 const badgeBg = isWa ? '#dcfce7' : '#eff6ff';
                 const badgeColor = isWa ? '#166534' : '#1e40af';
-                const label = isWa ? 'WhatsApp Click' : 'Page Visit';
+                const label = isWa ? 'WhatsApp Inquiry' : 'Page Visit';
 
                 return `
                   <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0.65rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.78rem; gap: 0.5rem;">
                     <div style="min-width: 0; flex: 1;">
                       <div style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.15rem;">
                         <span style="font-weight: 800; font-size: 0.7rem; background: ${badgeBg}; color: ${badgeColor}; padding: 0.1rem 0.4rem; border-radius: 4px;">${label}</span>
-                        <span style="font-size: 0.72rem; color: var(--text-muted);">${act.device || 'desktop'}</span>
+                        <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: capitalize;">${act.device || 'desktop'}</span>
                       </div>
                       <div style="font-weight: 600; color: var(--cem-navy); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                         ${act.target_title || act.title || act.path}
@@ -1313,7 +1323,7 @@ async function loadTrafficAnalytics() {
     container.innerHTML = html;
   } catch (err) {
     console.error('loadTrafficAnalytics error:', err);
-    container.innerHTML = `<div style="padding: 1.5rem; text-align: center; color: #dc2626; font-size: 0.85rem;">Ralat memuatkan statistik: ${err.message}</div>`;
+    container.innerHTML = `<div style="padding: 1.5rem; text-align: center; color: #dc2626; font-size: 0.85rem;">Error loading analytics: ${err.message}</div>`;
   }
 }
 
