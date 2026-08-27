@@ -23,6 +23,9 @@ async function checkAuth() {
   const agentEmailEl = document.getElementById('agentEmail');
   if (agentEmailEl) agentEmailEl.innerText = currentUser.email;
 
+  const agentEmailDisplay = document.getElementById('agentEmailDisplay');
+  if (agentEmailDisplay) agentEmailDisplay.innerText = currentUser.email;
+
   const mobileAgentEmailEl = document.getElementById('mobileAgentEmail');
   if (mobileAgentEmailEl) mobileAgentEmailEl.innerText = currentUser.email;
 
@@ -46,6 +49,10 @@ async function checkAuth() {
       loadAgentApprovals();
       loadActivityLogs();
     }
+  }
+
+  if (document.getElementById('trafficAnalyticsContainer')) {
+    loadTrafficAnalyticsPage();
   }
 
   const btnLogout = document.getElementById('btnLogout');
@@ -1131,64 +1138,46 @@ async function logActivity(actionType, details, targetId = null) {
 
 function refreshCurrentAdminTab() {
   const approvalsContent = document.getElementById('adminTabApprovalsContent');
-  const analyticsContent = document.getElementById('adminTabAnalyticsContent');
   if (approvalsContent && approvalsContent.style.display !== 'none') {
     loadAgentApprovals();
-  } else if (analyticsContent && analyticsContent.style.display !== 'none') {
-    loadTrafficAnalytics();
   } else {
     loadActivityLogs();
   }
 }
 
-// SuperAdmin Executive Tab Switcher
+// SuperAdmin Executive Tab Switcher (Agent Approvals vs Audit Log)
 function switchAdminTab(tab) {
   const approvalsBtn = document.getElementById('adminTabApprovalsBtn');
-  const analyticsBtn = document.getElementById('adminTabAnalyticsBtn');
   const logsBtn = document.getElementById('adminTabLogsBtn');
   
   const approvalsContent = document.getElementById('adminTabApprovalsContent');
-  const analyticsContent = document.getElementById('adminTabAnalyticsContent');
   const logsContent = document.getElementById('adminTabLogsContent');
 
   if (!approvalsBtn || !logsBtn || !approvalsContent || !logsContent) return;
 
-  // Reset all buttons
-  [approvalsBtn, analyticsBtn, logsBtn].forEach(btn => {
-    if (btn) {
-      btn.style.background = 'transparent';
-      btn.style.color = 'var(--text-main)';
-      btn.style.border = 'none';
-    }
-  });
-
-  // Hide all contents
-  if (approvalsContent) approvalsContent.style.display = 'none';
-  if (analyticsContent) analyticsContent.style.display = 'none';
-  if (logsContent) logsContent.style.display = 'none';
-
   if (tab === 'approvals') {
     approvalsBtn.style.background = 'var(--cem-navy)';
     approvalsBtn.style.color = 'white';
-    if (approvalsContent) approvalsContent.style.display = 'block';
+    logsBtn.style.background = 'transparent';
+    logsBtn.style.color = 'var(--text-main)';
+
+    approvalsContent.style.display = 'block';
+    logsContent.style.display = 'none';
     loadAgentApprovals();
-  } else if (tab === 'analytics') {
-    if (analyticsBtn) {
-      analyticsBtn.style.background = 'var(--cem-navy)';
-      analyticsBtn.style.color = 'white';
-    }
-    if (analyticsContent) analyticsContent.style.display = 'block';
-    loadTrafficAnalytics();
   } else {
     logsBtn.style.background = 'var(--cem-navy)';
     logsBtn.style.color = 'white';
-    if (logsContent) logsContent.style.display = 'block';
+    approvalsBtn.style.background = 'transparent';
+    approvalsBtn.style.color = 'var(--text-main)';
+
+    logsContent.style.display = 'block';
+    approvalsContent.style.display = 'none';
     loadActivityLogs();
   }
 }
 
-// SuperAdmin Live Website Traffic & Leads Analytics Function
-async function loadTrafficAnalytics() {
+// SuperAdmin Live Website Traffic & Leads Analytics Function (Dedicated Page)
+async function loadTrafficAnalyticsPage() {
   const container = document.getElementById('trafficAnalyticsContainer');
   if (!container) return;
 

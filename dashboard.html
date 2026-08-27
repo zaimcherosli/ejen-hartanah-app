@@ -62,6 +62,7 @@
       Logged in: <strong id="mobileAgentEmail" style="color: var(--cem-red);">...</strong>
     </div>
     <a href="/dashboard" style="background: var(--cem-navy); color: white !important;">Agent Approvals &amp; Audit Log</a>
+    <a href="/agent-traffic-analytics" style="color: var(--cem-navy);">Traffic &amp; Leads Analytics</a>
     <a href="/agent-listing-management" style="color: var(--cem-navy);">Listing Management</a>
     <a href="/agent-blog-management" style="color: var(--cem-navy);">Blog &amp; Guides Management</a>
     <a href="/index.html" target="_blank" style="color: var(--cem-navy);">Preview Live Main Site</a>
@@ -74,6 +75,9 @@
       <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
         <a href="/dashboard" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; background: var(--cem-navy); color: white; border: 1px solid var(--cem-navy);">
           Agent Approvals &amp; Audit Log
+        </a>
+        <a href="/agent-traffic-analytics" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border);">
+          Traffic &amp; Leads Analytics
         </a>
         <a href="/agent-listing-management" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border);">
           Listing Management
@@ -97,17 +101,14 @@
       
       <!-- Executive Segmented Pill Control for Tabs -->
       <div style="border-bottom: 2px solid var(--border); padding-bottom: 0.75rem; margin-bottom: 1rem;">
-        <div class="admin-tab-group" style="display: flex; align-items: center; background: #f1f5f9; padding: 0.25rem; border-radius: 8px; gap: 0.25rem; width: 100%; flex-wrap: wrap;">
-          <button id="adminTabApprovalsBtn" type="button" onclick="switchAdminTab('approvals')" style="flex: 1; min-width: 110px; padding: 0.5rem 0.4rem; background: var(--cem-navy); color: white; border: none; border-radius: 6px; font-weight: 800; font-size: 0.76rem; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.15s;">
+        <div class="admin-tab-group" style="display: flex; align-items: center; background: #f1f5f9; padding: 0.25rem; border-radius: 8px; gap: 0.25rem; width: 100%;">
+          <button id="adminTabApprovalsBtn" type="button" onclick="switchAdminTab('approvals')" style="flex: 1; padding: 0.45rem 0.4rem; background: var(--cem-navy); color: white; border: none; border-radius: 6px; font-weight: 800; font-size: 0.76rem; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.15s;">
             Agent Approvals
           </button>
-          <button id="adminTabAnalyticsBtn" type="button" onclick="switchAdminTab('analytics')" style="flex: 1; min-width: 140px; padding: 0.5rem 0.4rem; background: transparent; color: var(--text-main); border: none; border-radius: 6px; font-weight: 800; font-size: 0.76rem; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.15s;">
-            Traffic &amp; Leads Analytics
-          </button>
-          <button id="adminTabLogsBtn" type="button" onclick="switchAdminTab('logs')" style="flex: 1; min-width: 90px; padding: 0.5rem 0.4rem; background: transparent; color: var(--text-main); border: none; border-radius: 6px; font-weight: 800; font-size: 0.76rem; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.15s;">
+          <button id="adminTabLogsBtn" type="button" onclick="switchAdminTab('logs')" style="flex: 1; padding: 0.45rem 0.4rem; background: transparent; color: var(--text-main); border: none; border-radius: 6px; font-weight: 800; font-size: 0.76rem; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.15s;">
             Audit Log
           </button>
-          <button type="button" onclick="refreshCurrentAdminTab()" title="Refresh Data" style="padding: 0.5rem 0.65rem; background: white; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.8rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" aria-label="Refresh">
+          <button type="button" onclick="refreshCurrentAdminTab()" title="Refresh Data" style="padding: 0.45rem 0.6rem; background: white; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" aria-label="Refresh">
             Refresh
           </button>
         </div>
@@ -121,15 +122,7 @@
         </div>
       </div>
 
-      <!-- Tab Content 2: Traffic & Leads Analytics -->
-      <div id="adminTabAnalyticsContent" style="display: none;">
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.85rem;">Real-time website visitors, pageviews, and WhatsApp leads received from prospects.</p>
-        <div id="trafficAnalyticsContainer">
-          <!-- Rendered dynamically by dashboard.js -->
-        </div>
-      </div>
-
-      <!-- Tab Content 3: Activity Logs -->
+      <!-- Tab Content 2: Activity Logs -->
       <div id="adminTabLogsContent" style="display: none;">
         <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.85rem;">Track real-time activity for added, updated, and deleted agent listings and approvals.</p>
         <div id="activityLogsContainer">
@@ -235,9 +228,9 @@
     </p>
   </footer>
 
-  <script src="/config.js?v=2.3.1"></script>
+  <script src="/config.js?v=2.3.2"></script>
   <script src="/image-watermark.js?v=3"></script>
-  <script src="/dashboard.js?v=40"></script>
+  <script src="/dashboard.js?v=41"></script>
   <script>
     function togglePortalMobileMenu(e) {
       if (e) e.stopPropagation();

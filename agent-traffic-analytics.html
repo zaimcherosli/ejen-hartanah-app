@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://js.sentry-cdn.com/ab32fc171c3d97f3764a4402a80afc77.min.js" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Website Traffic &amp; Lead Analytics | Corporate Estate Malaysia</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a192f">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css?v=59">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    @media (max-width: 640px) {
+      .portal-desktop-links { display: none !important; }
+      .portal-mobile-btn { display: inline-flex !important; }
+      .portal-sub-navbar { display: none !important; }
+    }
+    @media (min-width: 641px) {
+      .portal-desktop-links { display: flex !important; }
+      .portal-mobile-btn { display: none !important; }
+      .portal-sub-navbar { display: block !important; }
+    }
+  </style>
+</head>
+<body style="background: #f8fafc; min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Clean Navigation Header -->
+  <nav class="navbar">
+    <a href="index.html" class="logo-wrap">
+      <img src="logo.png" alt="Corporate Estate Malaysia Logo" class="logo-img">
+      <div class="logo-text">
+        CORPORATE ESTATE <span>MALAYSIA</span>
+      </div>
+      <span class="agent-portal-badge">AGENT PORTAL</span>
+      <span id="versionBadge" onclick="showSystemInfo()" title="System Diagnostics (Click for Details)" style="font-size: 0.68rem; background: #1e293b; color: #38bdf8; padding: 0.15rem 0.45rem; border-radius: 4px; font-weight: 800; font-family: monospace; cursor: pointer; letter-spacing: 0.03em; border: 1px solid #334155;">v2.3.2</span>
+    </a>
+
+    <!-- Desktop Navigation Links -->
+    <div class="nav-links portal-desktop-links" style="display: flex; align-items: center; gap: 1.25rem;">
+      <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
+        Logged in: <strong id="agentEmailDisplay" style="color: var(--cem-navy);">...</strong>
+      </span>
+      <button onclick="handlePortalLogout()" class="btn btn-outline" style="padding: 0.35rem 0.85rem; font-size: 0.8rem; border-color: var(--border-strong); color: var(--text-muted); font-weight: 700;">
+        Logout
+      </button>
+    </div>
+
+    <!-- Mobile Hamburger Toggle Button -->
+    <button class="mobile-menu-btn portal-mobile-btn" onclick="togglePortalMobileMenu(event)" aria-label="Toggle Portal Menu" style="display: none;">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="portalMobileDrawer" class="mobile-menu-drawer">
+    <div style="padding: 0.65rem 0.85rem; background: #f1f5f9; border-radius: 6px; font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
+      Logged in: <strong id="mobileAgentEmail" style="color: var(--cem-red);">...</strong>
+    </div>
+    <a href="/dashboard" style="color: var(--cem-navy);">Agent Approvals &amp; Audit Log</a>
+    <a href="/agent-traffic-analytics" style="background: var(--cem-navy); color: white !important;">Traffic &amp; Leads Analytics</a>
+    <a href="/agent-listing-management" style="color: var(--cem-navy);">Listing Management</a>
+    <a href="/agent-blog-management" style="color: var(--cem-navy);">Blog &amp; Guides Management</a>
+    <a href="/index.html" target="_blank" style="color: var(--cem-navy);">Preview Live Main Site</a>
+    <a href="javascript:void(0)" onclick="handlePortalLogout()" style="color: var(--cem-red); background: #fee2e2; border-color: #fca5a5;">Logout Portal</a>
+  </div>
+
+  <!-- Agent Portal Desktop Sub-Navigation Tab Bar -->
+  <div class="portal-sub-navbar" style="background: #ffffff; border-bottom: 2px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+    <div class="container" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 0.75rem; padding-bottom: 0.75rem;">
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <a href="/dashboard" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border);">
+          Agent Approvals &amp; Audit Log
+        </a>
+        <a href="/agent-traffic-analytics" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; background: var(--cem-navy); color: white; border: 1px solid var(--cem-navy);">
+          Traffic &amp; Leads Analytics
+        </a>
+        <a href="/agent-listing-management" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border);">
+          Listing Management
+        </a>
+        <a href="/agent-blog-management" style="padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border);">
+          Blog &amp; Guides Management
+        </a>
+      </div>
+      <a href="/index.html" target="_blank" style="color: var(--cem-red); font-weight: 800; font-size: 0.85rem; text-decoration: none; white-space: nowrap;">Preview Live Main Site →</a>
+    </div>
+  </div>
+
+  <main class="container" style="padding-top: 1.25rem; padding-bottom: 3.5rem;">
+    
+    <!-- Page Header & Refresh Bar -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
+      <div>
+        <h2 style="font-size: clamp(1.2rem, 3.5vw, 1.4rem); font-weight: 900; color: var(--cem-navy); line-height: 1.3; margin-bottom: 0.3rem;">Website Traffic &amp; Lead Analytics</h2>
+        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">Real-time visitor traffic, pageviews, and WhatsApp conversion leads received across Corporate Estate Malaysia.</p>
+      </div>
+      <button type="button" onclick="loadTrafficAnalyticsPage()" style="padding: 0.5rem 0.85rem; background: white; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.82rem; font-weight: 800; color: var(--cem-navy); cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+        Refresh Data
+      </button>
+    </div>
+
+    <!-- Analytics Dashboard Container -->
+    <div id="trafficAnalyticsContainer">
+      <!-- Rendered dynamically by dashboard.js -->
+    </div>
+
+  </main>
+
+  <!-- Standard Website Footer -->
+  <footer style="background: #ffffff; color: var(--text-muted); text-align: center; padding: 2.25rem 1rem; margin-top: auto; font-size: 0.85rem; border-top: 1px solid var(--border);">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+      <img src="/logo.png" alt="Logo" style="height: 36px; width: auto; background: transparent; padding: 0;">
+      <strong style="color: var(--cem-navy); font-size: 1rem;">CORPORATE ESTATE MALAYSIA</strong>
+    </div>
+    <p>© 2026 Corporate Estate Malaysia. Leading Real Estate Industrial - Commercial - Land. All Rights Reserved.</p>
+    <p style="margin-top: 0.4rem; font-size: 0.8rem; color: var(--text-muted);">
+      Design by <a href="https://binawebsitemurah-by.zaimrosli.my/" target="_blank" style="font-weight: 800; text-decoration: underline; color: inherit;">Kwikezee Studio®️</a>
+    </p>
+  </footer>
+
+  <script src="/config.js?v=2.3.2"></script>
+  <script src="/dashboard.js?v=41"></script>
+  <script>
+    function togglePortalMobileMenu(e) {
+      if (e) e.stopPropagation();
+      const drawer = document.getElementById('portalMobileDrawer');
+      if (drawer) {
+        drawer.classList.toggle('active');
+        drawer.classList.toggle('open');
+      }
+    }
+    async function handlePortalLogout() {
+      if (typeof supabaseClient !== 'undefined') {
+        await supabaseClient.auth.signOut();
+      }
+      window.location.href = '/login.html';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      loadTrafficAnalyticsPage();
+    });
+  </script>
+  <script src="/pwa.js"></script>
+</body>
+</html>

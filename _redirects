@@ -1,2 +1,5 @@
-# Cloudflare Pages Routing handled via Edge Functions in functions/ directory
-
+# Cloudflare Pages Routing Rules
+/agent-traffic-analytics /agent-traffic-analytics.html 200
+/dashboard /dashboard.html 200
+/agent-listing-management /agent-listing-management.html 200
+/agent-blog-management /agent-blog-management.html 200
