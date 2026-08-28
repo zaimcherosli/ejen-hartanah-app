@@ -379,7 +379,9 @@
               </a>
               ${isWanAzemi ? `
                 <a href="/agents/wanazemi" class="btn-detail" style="width: 100%; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; font-weight: 700; font-size: 0.85rem; height: 38px;">View Profile &amp; Portfolio</a>
-              ` : ''}
+              ` : `
+                <div style="height: 38px; visibility: hidden;" aria-hidden="true"></div>
+              `}
             </div>
           </div>
         `;

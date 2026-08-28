@@ -4,10 +4,10 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 // System Versioning & Build Info
 window.CEM_SYSTEM = {
-  VERSION: 'v2.4.4',
+  VERSION: 'v2.4.5',
   BUILD_DATE: '2026-08-28',
-  ENV: 'Production (Cloudflare Pages + WanAzemi > Aisyah > Shafiq > Ameer Ordering & Aligned WhatsApp Buttons)',
-  PWA_VERSION: 'cem-pwa-v54'
+  ENV: 'Production (Cloudflare Pages + Perfectly Aligned WhatsApp Buttons & Structured Spacing)',
+  PWA_VERSION: 'cem-pwa-v55'
 };
 
 // Console Diagnostic Log
