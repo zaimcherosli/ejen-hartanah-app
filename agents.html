@@ -110,9 +110,7 @@
   <!-- FLOATING WHATSAPP BUTTON -->
   <a href="https://wa.me/60173569452?text=Hello%20Corporate%20Estate%20Malaysia,%20I%20have%20an%20enquiry%20regarding%20an%20industrial/commercial%20property." target="_blank" class="floating-wa-btn" title="Chat on WhatsApp">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="white" width="28" height="28"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
-  </a>
-
-  <script>
+    <script>
     // Mobile Menu Toggle
     function toggleMobileMenu(e) {
       if (e) e.stopPropagation();
@@ -123,7 +121,7 @@
     // Agent Profiles Store
     let loadedAgents = [];
 
-    // Fallback baseline profiles
+    // Default baseline profiles
     const defaultProfiles = [
       {
         id: 'wanazemi',
@@ -133,9 +131,8 @@
         title: 'Senior Commercial Industrial Specialist',
         company: 'Corporate Estate Malaysia',
         zone: 'Selangor & Kuala Lumpur Zones',
-        phone: '017-356 9452',
-        waLink: 'https://wa.me/60173569452',
-        renNo: 'REN 15376',
+        whatsapp_number: '0173569452',
+        ren_number: 'REN 15376',
         specializations: [
           'Industrial Factory & Warehouse (Sale & Lease)',
           'Industrial Land Acquisition & Joint Venture',
@@ -157,16 +154,16 @@
           'Specialist in high-value factory & warehouse deals'
         ]
       },
-      aisyah: {
+      {
+        id: 'aisyah',
         slug: 'aisyah',
-        name: 'Aisyah',
-        img: '/agents/aisyah.png',
+        full_name: 'Aisyah Nur Atiqah bt Aznan',
+        photo_url: '/agents/aisyah.png',
         title: 'Commercial Industrial Realtor',
         company: 'Corporate Estate Malaysia',
         zone: 'Industrial & Commercial Specialist',
-        phone: '017-379 0592',
-        waLink: 'https://wa.me/60173790592',
-        renNo: 'REN 54321',
+        whatsapp_number: '0173790592',
+        ren_number: 'REN 51781',
         specializations: [
           'Commercial Shoplot & Office Space',
           'Industrial Warehouse Leasing',
@@ -180,18 +177,169 @@
           'Senior Real Estate Consultant at Corporate Estate Malaysia',
           'Proven track record in commercial property leasing & sale'
         ]
+      },
+      {
+        id: 'shafiq',
+        slug: 'shafiq-chua',
+        full_name: 'Shafiq Chua',
+        photo_url: 'https://csrzhidtzqxfbapsenhu.supabase.co/storage/v1/object/public/listing-images/properties/agent_1787879247925_q5jwp.jpg',
+        title: 'Probationary Estate Agent (PEA)',
+        company: 'Corporate Estate Malaysia',
+        zone: 'Klang Valley & Industrial Corridor',
+        whatsapp_number: '0168873984',
+        ren_number: 'PEA 4136',
+        specializations: [
+          'Industrial Land & Factory Advisory',
+          'Commercial Shoplots & Warehouses',
+          'Corporate Leasing & Subsales'
+        ],
+        areas: [
+          'Klang Valley', 'Shah Alam', 'Petaling Jaya', 'Kuala Lumpur'
+        ],
+        experience: 'Registered Probationary Estate Agent (PEA 4136) providing comprehensive real estate consultation for corporate, commercial, and industrial property assets.',
+        achievements: [
+          'Certified PEA Negotiator at Corporate Estate Malaysia',
+          'Specialist in industrial & commercial real estate marketing'
+        ]
+      },
+      {
+        id: 'ameer',
+        slug: 'ameer-ashraf',
+        full_name: 'Ameer Ashraf Bin Zarudin',
+        photo_url: 'https://csrzhidtzqxfbapsenhu.supabase.co/storage/v1/object/public/listing-images/agents/ren_1787825991012_0x06lt.jpg',
+        title: 'Real Estate Negotiator (REN)',
+        company: 'Corporate Estate Malaysia',
+        zone: 'Selangor Industrial Zones',
+        whatsapp_number: '+60173941124',
+        ren_number: 'REN 83112',
+        specializations: [
+          'Factory & Warehouse Acquisition',
+          'Industrial Land Development',
+          'Commercial Asset Leasing'
+        ],
+        areas: [
+          'Selangor', 'Shah Alam', 'Klang', 'Kuala Lumpur'
+        ],
+        experience: 'Licensed Real Estate Negotiator (REN 83112) with expertise in factory leasing, industrial warehouse transactions, and corporate client representations.',
+        achievements: [
+          'Registered Real Estate Negotiator at Corporate Estate Malaysia',
+          'Active facilitator in Selangor industrial transactions'
+        ]
       }
-    };
+    ];
 
-    // Agent Profile Modal with Custom Slug PushState
-    function openAgentProfile(agentKey, updateUrl = true) {
-      const agent = profiles[agentKey.toLowerCase()];
+    async function loadPublicAgents() {
+      const container = document.getElementById('agentsGridContainer');
+      if (!container) return;
+
+      let agents = [];
+
+      try {
+        if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+          const { data, error } = await supabaseClient
+            .from('agent_profiles')
+            .select('*')
+            .eq('status', 'Approved')
+            .order('registered_at', { ascending: true });
+
+          if (!error && data && data.length > 0) {
+            agents = data;
+          }
+        }
+      } catch (err) {
+        console.warn('Supabase agent fetch notice, using baseline:', err);
+      }
+
+      if (!agents || agents.length === 0) {
+        agents = defaultProfiles;
+      }
+
+      loadedAgents = agents.map(ag => {
+        const emailLower = (ag.email || '').toLowerCase();
+        const nameLower = (ag.full_name || '').toLowerCase();
+        
+        const matchedDefault = defaultProfiles.find(d => 
+          (ag.id && d.id === ag.id) ||
+          (d.full_name && nameLower.includes(d.full_name.toLowerCase())) ||
+          (d.ren_number && ag.ren_number && d.ren_number.replace(/\s+/g, '').toLowerCase() === ag.ren_number.replace(/\s+/g, '').toLowerCase())
+        );
+
+        let photoUrl = ag.photo_url || ag.avatar_url;
+        if (!photoUrl || photoUrl.includes('logo.png')) {
+          if (emailLower.includes('wanazemi') || nameLower.includes('wanazemi')) photoUrl = '/agents/wanazemi.png';
+          else if (emailLower.includes('ecah') || nameLower.includes('aisyah')) photoUrl = '/agents/aisyah.png';
+          else if (matchedDefault) photoUrl = matchedDefault.photo_url;
+          else photoUrl = '/logo.png';
+        }
+
+        const cleanWa = (ag.whatsapp_number || '').replace(/[^0-9]/g, '');
+        const waLink = `https://wa.me/${cleanWa.startsWith('60') ? cleanWa : '60' + cleanWa}`;
+
+        return {
+          id: ag.id,
+          slug: ag.slug || (matchedDefault ? matchedDefault.slug : nameLower.replace(/\s+/g, '-')),
+          name: ag.full_name || 'Corporate Estate Negotiator',
+          renNo: ag.ren_number || (matchedDefault ? matchedDefault.ren_number : ''),
+          title: matchedDefault ? matchedDefault.title : (ag.ren_number ? `Real Estate Negotiator (${ag.ren_number})` : 'Commercial Industrial Specialist'),
+          zone: matchedDefault ? matchedDefault.zone : 'Klang Valley & Selangor Industrial Zones',
+          company: 'Corporate Estate Malaysia',
+          phone: ag.whatsapp_number || '-',
+          waLink: waLink,
+          img: photoUrl,
+          specializations: matchedDefault ? matchedDefault.specializations : ['Factory & Warehouse Sales / Leasing', 'Commercial Shoplots', 'Industrial Land Advisory'],
+          areas: matchedDefault ? matchedDefault.areas : ['Klang Valley', 'Shah Alam', 'Subang Jaya', 'Petaling Jaya', 'Kuala Lumpur'],
+          experience: matchedDefault ? matchedDefault.experience : 'Professional real estate negotiator representing Corporate Estate Malaysia in industrial and commercial transactions.',
+          achievements: matchedDefault ? matchedDefault.achievements : ['Registered Negotiator at Corporate Estate Malaysia', 'Specialist in commercial & industrial deals']
+        };
+      });
+
+      renderAgentsGrid();
+    }
+
+    function renderAgentsGrid() {
+      const container = document.getElementById('agentsGridContainer');
+      if (!container) return;
+
+      container.innerHTML = loadedAgents.map(agent => {
+        const isWanAzemi = agent.name.toLowerCase().includes('wanazemi');
+        const displayPhone = agent.phone;
+
+        return `
+          <div class="agent-card" style="background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, box-shadow 0.2s;">
+            <div>
+              <div style="position: relative; display: inline-block; margin-bottom: 0.85rem;">
+                <img src="${agent.img}" class="agent-img" alt="${agent.name}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--cem-navy); display: inline-block;" onerror="this.src='/logo.png'">
+              </div>
+              <div class="agent-name" style="font-size: 1.18rem; font-weight: 900; color: var(--cem-navy); margin-bottom: 0.25rem; line-height: 1.3;">${agent.name}</div>
+              ${agent.renNo ? `<div style="margin-bottom: 0.4rem;"><span style="background: #f1f5f9; color: var(--cem-navy); padding: 0.2rem 0.55rem; border-radius: 4px; font-weight: 800; font-size: 0.76rem; border: 1px solid var(--border);">${agent.renNo}</span></div>` : ''}
+              <div class="agent-zone" style="font-size: 0.78rem; font-weight: 800; color: var(--cem-red); text-transform: uppercase; margin-bottom: 0.35rem; line-height: 1.3;">${agent.zone}</div>
+              <div class="agent-desc" style="font-size: 0.84rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 1.25rem;">${agent.title}<br><strong>Corporate Estate Malaysia</strong></div>
+            </div>
+
+            <div>
+              <a href="${agent.waLink}?text=${encodeURIComponent('Hello ' + agent.name + ', I am interested in your industrial/commercial property services at Corporate Estate Malaysia.')}" target="_blank" class="btn-whatsapp" style="width: 100%; justify-content: center; font-size: 0.88rem; padding: 0.75rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 16px; height: 16px; fill: white;"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+                WhatsApp ${displayPhone}
+              </a>
+              ${isWanAzemi ? `
+                <a href="/agents/wanazemi" class="btn-detail" style="width: 100%; margin-top: 0.5rem; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; font-weight: 700; font-size: 0.85rem;">View Profile &amp; Portfolio</a>
+              ` : `
+                <button type="button" onclick="openAgentModal('${agent.slug}')" class="btn-detail" style="width: 100%; margin-top: 0.5rem; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; cursor: pointer; background: var(--bg-subtle);">View Profile &amp; Bio</button>
+              `}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openAgentModal(slug, updateUrl = true) {
+      const agent = loadedAgents.find(a => a.slug === slug || (a.name && a.name.toLowerCase().replace(/\s+/g, '-') === slug));
       if (!agent) return;
 
       const body = document.getElementById('agentProfileBody');
       body.innerHTML = `
         <div style="text-align: center; margin-bottom: 1.5rem;">
-          <img src="${agent.img}" alt="${agent.name}" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--cem-navy); margin-bottom: 0.75rem;">
+          <img src="${agent.img}" alt="${agent.name}" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--cem-navy); margin-bottom: 0.75rem;" onerror="this.src='/logo.png'">
           <h2 style="font-size: 1.5rem; font-weight: 900; color: var(--cem-navy); margin: 0;">${agent.name}</h2>
           <p style="font-size: 0.92rem; font-weight: 700; color: var(--cem-red); margin: 0.25rem 0;">${agent.title}</p>
           <p style="font-size: 0.85rem; color: var(--text-main); font-weight: 700; margin: 0;">${agent.company}</p>
@@ -228,52 +376,52 @@
         <a href="${agent.waLink}?text=${encodeURIComponent('Hello ' + agent.name + ', I am interested in your industrial/commercial property services at Corporate Estate Malaysia.')}" target="_blank" class="btn-whatsapp" style="width: 100%; padding: 0.75rem 1rem; justify-content: center; font-size: 0.9rem; text-align: center; border-radius: 8px; flex-direction: column; gap: 0.2rem; height: auto;">
           <div style="display: flex; align-items: center; justify-content: center; gap: 0.4rem; font-weight: 800;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 18px; height: 18px; fill: white;"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg> Contact ${agent.name} on WhatsApp
-          </div>
-          <div style="font-size: 0.85rem; font-weight: 700; opacity: 0.95;">${agent.phone}</div>
-        </a>
-      `;
+        </div>
+        <div style="font-size: 0.85rem; font-weight: 700; opacity: 0.95;">${agent.phone}</div>
+      </a>
+    `;
 
-      document.getElementById('agentProfileModal').classList.add('active');
+    document.getElementById('agentProfileModal').classList.add('active');
 
-      if (updateUrl && window.history.pushState) {
-        window.history.pushState({ agent: agent.slug }, '', '/agents/' + agent.slug);
-      }
+    if (updateUrl && window.history.pushState) {
+      window.history.pushState({ agent: agent.slug }, '', '/agents/' + agent.slug);
+    }
+  }
+
+  function closeAgentProfile(updateUrl = true) {
+    document.getElementById('agentProfileModal').classList.remove('active');
+    if (updateUrl && window.history.pushState) {
+      window.history.pushState(null, '', '/agents.html');
+    }
+  }
+
+  // Auto-detect Agent Slug on Page Load
+  document.addEventListener('DOMContentLoaded', async () => {
+    await loadPublicAgents();
+
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    let detectedSlug = urlParams.get('agent') || urlParams.get('slug');
+    
+    if (!detectedSlug && pathParts.length >= 2 && pathParts[0] === 'agents') {
+      detectedSlug = pathParts[1];
     }
 
-    function closeAgentProfile(updateUrl = true) {
-      document.getElementById('agentProfileModal').classList.remove('active');
-      if (updateUrl && window.history.pushState) {
-        window.history.pushState(null, '', '/agents.html');
-      }
+    if (detectedSlug) {
+      const cleanSlug = detectedSlug.replace('.html', '').toLowerCase();
+      openAgentModal(cleanSlug, false);
     }
+  });
 
-    // Auto-detect Agent Slug on Page Load (e.g. /agents/wanazemi or ?agent=wanazemi)
-    document.addEventListener('DOMContentLoaded', async () => {
-      await loadPublicAgents();
-
-      const pathParts = window.location.pathname.split('/').filter(Boolean);
-      const urlParams = new URLSearchParams(window.location.search);
-      
-      let detectedSlug = urlParams.get('agent') || urlParams.get('slug');
-      
-      if (!detectedSlug && pathParts.length >= 2 && pathParts[0] === 'agents') {
-        detectedSlug = pathParts[1];
-      }
-
-      if (detectedSlug) {
-        const cleanSlug = detectedSlug.replace('.html', '').toLowerCase();
-        openAgentModal(cleanSlug, false);
-      }
-    });
-
-    window.addEventListener('popstate', (e) => {
-      if (e.state && e.state.agent) {
-        openAgentModal(e.state.agent, false);
-      } else {
-        closeAgentProfile(false);
-      }
-    });
-  </script>
+  window.addEventListener('popstate', (e) => {
+    if (e.state && e.state.agent) {
+      openAgentModal(e.state.agent, false);
+    } else {
+      closeAgentProfile(false);
+    }
+  });
+</script>
   <script src="/analytics.js?v=1"></script>
   <script src="/pwa.js"></script>
 </body>
