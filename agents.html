@@ -235,19 +235,33 @@
       let agents = [];
 
       try {
-        if (typeof supabaseClient !== 'undefined' && supabaseClient) {
-          const { data, error } = await supabaseClient
-            .from('agent_profiles')
-            .select('*')
-            .eq('status', 'Approved')
-            .order('registered_at', { ascending: true });
-
-          if (!error && data && data.length > 0) {
-            agents = data;
+        // 1. Primary: Fetch from admin-agents API with live user_metadata
+        const apiRes = await fetch('/api/admin-agents');
+        if (apiRes.ok) {
+          const json = await apiRes.json();
+          if (json && json.success && Array.isArray(json.agents)) {
+            agents = json.agents.filter(a => a.status === 'Approved');
           }
         }
-      } catch (err) {
-        console.warn('Supabase agent fetch notice, using baseline:', err);
+      } catch (_) {}
+
+      // 2. Fallback: Supabase direct query
+      if (!agents || agents.length === 0) {
+        try {
+          if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+            const { data, error } = await supabaseClient
+              .from('agent_profiles')
+              .select('*')
+              .eq('status', 'Approved')
+              .order('registered_at', { ascending: true });
+
+            if (!error && data && data.length > 0) {
+              agents = data;
+            }
+          }
+        } catch (err) {
+          console.warn('Supabase agent fetch notice, using baseline:', err);
+        }
       }
 
       if (!agents || agents.length === 0) {
@@ -275,13 +289,16 @@
         const cleanWa = (ag.whatsapp_number || '').replace(/[^0-9]/g, '');
         const waLink = `https://wa.me/${cleanWa.startsWith('60') ? cleanWa : '60' + cleanWa}`;
 
+        const zone = ag.zone || (matchedDefault ? matchedDefault.zone : 'Klang Valley & Selangor Industrial Zones');
+        const title = ag.title || (matchedDefault ? matchedDefault.title : (ag.ren_number ? `Real Estate Negotiator (${ag.ren_number})` : 'Commercial Industrial Specialist'));
+
         return {
           id: ag.id,
           slug: ag.slug || (matchedDefault ? matchedDefault.slug : nameLower.replace(/\s+/g, '-')),
           name: ag.full_name || 'Corporate Estate Negotiator',
           renNo: ag.ren_number || (matchedDefault ? matchedDefault.ren_number : ''),
-          title: matchedDefault ? matchedDefault.title : (ag.ren_number ? `Real Estate Negotiator (${ag.ren_number})` : 'Commercial Industrial Specialist'),
-          zone: matchedDefault ? matchedDefault.zone : 'Klang Valley & Selangor Industrial Zones',
+          title: title,
+          zone: zone.toUpperCase(),
           company: 'Corporate Estate Malaysia',
           phone: ag.whatsapp_number || '-',
           waLink: waLink,

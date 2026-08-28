@@ -977,6 +977,8 @@ function openEditAgentModal(userId) {
   if (document.getElementById('editAgentEmail')) document.getElementById('editAgentEmail').value = agent.email || '';
   if (document.getElementById('editAgentWhatsapp')) document.getElementById('editAgentWhatsapp').value = agent.whatsapp_number || '';
   if (document.getElementById('editAgentRen')) document.getElementById('editAgentRen').value = agent.ren_number || '';
+  if (document.getElementById('editAgentZone')) document.getElementById('editAgentZone').value = agent.zone || '';
+  if (document.getElementById('editAgentTitle')) document.getElementById('editAgentTitle').value = agent.title || '';
   if (document.getElementById('editAgentStatus')) document.getElementById('editAgentStatus').value = agent.status || 'Approved';
 
   let photo = agent.avatar_url || agent.photo_url || '/logo.png';
@@ -1051,6 +1053,8 @@ function setupEditAgentFormHandler() {
     const email = document.getElementById('editAgentEmail').value.trim();
     const whatsapp = document.getElementById('editAgentWhatsapp').value.trim();
     const ren = document.getElementById('editAgentRen').value.trim();
+    const zone = document.getElementById('editAgentZone') ? document.getElementById('editAgentZone').value.trim() : '';
+    const title = document.getElementById('editAgentTitle') ? document.getElementById('editAgentTitle').value.trim() : '';
     const status = document.getElementById('editAgentStatus').value;
     const photoUrl = document.getElementById('editAgentPhotoUrl').value;
 
@@ -1072,6 +1076,8 @@ function setupEditAgentFormHandler() {
           full_name: fullName,
           whatsapp_number: whatsapp,
           ren_number: ren,
+          zone: zone,
+          title: title,
           status: status,
           photo_url: photoUrl
         })

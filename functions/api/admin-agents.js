@@ -70,6 +70,8 @@ export async function onRequestGet(context) {
       const ren = (existingProf && existingProf.ren_number) || meta.ren_number || meta.ren_code || '-';
       const photoUrl = meta.photo_url || meta.avatar_url || (email.includes('ecah') ? '/agents/aisyah.png' : '') || '';
       const registeredAt = meta.registered_at || (existingProf && existingProf.registered_at) || u.created_at;
+      const zone = meta.zone || meta.coverage_zone || meta.specialization_zone || '';
+      const title = meta.title || meta.designation || '';
 
       // Auto-sync into agent_profiles if missing
       if (!existingProf) {
@@ -104,6 +106,8 @@ export async function onRequestGet(context) {
         ren_number: ren,
         email: u.email,
         status: status,
+        zone: zone,
+        title: title,
         avatar_url: photoUrl,
         photo_url: photoUrl,
         registered_at: registeredAt
@@ -170,7 +174,7 @@ export async function onRequestPost(context) {
     }
 
     if (action === 'update') {
-      const { full_name, whatsapp_number, ren_number, status, photo_url } = body;
+      const { full_name, whatsapp_number, ren_number, status, photo_url, zone, title } = body;
 
       // 1. Update agent_profiles table
       const profileUpdates = {};
@@ -203,6 +207,8 @@ export async function onRequestPost(context) {
         metaUpdates.photo_url = photo_url;
         metaUpdates.avatar_url = photo_url;
       }
+      if (zone !== undefined) metaUpdates.zone = zone;
+      if (title !== undefined) metaUpdates.title = title;
 
       await fetch(`${SUPABASE_URL}/auth/v1/admin/users/${userId}`, {
         method: 'PUT',
