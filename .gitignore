@@ -8,3 +8,8 @@ create_table.js
 run_sql_api.js
 seed_demo_data.js
 confirm_user.js
+scratch/
+upload_test_image.js
+scratch_shafiq.jpg
+*.jpg.tmp
+*.tmp

@@ -1,6 +1,9 @@
 // Cloudflare Pages Function for Real-time SuperAdmin Agent Approvals & Auth Sync
-const SUPABASE_URL = 'https://csrzhidtzqxfbapsenhu.supabase.co';
-const SUPABASE_SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzcnpoaWR0enF4ZmJhcHNlbmh1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NTQ5Mzc5NiwiZXhwIjoyMTAxMDY5Nzk2fQ.P4ZBaDNqRw0hMA3wVkkk-0xIhzhp0uPlF9fCf1elKuM';
+function getSupabaseConfig(env) {
+  const url = (env && env.SUPABASE_URL) || 'https://csrzhidtzqxfbapsenhu.supabase.co';
+  const key = (env && env.SUPABASE_SERVICE_ROLE_KEY) || '';
+  return { url, key };
+}
 
 // SuperAdmin emails whitelist
 const SUPERADMIN_EMAILS = new Set([
@@ -25,6 +28,8 @@ export async function onRequestOptions() {
 // GET: Fetch all registered agents from Supabase Auth Admin + sync with agent_profiles
 export async function onRequestGet(context) {
   try {
+    const { url: SUPABASE_URL, key: SUPABASE_SERVICE_ROLE_KEY } = getSupabaseConfig(context.env);
+
     // 1. Fetch all users from Supabase Auth Admin API
     const authRes = await fetch(`${SUPABASE_URL}/auth/v1/admin/users?page=1&per_page=1000`, {
       headers: {
@@ -131,6 +136,7 @@ export async function onRequestGet(context) {
 // POST: Approve, Reject, or Delete Agent
 export async function onRequestPost(context) {
   try {
+    const { url: SUPABASE_URL, key: SUPABASE_SERVICE_ROLE_KEY } = getSupabaseConfig(context.env);
     const body = await context.request.json();
     const { action, userId, email } = body;
 

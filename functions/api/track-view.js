@@ -1,6 +1,9 @@
 // Cloudflare Pages Function: Real-Time Article View Counter & Analytics Tracker
-const SUPABASE_URL = 'https://csrzhidtzqxfbapsenhu.supabase.co';
-const SUPABASE_SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzcnpoaWR0enF4ZmJhcHNlbmh1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NTQ5Mzc5NiwiZXhwIjoyMTAxMDY5Nzk2fQ.P4ZBaDNqRw0hMA3wVkkk-0xIhzhp0uPlF9fCf1elKuM';
+function getSupabaseConfig(env) {
+  const url = (env && env.SUPABASE_URL) || 'https://csrzhidtzqxfbapsenhu.supabase.co';
+  const key = (env && env.SUPABASE_SERVICE_ROLE_KEY) || '';
+  return { url, key };
+}
 
 function corsHeaders() {
   return {
@@ -17,6 +20,7 @@ export async function onRequestOptions() {
 
 export async function onRequestPost(context) {
   try {
+    const { url: SUPABASE_URL, key: SUPABASE_SERVICE_ROLE_KEY } = getSupabaseConfig(context.env);
     const body = await context.request.json().catch(() => ({}));
     const slug = (body.slug || '').trim();
     const articleId = (body.article_id || body.id || '').trim();

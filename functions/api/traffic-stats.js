@@ -1,6 +1,9 @@
 // Cloudflare Pages Function: Real-Time Traffic & Lead Analytics Aggregator API
-const SUPABASE_URL = 'https://csrzhidtzqxfbapsenhu.supabase.co';
-const SUPABASE_SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzcnpoaWR0enF4ZmJhcHNlbmh1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NTQ5Mzc5NiwiZXhwIjoyMTAxMDY5Nzk2fQ.P4ZBaDNqRw0hMA3wVkkk-0xIhzhp0uPlF9fCf1elKuM';
+function getSupabaseConfig(env) {
+  const url = (env && env.SUPABASE_URL) || 'https://csrzhidtzqxfbapsenhu.supabase.co';
+  const key = (env && env.SUPABASE_SERVICE_ROLE_KEY) || '';
+  return { url, key };
+}
 
 function corsHeaders() {
   return {
@@ -16,8 +19,9 @@ export async function onRequestOptions() {
   return new Response(null, { headers: corsHeaders() });
 }
 
-export async function onRequestGet() {
+export async function onRequestGet(context) {
   try {
+    const { url: SUPABASE_URL, key: SUPABASE_SERVICE_ROLE_KEY } = getSupabaseConfig(context && context.env);
     // 1. Fetch traffic events from activity_logs
     const logsRes = await fetch(`${SUPABASE_URL}/rest/v1/activity_logs?action_type=like.TRAFFIC_*&order=created_at.desc&limit=1500`, {
       headers: {
