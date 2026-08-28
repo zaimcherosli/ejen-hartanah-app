@@ -1011,11 +1011,13 @@ function openImageLightbox(imgSrc, caption = '') {
     modal.classList.add('active');
   }
 }
+window.openImageLightbox = openImageLightbox;
 
 function closeImageLightbox() {
   const modal = document.getElementById('imageLightboxModal');
   if (modal) modal.classList.remove('active');
 }
+window.closeImageLightbox = closeImageLightbox;
 
 async function handleAgentPhotoSelect(event) {
   const file = event.target.files && event.target.files[0];
