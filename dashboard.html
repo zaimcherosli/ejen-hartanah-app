@@ -161,7 +161,7 @@
           <!-- Agent Photo Preview & Upload -->
           <div style="margin-bottom: 1.25rem; text-align: center; background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid var(--border);">
             <div style="position: relative; display: inline-block; margin-bottom: 0.6rem;">
-              <img id="editAgentPhotoPreview" src="/logo.png" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--cem-navy); box-shadow: 0 4px 10px rgba(0,0,0,0.08);" onerror="this.src='/logo.png'">
+              <img id="editAgentPhotoPreview" src="/logo.png" onclick="openImageLightbox(this.src, 'Pratonton Gambar Profil Ejen')" title="Klik untuk besarkan gambar" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--cem-navy); box-shadow: 0 4px 10px rgba(0,0,0,0.08); cursor: pointer;" onerror="this.src='/logo.png'">
             </div>
             <div style="display: flex; gap: 0.5rem; justify-content: center; align-items: center; flex-wrap: wrap;">
               <label for="editAgentPhotoFile" style="padding: 0.4rem 0.85rem; background: white; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer; color: var(--cem-navy); display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
@@ -221,6 +221,15 @@
             </button>
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- Agent Photo Lightbox Zoom Modal -->
+    <div id="imageLightboxModal" class="modal-overlay" onclick="if(event.target===this) closeImageLightbox()" style="z-index: 99999; background: rgba(10, 25, 47, 0.88); backdrop-filter: blur(5px);">
+      <div style="position: relative; max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <button type="button" onclick="closeImageLightbox()" style="position: absolute; top: -45px; right: 0; background: white; color: var(--cem-navy); border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 1.2rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">✕</button>
+        <img id="lightboxImage" src="" alt="Enlarged Photo" style="max-width: 100%; max-height: 75vh; border-radius: 12px; object-fit: contain; box-shadow: 0 10px 30px rgba(0,0,0,0.4); border: 3px solid white; background: white;">
+        <div id="lightboxCaption" style="color: white; font-weight: 800; font-size: 1rem; margin-top: 0.85rem; text-shadow: 0 1px 3px rgba(0,0,0,0.8); text-align: center;"></div>
       </div>
     </div>
 

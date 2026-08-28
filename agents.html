@@ -232,7 +232,7 @@
       const container = document.getElementById('agentsGridContainer');
       if (!container) return;
 
-      let agents = [];
+      let fetchedAgents = [];
 
       try {
         // 1. Primary: Fetch from admin-agents API with live user_metadata
@@ -240,13 +240,13 @@
         if (apiRes.ok) {
           const json = await apiRes.json();
           if (json && json.success && Array.isArray(json.agents)) {
-            agents = json.agents.filter(a => a.status === 'Approved');
+            fetchedAgents = json.agents.filter(a => a.status === 'Approved');
           }
         }
       } catch (_) {}
 
       // 2. Fallback: Supabase direct query
-      if (!agents || agents.length === 0) {
+      if (fetchedAgents.length === 0) {
         try {
           if (typeof supabaseClient !== 'undefined' && supabaseClient) {
             const { data, error } = await supabaseClient
@@ -256,7 +256,7 @@
               .order('registered_at', { ascending: true });
 
             if (!error && data && data.length > 0) {
-              agents = data;
+              fetchedAgents = data;
             }
           }
         } catch (err) {
@@ -264,11 +264,22 @@
         }
       }
 
-      if (!agents || agents.length === 0) {
-        agents = defaultProfiles;
+      // Always guarantee WanAzemi as the founding Senior Commercial Industrial Specialist (#1 profile)
+      const wanAzemiProfile = defaultProfiles[0];
+      const combined = [wanAzemiProfile];
+
+      if (fetchedAgents.length > 0) {
+        fetchedAgents.forEach(ag => {
+          const nameLower = (ag.full_name || '').toLowerCase();
+          if (!nameLower.includes('wanazemi') && !nameLower.includes('wan azemi')) {
+            combined.push(ag);
+          }
+        });
+      } else {
+        defaultProfiles.slice(1).forEach(p => combined.push(p));
       }
 
-      loadedAgents = agents.map(ag => {
+      loadedAgents = combined.map(ag => {
         const emailLower = (ag.email || '').toLowerCase();
         const nameLower = (ag.full_name || '').toLowerCase();
         

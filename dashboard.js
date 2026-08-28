@@ -65,7 +65,7 @@ async function checkAuth() {
 }
 
 // Helper: Watermark & Compress Image client-side using HTML5 Canvas
-function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.8) {
+function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.8, addWatermark = true) {
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -97,8 +97,8 @@ function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.8) {
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
 
-        // 3. Delegate Watermarking to dedicated reusable module
-        if (typeof applyWatermark === 'function') {
+        // 3. Delegate Watermarking ONLY for property listings (NOT for agent profile photos)
+        if (addWatermark && typeof applyWatermark === 'function') {
           await applyWatermark(canvas);
         }
 
@@ -757,7 +757,7 @@ async function loadAgentApprovals() {
               return `
                 <tr style="border-bottom: 1px solid #f1f5f9;">
                   <td style="padding: 0.65rem 1rem; vertical-align: middle; text-align: center;">
-                    <img src="${avatarUrl}" alt="${name}" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 1.5px solid #cbd5e1; display: inline-block;" onerror="this.src='/logo.png'">
+                    <img src="${avatarUrl}" alt="${name}" onclick="openImageLightbox('${avatarUrl}', '${name}')" title="Klik untuk besarkan gambar" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 1.5px solid #cbd5e1; display: inline-block; cursor: pointer; transition: transform 0.15s;" onmouseover="this.style.transform='scale(1.15)'" onmouseout="this.style.transform='scale(1)'" onerror="this.src='/logo.png'">
                   </td>
                   <td style="padding: 0.85rem 1rem; font-weight: 700; color: var(--cem-navy); min-width: 160px; vertical-align: middle;">${name}</td>
                   <td style="padding: 0.85rem 1rem; font-weight: 600; white-space: nowrap; vertical-align: middle;">
@@ -823,7 +823,7 @@ async function loadAgentApprovals() {
             <div style="background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.03); margin-bottom: 0.75rem;">
               <!-- Avatar + Agent Full Name (Single row) + Email Below -->
               <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
-                <img src="${avatarUrl}" alt="${name}" style="width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 1.5px solid #cbd5e1; flex-shrink: 0;" onerror="this.src='/logo.png'">
+                <img src="${avatarUrl}" alt="${name}" onclick="openImageLightbox('${avatarUrl}', '${name}')" title="Klik untuk besarkan gambar" style="width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 1.5px solid #cbd5e1; flex-shrink: 0; cursor: pointer;" onerror="this.src='/logo.png'">
                 <div style="min-width: 0; flex: 1;">
                   <div style="font-weight: 800; color: var(--cem-navy); font-size: 0.96rem; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${name}</div>
                   <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600; margin-top: 0.15rem; word-break: break-all;">${u.email}</div>
@@ -1000,6 +1000,23 @@ function closeEditAgentModal() {
   if (modal) modal.classList.remove('active');
 }
 
+function openImageLightbox(imgSrc, caption = '') {
+  if (!imgSrc || imgSrc.includes('logo.png')) return;
+  const modal = document.getElementById('imageLightboxModal');
+  const img = document.getElementById('lightboxImage');
+  const cap = document.getElementById('lightboxCaption');
+  if (modal && img) {
+    img.src = imgSrc;
+    if (cap) cap.innerText = caption || 'Profil Ejen';
+    modal.classList.add('active');
+  }
+}
+
+function closeImageLightbox() {
+  const modal = document.getElementById('imageLightboxModal');
+  if (modal) modal.classList.remove('active');
+}
+
 async function handleAgentPhotoSelect(event) {
   const file = event.target.files && event.target.files[0];
   if (!file) return;
@@ -1013,7 +1030,8 @@ async function handleAgentPhotoSelect(event) {
   }
 
   try {
-    const compressed = await compressImage(file);
+    // Compress WITHOUT watermark for agent profile photos
+    const compressed = await compressImage(file, 800, 800, 0.85, false);
     const fileName = `agent_${Date.now()}_${Math.random().toString(36).substring(2, 7)}.jpg`;
     const publicUrl = await uploadImageFile(compressed, fileName);
 
@@ -1023,7 +1041,7 @@ async function handleAgentPhotoSelect(event) {
       if (alertBox) {
         alertBox.style.background = '#dcfce7';
         alertBox.style.color = '#166534';
-        alertBox.innerText = 'Gambar profil berjaya dimuat naik!';
+        alertBox.innerText = 'Gambar profil berjaya dimuat naik (tanpa watermark)!';
       }
     } else {
       throw new Error('Gagal memuat naik gambar.');
