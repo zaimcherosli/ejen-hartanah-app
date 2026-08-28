@@ -29,8 +29,8 @@ async function checkAuth() {
   const mobileAgentEmailEl = document.getElementById('mobileAgentEmail');
   if (mobileAgentEmailEl) mobileAgentEmailEl.innerText = currentUser.email;
 
-  // Check if user is SuperAdmin (Strictly huzaimrosli@gmail.com and biztreat2017@gmail.com)
-  const isSuperAdmin = ['huzaimrosli@gmail.com', 'biztreat2017@gmail.com'].includes((currentUser.email || '').toLowerCase());
+  // Check if user is SuperAdmin (Strictly huzaimrosli@gmail.com, biztreat2017@gmail.com, multiple.revenue@gmail.com)
+  const isSuperAdmin = ['huzaimrosli@gmail.com', 'biztreat2017@gmail.com', 'multiple.revenue@gmail.com'].includes((currentUser.email || '').toLowerCase());
 
   // Show/Hide SuperAdmin Dashboard Navigation tab
   const portalNavDashboardBtn = document.getElementById('portalNavDashboardBtn');
