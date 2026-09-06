@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css?v=59">
+  <link rel="stylesheet" href="/style.css?v=61">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     @media (max-width: 640px) {
@@ -60,17 +60,23 @@
   </nav>
 
   <!-- Mobile Drawer Menu -->
-  <div id="portalMobileDrawer" class="mobile-menu-drawer">
-    <div style="padding: 0.65rem 0.85rem; background: #f1f5f9; border-radius: 6px; font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
-      Logged in: <strong id="mobileAgentEmail" style="color: var(--cem-red);">...</strong>
+  <div id="portalMobileDrawer" class="mobile-menu-drawer" onclick="if(event.target===this)togglePortalMobileMenu(event);">
+    <div class="mobile-menu-panel">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); margin-bottom: 0.25rem;">
+        <span style="font-weight: 800; font-size: 0.85rem; color: var(--cem-navy); letter-spacing: 0.04em;">AGENT PORTAL MENU</span>
+        <button type="button" onclick="togglePortalMobileMenu(event)" aria-label="Close Menu" style="background: none; border: none; font-size: 1.5rem; line-height: 1; color: var(--text-muted); cursor: pointer; padding: 0.2rem 0.5rem;">&times;</button>
+      </div>
+      <div style="padding: 0.65rem 0.85rem; background: #f1f5f9; border-radius: 6px; font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
+        Logged in: <strong id="mobileAgentEmail" style="color: var(--cem-red);">...</strong>
+      </div>
+      <a href="/dashboard" style="color: var(--cem-navy);">Agent Approvals &amp; Audit Log</a>
+      <a href="/agent-traffic-analytics" style="background: var(--cem-navy); color: white !important;">Traffic &amp; Leads Analytics</a>
+      <a href="/agent-listing-management" style="color: var(--cem-navy);">Listing Management</a>
+      <a href="/agent-blog-management" style="color: var(--cem-navy);">Blog &amp; Guides Management</a>
+      <a href="/index.html" target="_blank" style="color: var(--cem-navy);">Preview Live Main Site</a>
+      <a href="javascript:void(0)" onclick="openPasswordModal(); togglePortalMobileMenu(event);" style="color: var(--cem-navy); background: #f1f5f9; font-weight: 700;">Change Password</a>
+      <a href="javascript:void(0)" onclick="handlePortalLogout()" style="color: var(--cem-red); background: #fee2e2; border-color: #fca5a5;">Logout Portal</a>
     </div>
-    <a href="/dashboard" style="color: var(--cem-navy);">Agent Approvals &amp; Audit Log</a>
-    <a href="/agent-traffic-analytics" style="background: var(--cem-navy); color: white !important;">Traffic &amp; Leads Analytics</a>
-    <a href="/agent-listing-management" style="color: var(--cem-navy);">Listing Management</a>
-    <a href="/agent-blog-management" style="color: var(--cem-navy);">Blog &amp; Guides Management</a>
-    <a href="/index.html" target="_blank" style="color: var(--cem-navy);">Preview Live Main Site</a>
-    <a href="javascript:void(0)" onclick="openPasswordModal(); togglePortalMobileMenu(event);" style="color: var(--cem-navy); background: #f1f5f9; font-weight: 700;">Change Password</a>
-    <a href="javascript:void(0)" onclick="handlePortalLogout()" style="color: var(--cem-red); background: #fee2e2; border-color: #fca5a5;">Logout Portal</a>
   </div>
 
   <!-- Agent Portal Desktop Sub-Navigation Tab Bar -->
@@ -133,8 +139,13 @@
       if (e) e.stopPropagation();
       const drawer = document.getElementById('portalMobileDrawer');
       if (drawer) {
-        drawer.classList.toggle('active');
-        drawer.classList.toggle('open');
+        const isOpen = drawer.classList.toggle('active');
+        drawer.classList.toggle('open', isOpen);
+        if (isOpen) {
+          document.body.classList.add('mobile-menu-open');
+        } else {
+          document.body.classList.remove('mobile-menu-open');
+        }
       }
     }
     async function handlePortalLogout() {

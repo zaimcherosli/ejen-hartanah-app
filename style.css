@@ -29,8 +29,13 @@
 }
 
 html, body {
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100%;
+}
+
+body.mobile-menu-open {
+  overflow: hidden !important;
+  touch-action: none;
 }
 
 body {
@@ -179,37 +184,78 @@ body {
 .mobile-menu-drawer {
   display: none;
   position: fixed;
-  top: 62px;
+  top: 0;
   left: 0;
-  width: 100%;
-  background: #ffffff;
-  padding: 1rem 1.25rem;
-  border-top: 3px solid var(--cem-red);
-  border-bottom: 3px solid var(--cem-navy);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 25, 47, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 99999;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .mobile-menu-drawer.active,
 .mobile-menu-drawer.open {
   display: flex !important;
   flex-direction: column;
+  justify-content: flex-start;
+  animation: fadeInMenu 0.18s ease-out;
+}
+
+@keyframes fadeInMenu {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.mobile-menu-panel {
+  background: #ffffff;
+  width: 100%;
+  padding: 1.25rem 1.25rem 1.5rem 1.25rem;
+  border-bottom: 4px solid var(--cem-navy);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideDownMenu 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDownMenu {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.mobile-menu-drawer:not(:has(.mobile-menu-panel)) {
+  padding: 1rem 1.25rem;
+  background: #ffffff;
+  height: auto;
+  bottom: auto;
+  border-top: 3px solid var(--cem-red);
+  border-bottom: 3px solid var(--cem-navy);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
   gap: 0.5rem;
 }
 
+.mobile-menu-panel a,
 .mobile-menu-drawer a {
   color: var(--cem-navy);
   text-decoration: none;
   font-size: 0.88rem;
   font-weight: 800;
   text-transform: uppercase;
-  padding: 0.65rem 0.85rem;
+  padding: 0.7rem 0.9rem;
   border-radius: 6px;
   background: #f8fafc;
   border: 1px solid var(--border);
   transition: all 0.15s;
 }
 
+.mobile-menu-panel a:hover,
 .mobile-menu-drawer a:hover {
   background: var(--cem-navy);
   color: #ffffff !important;
