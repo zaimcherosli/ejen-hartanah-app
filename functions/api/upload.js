@@ -1,7 +1,7 @@
 // Cloudflare Pages Function for R2 Image Uploads & Deletions (Enterprise Hardened Security)
 
-const SUPABASE_AUTH_URL = 'https://csrzhidtzqxfbapsenhu.supabase.co/auth/v1/user';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzcnpoaWR0enF4ZmJhcHNlbmh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU0OTM3OTYsImV4cCI6MjEwMTA2OTc5Nn0.NnHFURbQTvsdgGbm1d_PC-hkOgQFQIHKTMQaS2n44SU';
+const FALLBACK_SUPABASE_URL = 'https://pnqewagpxqwyfiyioczf.supabase.co';
+const FALLBACK_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBucWV3YWdweHF3eWZpeWlvY3pmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg2ODI4NzgsImV4cCI6MjEwNDI1ODg3OH0._HO9kpJKwSy_Aqx4ki3u9KixotXx5xMSBEz193RQxu4';
 
 const ALLOWED_MIME_TYPES = new Set([
   'image/jpeg',
@@ -31,17 +31,20 @@ function checkRateLimit(clientIp) {
 }
 
 // 1. Supabase JWT Authentication Gate
-async function verifyAgentSession(request) {
+async function verifyAgentSession(request, env) {
   const authHeader = request.headers.get('Authorization') || request.headers.get('authorization');
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return null;
   }
 
+  const baseUrl = (env && env.SUPABASE_URL) || FALLBACK_SUPABASE_URL;
+  const anonKey = (env && env.SUPABASE_ANON_KEY) || FALLBACK_SUPABASE_ANON_KEY;
+
   try {
-    const res = await fetch(SUPABASE_AUTH_URL, {
+    const res = await fetch(`${baseUrl}/auth/v1/user`, {
       headers: {
         'Authorization': authHeader,
-        'apikey': SUPABASE_ANON_KEY
+        'apikey': anonKey
       }
     });
 
@@ -121,7 +124,7 @@ export async function onRequestPost(context) {
   const uploadPurpose = request.headers.get('x-upload-purpose') || '';
   const isRegistrationUpload = uploadPurpose === 'agent-registration';
 
-  const authenticatedAgent = await verifyAgentSession(request);
+  const authenticatedAgent = await verifyAgentSession(request, env);
   if (!authenticatedAgent && !isRegistrationUpload) {
     return new Response(JSON.stringify({ error: 'Unauthorized: Active Supabase agent session token required' }), {
       status: 401,
@@ -251,7 +254,7 @@ export async function onRequestDelete(context) {
     });
   }
 
-  const authenticatedAgent = await verifyAgentSession(request);
+  const authenticatedAgent = await verifyAgentSession(request, env);
   if (!authenticatedAgent) {
     return new Response(JSON.stringify({ error: 'Unauthorized: Active agent session required' }), {
       status: 401,

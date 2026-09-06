@@ -1,6 +1,6 @@
 // Cloudflare Pages Function: Live Traffic & Lead Tracker Beacon Engine
 function getSupabaseConfig(env) {
-  const url = (env && env.SUPABASE_URL) || 'https://csrzhidtzqxfbapsenhu.supabase.co';
+  const url = (env && env.SUPABASE_URL) || 'https://pnqewagpxqwyfiyioczf.supabase.co';
   const key = (env && env.SUPABASE_SERVICE_ROLE_KEY) || '';
   return { url, key };
 }

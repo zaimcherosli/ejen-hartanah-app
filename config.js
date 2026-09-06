@@ -1,13 +1,13 @@
-// Supabase Client Configuration & System Versioning
-const SUPABASE_URL = 'https://csrzhidtzqxfbapsenhu.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzcnpoaWR0enF4ZmJhcHNlbmh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU0OTM3OTYsImV4cCI6MjEwMTA2OTc5Nn0.NnHFURbQTvsdgGbm1d_PC-hkOgQFQIHKTMQaS2n44SU';
+// Supabase Client Configuration & System Versioning (Dedicated CEM Project)
+const SUPABASE_URL = 'https://pnqewagpxqwyfiyioczf.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBucWV3YWdweHF3eWZpeWlvY3pmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg2ODI4NzgsImV4cCI6MjEwNDI1ODg3OH0._HO9kpJKwSy_Aqx4ki3u9KixotXx5xMSBEz193RQxu4';
 
 // System Versioning & Build Info
 window.CEM_SYSTEM = {
-  VERSION: 'v2.4.9',
+  VERSION: 'v2.5.0',
   BUILD_DATE: '2026-09-06',
-  ENV: 'Production (Cloudflare Pages + Isolated CEM Traffic Tracker & Analytics Filtering)',
-  PWA_VERSION: 'cem-pwa-v59'
+  ENV: 'Production (Cloudflare Pages + Dedicated CEM Supabase Project)',
+  PWA_VERSION: 'cem-pwa-v60'
 };
 
 // Console Diagnostic Log
