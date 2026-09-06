@@ -23,7 +23,7 @@ export async function onRequestGet(context) {
   try {
     const { url: SUPABASE_URL, key: SUPABASE_SERVICE_ROLE_KEY } = getSupabaseConfig(context && context.env);
     // 1. Fetch traffic events from activity_logs
-    const logsRes = await fetch(`${SUPABASE_URL}/rest/v1/activity_logs?action_type=like.TRAFFIC_*&order=created_at.desc&limit=1500`, {
+    const logsRes = await fetch(`${SUPABASE_URL}/rest/v1/activity_logs?action_type=like.TRAFFIC_*&order=created_at.desc&limit=3000`, {
       headers: {
         'apikey': SUPABASE_SERVICE_ROLE_KEY,
         'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`
@@ -91,12 +91,11 @@ export async function onRequestGet(context) {
       const sessionId = item.user_email || 'anon';
       const action = item.action_type || '';
       const createdAt = item.created_at || '';
-      
-      const itemDateMy = new Date(new Date(createdAt).getTime() + myTzOffsetMs).toISOString().split('T')[0];
-      const isToday = itemDateMy === todayStrMy;
 
-      allVisitors.add(sessionId);
-      if (isToday) todayVisitors.add(sessionId);
+      // Strict isolation: Exclude any traffic from Zaim Rosli's personal site/calculator
+      if (action.includes('ZR') || action.includes('_ZR_') || sessionId.toLowerCase().includes('zr')) {
+        continue;
+      }
 
       let parsedDetails = {};
       try {
@@ -105,8 +104,25 @@ export async function onRequestGet(context) {
         parsedDetails = {};
       }
 
+      const site = (parsedDetails.site || '').toLowerCase();
+      if (site.includes('zaimrosli') || site === 'zr') {
+        continue;
+      }
+
+      const rawTitle = (parsedDetails.title || '').toLowerCase();
+      const rawTargetTitle = (parsedDetails.target_title || '').toLowerCase();
+      if (rawTitle.includes('zaim rosli') || rawTargetTitle.includes('zaim rosli')) {
+        continue;
+      }
+
+      const itemDateMy = new Date(new Date(createdAt).getTime() + myTzOffsetMs).toISOString().split('T')[0];
+      const isToday = itemDateMy === todayStrMy;
+
+      allVisitors.add(sessionId);
+      if (isToday) todayVisitors.add(sessionId);
+
       const path = parsedDetails.path || item.target_id || '/';
-      const title = parsedDetails.title || path;
+      const pageTitle = parsedDetails.title || path;
       const device = (parsedDetails.device || 'desktop').toLowerCase();
       
       const rawCountry = (parsedDetails.country || 'MY').toUpperCase().trim();
@@ -134,7 +150,7 @@ export async function onRequestGet(context) {
         recentActivities.push({
           type: action.replace('TRAFFIC_', ''),
           path: path,
-          title: title,
+          title: pageTitle,
           target_title: parsedDetails.target_title || '',
           device: device,
           country: countryName,

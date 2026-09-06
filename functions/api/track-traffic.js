@@ -48,6 +48,8 @@ export async function onRequestPost(context) {
 
     const actionType = `TRAFFIC_${event_type.toUpperCase()}`;
     const details = JSON.stringify({
+      site: 'cem',
+      site_domain: 'corporateestatemalaysia.com',
       path: page_path,
       title: page_title,
       target_id: target_id,
