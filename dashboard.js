@@ -1904,3 +1904,112 @@ window.handleDeleteArticle = async function(id) {
 document.addEventListener('DOMContentLoaded', () => {
   setupArticleHandlers();
 });
+
+// ==========================================
+// Change Password Modal & Auth Update Logic
+// ==========================================
+function injectPasswordModal() {
+  if (document.getElementById('passwordModal')) return;
+  const div = document.createElement('div');
+  div.id = 'passwordModal';
+  div.style.cssText = 'display:none; position:fixed; inset:0; background:rgba(15,23,42,0.65); backdrop-filter:blur(4px); z-index:99999; align-items:center; justify-content:center; padding:1rem; box-sizing:border-box;';
+  div.innerHTML = `
+    <div style="background:#ffffff; width:100%; max-width:420px; border-radius:12px; box-shadow:0 20px 25px -5px rgba(0,0,0,0.15),0 10px 10px -5px rgba(0,0,0,0.04); overflow:hidden; border:1px solid #e2e8f0; font-family:inherit;">
+      <div style="padding:1.25rem 1.5rem; background:#0a192f; color:#ffffff; display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="margin:0; font-size:1.05rem; font-weight:800; color:#ffffff; letter-spacing:0.02em;">Tukar Kata Laluan Akaun</h3>
+        <button type="button" onclick="closePasswordModal()" style="background:none; border:none; color:#94a3b8; font-size:1.5rem; cursor:pointer; line-height:1; padding:0;">&times;</button>
+      </div>
+      <form id="formChangePassword" onsubmit="handleChangePasswordSubmit(event)" style="padding:1.5rem; margin:0;">
+        <div style="margin-bottom:1rem; text-align:left;">
+          <label style="display:block; font-size:0.8rem; font-weight:700; color:#334155; margin-bottom:0.4rem;">KATA LALUAN BAHARU</label>
+          <input type="password" id="newPasswordInput" required minlength="6" placeholder="Minimum 6 aksara" style="width:100%; padding:0.65rem 0.85rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.9rem; box-sizing:border-box;">
+        </div>
+        <div style="margin-bottom:1.25rem; text-align:left;">
+          <label style="display:block; font-size:0.8rem; font-weight:700; color:#334155; margin-bottom:0.4rem;">SAHKAN KATA LALUAN BAHARU</label>
+          <input type="password" id="confirmPasswordInput" required minlength="6" placeholder="Masukkan semula kata laluan baharu" style="width:100%; padding:0.65rem 0.85rem; border:1px solid #cbd5e1; border-radius:6px; font-size:0.9rem; box-sizing:border-box;">
+        </div>
+        <div id="passwordAlert" style="display:none; padding:0.65rem; border-radius:6px; font-size:0.82rem; margin-bottom:1rem; line-height:1.4; text-align:left;"></div>
+        <div style="display:flex; gap:0.75rem; justify-content:flex-end;">
+          <button type="button" onclick="closePasswordModal()" style="padding:0.6rem 1.1rem; border:1px solid #cbd5e1; background:#f8fafc; color:#475569; border-radius:6px; font-size:0.85rem; font-weight:700; cursor:pointer;">Batal</button>
+          <button type="submit" id="btnSubmitPassword" style="padding:0.6rem 1.25rem; border:none; background:#c5221f; color:#ffffff; border-radius:6px; font-size:0.85rem; font-weight:800; cursor:pointer;">Simpan Kata Laluan</button>
+        </div>
+      </form>
+    </div>
+  `;
+  document.body.appendChild(div);
+}
+
+window.openPasswordModal = function() {
+  let modal = document.getElementById('passwordModal');
+  if (!modal) {
+    injectPasswordModal();
+    modal = document.getElementById('passwordModal');
+  }
+  if (modal) {
+    modal.style.display = 'flex';
+    const newPass = document.getElementById('newPasswordInput');
+    const confirmPass = document.getElementById('confirmPasswordInput');
+    if (newPass) newPass.value = '';
+    if (confirmPass) confirmPass.value = '';
+    const alertBox = document.getElementById('passwordAlert');
+    if (alertBox) alertBox.style.display = 'none';
+  }
+};
+
+window.closePasswordModal = function() {
+  const modal = document.getElementById('passwordModal');
+  if (modal) modal.style.display = 'none';
+};
+
+window.handleChangePasswordSubmit = async function(e) {
+  e.preventDefault();
+  const newPass = document.getElementById('newPasswordInput').value.trim();
+  const confirmPass = document.getElementById('confirmPasswordInput').value.trim();
+  const alertBox = document.getElementById('passwordAlert');
+  const btnSubmit = document.getElementById('btnSubmitPassword');
+
+  function showMsg(msg, isErr = true) {
+    if (!alertBox) return;
+    alertBox.style.display = 'block';
+    alertBox.style.background = isErr ? '#fee2e2' : '#d1fae5';
+    alertBox.style.color = isErr ? '#dc2626' : '#047857';
+    alertBox.style.border = `1px solid ${isErr ? '#fca5a5' : '#6ee7b7'}`;
+    alertBox.innerText = msg;
+  }
+
+  if (newPass.length < 6) {
+    showMsg('Kata laluan mestilah sekurang-kurangnya 6 aksara.', true);
+    return;
+  }
+
+  if (newPass !== confirmPass) {
+    showMsg('Kata laluan baharu dan pengesahan kata laluan tidak sepadan.', true);
+    return;
+  }
+
+  if (typeof supabaseClient === 'undefined') {
+    showMsg('Sambungan Supabase tidak ditemui. Sila muat semula halaman.', true);
+    return;
+  }
+
+  btnSubmit.disabled = true;
+  btnSubmit.innerText = 'Menyimpan...';
+
+  try {
+    const { data, error } = await supabaseClient.auth.updateUser({ password: newPass });
+    if (error) {
+      showMsg('Gagal menukar kata laluan: ' + error.message, true);
+    } else {
+      showMsg('Kata laluan berjaya dikemaskini. Sila gunakan kata laluan ini untuk log masuk seterusnya.', false);
+      setTimeout(() => {
+        closePasswordModal();
+      }, 2200);
+    }
+  } catch (err) {
+    showMsg('Ralat sistem: ' + err.message, true);
+  } finally {
+    btnSubmit.disabled = false;
+    btnSubmit.innerText = 'Simpan Kata Laluan';
+  }
+};
+

@@ -45,8 +45,9 @@
     </a>
     
     <!-- Desktop Auth & Nav -->
-    <div class="nav-links portal-desktop-links">
+    <div class="nav-links portal-desktop-links" style="display: flex; align-items: center; gap: 0.75rem;">
       <span style="color: var(--text-main); font-size: 0.82rem; font-weight: 600;">Logged in: <strong id="agentEmail" style="color: var(--cem-red);">...</strong></span>
+      <button id="btnChangePassword" type="button" onclick="openPasswordModal()" style="background: #f1f5f9; color: var(--cem-navy); border: 1px solid #cbd5e1; padding: 0.45rem 0.85rem; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">TUKAR KATA LALUAN</button>
       <button id="btnLogout" class="nav-btn-agent" style="cursor: pointer;">LOGOUT</button>
     </div>
 
@@ -66,6 +67,7 @@
     <a href="/agent-listing-management" style="color: var(--cem-navy);">Listing Management</a>
     <a href="/agent-blog-management" style="color: var(--cem-navy);">Blog &amp; Guides Management</a>
     <a href="/index.html" target="_blank" style="color: var(--cem-navy);">Preview Live Main Site</a>
+    <a href="javascript:void(0)" onclick="openPasswordModal(); togglePortalMobileMenu(event);" style="color: var(--cem-navy); background: #f1f5f9; font-weight: 700;">Tukar Kata Laluan</a>
     <a href="javascript:void(0)" onclick="handlePortalLogout()" style="color: var(--cem-red); background: #fee2e2; border-color: #fca5a5;">Logout Portal</a>
   </div>
 
@@ -249,7 +251,7 @@
 
   <script src="/config.js?v=2.5.0"></script>
   <script src="/image-watermark.js?v=3"></script>
-  <script src="/dashboard.js?v=45"></script>
+  <script src="/dashboard.js?v=46"></script>
   <script>
     function togglePortalMobileMenu(e) {
       if (e) e.stopPropagation();
